@@ -16,7 +16,7 @@
             android:summary="@string/prefs_idsKey_desc"
             android:title="@string/prefs_idsKeyTitle" />
         <EditTextPreference
-            android:key="pref_bingKey"
+            android:key="@string/pref_bingKey"
             android:summary="@string/prefs_bingKey_desc"
             android:title="@string/prefs_bingKeyTitle" />
     </PreferenceCategory>
