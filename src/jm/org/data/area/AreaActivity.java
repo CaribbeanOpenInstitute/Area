@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,20 +16,24 @@ import android.widget.Toast;
 import com.android.actionbarcompat.ActionBarActivity;
 
 public class AreaActivity extends ActionBarActivity {
-	SharedPreferences preferences;
 	private String TAG = AreaActivity.class.getSimpleName();
+	AreaApplication area;
+	SharedPreferences preferences;
+	String idsKey;
+	String bingKey;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        area = (AreaApplication) getApplication();
         
         //Initialize preferences
-        String idsAPIKey = getString(R.string.pref_idsKey);
-        String bingAPIKey = getString(R.string.pref_bingKey);
+        idsKey = getString(R.string.pref_idsKey); 
+        bingKey = getString(R.string.pref_bingKey);
+        Log.d(TAG, String.format("IDS: %s. Bing: %s", idsKey, bingKey));
         
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if ((preferences.getString(idsAPIKey, null) == null) || (preferences.getString(bingAPIKey, null) == null)){
+        if ((area.prefs.getString(idsKey, null) == null) || (area.prefs.getString(bingKey, null) == null)){
         	startActivity(new Intent(this, AreaPreferencesActivity.class));
         	Toast.makeText(this, "Please setup preferences", Toast.LENGTH_LONG);
         	return;
@@ -38,10 +43,12 @@ public class AreaActivity extends ActionBarActivity {
         btnPrefs.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				String idsKey = preferences.getString("idsKey", "n/a");
-				String bingKey = preferences.getString("bingKey", "n/a");
-				String dateRange = preferences.getString("timePeriod", null);
-				showPrefs(idsKey, bingKey, dateRange);
+				String idsAPIKey = area.prefs.getString(idsKey, "n/a");
+				String bingAPIKey = area.prefs.getString(bingKey, "n/a");
+				String dateRange = area.prefs.getString("timePeriod", null);
+				Log.d(TAG, String.format("IDS API Key: %s, Bing API Key: %s and Time period: %s years", idsAPIKey,
+						bingAPIKey, dateRange));
+				showPrefs(idsAPIKey, bingAPIKey, dateRange);
 			}
 		});
     }
