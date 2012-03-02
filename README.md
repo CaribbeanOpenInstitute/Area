@@ -9,9 +9,9 @@ The application is made possible through an Innovation grant from Institue Of De
 
 Supporting Organizations
 ------------------------
-### The Caribbean Open Institue
-The Caribbean Open Institute is a regional initiative conceptualized by a community of Caribbean stakeholders and sponsored by the International Development Research Centre (IDRC) that seeks to facilitate the emergence of a Caribbean Knowledge Economy where.
+### The Caribbean Open Institute (COI)
+The COI is a regional initiative conceptualized by a community of Caribbean stakeholders and sponsored by the International Development Research Centre (IDRC) that seeks to facilitate the emergence of a Caribbean Knowledge Economy where.
 
 
-### The Institue Of Development Studies (IDS)
+### The Institute Of Development Studies (IDS)
 The IDS is a leading global charity for international development research, teaching and communications.The IDS Knowledge Services Open API provides access to tens of thousands of thematically organised resources, primarily academic research, on development issues 
