@@ -15,11 +15,5 @@
   -->
 
 <resources>
-    <string name="app_name">A.R.E.A</string>
-    <string name="alternate_title">Agriculture Research Evidence Application</string>
-    <string name="toggle_title">Toggle title</string>
-
-    <string name="menu_refresh">Refresh</string>
-    <string name="menu_search">Search</string>
-    <string name="menu_share">Share</string>
+    <color name="actionbar_title_color">#224894</color>
 </resources>

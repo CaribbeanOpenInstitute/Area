@@ -1,9 +1,10 @@
 package jm.org.data.area;
 
-import android.app.Activity;
 import android.os.Bundle;
 
-public class AreaActivity extends Activity {
+import com.android.actionbarcompat.ActionBarActivity;
+
+public class AreaActivity extends ActionBarActivity {
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
