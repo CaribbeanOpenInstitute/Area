@@ -36,7 +36,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
         //ActionBar actionBar = getActionBar();
         //getActionBarHelper().
         
-        buttonFragment = (Button) findViewById(R.id.toggle_title);
+        buttonFragment = (Button) findViewById(R.id.btn_showPrefs);
         buttonFragment.setOnClickListener(this); 
 
         /*findViewById(R.id.toggle_title).setOnClickListener(new View.OnClickListener() {
@@ -57,7 +57,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
     
     public void onClick(View view) {
     	switch (view.getId()) {
-    	case R.id.toggle_title:
+    	case R.id.btn_showPrefs:
     		/*Intent fragmentIntent = new Intent(MainActivity.this,
     				FragmentTest.class);
     		startActivity(fragmentIntent);*/

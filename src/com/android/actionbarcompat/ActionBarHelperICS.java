@@ -18,8 +18,6 @@ package com.android.actionbarcompat;
 
 import android.app.Activity;
 import android.content.Context;
-import android.view.Menu;
-import android.view.MenuItem;
 
 /**
  * An extension of {@link com.android.actionbarcompat.ActionBarHelper} that provides Android
