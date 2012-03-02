@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/pref_userTitle" >
+        <ListPreference
+            android:key="timePeriod"
+            android:summary="@string/prefs_timeDesc"
+            android:title="@string/prefs_time" 
+            android:entries="@array/prefs_timeEntries"
+            android:entryValues="@array/prefs_timeValues"
+            android:defaultValue="15" android:persistent="true"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_apiTitle" >
+        <EditTextPreference
+            android:key="@string/pref_idsKey"
+            android:summary="@string/prefs_idsKey_desc"
+            android:title="@string/prefs_idsKeyTitle" />
+        <EditTextPreference
+            android:key="pref_bingKey"
+            android:summary="@string/prefs_bingKey_desc"
+            android:title="@string/prefs_bingKeyTitle" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
