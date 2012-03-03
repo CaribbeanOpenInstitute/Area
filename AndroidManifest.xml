@@ -24,8 +24,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AreaPreferencesActivity" >
-        </activity>
+        <activity android:name=".AreaPreferencesActivity" />
+        <activity android:name=".HomeActivity" />
+        <service android:name="AreaService"
+            android:process=":AreaService"
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/areaService"></service>
     </application>
 
 </manifest>

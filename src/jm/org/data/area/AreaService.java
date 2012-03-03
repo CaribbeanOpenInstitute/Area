@@ -19,7 +19,7 @@ public class AreaService extends Service{
 	@Override
 	public IBinder onBind(Intent intent) {
 		Log.d(TAG, "Service Binded");
-		return null;
+		return null; 
 	}
 	
 	@Override

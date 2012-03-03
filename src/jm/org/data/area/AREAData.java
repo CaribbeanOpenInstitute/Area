@@ -2,7 +2,79 @@ package jm.org.data.area;
 
 import static android.provider.BaseColumns._ID;
 import static jm.org.data.area.AreaConstants.INDICATOR_LIST;
-import static jm.org.data.area.DBConstants.*;
+import static jm.org.data.area.DBConstants.API;
+import static jm.org.data.area.DBConstants.API_DESC;
+import static jm.org.data.area.DBConstants.API_ID;
+import static jm.org.data.area.DBConstants.API_NAME;
+import static jm.org.data.area.DBConstants.AP_ID;
+import static jm.org.data.area.DBConstants.AUTHOR_ID;
+import static jm.org.data.area.DBConstants.AUTHOR_NAME;
+import static jm.org.data.area.DBConstants.BASE_URI;
+import static jm.org.data.area.DBConstants.COUNTRY;
+import static jm.org.data.area.DBConstants.COUNTRY_ID;
+import static jm.org.data.area.DBConstants.COUNTRY_NAME;
+import static jm.org.data.area.DBConstants.COUNTRY_REGION;
+import static jm.org.data.area.DBConstants.C_ID;
+import static jm.org.data.area.DBConstants.DATABASE_NAME;
+import static jm.org.data.area.DBConstants.DATE_CREATED;
+import static jm.org.data.area.DBConstants.DATE_UPDATED;
+import static jm.org.data.area.DBConstants.DOCUMENT_ID;
+import static jm.org.data.area.DBConstants.DOC_NAME;
+import static jm.org.data.area.DBConstants.DOC_TITLE;
+import static jm.org.data.area.DBConstants.D_ID;
+import static jm.org.data.area.DBConstants.GDP;
+import static jm.org.data.area.DBConstants.GNI_CAPITA;
+import static jm.org.data.area.DBConstants.IDS_AUTHOR;
+import static jm.org.data.area.DBConstants.IDS_DATA;
+import static jm.org.data.area.DBConstants.IDS_DOC_THEME;
+import static jm.org.data.area.DBConstants.IDS_THEME;
+import static jm.org.data.area.DBConstants.IDS_THEME_ID;
+import static jm.org.data.area.DBConstants.INCOME_LEVEL;
+import static jm.org.data.area.DBConstants.INDICATOR;
+import static jm.org.data.area.DBConstants.INDICATOR_DESC;
+import static jm.org.data.area.DBConstants.INDICATOR_ID;
+import static jm.org.data.area.DBConstants.INDICATOR_NAME;
+import static jm.org.data.area.DBConstants.IND_DATE;
+import static jm.org.data.area.DBConstants.IND_DECIMAL;
+import static jm.org.data.area.DBConstants.IND_VALUE;
+import static jm.org.data.area.DBConstants.I_ID;
+import static jm.org.data.area.DBConstants.JOURNAL_SITE;
+import static jm.org.data.area.DBConstants.LANGUAGE_NAME;
+import static jm.org.data.area.DBConstants.LICENCE_TYPE;
+import static jm.org.data.area.DBConstants.LIFE_EX;
+import static jm.org.data.area.DBConstants.LITERACY;
+import static jm.org.data.area.DBConstants.PARAM;
+import static jm.org.data.area.DBConstants.PARAMETER;
+import static jm.org.data.area.DBConstants.PARAM_ID;
+import static jm.org.data.area.DBConstants.PERIOD;
+import static jm.org.data.area.DBConstants.PERIOD_ID;
+import static jm.org.data.area.DBConstants.PERIOD_NAME;
+import static jm.org.data.area.DBConstants.POPULATION;
+import static jm.org.data.area.DBConstants.POVERTY;
+import static jm.org.data.area.DBConstants.PUBLICATION_DATE;
+import static jm.org.data.area.DBConstants.PUBLISHER;
+import static jm.org.data.area.DBConstants.PUBLISHER_COUNTRY;
+import static jm.org.data.area.DBConstants.P_END_DATE;
+import static jm.org.data.area.DBConstants.P_ID;
+import static jm.org.data.area.DBConstants.P_START_DATE;
+import static jm.org.data.area.DBConstants.SEARCH;
+import static jm.org.data.area.DBConstants.SEARCH_COUNTRY;
+import static jm.org.data.area.DBConstants.SEARCH_CREATED;
+import static jm.org.data.area.DBConstants.SEARCH_ID;
+import static jm.org.data.area.DBConstants.SEARCH_MODIFIED;
+import static jm.org.data.area.DBConstants.SEARCH_URI;
+import static jm.org.data.area.DBConstants.S_ID;
+import static jm.org.data.area.DBConstants.THEME_ID;
+import static jm.org.data.area.DBConstants.THEME_LEVEL;
+import static jm.org.data.area.DBConstants.THEME_NAME;
+import static jm.org.data.area.DBConstants.THEME_URL;
+import static jm.org.data.area.DBConstants.T_ID;
+import static jm.org.data.area.DBConstants.WB_COUNTRY_ID;
+import static jm.org.data.area.DBConstants.WB_DATA;
+import static jm.org.data.area.DBConstants.WB_DATA_ID;
+import static jm.org.data.area.DBConstants.WB_INDICATOR_ID;
+import static jm.org.data.area.DBConstants.WEBSITE_URL;
+import static jm.org.data.area.AreaConstants.*;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -67,6 +139,52 @@ public class AreaData {
 		cursor.close();
 		db.close();
 	}
+	
+	/******************************
+	 * Application Search Functions
+	 ******************************/
+	
+	/**
+	 * Searches database for the data related to a particular country. Returns int code 
+	 * indicating status of the data and query
+	 * @param countryName
+	 * @return AreaConstants Search Code 
+	 */
+	public int getCountryInfo(String countryName) {
+		//Check if info in database
+			// return result if locally present
+			// otherwise send query to Service
+		return SEARCH_FAIL;
+	}
+	
+	/**
+	 * @param countryID
+	 * @return AreaConstants Search Code
+	 */
+	public int getCountryInfo(int countryID) {
+		return SEARCH_FAIL;
+	}
+	
+	/**
+	 * Global Search function that returns reports and articles for a single search term 
+	 * @param searchPhrase
+	 * @return AreaConstants Search Code
+	 */
+	public int globalSearch(String searchPhrase) {
+		return SEARCH_FAIL;
+	}
+	
+	/**
+	 * Search function utilized by application to get data related to contexual usage
+	 * @param dataSource Code for data source query to be run against (WB|IDS|Bing)
+	 * @param indicatorID	Indicator ID
+	 * @param country	Array of country ids
+	 * @return AreaConstants Search Code
+	 */
+	public int genericSearch(String dataSource, String indicatorID, String[] country) {
+		return SEARCH_FAIL;
+	}
+	
 	
 	private class AreaDB extends SQLiteOpenHelper{
 		

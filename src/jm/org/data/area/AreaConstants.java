@@ -1,6 +1,14 @@
 package jm.org.data.area;
 
-public class AreaConstants {
+public interface AreaConstants {
+	
+	/*
+	 * Search Response Message Types
+	 */
+	public static final int SEARCH_FAIL = -1;
+	public static final int SEARCH_SUCCESS = 0;
+	public static final int SEARCH_API_SOME = 1;
+	public static final int SEARCH_API_NONE = 2;
 
 	public static final String WB_BASE_URL 		= "http://api.worldbank.org/";
 	public static final String IDS_DASE_URL		= "http://api.ids.ac.uk/openapi/"; 
