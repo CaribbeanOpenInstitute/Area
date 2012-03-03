@@ -76,6 +76,7 @@ public class JSONParse {
 	}
 	
 	public String parseWBData(String jsonData){
+
 		
 		StringBuilder jsonText = new StringBuilder();
 		
@@ -116,6 +117,49 @@ public class JSONParse {
 			Log.d("some", e.toString());
 			jsonText.append("\n--------------------------------------\n\n");
 		}
+		
+		return jsonText.toString();
+	}
+
+	public String parseIndicators(String jsonData){
+		StringBuilder jsonText = new StringBuilder();
+		try {
+			
+			JSONArray jsonArray = new JSONArray(jsonData);
+			JSONObject jsonObject = jsonArray.getJSONObject(0);
+			
+			int numofObjects = Integer.parseInt(jsonObject.getString("total"));
+			
+			if (numofObjects > 0){
+				jsonArray = jsonArray.getJSONArray(1);
+			}else{
+				// no data returned from World bank API pull
+			}
+			// get Data returned from the world bank 
+			for (int i = 0; i < 10; i++) {
+				
+				JSONObject jsonInnerObject = jsonArray.getJSONObject(i);
+				
+				jsonText.append(jsonInnerObject.toString()); 
+				
+				JSONArray names = jsonInnerObject.names();
+				for(int x = 0; x < names.length(); x++){
+					
+					if(jsonInnerObject.optJSONObject(names.getString(x)) == null){
+						jsonText.append("\n" + names.getString(x) + ": " + jsonInnerObject.getString(names.getString(x)));
+					}else{
+						jsonText.append("\n" + names.getString(x) + ": ");
+						jsonText.append("\n\t" +jsonInnerObject.optJSONObject(names.getString(x)).toString());
+					}
+				}
+				
+			}					
+			
+		} catch (Exception e) {
+			//e.printStackTrace();
+			Log.d("some", e.toString());
+			jsonText.append("\n--------------------------------------\n\n");
+		}		
 		
 		return jsonText.toString();
 	}
