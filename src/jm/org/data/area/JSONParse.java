@@ -122,6 +122,7 @@ public class JSONParse {
 	}
 
 	public String parseIndicators(String jsonData){
+		
 		StringBuilder jsonText = new StringBuilder();
 		try {
 			
