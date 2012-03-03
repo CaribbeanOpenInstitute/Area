@@ -45,7 +45,7 @@ public interface DBConstants extends BaseColumns {
 	public final String INDICATOR_ID		= _ID				;
 	public final String WB_INDICATOR_ID		= "indicator_id"	;
 	public final String INDICATOR_NAME		= "name"			;
-	public final String INDICATOR_DESC		= "Description"		;
+	public final String INDICATOR_DESC		= "description"		;
 	
 	
 	//Columns unique to Search Table

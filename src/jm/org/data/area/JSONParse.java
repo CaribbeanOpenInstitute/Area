@@ -2,15 +2,29 @@
 package jm.org.data.area;
 
 
+import java.util.Hashtable;
+
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.ContentValues;
+import android.content.Context;
 import android.util.Log;
 
-public class JSONParse {
+import static jm.org.data.area.AreaConstants.*;
+import static jm.org.data.area.DBConstants.*;
 
-	public JSONParse(){
-		
+public class JSONParse {
+	private static final String TAG = JSONParse.class.getSimpleName();
+	private AreaData areaData;
+	private Context appContext;
+	private ContentValues apiRecord;
+	
+	
+	public JSONParse(Context context){
+		areaData = new AreaData(context);
+		apiRecord = new ContentValues();
 	}
 	
 	public String parseWB(String jsonData){
@@ -122,6 +136,8 @@ public class JSONParse {
 	}
 
 	public String parseIndicators(String jsonData){
+				
+		Hashtable indicator_data;
 		
 		StringBuilder jsonText = new StringBuilder();
 		try {
@@ -129,6 +145,7 @@ public class JSONParse {
 			JSONArray jsonArray = new JSONArray(jsonData);
 			JSONObject jsonObject = jsonArray.getJSONObject(0);
 			
+			int numReturned  = Integer.parseInt(jsonObject.getString("per_page"));
 			int numofObjects = Integer.parseInt(jsonObject.getString("total"));
 			
 			if (numofObjects > 0){
@@ -137,31 +154,50 @@ public class JSONParse {
 				// no data returned from World bank API pull
 			}
 			// get Data returned from the world bank 
-			for (int i = 0; i < 10; i++) {
+			for (int i = 0; i < numReturned; i++) {
 				
-				JSONObject jsonInnerObject = jsonArray.getJSONObject(i);
-				
-				jsonText.append(jsonInnerObject.toString()); 
-				
-				JSONArray names = jsonInnerObject.names();
-				for(int x = 0; x < names.length(); x++){
-					
-					if(jsonInnerObject.optJSONObject(names.getString(x)) == null){
-						jsonText.append("\n" + names.getString(x) + ": " + jsonInnerObject.getString(names.getString(x)));
-					}else{
-						jsonText.append("\n" + names.getString(x) + ": ");
-						jsonText.append("\n\t" +jsonInnerObject.optJSONObject(names.getString(x)).toString());
-					}
+				indicator_data = parseJSON(jsonArray.getJSONObject(i)); 
+				for (int a = 0; a < WB_IND_LIST.length; a++){
+					apiRecord.put(FROM_INDICATOR[a+1], (String)indicator_data.get(WB_IND_LIST[a]));	
+					Log.d("Indicators", ""+FROM_INDICATOR[a+1] + ":-> " + (String)indicator_data.get(WB_IND_LIST[a]));
 				}
 				
+				areaData.insert(INDICATOR, apiRecord);
 			}					
 			
 		} catch (Exception e) {
 			//e.printStackTrace();
-			Log.d("some", e.toString());
+			Log.e("Parsing", e.toString());
 			jsonText.append("\n--------------------------------------\n\n");
 		}		
 		
 		return jsonText.toString();
+	}
+	
+	
+	private Hashtable<String, String> parseJSON(JSONObject jsonInnerObject){
+		Hashtable<String, String> data = new Hashtable<String, String>();
+		try {
+			data.put("json", jsonInnerObject.toString());
+					
+			JSONArray names = jsonInnerObject.names();
+			
+			for(int x = 0; x < names.length(); x++){
+				
+				if(jsonInnerObject.optJSONObject(names.getString(x)) == null){
+					
+					data.put(names.getString(x) , jsonInnerObject.getString(names.getString(x)));
+					
+				}else{
+					//jsonText.append("\n" + names.getString(x) + ": ");
+					//jsonText.append("\n\t" +jsonInnerObject.optJSONObject(names.getString(x)).toString());
+					data.put(names.getString(x) , jsonInnerObject.optJSONObject(names.getString(x)).toString());
+				}
+			}
+		}
+		catch (JSONException e){
+			Log.e(TAG,"Exception in parsing Indicators List "+e.toString());
+		}
+		return data;
 	}
 }

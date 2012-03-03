@@ -13,5 +13,9 @@ public class AreaConstants {
 	public static final int GENERIC_SEARCH		= 4;
 	
 	
-	
+	// Data keys for APIs
+	public static final String WB_IND_ID 		= "id" 			;
+	public static final String WB_IND_NAME		= "name"		;
+	public static final String WB_IND_DESC		= "sourceNote"	;
+	public static final String[] WB_IND_LIST	= {WB_IND_ID, WB_IND_NAME, WB_IND_DESC};
 }
