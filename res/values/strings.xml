@@ -19,7 +19,7 @@
     <string name="alternate_title">Agriculture Research Evidence Application</string>
     <string name="toggle_title">Toggle title</string>
     <string name="toggle_prefs">Show preferences</string>
-    
+    <string name="areaService">Area Background Service</string>
 
     <string name="menu_refresh">Refresh</string>
     <string name="menu_search">Search</string>
@@ -36,13 +36,28 @@
         <item>15</item>
         <item>30</item>
     </string-array>
+    <string-array name="prefs_resultNumbersEntries">
+        <item>10 reports or articles</item>
+        <item>15 reports or articles</item>
+        <item>20 reports or articles</item>
+    </string-array>
+    <string-array name="prefs_resultNumbersValues">
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+    </string-array>
     <string name="pref_apiTitle">API Settings</string>
+    <!-- Preference Keys -->
     <string name="pref_idsKey">idsKey</string>
     <string name="pref_bingKey">bingKey</string>
+    <string name="pref_resultKey">resultNumber</string>
+    
     <string name="prefs_idsKeyTitle">IDS API Key</string>
     <string name="prefs_bingKeyTitle">Bing API Key</string>
     <string name="prefs_idsKey_desc">Enter you IDS API Key</string>
     <string name="prefs_bingKey_desc">Enter your Bing API Key</string>
     <string name="prefs_time">Data Period</string>
     <string name="prefs_timeDesc">Enter the time period you want for data charts</string>
+    <string name="prefResultNumberTitle">Search result max</string>
+    <string name="prefResultNumber_desc">Maximum number of reports and news articles downloaded per request. (Higher is more data)</string>
 </resources>
