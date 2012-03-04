@@ -132,7 +132,7 @@ public interface DBConstants extends BaseColumns {
 	
 	public final String[] FROM_WB_DATA			= {WB_DATA_ID, I_ID, C_ID, S_ID, IND_VALUE, IND_DECIMAL, IND_DATE				};
 	
-	public final String[] FROM_SEARCH_COUNTRY	= {_ID, S_ID, C_ID, P_ID																};
+	public final String[] FROM_SEARCH_COUNTRY	= {_ID, S_ID, C_ID, P_ID														};
 	
 	public final String[] FROM_PERIOD			= {PERIOD_ID, PERIOD_NAME, P_START_DATE, P_END_DATE								};
 	

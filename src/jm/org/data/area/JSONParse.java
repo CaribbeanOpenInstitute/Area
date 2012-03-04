@@ -17,13 +17,13 @@ import static jm.org.data.area.DBConstants.*;
 
 public class JSONParse {
 	private static final String TAG = JSONParse.class.getSimpleName();
-	private AreaData areaData;
+	private AREAData areaData;
 	private Context appContext;
 	private ContentValues apiRecord;
 	
 	
 	public JSONParse(Context context){
-		areaData = new AreaData(context);
+		areaData = new AREAData(context);
 		apiRecord = new ContentValues();
 	}
 	
@@ -90,7 +90,6 @@ public class JSONParse {
 	}
 	
 	public String parseWBData(String jsonData){
-
 		
 		StringBuilder jsonText = new StringBuilder();
 		
@@ -163,6 +162,48 @@ public class JSONParse {
 				}
 				
 				areaData.insert(INDICATOR, apiRecord);
+			}					
+			
+		} catch (Exception e) {
+			//e.printStackTrace();
+			Log.e("Parsing", e.toString());
+			jsonText.append("\n--------------------------------------\n\n");
+		}		
+		
+		return jsonText.toString();
+	}
+	
+	// implemented on the basis that parseIndicators is working
+	public String parseCountries(String jsonData){
+		
+		Hashtable country_data;
+		
+		StringBuilder jsonText = new StringBuilder();
+		try {
+			
+			JSONArray jsonArray = new JSONArray(jsonData);
+			JSONObject jsonObject = jsonArray.getJSONObject(0);
+			
+			int numReturned  = Integer.parseInt(jsonObject.getString("per_page"));
+			int numofObjects = Integer.parseInt(jsonObject.getString("total"));
+			
+			if (numofObjects > 0){
+				jsonArray = jsonArray.getJSONArray(1);
+			}else{
+				// no data returned from World bank API pull
+			}
+			// get Data returned from the world bank 
+			for (int i = 0; i < numReturned; i++) {
+				
+				//test this 
+				country_data = parseJSON(jsonArray.getJSONObject(i));
+				
+				for (int a = 0; a < WB_COUN_LIST.length; a++){
+					apiRecord.put(FROM_COUNTRY[a+1], (String)country_data.get(WB_COUN_LIST[a]));	
+					Log.d("Countries", ""+FROM_COUNTRY[a+1] + ":-> " + (String)country_data.get(WB_COUN_LIST[a]));
+				}
+				
+				areaData.insert(COUNTRY, apiRecord);
 			}					
 			
 		} catch (Exception e) {
