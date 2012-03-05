@@ -20,6 +20,18 @@ public interface AreaConstants {
 	public static final int GLOBAl_SEARCH		= 3;
 	public static final int GENERIC_SEARCH		= 4;
 	
+	/*
+	 * API CODE
+	 */
+	public static final int WORLD_SEARCH = 0;
+	public static final int IDS_SEARCH = 1;
+	public static final int BING_SEARCH = 2;
+	
+	//Broadcast Receivers
+	public static final String ACTION_WORLD_UPDATE = "Area.WorldBank.Update";
+	public static final String ACTION_IDS_UPDATE = "Area.IDS.Update";
+	public static final String ACTION_BING_UPDATE = "Area.Bing.Update";
+	public static final String ACTION_FAIL_UPDATE = "Area.Fail.Update";
 	
 	
 }
