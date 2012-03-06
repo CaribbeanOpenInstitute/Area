@@ -33,5 +33,14 @@ public interface AreaConstants {
 	public static final String ACTION_BING_UPDATE = "Area.Bing.Update";
 	public static final String ACTION_FAIL_UPDATE = "Area.Fail.Update";
 	
+	// Data keys for APIs
+	public static final String WB_IND_ID 		= "id" 			;
+	public static final String WB_IND_NAME		= "name"		;
+	public static final String WB_IND_DESC		= "sourceNote"	;
+	public static final String[] WB_IND_LIST	= {WB_IND_ID, WB_IND_NAME, WB_IND_DESC};
 	
+	public static final String WB_COUN_ID 		= "id" 			;
+	public static final String WB_COUN_NAME		= "name"		;
+	public static final String WB_COUN_DESC		= "sourceNote"	;
+	public static final String[] WB_COUN_LIST	= {WB_COUN_ID, WB_COUN_NAME, WB_COUN_DESC};
 }

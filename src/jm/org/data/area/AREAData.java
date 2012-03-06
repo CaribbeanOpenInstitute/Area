@@ -87,7 +87,7 @@ import android.util.Log;
 public class AREAData {
 	
 	private static final String TAG = AREAData.class.getSimpleName();
-	private int currentApiVersion = android.os.Build.VERSION.SDK_INT;
+	//private int currentApiVersion = android.os.Build.VERSION.SDK_INT;
 
 	Context context;
 	AreaDB dbHelper;
@@ -106,8 +106,8 @@ public class AREAData {
 	public void insert(String tableName, ContentValues tableRecord) {
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 		int tableCode = INDICATOR_LIST; //AreaApplication.getTableCode(tableName);
-		String tableKey = "";
-		String tableKeyAdd = "";
+		String tableKey = WB_INDICATOR_ID;
+		//String tableKeyAdd = "";
 		Cursor cursor = null;
 
 		//Getting correct primary key for tables
@@ -120,7 +120,7 @@ public class AREAData {
 
 		//Duplicate Check
 		if (tableCode == INDICATOR_LIST) {
-			cursor = db.query(tableName, null, tableKey + "=" + tableRecord.get(tableKey), null, null, null, null);
+			cursor = db.query(tableName, null, tableKey + "='" + tableRecord.get(tableKey) + "'", null, null, null, null);
 		} else { //Special condition for double primary key on crop table
 			//cursor = db.query(tableName, null, String.format("%s=%s AND %s=%s", tableKey, tableRecord.get(tableKey), tableKeyAdd, tableRecord.get(tableKeyAdd)), null, null, null, null);
 		}
@@ -133,7 +133,7 @@ public class AREAData {
 				Log.d(TAG, String.format("Inserting into table %s", tableName));
 			}
 			catch (RuntimeException e) {
-				Log.e(TAG,"Farmer Insertion Exception: "+e.toString());
+				Log.e(TAG,"Indicatoir Insertion Exception: "+e.toString());
 			}
 		}
 		cursor.close();
@@ -188,7 +188,7 @@ public class AREAData {
 	
 	private class AreaDB extends SQLiteOpenHelper{
 		
-		private static final int DATABASE_VERSION = 36;
+		private static final int DATABASE_VERSION = 41;
 		private SQLiteDatabase db;
 		
 		
@@ -197,95 +197,95 @@ public class AREAData {
 		}
 		
 		private static final String CREATE_TABLE_COUNTRY = "create table " + COUNTRY + " ( "
-				+ COUNTRY_ID + " integer primary key autoincrement, "
-				+ WB_COUNTRY_ID + " text not null, "
-				+ COUNTRY_NAME + " text not null, "
-				+ INCOME_LEVEL + " text not null, "
-				+ POPULATION + " integer not null, "
-				+ COUNTRY_REGION + " text not null, "
-				+ GDP + " integer not null, "
-				+ GNI_CAPITA + " integer not null, "
-				+ POVERTY + " integer not null, "
-				+ LIFE_EX + " integer not null, "
-				+ LITERACY + " integer not null, )";
+				+ COUNTRY_ID 		+ " integer primary key autoincrement, "
+				+ WB_COUNTRY_ID 	+ " text not null, "
+				+ COUNTRY_NAME 		+ " text not null, "
+				+ INCOME_LEVEL 		+ " text not null, "
+				+ POPULATION 		+ " integer not null, "
+				+ COUNTRY_REGION 	+ " text not null, "
+				+ GDP 				+ " integer not null, "
+				+ GNI_CAPITA 		+ " integer not null, "
+				+ POVERTY 			+ " integer not null, "
+				+ LIFE_EX 			+ " integer not null, "
+				+ LITERACY 			+ " integer not null )";
 		
 		private static final String CREATE_TABLE_INDICATOR = "create table " + INDICATOR + " ( "
-				+ INDICATOR_ID + " integer primary key autoincrement, "
-				+ WB_INDICATOR_ID + " integer not null, "
-				+ INDICATOR_NAME + "text not null, "
-				+ INDICATOR_DESC + "text not null )";
+				+ INDICATOR_ID 		+ " integer primary key autoincrement, "
+				+ WB_INDICATOR_ID 	+ " integer not null, "
+				+ INDICATOR_NAME 	+ " text not null, "
+				+ INDICATOR_DESC 	+ " text not null )";
 
 		private static final String CREATE_TABLE_SEARCH = "create table " + SEARCH + " ( "
-				+ SEARCH_ID + " integer primary key autoincrement, "
-				+ I_ID + " integer not null, "
-				+ AP_ID + " integer not null, "
-				+ SEARCH_CREATED + " datetime not null, "
-				+ SEARCH_MODIFIED + " datetime not null, "
-				+ SEARCH_URI + " text not null )" ;
+				+ SEARCH_ID 		+ " integer primary key autoincrement, "
+				+ I_ID				+ " integer not null, "
+				+ AP_ID 			+ " integer not null, "
+				+ SEARCH_CREATED 	+ " datetime not null, "
+				+ SEARCH_MODIFIED 	+ " datetime not null, "
+				+ SEARCH_URI 		+ " text not null )" ;
 		
 		private static final String CREATE_TABLE_API = "create table " + API + " ( "
-				+ API_ID + " integer primary key autoincrement, "
-				+ API_NAME + " text not null, "
-				+ API_DESC + " text not null," 
-				+ BASE_URI + " text not null )";
+				+ API_ID 			+ " integer primary key autoincrement, "
+				+ API_NAME 			+ " text not null, "
+				+ API_DESC 			+ " text not null," 
+				+ BASE_URI 			+ " text not null )";
 		
 		private static final String CREATE_TABLE_PARAMETER = "create table " + PARAMETER + " ( "
-				+ PARAM_ID + " integer primary key autoincrement, "
-				+ S_ID + " integer not null, "
-				+ PARAM	+ " text not null )";
+				+ PARAM_ID 	+ " integer primary key autoincrement, "
+				+ S_ID 		+ " integer not null, "
+				+ PARAM		+ " text not null )";
 		
 		private static final String CREATE_TABLE_WB_DATA = "create table " + WB_DATA + " ( "
-				+ WB_DATA_ID + " integer primary key autoincrement, "
-				+ I_ID + " integer not null, "
-				+ C_ID + " integer not null, "
-				+ S_ID + " integer not null, "
-				+ IND_VALUE + " integer not null, "
-				+ IND_DECIMAL + " integer not null, "
-				+ IND_DATE + " integer not null ) ";
+				+ WB_DATA_ID 	+ " integer primary key autoincrement, "
+				+ I_ID 			+ " integer not null, "
+				+ C_ID 			+ " integer not null, "
+				+ S_ID 			+ " integer not null, "
+				+ IND_VALUE 	+ " integer not null, "
+				+ IND_DECIMAL 	+ " integer not null, "
+				+ IND_DATE 		+ " integer not null ) ";
 			
 		private static final String CREATE_TABLE_SEARCH_COUNTRY = "create table " + SEARCH_COUNTRY + " ( "
-				+ _ID + " integer primary key autoincrement, "
-				+ S_ID + " integer not null, "
-				+ C_ID + " integer not null, "
-				+ P_ID + " integer not null )";
+				+ _ID 	+ " integer primary key autoincrement, "
+				+ S_ID 	+ " integer not null, "
+				+ C_ID 	+ " integer not null, "
+				+ P_ID 	+ " integer not null )";
 		
 		private static final String CREATE_TABLE_PERIOD = "create table " + PERIOD + " ( "
-				+ PERIOD_ID + " integer primary key autoincrement, "
-				+ PERIOD_NAME + " text not null, "
-				+ P_START_DATE + " integer not null, "
-				+ P_END_DATE + " integer not null )";
+				+ PERIOD_ID 	+ " integer primary key autoincrement, "
+				+ PERIOD_NAME 	+ " text not null, "
+				+ P_START_DATE 	+ " integer not null, "
+				+ P_END_DATE 	+ " integer not null )";
 
 		private static final String CREATE_TABLE_IDS_DATA = "create table " + IDS_DATA  + " ( "
-				+ DOCUMENT_ID + " integer primary key autoincrement, "
-				+ S_ID + " integer not null, "
-				+ DOC_TITLE + " text not null, "
-				+ LANGUAGE_NAME + " text not null, "
-				+ LICENCE_TYPE + " text not null, "
-				+ PUBLICATION_DATE + "datetime not null, "
-				+ PUBLISHER + " text not null, "
+				+ DOCUMENT_ID 		+ " integer primary key autoincrement, "
+				+ S_ID				+ " integer not null, "
+				+ DOC_TITLE 		+ " text not null, "
+				+ LANGUAGE_NAME		+ " text not null, "
+				+ LICENCE_TYPE 		+ " text not null, "
+				+ PUBLICATION_DATE 	+ " datetime not null, "
+				+ PUBLISHER 		+ " text not null, "
 				+ PUBLISHER_COUNTRY + " text not null, "
-				+ JOURNAL_SITE + " text not null, "
-				+ DOC_NAME + " text not null, "
-				+ DATE_CREATED + " datetime not null, "
-				+ DATE_UPDATED + "datetime not null, "
-				+ WEBSITE_URL + " text not null )";
+				+ JOURNAL_SITE 		+ " text not null, "
+				+ DOC_NAME 			+ " text not null, "
+				+ DATE_CREATED		+ " datetime not null, "
+				+ DATE_UPDATED 		+ " datetime not null, "
+				+ WEBSITE_URL 		+ " text not null )";
 		
 		private static final String CREATE_TABLE_IDS_AUTHOR = "create table " + IDS_AUTHOR + " ( "
-				+ AUTHOR_ID + " integer primary key autoincrement, "
-				+ D_ID + " integer not null, "
-				+ AUTHOR_NAME + " text not null )";
+				+ AUTHOR_ID		 + " integer primary key autoincrement, "
+				+ D_ID			 + " integer not null, "
+				+ AUTHOR_NAME	 + " text not null )";
 		
 		private static final String CREATE_TABLE_IDS_DOC_THEME = "create table " + IDS_DOC_THEME + " ( "
-				+ _ID + " integer primary key autoincrement, "
-				+ T_ID + "integer not null, "
-				+ D_ID + "integer not null )";
+				+ _ID 		+ " integer primary key autoincrement, "
+				+ T_ID 		+ " integer not null, "
+				+ D_ID 		+ " integer not null )";
 		
-		private static final String CREATE_TABLE_IDS_THEME = "create table" + IDS_THEME + " ( "
-				+ THEME_ID + " integer primary key autoincrement, "
-				+ THEME_NAME + " text not null, "
-				+ IDS_THEME_ID + " text not null, "
-				+ THEME_URL + " text not null, "
-				+ THEME_LEVEL + "integer )" ;
+		private static final String CREATE_TABLE_IDS_THEME = "create table " + IDS_THEME + " ( "
+				+ THEME_ID 		+ " integer primary key autoincrement, "
+				+ THEME_NAME 	+ " text not null, "
+				+ IDS_THEME_ID 	+ " text not null, "
+				+ THEME_URL 	+ " text not null, "
+				+ THEME_LEVEL 	+ " integer not null)" ;
 		
 		@Override
 		public void onCreate(SQLiteDatabase db) {

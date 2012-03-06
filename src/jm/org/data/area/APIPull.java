@@ -25,7 +25,7 @@ public class APIPull{
 	}
 	
 	
-	public String HTTPRequest( int api,String uri) {
+	public String HTTPRequest(int api,String uri) {
 		String errorMsg = "";
 		StringBuilder builder = new StringBuilder();
 		HttpClient client = new DefaultHttpClient();

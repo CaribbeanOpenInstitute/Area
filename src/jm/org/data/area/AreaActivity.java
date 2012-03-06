@@ -66,7 +66,7 @@ public class AreaActivity extends ActionBarActivity {
 		jsonText.setMovementMethod(new ScrollingMovementMethod());
 		
 		APIPull apiAccess = new APIPull();
-		JSONParse apiParser = new JSONParse();
+		JSONParse apiParser = new JSONParse(AreaActivity.this);
 		String jsonData = apiAccess.HTTPRequest(0, "http://api.worldbank.org/topic/1/Indicator?per_page=10&format=json");
 		//String jsonData = apiAccess.HTTPRequest(1, "http://api.ids.ac.uk/openapi/eldis/get/documents/A59947/full/the-global-status-of-ccs-2011/");
 		jsonText.append("test\n " + jsonData);
