@@ -84,15 +84,15 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 
-public class AreaData {
+public class AREAData {
 	
-	private static final String TAG = AreaData.class.getSimpleName();
+	private static final String TAG = AREAData.class.getSimpleName();
 	//private int currentApiVersion = android.os.Build.VERSION.SDK_INT;
 
 	Context context;
 	AreaDB dbHelper;
 
-	public AreaData(Context context){
+	public AREAData(Context context){
 		this.context = context;
 		dbHelper = new AreaDB(context);
 	}
