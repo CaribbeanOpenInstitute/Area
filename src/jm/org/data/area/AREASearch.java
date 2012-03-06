@@ -1,8 +1,8 @@
 package jm.org.data.area;
 
-public class AREASearch {
+public class AreaSearch {
 
-	public AREASearch(){
+	public AreaSearch(){
 		
 	}
 	

@@ -181,7 +181,30 @@ public class AreaData {
 	 * @param country	Array of country ids
 	 * @return AreaConstants Search Code
 	 */
-	public int genericSearch(String dataSource, String indicatorID, String[] country) {
+	public int genericSearch(int dataSource, String indicatorID, String[] country) {
+		//format data for querying
+		Cursor s_result;
+		
+		String   s_table 		= SEARCH;
+		//String[] s_columns	= {AP_ID, I_ID};
+		String params = "" + AP_ID + "='" + dataSource + "' and " + I_ID + "'";  
+		
+		// if user opts out of synchronized search, then search only indicator that is passed in
+			// we will assume all for now
+		
+		// query search table for API-Indicator combination. 
+		s_result = dbHelper.rawQuery(s_table, "*", params);
+		
+		// if data exist for combination, check if there exist data exist for all countries. 
+		if (s_result.getCount() != 0){
+			// if some countries are missing then update
+			
+			 
+		}else{
+		// if combination does not exist the get data for all countries.
+		
+		}
+		// if all APIs should be searched, then start with one passed in.
 		return SEARCH_FAIL;
 	}
 	
