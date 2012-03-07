@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal" >
+
+    <fragment
+        android:id="@+id/listFragment"
+        android:layout_width="400dip"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?android:attr/actionBarSize"
+        class="jm.org.data.area.IndicatorListFragment" >
+    </fragment>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <fragment
+            android:id="@+id/chartFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="80"
+            class="jm.org.data.area.ChartFragment" >
+        </fragment>
+        
+        <fragment
+        android:id="@+id/keywordFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="20"
+        class="jm.org.data.area.KeywordFragment" >
+    </fragment>
+    </LinearLayout>
+
+</LinearLayout>

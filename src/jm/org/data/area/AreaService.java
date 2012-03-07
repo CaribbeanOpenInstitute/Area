@@ -45,6 +45,7 @@ public class AreaService extends Service{
 		if (inDatabase()) {
 			//Query Database
 			//Set Shared Cursor: area.setSharedCursor(apiCode, cursor);
+			//notifyActivity
 			return SEARCH_SUCCESS;
 			
 		} else {

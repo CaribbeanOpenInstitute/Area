@@ -64,6 +64,8 @@ public class AreaApplication extends Application {
 		case BING_SEARCH:
 			bingCursor = cursor;
 		}
+	}
+	
 	/**
 	 * Checks if the device has Internet connection.
 	 * 
