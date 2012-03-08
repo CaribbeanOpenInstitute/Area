@@ -35,11 +35,11 @@ public class IndicatorListFragment extends ListFragment {
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		String item = (String) getListAdapter().getItem(position);
-		ChartFragment chFragment = (ChartFragment) getFragmentManager().findFragmentById(R.id.chartFragment);
-		if(chFragment != null && chFragment.isInLayout()) {
-			chFragment.setText(item);
-		} else {
+		//ChartFragment chFragment = (ChartFragment) getFragmentManager().findFragmentById(R.id.chartFragment);
+		//if(chFragment != null && chFragment.isInLayout()) {
+			//chFragment.setText(item);
+		//} else {
 			//Activity for phones
-		}
+		//}
 	}
 }
