@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".AreaPreferencesActivity" />
-        <!-- <activity android:name=".HomeActivity" /> -->
+        <activity android:name=".IndicatorActivity" />
         <service android:name="AreaService"
             android:process=":AreaService"
             android:icon="@drawable/ic_launcher"
