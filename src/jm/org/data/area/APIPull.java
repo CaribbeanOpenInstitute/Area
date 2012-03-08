@@ -25,7 +25,7 @@ public class APIPull{
 	}
 	
 	
-	public String HTTPRequest(int api,String uri) {
+	public String HTTPRequest(int api, String uri) {
 		String errorMsg = "";
 		StringBuilder builder = new StringBuilder();
 		HttpClient client = new DefaultHttpClient();
@@ -50,9 +50,9 @@ public class APIPull{
 					builder.append(line);
 				}
 			} else {
-				Log.e(APIPull.class.toString(), "Failed to download file");
+				Log.e(APIPull.class.toString(), "Failed to download file" + uri);
 				errorMsg.concat(APIPull.class.toString());
-				errorMsg.concat("Failed to download file");
+				errorMsg.concat("Failed to download file " + uri);
 				errorMsg.concat("\n-----------------------\n");
 			}
 		} catch (ClientProtocolException e) {
@@ -69,4 +69,5 @@ public class APIPull{
 		}
 		
 	}
+	
 }

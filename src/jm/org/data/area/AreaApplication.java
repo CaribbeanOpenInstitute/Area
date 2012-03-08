@@ -8,12 +8,14 @@ import android.net.ConnectivityManager;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import static jm.org.data.area.DBConstants.*;
 import static jm.org.data.area.AreaConstants.*;
+
 
 public class AreaApplication extends Application {
 	private String TAG = AreaActivity.class.getSimpleName();
 	public SharedPreferences prefs;
-	public AREAData areaData;
+	public AreaData areaData;
 	
 	private Cursor wbCursor;
 	private Cursor idsCursor;
@@ -64,6 +66,7 @@ public class AreaApplication extends Application {
 		case BING_SEARCH:
 			bingCursor = cursor;
 		}
+	}
 	/**
 	 * Checks if the device has Internet connection.
 	 * 
@@ -87,5 +90,24 @@ public class AreaApplication extends Application {
 		else
 			return false;
 	}
+	
+	public static int getTableCode(String tableName) {
+		if (tableName.equals(INDICATOR))
+			return INDICATOR_LIST;
+		else if (tableName.equals(COUNTRY))
+			return COUNTRY_LIST;
+		else if (tableName.equals(SEARCH))
+			return SEARCH_DATA;
+		else if (tableName.equals(API))
+			return API_LIST;
+		else if (tableName.equals(PERIOD))
+			return PERIOD_LIST;
+		else if (tableName.equals(SEARCH_COUNTRY))
+			return COUNTRY_SEARCH_DATA;
+		else if (tableName.equals(WB_DATA))
+			return WB_SEARCH_DATA;
+
+		return -1;
+		}
 
 }

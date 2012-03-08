@@ -2,6 +2,32 @@
 package jm.org.data.area;
 
 
+import static android.provider.BaseColumns._ID;
+import static jm.org.data.area.AreaConstants.SEARCH_FAIL;
+import static jm.org.data.area.AreaConstants.WB_COUNTRY_LIST;
+import static jm.org.data.area.AreaConstants.WB_DATA_LIST;
+import static jm.org.data.area.AreaConstants.WB_IND_LIST;
+import static jm.org.data.area.DBConstants.AP_ID;
+import static jm.org.data.area.DBConstants.COUNTRY;
+import static jm.org.data.area.DBConstants.C_ID;
+import static jm.org.data.area.DBConstants.FROM_COUNTRY;
+import static jm.org.data.area.DBConstants.FROM_INDICATOR;
+import static jm.org.data.area.DBConstants.FROM_WB_DATA;
+import static jm.org.data.area.DBConstants.INDICATOR;
+import static jm.org.data.area.DBConstants.I_ID;
+import static jm.org.data.area.DBConstants.P_ID;
+import static jm.org.data.area.DBConstants.SC_ID;
+import static jm.org.data.area.DBConstants.SEARCH;
+import static jm.org.data.area.DBConstants.SEARCH_COUNTRY;
+import static jm.org.data.area.DBConstants.SEARCH_CREATED;
+import static jm.org.data.area.DBConstants.SEARCH_MODIFIED;
+import static jm.org.data.area.DBConstants.SEARCH_URI;
+import static jm.org.data.area.DBConstants.S_ID;
+import static jm.org.data.area.DBConstants.WB_COUNTRY_CODE;
+import static jm.org.data.area.DBConstants.WB_DATA;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Hashtable;
 
 import org.json.JSONArray;
@@ -10,21 +36,21 @@ import org.json.JSONObject;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.util.Log;
-
-import static jm.org.data.area.AreaConstants.*;
-import static jm.org.data.area.DBConstants.*;
 
 public class JSONParse {
 	private static final String TAG = JSONParse.class.getSimpleName();
-	private AREAData areaData;
-	private Context appContext;
+	private AreaData areaData;
+	//private Context appContext;
 	private ContentValues apiRecord;
 	
 	
 	public JSONParse(Context context){
-		areaData = new AREAData(context);
+		//appContext = context;
+		areaData = new AreaData(context);
 		apiRecord = new ContentValues();
+		
 	}
 	
 	public String parseWB(String jsonData){
@@ -89,54 +115,107 @@ public class JSONParse {
 		return jsonText.toString();
 	}
 	
-	public String parseWBData(String jsonData){
+	
+	public int parseWBData(String jsonData, int indicator, Integer[] countries, String uri){
 		
-		StringBuilder jsonText = new StringBuilder();
-		
+		Hashtable<String, String> wb_data = new Hashtable<String, String>();
+		long search_id = 0;
 		try {
 			
 			JSONArray jsonArray = new JSONArray(jsonData);
 			JSONObject jsonObject = jsonArray.getJSONObject(0);
 			
+			int numReturned  = Integer.parseInt(jsonObject.getString("per_page"));
 			int numofObjects = Integer.parseInt(jsonObject.getString("total"));
 			
 			if (numofObjects > 0){
 				jsonArray = jsonArray.getJSONArray(1);
-			}else{
-				// no data returned from World bank API pull
-			}
-			// get Data returned from the world bank 
-			for (int i = 0; i < 10; i++) {
-				
-				JSONObject jsonInnerObject = jsonArray.getJSONObject(i);
-				
-				jsonText.append(jsonInnerObject.toString()); 
-				
-				JSONArray names = jsonInnerObject.names();
-				for(int x = 0; x < names.length(); x++){
-					
-					if(jsonInnerObject.optJSONObject(names.getString(x)) == null){
-						jsonText.append("\n" + names.getString(x) + ": " + jsonInnerObject.getString(names.getString(x)));
-					}else{
-						jsonText.append("\n" + names.getString(x) + ": ");
-						jsonText.append("\n\t" +jsonInnerObject.optJSONObject(names.getString(x)).toString());
+				// create or update Search record
+				String date = timeStamp();
+				apiRecord = new ContentValues();
+				apiRecord.put(I_ID 				, indicator	);
+				apiRecord.put(AP_ID				, 1			);
+				apiRecord.put(SEARCH_CREATED	, date		);
+				apiRecord.put(SEARCH_MODIFIED	, date		);
+				apiRecord.put(SEARCH_URI		, uri		);
+				//FROM_SEARCH			= {SEARCH_ID, I_ID, AP_ID, SEARCH_CREATED, SEARCH_MODIFIED, SEARCH_URI};
+				search_id = areaData.insert(SEARCH, apiRecord, 1);
+				Log.e(TAG, "Search_id:" + search_id);
+				// create or update Search_Country record
+				if(search_id > 0){
+					Log.e(TAG, "Num of Countries:" + countries.length);
+					for(int n = 0; n < countries.length; n++){
+						Log.e(TAG, "Country:" + countries[n]);
+						apiRecord = new ContentValues();
+						apiRecord.put(S_ID 	, search_id		);
+						apiRecord.put(C_ID 	, countries[n]	);
+						apiRecord.put(P_ID  , 1				);
+						//FROM_SEARCH_COUNTRY	= {_ID, S_ID, C_ID, P_ID};
+						areaData.insert(SEARCH_COUNTRY, apiRecord, 1);
 					}
+				}else{
+					Log.e(TAG, "Error inserting Search record: Indicator-" + indicator + ", API_ID- 1, " + "URI-" + uri);
 				}
 				
-			}					
+				// move on to parse and update WB_DATA 
+			}else{
+				// no data returned from World bank API pull
+				Log.e(TAG, "Error NO data retrieved from WB API: URL-" + uri);
+				return SEARCH_FAIL;
+			}
+			// get Data returned from the world bank
+			// update the WB_DATA table with the indicator values
+			for (int i = 0; i < numReturned; i++) {
+				apiRecord = new ContentValues();
+				wb_data = parseJSON( wb_data, jsonArray.getJSONObject(i), "");
+				
+				
+				//THIS WAS THE EASIEST WAY TO DO IT AT THE TIME
+				//get Country ID from Country table based on the Country code
+				Cursor countryData		= areaData.rawQuery(COUNTRY,"*", "" + WB_COUNTRY_CODE + " = '"+ (String)wb_data.get("country: id")+ "'");
+				// Then get SearchCountry ID from corresponding table now that we have both S_ID and C_ID
+				countryData.moveToFirst();
+				Cursor SearchCountry	= areaData.rawQuery(SEARCH_COUNTRY,"*", "" + C_ID + " = '"+ countryData.getInt(countryData.getColumnIndex(_ID)) + "' AND "  + S_ID + "= '"+ search_id +"'");
+				SearchCountry.moveToFirst();
+				apiRecord.put(SC_ID, SearchCountry.getInt(SearchCountry.getColumnIndex(_ID)));
+				Log.d("Indicators", ""+ SC_ID + ":-> " + SearchCountry.getInt(SearchCountry.getColumnIndex(_ID)));
+				
+				for (int a = 0; a < WB_DATA_LIST.length; a++){
+					apiRecord.put(FROM_WB_DATA[a+2], (String)wb_data.get(WB_DATA_LIST[a]));	
+					Log.d("Indicators", ""+FROM_WB_DATA[a+2] + ":-> " + (String)wb_data.get(WB_DATA_LIST[a]));
+				}
+				countryData.close();
+				SearchCountry.close();
+				areaData.insert(WB_DATA, apiRecord, 0);
+				
+			}
 			
 		} catch (Exception e) {
 			//e.printStackTrace();
-			Log.d("some", e.toString());
-			jsonText.append("\n--------------------------------------\n\n");
-		}
-		
-		return jsonText.toString();
+			Log.e(TAG, e.toString());
+		}		
+		return 1;
 	}
+	
+	public int getWBTotal(String jsonData){
 
+		int numofObjects = 0;
+		try {
+			
+			JSONArray jsonArray = new JSONArray(jsonData);
+			JSONObject jsonObject = jsonArray.getJSONObject(0);
+			
+			numofObjects = Integer.parseInt(jsonObject.getString("total"));
+		} catch (Exception e) {
+			//e.printStackTrace();
+			Log.e(TAG, e.toString());
+		}	
+		return numofObjects;
+	}
+	
 	public String parseIndicators(String jsonData){
-				
-		Hashtable indicator_data;
+		
+		Hashtable<String, String> indicator_data = new Hashtable<String, String>();
 		
 		StringBuilder jsonText = new StringBuilder();
 		try {
@@ -154,31 +233,29 @@ public class JSONParse {
 			}
 			// get Data returned from the world bank 
 			for (int i = 0; i < numReturned; i++) {
-				
-				indicator_data = parseJSON(jsonArray.getJSONObject(i)); 
+				apiRecord = new ContentValues();
+				indicator_data = parseJSON(indicator_data, jsonArray.getJSONObject(i), "");
 				for (int a = 0; a < WB_IND_LIST.length; a++){
 					apiRecord.put(FROM_INDICATOR[a+1], (String)indicator_data.get(WB_IND_LIST[a]));	
 					Log.d("Indicators", ""+FROM_INDICATOR[a+1] + ":-> " + (String)indicator_data.get(WB_IND_LIST[a]));
 				}
-				
-				areaData.insert(INDICATOR, apiRecord);
+				Log.d(TAG, indicator_data.toString());
+				areaData.insert(INDICATOR, apiRecord, 0);
 			}					
 			
 		} catch (Exception e) {
 			//e.printStackTrace();
-			Log.e("Parsing", e.toString());
-			jsonText.append("\n--------------------------------------\n\n");
+			Log.e(TAG, e.toString());
 		}		
 		
 		return jsonText.toString();
 	}
 	
 	// implemented on the basis that parseIndicators is working
-	public String parseCountries(String jsonData){
+	public int parseCountries(String jsonData){
 		
-		Hashtable country_data;
+		Hashtable<String, String> country_data = new Hashtable<String, String>();
 		
-		StringBuilder jsonText = new StringBuilder();
 		try {
 			
 			JSONArray jsonArray = new JSONArray(jsonData);
@@ -191,33 +268,35 @@ public class JSONParse {
 				jsonArray = jsonArray.getJSONArray(1);
 			}else{
 				// no data returned from World bank API pull
+				return 0;
 			}
 			// get Data returned from the world bank 
 			for (int i = 0; i < numReturned; i++) {
-				
+				apiRecord = new ContentValues();
 				//test this 
-				country_data = parseJSON(jsonArray.getJSONObject(i));
+				country_data = parseJSON(country_data, jsonArray.getJSONObject(i), "");
 				
-				for (int a = 0; a < WB_COUN_LIST.length; a++){
-					apiRecord.put(FROM_COUNTRY[a+1], (String)country_data.get(WB_COUN_LIST[a]));	
-					Log.d("Countries", ""+FROM_COUNTRY[a+1] + ":-> " + (String)country_data.get(WB_COUN_LIST[a]));
+				for (int a = 0; a < WB_COUNTRY_LIST.length; a++){
+					apiRecord.put(FROM_COUNTRY[a+1], (String)country_data.get(WB_COUNTRY_LIST[a]));	
+					Log.d("Countries", ""+FROM_COUNTRY[a+1] + ":-> " + (String)country_data.get(WB_COUNTRY_LIST[a]));
 				}
-				
-				areaData.insert(COUNTRY, apiRecord);
+				Log.d(TAG, country_data.toString());
+				areaData.insert(COUNTRY, apiRecord, 0);
 			}					
 			
 		} catch (Exception e) {
 			//e.printStackTrace();
 			Log.e("Parsing", e.toString());
-			jsonText.append("\n--------------------------------------\n\n");
+			return -1;
 		}		
 		
-		return jsonText.toString();
+		return 0;
 	}
-	
-	
-	private Hashtable<String, String> parseJSON(JSONObject jsonInnerObject){
-		Hashtable<String, String> data = new Hashtable<String, String>();
+
+	private Hashtable<String, String> parseJSON(Hashtable<String, String> data, JSONObject jsonInnerObject, String base){
+		if (! base.equals("")){
+			base = base + ": ";
+		}
 		try {
 			data.put("json", jsonInnerObject.toString());
 					
@@ -227,12 +306,13 @@ public class JSONParse {
 				
 				if(jsonInnerObject.optJSONObject(names.getString(x)) == null){
 					
-					data.put(names.getString(x) , jsonInnerObject.getString(names.getString(x)));
+					data.put("" + base + ""+names.getString(x) , jsonInnerObject.getString(names.getString(x)));
 					
 				}else{
 					//jsonText.append("\n" + names.getString(x) + ": ");
 					//jsonText.append("\n\t" +jsonInnerObject.optJSONObject(names.getString(x)).toString());
-					data.put(names.getString(x) , jsonInnerObject.optJSONObject(names.getString(x)).toString());
+					//data.put(names.getString(x) , jsonInnerObject.optJSONObject(names.getString(x)).toString());
+					data = parseJSON(data, jsonInnerObject.optJSONObject(names.getString(x)), names.getString(x));
 				}
 			}
 		}
@@ -240,5 +320,14 @@ public class JSONParse {
 			Log.e(TAG,"Exception in parsing Indicators List "+e.toString());
 		}
 		return data;
+	}
+	
+	private String timeStamp(){
+		Calendar calendar = Calendar.getInstance();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
+		
+		return format.format(calendar.getTime());
+		
+		
 	}
 }
