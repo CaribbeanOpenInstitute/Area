@@ -39,8 +39,6 @@ public class IndicatorListFragment extends ListFragment {
 		super.onListItemClick(l, v, position, id);
 		String item = (String) getListAdapter().getItem(position);
 		
-		
-		
 		try {	//Check if the parent activity is the IndicatorActivity
 			IndicatorActivity act = (IndicatorActivity) getActivity();
 		} catch (ClassCastException actException) {
@@ -63,6 +61,5 @@ public class IndicatorListFragment extends ListFragment {
 			 * DetailActivity.class); intent.putExtra("value", item);
 			 * startActivity(intent);
 			 */
-		//}
 	}
 }

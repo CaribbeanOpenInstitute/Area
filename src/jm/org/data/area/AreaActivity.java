@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import static jm.org.data.area.AreaConstants.*;
+
 import com.android.actionbarcompat.ActionBarActivity;
 
 
@@ -65,13 +67,8 @@ public class AreaActivity extends ActionBarActivity {
 		//to make the text scrollable
 		jsonText.setMovementMethod(new ScrollingMovementMethod());
 		
-		APIPull apiAccess = new APIPull();
-		JSONParse apiParser = new JSONParse(AreaActivity.this);
-		String jsonData = apiAccess.HTTPRequest(0, "http://api.worldbank.org/topic/1/Indicator?per_page=10&format=json");
-		//String jsonData = apiAccess.HTTPRequest(1, "http://api.ids.ac.uk/openapi/eldis/get/documents/A59947/full/the-global-status-of-ccs-2011/");
-		jsonText.append("test\n " + jsonData);
-		String output = apiParser.parseIndicators(jsonData);
-		jsonText.append("test\n " + output);
+		AreaData dataService = new AreaData(AreaActivity.this);
+		dataService.genericSearch(WORLD_SEARCH, "TX.VAL.AGRI.ZS.UN", new String[]{"Jamaica", "Kenya","Barbados"});
     }
     
     private void showPrefs(String idsKey, String bingKey, String dateRange, String resultMax) {

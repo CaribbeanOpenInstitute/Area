@@ -88,6 +88,7 @@ public class AreaService extends Service{
 	
 	
 	private boolean inDatabase() {
+		
 		return false;
 	}
 	
