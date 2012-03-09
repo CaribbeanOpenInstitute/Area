@@ -21,5 +21,6 @@
             android:summary="@string/prefs_bingKey_desc"
             android:title="@string/prefs_bingKeyTitle" />
     </PreferenceCategory>
+    <CheckBoxPreference android:key="@string/pref_startupKey" android:title="@string/pref_startupTitle" android:summary="@string/prefs_startup_desc" android:shouldDisableView="true" android:defaultValue="false" android:enabled="false"/>
 
 </PreferenceScreen>

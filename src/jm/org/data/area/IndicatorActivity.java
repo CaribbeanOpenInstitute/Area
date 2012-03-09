@@ -48,13 +48,13 @@ public class IndicatorActivity extends BaseActivity {
 		mTabsAdapter = new TabsAdapter(this, mTabHost, mViewPager);
 
 		mTabsAdapter.addTab(mTabHost.newTabSpec("charts")
-				.setIndicator("Charts"), ChartFragment.class, null);
+				.setIndicator("Charts"), ChartsFragment.class, null);
 		mTabsAdapter.addTab(
 				mTabHost.newTabSpec("reports").setIndicator("Reports"),
-				ChartFragment.class, null);
+				ReportsFragment.class, null);
 		mTabsAdapter.addTab(
 				mTabHost.newTabSpec("articles").setIndicator("Articles"),
-				ChartFragment.class, null);
+				ArticlesFragment.class, null);
 		/*
 		 * mTabsAdapter.addTab(mTabHost.newTabSpec("custom").setIndicator("Custom"
 		 * ), LoaderCustomSupport.AppListFragment.class, null);

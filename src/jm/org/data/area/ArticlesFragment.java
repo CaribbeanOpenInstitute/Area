@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class ChartFragment extends Fragment {
-	public static final String TAG = ChartFragment.class.getSimpleName();
+public class ArticlesFragment extends Fragment {
+public static final String TAG = ArticlesFragment.class.getSimpleName();
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -35,13 +35,13 @@ public class ChartFragment extends Fragment {
             // the view hierarchy; it would just never be used.
             return null;
         }*/
-		View view = inflater.inflate(R.layout.chart_dashboard, container, false);
+		View view = inflater.inflate(R.layout.articles, container, false);
 		return view;
 	}
 	
 	public void setText(String item) {
-		Log.d("ChartFragment", item);
-		TextView view = (TextView) getView().findViewById(R.id.chartText);
+		Log.d(TAG, item);
+		TextView view = (TextView) getView().findViewById(R.id.articlesText);
 		view.setText(item);
 	}
 

@@ -60,4 +60,7 @@
     <string name="prefs_timeDesc">Enter the time period you want for data charts</string>
     <string name="prefResultNumberTitle">Search result max</string>
     <string name="prefResultNumber_desc">Maximum number of reports and news articles downloaded per request. (Higher is more data)</string>
+    <string name="pref_startupKey">startupActivity</string>
+    <string name="pref_startupTitle">Startup Activity</string>
+    <string name="prefs_startup_desc">Application initialization indicator</string>
 </resources>

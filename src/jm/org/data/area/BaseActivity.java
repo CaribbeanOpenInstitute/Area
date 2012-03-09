@@ -12,17 +12,17 @@ import com.android.actionbarcompat.ActionBarActivity;
 
 public class BaseActivity extends ActionBarActivity {
 	private final static String TAG = BaseActivity.class.getSimpleName();
-	private AreaService areaService;
-	private AreaApplication areaApp;
+	protected AreaService areaService;
+	protected AreaApplication area;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		areaApp = (AreaApplication) getApplication();
+		area = (AreaApplication) getApplication();
 		
-		if(!areaApp.isServiceRunning) {
+		if(!area.isServiceRunning) {
 			startService(new Intent(this, AreaService.class));
-			areaApp.isServiceRunning = true;
+			area.isServiceRunning = true;
 		}
 		
 	}

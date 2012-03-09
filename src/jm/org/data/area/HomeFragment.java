@@ -1,25 +1,27 @@
 package jm.org.data.area;
 
-import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 public class HomeFragment extends Fragment {
 	public static final String TAG = HomeFragment.class.getSimpleName();
+	private AreaApplication area;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
 		Log.e(TAG, "Hello");
+		//Context c = getActivity().getApplicationContext();
+		
+		area = (AreaApplication) getActivity().getApplication();
+		Boolean areaStartup = area.prefs.getBoolean("startupActivity", false);
+		Log.e(TAG, "Preference application startup: " + areaStartup.toString());
 	}
 
 	@Override

@@ -6,42 +6,54 @@
 
     <fragment
         android:id="@+id/listFragment"
-        android:layout_width="300dip"
+        android:layout_width="400dip"
         android:layout_height="match_parent"
         class="jm.org.data.area.IndicatorListFragment" >
     </fragment>
 
-        <!-- android:layout_marginTop="?android:attr/actionBarSize" -->
-    <TabHost
-        android:id="@android:id/tabhost"
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_gravity="center" >
+        android:orientation="vertical" android:layout_weight="9">
 
-        <LinearLayout
+        <TabHost
+            android:id="@android:id/tabhost"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:orientation="vertical" >
+            android:layout_gravity="center" >
 
-            <TabWidget
-                android:id="@android:id/tabs"
+            <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:orientation="horizontal" />
+                android:layout_height="fill_parent"
+                android:orientation="vertical" >
 
-            <FrameLayout
-                android:id="@android:id/tabcontent"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="0" />
+                <TabWidget
+                    android:id="@android:id/tabs"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:orientation="horizontal" />
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/viewpager"
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-        </LinearLayout>
-    </TabHost>
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="0" />
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewpager"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+            </LinearLayout>
+        </TabHost>
+
+        <!-- <fragment
+            android:id="@+id/keywordFragment"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            class="jm.org.data.area.KeywordsFragment" android:layout_weight="1"> 
+        </fragment>-->
+    </LinearLayout>
 
 </LinearLayout>

@@ -2,7 +2,9 @@ package jm.org.data.area;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceScreen;
 import android.view.MenuItem;
 
 public class AreaPreferencesActivity extends PreferenceActivity {
@@ -10,6 +12,10 @@ public class AreaPreferencesActivity extends PreferenceActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.preferences);
+		
+		Preference startupPreference = findPreference(getString(R.string.pref_startupKey));
+		PreferenceScreen preferenceScreen = getPreferenceScreen();
+		preferenceScreen.removePreference(startupPreference);
 	}
 	
 	@Override
