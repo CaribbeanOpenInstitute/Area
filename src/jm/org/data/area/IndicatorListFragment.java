@@ -51,7 +51,7 @@ public class IndicatorListFragment extends ListFragment {
 		}
 		
 		//Already in indicator activity
-		/*ChartFragment chFragment = (ChartFragment) getFragmentManager()
+		/*ChartsFragment chFragment = (ChartsFragment) getFragmentManager()
 				.findFragmentById(R.id.chartFragment);
 		if (chFragment != null && chFragment.isInLayout()) {
 			Log.d(TAG, "The list item passed to the fragment is " + item);
