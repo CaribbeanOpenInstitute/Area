@@ -60,4 +60,6 @@
     <string name="prefs_timeDesc">Enter the time period you want for data charts</string>
     <string name="prefResultNumberTitle">Search result max</string>
     <string name="prefResultNumber_desc">Maximum number of reports and news articles downloaded per request. (Higher is more data)</string>
+    <string name="search_hint">Search Area Database</string>
+    
 </resources>

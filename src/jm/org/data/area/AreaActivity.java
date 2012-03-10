@@ -2,6 +2,8 @@ package jm.org.data.area;
 
 
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,21 +11,29 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import static jm.org.data.area.AreaConstants.*;
 
 import com.android.actionbarcompat.ActionBarActivity;
+import jm.org.data.area.R;
 
 
 public class AreaActivity extends ActionBarActivity {
-	private TextView jsonText;
 	private String TAG = AreaActivity.class.getSimpleName();
+	
+	private TextView jsonText;	
 	AreaApplication area;
 	SharedPreferences preferences;
 	String idsKey;
 	String bingKey;
+	
+	Button btnInvokeSearch;
 
 	
     @Override
@@ -64,11 +74,21 @@ public class AreaActivity extends ActionBarActivity {
         */
 		jsonText = (TextView) findViewById(R.id.txtView1);
 		
+		Button btnInvokeSearch = (Button) findViewById(R.id.btnInvokeSearch);
 		//to make the text scrollable
 		jsonText.setMovementMethod(new ScrollingMovementMethod());
 		
-		AreaData dataService = new AreaData(AreaActivity.this);
-		dataService.genericSearch(WORLD_SEARCH, "TX.VAL.AGRI.ZS.UN", new String[]{"Jamaica", "Kenya","Barbados"});
+		 // Attach actions to buttons
+		btnInvokeSearch.setOnClickListener(
+            new OnClickListener() {
+                public void onClick(View v) {
+                    onSearchRequested();
+                }
+            });
+        
+		// Called before in the StartUpActivity
+		//AreaData dataService = new AreaData(AreaActivity.this);
+		//dataService.genericSearch(WORLD_SEARCH, "TX.VAL.AGRI.ZS.UN", new String[]{"Jamaica", "Kenya","Barbados"});
     }
     
     private void showPrefs(String idsKey, String bingKey, String dateRange, String resultMax) {
@@ -82,6 +102,18 @@ public class AreaActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
     	MenuInflater menuInflater = getMenuInflater();
     	menuInflater.inflate(R.menu.home, menu);
+    	
+    	/*// --------------TO ADD SEARCH WIDGET TO THE BAR
+    	// Get the SearchView and set the searchable configuration
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        
+        // error nullpointer exception right here
+        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        /// <-------- Null Pointer Need to check out the Search VIewview
+        
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+    */
     	
     	return super.onCreateOptionsMenu(menu);
     }
