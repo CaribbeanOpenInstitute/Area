@@ -75,7 +75,7 @@ public class StartupActivity extends Activity {
 					finish();
 					
 					startActivity(new Intent(getApplicationContext(),
-							AreaActivity.class));
+							HomeActivity.class));
 					//stop();
 				}
 			}

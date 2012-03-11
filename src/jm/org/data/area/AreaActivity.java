@@ -74,7 +74,7 @@ public class AreaActivity extends ActionBarActivity {
         */
 		jsonText = (TextView) findViewById(R.id.txtView1);
 		
-		Button btnInvokeSearch = (Button) findViewById(R.id.btnInvokeSearch);
+		//Button btnInvokeSearch = (Button) findViewById(R.id.btnInvokeSearch);
 		//to make the text scrollable
 		jsonText.setMovementMethod(new ScrollingMovementMethod());
 		
