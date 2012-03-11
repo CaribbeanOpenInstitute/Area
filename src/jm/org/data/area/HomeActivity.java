@@ -1,10 +1,8 @@
 package jm.org.data.area;
 
 import android.content.Intent;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.PreferenceScreen;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,6 +18,8 @@ public class HomeActivity extends BaseActivity{
 		//Check for application initialization preference
 		if(!area.prefs.getBoolean("startupActivity", false)) {
 			//Run startup activity
+			startActivityForResult(new Intent(HomeActivity.this, StartupActivity.class), 0);
+			
 		}
 		
 		setContentView(R.layout.home_dashboard);
@@ -43,6 +43,18 @@ public class HomeActivity extends BaseActivity{
     		startActivity(new Intent(HomeActivity.this, StartupActivity.class));
     	}
     	return super.onOptionsItemSelected(item);
+
+    }
+	
+	@Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+
+		if( resultCode == RESULT_OK) {
+			Editor editor = area.prefs.edit();
+			editor.putBoolean(getString(R.string.pref_startupKey), true);
+			editor.commit();
+    	}
 
     }
 

@@ -36,7 +36,8 @@
         
         <activity android:name=".AreaPreferencesActivity" />
         <activity android:name=".IndicatorActivity" />
-        <activity android:name=".StartupActivity" />
+        <activity android:name=".StartupActivity" 
+            android:theme="@style/DialogTheme"/>
         <activity android:name=".AreaActivity" />
         
         <service android:name="AreaService"
