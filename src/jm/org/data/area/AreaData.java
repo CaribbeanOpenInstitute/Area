@@ -159,7 +159,8 @@ public class AreaData {
 	
 	public void updateIndicators(){
 		// pull data and put in database
-			
+		
+		// error right here
 		int numOfIndicators = parser.getWBTotal(dataService.HTTPRequest(0,
 				"http://api.worldbank.org/topic/1/Indicator?per_page=1&format=json"));
 		if(numOfIndicators == 0 ){
