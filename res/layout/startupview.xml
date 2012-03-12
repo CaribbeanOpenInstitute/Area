@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center" >
+
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/areaLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_span="2"
+            android:src="@drawable/ic_launcher" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dip" >
+
+        <TextView
+            android:id="@+id/txtAreaTitle"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_span="2"
+            android:gravity="center_horizontal"
+            android:text="Agriculture.Research-based. Evidence.Assistant" android:lines="2" android:textSize="20sp"/>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dip" >
+
+        <ViewAnimator
+            android:id="@+id/startupSwitcher"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_span="2"
+            android:inAnimation="@anim/fade_in"
+            android:outAnimation="@anim/fade_out"
+            android:paddingBottom="10dp" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/txtInitializing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Initializing Application data" />
+
+                <ProgressBar
+                    android:id="@+id/progressBar_area"
+                    style="@android:style/Widget.ProgressBar.Large.Inverse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+android:id/empty"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="There was an error retrieving the data" />
+        </ViewAnimator>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="1dip">
+
+        <TextView
+            android:id="@+id/txtBuilt"
+            android:gravity="center"
+            android:text="Built by" />
+
+        <TextView
+            android:id="@+id/txtSpon"
+            android:gravity="center"
+            android:text="Sponsored by" />
+    </TableRow>
+
+    <TableRow android:background="@color/White" >
+
+        <ImageView
+            android:id="@+id/coiLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitStart"
+            android:src="@drawable/coi_logo" />
+
+        <ImageView
+            android:id="@+id/idsLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitStart"
+            android:src="@drawable/ids_logo" />
+    </TableRow>
+
+</TableLayout>

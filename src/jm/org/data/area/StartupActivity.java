@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
+import android.widget.ViewAnimator;
 
 public class StartupActivity extends Activity {
 	private static final String TAG = AreaData.class.getSimpleName();
@@ -17,6 +18,7 @@ public class StartupActivity extends Activity {
 	// private JSONParse mJsonParse;
 
 	private AreaApplication area;
+	private ViewAnimator loadingAnimator;
 
 	private boolean isOnline;
 
@@ -24,7 +26,8 @@ public class StartupActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// setContentView(R.layout.startupview);
+		setContentView(R.layout.startupview);
+		loadingAnimator = (ViewAnimator)findViewById(R.id.startupSwitcher);	//Loading Animator
 
 		area = (AreaApplication) getApplication();
 
@@ -49,7 +52,7 @@ public class StartupActivity extends Activity {
 
 		protected void onPreExecute() {
 			// Initiate loading image
-			// loadingAnimator.setDisplayedChild(1);
+			loadingAnimator.setDisplayedChild(0);
 		}
 
 		@Override
@@ -89,7 +92,8 @@ public class StartupActivity extends Activity {
 				// with completing the intialization
 				Toast.makeText(
 						StartupActivity.this,
-						"There was an error in completing application initilization. Please check your internet connection and start activity again.",
+						"An error was encountered while completing application initilization. " +
+						"Please check your internet connection and start activity again.",
 						Toast.LENGTH_LONG).show();
 
 			}
