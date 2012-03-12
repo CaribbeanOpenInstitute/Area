@@ -51,7 +51,6 @@ public class StartupActivity extends Activity {
 	private class startupRequest extends AsyncTask<Void, Void, Boolean> {
 
 		protected void onPreExecute() {
-			// Initiate loading image
 			loadingAnimator.setDisplayedChild(0);
 		}
 
@@ -78,6 +77,7 @@ public class StartupActivity extends Activity {
 				return true;
 			} catch (Exception e) {
 				Log.e(TAG, "Exception updating Area Data " + e.toString());
+				loadingAnimator.setDisplayedChild(1);
 			}
 			return false;
 		}
@@ -88,6 +88,7 @@ public class StartupActivity extends Activity {
 				setResult(RESULT_OK, new Intent());
 				finish();
 			} else {
+				
 				// Message to say internet is required or there was some error
 				// with completing the intialization
 				Toast.makeText(
