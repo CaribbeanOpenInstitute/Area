@@ -57,7 +57,7 @@ public class StartupActivity extends Activity {
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			try {
-
+				area.areaData = new AreaData(StartupActivity.this);
 				// initial pull of country and indicator data
 				// getCountryList();
 				// getIndicatorsList();
@@ -69,6 +69,7 @@ public class StartupActivity extends Activity {
 
 				// Error when debugging needs to be tested
 				area.areaData.updateIndicators();
+				area.areaData.updateCountries();
 
 				/*
 				 * int waited = 0; while (_active && (waited < _splashTime)) {

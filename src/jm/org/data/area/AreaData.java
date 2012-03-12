@@ -114,7 +114,6 @@ public class AreaData {
 	public AreaData(Context context){
 		this.context = context;
 		dbHelper = new AreaDB(context);
-		
 		dataService = new APIPull();
 	}
 	
@@ -159,7 +158,7 @@ public class AreaData {
 	
 	public void updateIndicators(){
 		// pull data and put in database
-		
+		parser = new JSONParse(context);
 		// error right here
 		int numOfIndicators = parser.getWBTotal(dataService.HTTPRequest(0,
 				"http://api.worldbank.org/topic/1/Indicator?per_page=1&format=json"));
@@ -173,6 +172,7 @@ public class AreaData {
 	}
 	
 	public void updateCountries(){
+		parser = new JSONParse(context);
 		int numOfCountries = parser.getWBTotal(dataService.HTTPRequest(0,
 				"http://api.worldbank.org/country?per_page=1&format=json"));
 		if(numOfCountries == 0 ){
@@ -226,45 +226,49 @@ public class AreaData {
 			
 
 		}
-
-		//Duplicate Check
-		if (tableCode == COUNTRY_SEARCH_DATA || tableCode == WB_SEARCH_DATA || tableCode == SEARCH_DATA) {
-			cursor = db.query(tableName, null, String.format("%s=%s AND %s=%s", tableKey, tableRecord.get(tableKey), tableKeyAdd, tableRecord.get(tableKeyAdd)), null, null, null, null);
-		} else { //Special condition for double primary key on crop table
-			//cursor = db.query(tableName, null, String.format("%s=%s AND %s=%s", tableKey, tableRecord.get(tableKey), tableKeyAdd, tableRecord.get(tableKeyAdd)), null, null, null, null);
-			cursor = db.query(tableName, null, tableKey + "='" + tableRecord.get(tableKey) + "'", null, null, null, null);
-		}
-		
-		if (cursor.getCount() > 0) {
-			if(update == 1){
-				try {
-					cursor.moveToFirst();
-					recordid = db.update(tableName, tableRecord, "" + _ID  + " ='" + cursor.getInt(cursor.getColumnIndex(_ID))+ "'", null );
-					if(recordid != 1){
-						Log.e(TAG,"Error Updating "+ tableName +" Record: " + cursor.getInt(cursor.getColumnIndex(_ID)));
-					}else{
-						Log.d(TAG, "Updating "+ tableName +" Record: " + cursor.getInt(cursor.getColumnIndex(_ID)));
-					}
-					
-				}
-				catch (RuntimeException e) {
-					Log.e(TAG,"Error Updating Record: "+e.toString());
-				}
-			}else{
-				Log.d(TAG, String.format("Record already exists in table %s", tableName));
+		try{
+			//Duplicate Check
+			if (tableCode == COUNTRY_SEARCH_DATA || tableCode == WB_SEARCH_DATA || tableCode == SEARCH_DATA) {
+				cursor = db.query(tableName, null, String.format("%s=%s AND %s=%s", tableKey, tableRecord.get(tableKey), tableKeyAdd, tableRecord.get(tableKeyAdd)), null, null, null, null);
+			} else { //Special condition for double primary key on crop table
+				//cursor = db.query(tableName, null, String.format("%s=%s AND %s=%s", tableKey, tableRecord.get(tableKey), tableKeyAdd, tableRecord.get(tableKeyAdd)), null, null, null, null);
+				cursor = db.query(tableName, null, tableKey + "='" + tableRecord.get(tableKey) + "'", null, null, null, null);
 			}
 			
-		} else {
-			try {
-				recordid = db.insertOrThrow(tableName, null, tableRecord);
-				Log.d(TAG, String.format("Inserting into table %s", tableName));
+			if (cursor.getCount() > 0) {
+				if(update == 1){
+					try {
+						cursor.moveToFirst();
+						recordid = db.update(tableName, tableRecord, "" + _ID  + " ='" + cursor.getInt(cursor.getColumnIndex(_ID))+ "'", null );
+						if(recordid != 1){
+							Log.e(TAG,"Error Updating "+ tableName +" Record: " + cursor.getInt(cursor.getColumnIndex(_ID)));
+						}else{
+							Log.d(TAG, "Updating "+ tableName +" Record: " + cursor.getInt(cursor.getColumnIndex(_ID)));
+						}
+						
+					}
+					catch (RuntimeException e) {
+						Log.e(TAG,"Error Updating Record: "+e.toString());
+					}
+				}else{
+					Log.d(TAG, String.format("Record already exists in table %s", tableName));
+				}
+				
+			} else {
+				try {
+					recordid = db.insertOrThrow(tableName, null, tableRecord);
+					Log.d(TAG, String.format("Inserting into table %s", tableName));
+				}
+				catch (RuntimeException e) {
+					Log.e(TAG,"Indicatoir Insertion Exception: "+e.toString());
+				}
 			}
-			catch (RuntimeException e) {
-				Log.e(TAG,"Indicatoir Insertion Exception: "+e.toString());
-			}
+			cursor.close();
+			db.close();
+		}catch(Exception e){
+			Log.e(TAG,"Cursor Exception: "+e.toString());
 		}
-		cursor.close();
-		db.close();
+		
 		return recordid;
 	}
 	
@@ -373,7 +377,7 @@ public class AreaData {
 								country_id 		= country_result.getInt(country_result.getColumnIndex(C_ID));
 								period			= country_result.getInt(country_result.getColumnIndex(P_ID));
 								
-								if (country_id == in_country_id){
+								if (country_id == in_country_id ){
 									has_country = true;
 									break whileloop;
 								}
@@ -408,7 +412,7 @@ public class AreaData {
 				
 				for(int n = 0; n < country.length; n++){
 					
-					//get ccountry id to add to list of countries to retrieve
+					//get country id to add to list of countries to retrieve
 					country_IDresult = dbHelper.rawQuery(COUNTRY,"*", ""+ COUNTRY_NAME +" ='" + country[n] +"'");
 					if(country_IDresult.getCount() != 1){
 						Log.e(TAG,"Error in retrieving Country information: " + country_IDresult.getCount() + " rows returned");
@@ -423,6 +427,18 @@ public class AreaData {
 				
 				
 			}
+			if (api_result2.getCount() ==1 ){
+				
+			}else{
+				
+			}
+			
+			if (api_result3.getCount() ==1 ){
+				
+			}else{
+				
+			}
+				
 			if(!countries_to_get.isEmpty()){
 				getCountryIndicators(ind_id, indicatorID, countries_to_get, countryIDs, "date=1990:2012");
 			}else{

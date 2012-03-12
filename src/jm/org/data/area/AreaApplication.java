@@ -15,7 +15,7 @@ import static jm.org.data.area.AreaConstants.*;
 public class AreaApplication extends Application {
 	private String TAG = AreaActivity.class.getSimpleName();
 	public SharedPreferences prefs;
-	public AreaData areaData;
+	public AreaData areaData; 
 	
 	private Cursor wbCursor;
 	private Cursor idsCursor;
