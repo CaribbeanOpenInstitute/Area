@@ -34,7 +34,7 @@ public class AreaApplication extends Application {
 		mContext = getBaseContext();
 		
 		// check if app is online
-		isOnline = checkNetworkConnection(mContext);
+		isOnline = checkNetworkConnection();
 		
 		String idsKey = getString(R.string.pref_idsKey); 
         String bingKey = getString(R.string.pref_bingKey);
@@ -73,8 +73,8 @@ public class AreaApplication extends Application {
 	 * 
 	 * @return <code>true</code> if the phone is connected to the Internet.
 	 */
-	public static boolean checkNetworkConnection(Context context) {
-		final ConnectivityManager connMgr = (ConnectivityManager) context
+	public boolean checkNetworkConnection() {
+		final ConnectivityManager connMgr = (ConnectivityManager) mContext
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 
 		final android.net.NetworkInfo wifi = connMgr
