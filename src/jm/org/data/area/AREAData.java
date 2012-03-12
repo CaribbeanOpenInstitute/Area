@@ -372,7 +372,7 @@ public class AreaData {
 								country_id 		= country_result.getInt(country_result.getColumnIndex(C_ID));
 								period			= country_result.getInt(country_result.getColumnIndex(P_ID));
 								
-								if (country_id == in_country_id){
+								if (country_id == in_country_id ){
 									has_country = true;
 									break whileloop;
 								}
@@ -407,7 +407,7 @@ public class AreaData {
 				
 				for(int n = 0; n < country.length; n++){
 					
-					//get ccountry id to add to list of countries to retrieve
+					//get country id to add to list of countries to retrieve
 					country_IDresult = dbHelper.rawQuery(COUNTRY,"*", ""+ COUNTRY_NAME +" ='" + country[n] +"'");
 					if(country_IDresult.getCount() != 1){
 						Log.e(TAG,"Error in retrieving Country information: " + country_IDresult.getCount() + " rows returned");
@@ -422,6 +422,18 @@ public class AreaData {
 				
 				
 			}
+			if (api_result2.getCount() ==1 ){
+				
+			}else{
+				
+			}
+			
+			if (api_result3.getCount() ==1 ){
+				
+			}else{
+				
+			}
+				
 			if(!countries_to_get.isEmpty()){
 				getCountryIndicators(ind_id, indicatorID, countries_to_get, countryIDs, "date=1990:2012");
 			}else{
