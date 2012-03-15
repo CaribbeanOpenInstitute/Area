@@ -461,7 +461,7 @@ public class AreaData {
 	public Cursor getIndicatorList(){
 		Cursor result; 
 		
-		result = dbHelper.rawQuery(INDICATOR, INDICATOR_NAME, "");
+		result = dbHelper.rawQuery(INDICATOR, "*", "");
 		
 		return result;
 	}
@@ -527,6 +527,28 @@ public class AreaData {
 		}
 		
 		
+	}
+	
+	public String[] getCountry() {
+		SQLiteDatabase db = dbHelper.getReadableDatabase();
+		Cursor cursorCountry = db.query(COUNTRY, new String[] {COUNTRY_NAME}, null, null, COUNTRY_NAME, null, null);
+		String[] countryArray;
+		
+		if(cursorCountry.getCount() > 0) {
+			countryArray = new String[cursorCountry.getCount()];
+			int i = 0;
+			
+			while(cursorCountry.moveToNext()) {
+				countryArray[i] = cursorCountry.getString(cursorCountry.getColumnIndex(COUNTRY_NAME));
+				i++;
+			}
+		} else {
+			countryArray = new String[] {};
+		}
+		cursorCountry.close();
+		db.close();
+		
+		return countryArray;
 	}
 	
 	public Cursor rawQuery(String tableName, String tableColumns, String queryParams) {

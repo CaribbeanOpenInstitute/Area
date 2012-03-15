@@ -34,6 +34,10 @@ public class IndicatorActivity extends BaseActivity {
 	TabHost mTabHost;
 	ViewPager mViewPager;
 	TabsAdapter mTabsAdapter;
+	
+	public int dataSource;
+	public String indicatorID;
+	public String[] country;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

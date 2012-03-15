@@ -57,7 +57,7 @@ public class StartupActivity extends Activity {
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			try {
-				area.areaData = new AreaData(StartupActivity.this);
+				//area.areaData = new AreaData(StartupActivity.this);
 				// initial pull of country and indicator data
 				// getCountryList();
 				// getIndicatorsList();
@@ -70,11 +70,6 @@ public class StartupActivity extends Activity {
 				// Error when debugging needs to be tested
 				area.areaData.updateIndicators();
 				area.areaData.updateCountries();
-
-				/*
-				 * int waited = 0; while (_active && (waited < _splashTime)) {
-				 * sleep(100); if (_active) { waited += 100; } }
-				 */
 				return true;
 			} catch (Exception e) {
 				Log.e(TAG, "Exception updating Area Data " + e.toString());
@@ -82,10 +77,13 @@ public class StartupActivity extends Activity {
 			}
 			return false;
 		}
-
-		protected void onPostExecute(boolean startupResult) {
+		
+		@Override
+		protected void onPostExecute(Boolean initResult) {
+			super.onPostExecute(initResult);
 			// stop loading message
-			if (startupResult) {
+			if (initResult) {
+				Log.e(TAG, "Correctly completed initialization");
 				setResult(RESULT_OK, new Intent());
 				finish();
 			} else {
@@ -95,11 +93,10 @@ public class StartupActivity extends Activity {
 				Toast.makeText(
 						StartupActivity.this,
 						"An error was encountered while completing application initilization. " +
-						"Please check your internet connection and start activity again.",
-						Toast.LENGTH_LONG).show();
-
+								"Please check your internet connection and start activity again.",
+								Toast.LENGTH_LONG).show();
+				
 			}
-
 		}
 	}
 
