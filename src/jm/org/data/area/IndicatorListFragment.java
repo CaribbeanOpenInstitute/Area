@@ -28,6 +28,11 @@ public class IndicatorListFragment extends ListFragment implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		myAdapter = new AreaCursorAdapter(getActivity(), null);
+		setListAdapter(myAdapter);
+		
+		//get
+		
 		// getLoaderManager().initLoader(0, null, this);
 	}
 	
@@ -52,16 +57,13 @@ public class IndicatorListFragment extends ListFragment implements
 		
 		setListShown(false);
 
-		setListAdapter(mAdapter);
+		//setListAdapter(mAdapter);
 		setListShown(false);
 		getLoaderManager().initLoader(0, null, this);
 
 		// //////////////////////
-		
-		
-
 	}
-
+	
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
@@ -75,18 +77,12 @@ public class IndicatorListFragment extends ListFragment implements
 			Intent intent = new Intent(getActivity().getApplicationContext(),
 					IndicatorActivity.class);
 			intent.putExtra("indicator", item);
+			intent.putExtra("position", position);
 			startActivity(intent);
 		}
 		
-		l.getChildAt(position).setBackgroundColor(Color.parseColor("#8AC7E3"));
-
-	    if (save != -1 && save != position){
-	        l.getChildAt(save).setBackgroundColor(Color.TRANSPARENT);
-	    }
-
-	    save = position;
+		myAdapter.setSelectedPosition(position, getListView());
 		
-
 		// Already in indicator activity
 		/*
 		 * ChartsFragment chFragment = (ChartsFragment) getFragmentManager()
@@ -106,13 +102,15 @@ public class IndicatorListFragment extends ListFragment implements
 	}
 
 	@Override
-	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
-		mAdapter.swapCursor(arg1);
+	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+		mAdapter.swapCursor(cursor);
+		myAdapter.swapCursor(cursor);
 		if (isResumed()) {
             setListShown(true);
         } else {
             setListShownNoAnimation(true);
         }
+		myAdapter.setSelectedPosition(-1);
 
 	}
 

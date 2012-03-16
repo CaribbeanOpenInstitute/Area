@@ -5,7 +5,7 @@
     android:orientation="horizontal" >
 
     <fragment
-        android:id="@+id/listFragment"
+        android:id="@+id/inListFragment"
         android:layout_width="400dip"
         android:layout_height="match_parent"
         class="jm.org.data.area.IndicatorListFragment" >

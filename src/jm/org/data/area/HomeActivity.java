@@ -1,5 +1,6 @@
 package jm.org.data.area;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
@@ -17,8 +18,8 @@ public class HomeActivity extends BaseActivity{
 		
 		//Check for application initialization preference
 		if(!area.prefs.getBoolean("startupActivity", false)) {
-			//Run startup activity
-			startActivityForResult(new Intent(HomeActivity.this, StartupActivity.class), 0);
+			if (!area.initIsRunning) //Run startup activity
+				startActivityForResult(new Intent(HomeActivity.this, StartupActivity.class), 0);
 			
 		}
 		
@@ -54,6 +55,8 @@ public class HomeActivity extends BaseActivity{
 			Editor editor = area.prefs.edit();
 			editor.putBoolean(getString(R.string.pref_startupKey), true);
 			editor.commit();
+			
+			startActivity(getIntent()); finish();		
     	}
 
     }

@@ -10,6 +10,7 @@ import android.widget.ViewAnimator;
 
 public class StartupActivity extends Activity {
 	private static final String TAG = AreaData.class.getSimpleName();
+	private boolean isRunning = false;
 
 	protected boolean _active = true;
 	protected int _splashTime = 1; // time to display the splash screen in ms
@@ -43,7 +44,8 @@ public class StartupActivity extends Activity {
 					"There was an error in completing application initilization. Please check your internet connection and start the application again",
 					Toast.LENGTH_LONG).show();
 		} else {
-			new startupRequest().execute();
+			if (!isRunning) 
+				new startupRequest().execute();
 		}
 
 	}
@@ -52,6 +54,7 @@ public class StartupActivity extends Activity {
 
 		protected void onPreExecute() {
 			loadingAnimator.setDisplayedChild(0);
+			area.initIsRunning = true;
 		}
 
 		@Override
@@ -84,6 +87,7 @@ public class StartupActivity extends Activity {
 			// stop loading message
 			if (initResult) {
 				Log.e(TAG, "Correctly completed initialization");
+				area.initIsRunning = false;
 				setResult(RESULT_OK, new Intent());
 				finish();
 			} else {

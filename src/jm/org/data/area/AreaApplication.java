@@ -24,6 +24,7 @@ public class AreaApplication extends Application {
 	
 	public boolean isServiceRunning = false;
 	public boolean isOnline = false;
+	public boolean initIsRunning = false;
 	
 	private Context mContext;
 	

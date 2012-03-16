@@ -1,6 +1,6 @@
 /**
  * 
- * Got code from here:http://as400samplecode.blogspot.com/2011/10/android-programmatically-generate.html
+ * Got code from here: http://as400samplecode.blogspot.com/2011/10/android-programmatically-generate.html
  */
 package jm.org.data.area;
 
