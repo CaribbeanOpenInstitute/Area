@@ -107,7 +107,16 @@ public class AreaApplication extends Application {
 			return COUNTRY_SEARCH_DATA;
 		else if (tableName.equals(WB_DATA))
 			return WB_SEARCH_DATA;
-
+		else if (tableName.equals(IDS_SEARCH_TABLE))
+			return IDS_SEARCH_DATA;
+		else if (tableName.equals(IDS_SEARCH_PARAMS))
+			return IDS_PARAM_DATA;
+		else if (tableName.equals(IDS_SEARCH_RESULTS))
+			return IDS_RESULT_DATA;
+		else if (tableName.equals(BING_SEARCH_TABLE))
+			return BING_SEARCH_DATA;
+		else if (tableName.equals(BING_SEARCH_RESULTS))
+			return BING_RESULT_DATA;
 		return -1;
 		}
 

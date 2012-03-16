@@ -1,5 +1,6 @@
 package jm.org.data.area;
 
+import static jm.org.data.area.AreaConstants.WORLD_SEARCH;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -71,22 +72,25 @@ public class StartupActivity extends Activity {
 				// Error when debugging needs to be tested
 				area.areaData.updateIndicators();
 				area.areaData.updateCountries();
-
+				
+				area.areaData.genericSearch(WORLD_SEARCH, "TX.VAL.AGRI.ZS.UN", new String[]{"Jamaica", "Kenya","Barbados"});
+				
 				/*
 				 * int waited = 0; while (_active && (waited < _splashTime)) {
 				 * sleep(100); if (_active) { waited += 100; } }
 				 */
-				return true;
+				//return true;
 			} catch (Exception e) {
 				Log.e(TAG, "Exception updating Area Data " + e.toString());
 			}
 			return false;
 		}
 
-		protected void onPostExecute(boolean startupResult) {
+		protected void onPostExecute(Boolean startupResult) {
 			// stop loading message
 			if (startupResult) {
 				setResult(RESULT_OK, new Intent());
+				
 				finish();
 			} else {
 				// Message to say internet is required or there was some error

@@ -87,8 +87,9 @@ public class AreaActivity extends ActionBarActivity {
             });
         
 		// Called before in the StartUpActivity
-		//AreaData dataService = new AreaData(AreaActivity.this);
-		//dataService.genericSearch(WORLD_SEARCH, "TX.VAL.AGRI.ZS.UN", new String[]{"Jamaica", "Kenya","Barbados"});
+		
+		AreaData dataService = new AreaData(AreaActivity.this);
+		dataService.genericSearch(WORLD_SEARCH, "TX.VAL.AGRI.ZS.UN", new String[]{"Jamaica", "Kenya","Barbados"});
     }
     
     private void showPrefs(String idsKey, String bingKey, String dateRange, String resultMax) {
