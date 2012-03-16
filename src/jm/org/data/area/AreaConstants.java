@@ -64,7 +64,10 @@ public interface AreaConstants {
 	
 	public static final String[] WB_DATA_LIST = {WB_IND_VALUE, WB_IND_DECIMAL, WB_IND_YEAR};
 	
-	
 	// Synchronous vs Singular Searching
 	public static boolean SEARCH_SYNC = true;
+	
+	//Keywords
+	public static final int ADD_KEY = 0;
+	public static final int REMOVE_KEY = 1;
 }
