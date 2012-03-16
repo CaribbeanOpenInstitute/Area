@@ -24,6 +24,7 @@ public class AreaApplication extends Application {
 	
 	public boolean isServiceRunning = false;
 	public boolean isOnline = false;
+	public boolean initIsRunning = false;
 	
 	private Context mContext;
 	
@@ -34,13 +35,14 @@ public class AreaApplication extends Application {
 		mContext = getBaseContext();
 		
 		// check if app is online
-		isOnline = checkNetworkConnection();
+		//isOnline = checkNetworkConnection();
 		
 		String idsKey = getString(R.string.pref_idsKey); 
         String bingKey = getString(R.string.pref_bingKey);
         Log.d(TAG, String.format("IDS: %s. Bing: %s", idsKey, bingKey));
         
         prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+        areaData = new AreaData(mContext);
         
 	}
 	

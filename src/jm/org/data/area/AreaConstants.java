@@ -66,6 +66,7 @@ public interface AreaConstants {
 	public static final String WB_IND_YEAR		= "date"	;
 	public static final String[] WB_DATA_LIST = {WB_IND_VALUE, WB_IND_DECIMAL, WB_IND_YEAR};
 	
+
 	// Data keys for IDS API Calls
 	public static final String IDS_SEARCH_DOC_URL 		= "metadata_url"	;
 	public static final String IDS_SEARCH_DOC_ID		= "object_id"		;
@@ -84,7 +85,12 @@ public interface AreaConstants {
 	
 	
 	// list of words to remove from indicator names
-	public static final String[] KEYWORD_LIST = {"and", "land", "under", "area", "index", "in", "at", "the", "on", "for", };
+	public static final String[] KEYWORD_LIST = {"and", "land", "under", "area", "index", "in", "at", "the", "on", "for", ""};
+
 	// Synchronous vs Singular Searching
 	public static boolean SEARCH_SYNC = true;
+	
+	//Keywords
+	public static final int ADD_KEY = 0;
+	public static final int REMOVE_KEY = 1;
 }
