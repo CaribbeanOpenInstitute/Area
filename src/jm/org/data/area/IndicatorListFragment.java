@@ -19,7 +19,7 @@ public class IndicatorListFragment extends ListFragment implements
 		LoaderManager.LoaderCallbacks<Cursor> {
 	public static final String TAG = IndicatorListFragment.class
 			.getSimpleName();
-	private static int save = -1;
+	private final String POSITION = "position";
 
 
 	SimpleCursorAdapter mAdapter;
@@ -76,8 +76,8 @@ public class IndicatorListFragment extends ListFragment implements
 		} catch (ClassCastException actException) {
 			Intent intent = new Intent(getActivity().getApplicationContext(),
 					IndicatorActivity.class);
-			intent.putExtra("indicator", item);
-			intent.putExtra("position", position);
+			intent.putExtra(INDICATOR_NAME, item);
+			intent.putExtra(POSITION , position);
 			startActivity(intent);
 		}
 		

@@ -33,6 +33,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,6 +84,13 @@ public class IndicatorActivity extends BaseActivity implements
 		countryList = new ArrayList<String>();
 
 	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater menuInflater = getMenuInflater();
+    	menuInflater.inflate(R.menu.main, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -95,7 +104,6 @@ public class IndicatorActivity extends BaseActivity implements
 		default:
 			return super.onOptionsItemSelected(item);
 		}
-		// return super.onOptionsItemSelected(item);
 	}
 
 	@Override
@@ -228,6 +236,10 @@ public class IndicatorActivity extends BaseActivity implements
 
 	public String getIndicatorName() {
 		return indicatorName;
+	}
+	
+	public String[] getCountryList() {
+		return (String[]) countryList.toArray();
 	}
 
 	public void reloadData() {
