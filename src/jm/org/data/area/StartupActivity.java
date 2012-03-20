@@ -1,5 +1,6 @@
 package jm.org.data.area;
 
+import static jm.org.data.area.AreaConstants.WORLD_SEARCH;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -10,6 +11,7 @@ import android.widget.ViewAnimator;
 
 public class StartupActivity extends Activity {
 	private static final String TAG = AreaData.class.getSimpleName();
+	private boolean isRunning = false;
 
 	protected boolean _active = true;
 	protected int _splashTime = 1; // time to display the splash screen in ms
@@ -43,7 +45,8 @@ public class StartupActivity extends Activity {
 					"There was an error in completing application initilization. Please check your internet connection and start the application again",
 					Toast.LENGTH_LONG).show();
 		} else {
-			new startupRequest().execute();
+			if (!isRunning) 
+				new startupRequest().execute();
 		}
 
 	}
@@ -51,14 +54,14 @@ public class StartupActivity extends Activity {
 	private class startupRequest extends AsyncTask<Void, Void, Boolean> {
 
 		protected void onPreExecute() {
-			// Initiate loading image
 			loadingAnimator.setDisplayedChild(0);
+			area.initIsRunning = true;
 		}
 
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			try {
-				area.areaData = new AreaData(StartupActivity.this);
+				//area.areaData = new AreaData(StartupActivity.this);
 				// initial pull of country and indicator data
 				// getCountryList();
 				// getIndicatorsList();
@@ -72,33 +75,44 @@ public class StartupActivity extends Activity {
 				area.areaData.updateIndicators();
 				area.areaData.updateCountries();
 
+				// to test generic search
+				area.areaData.genericSearch(WORLD_SEARCH, "TX.VAL.AGRI.ZS.UN", new String[]{"Jamaica", "Kenya","Barbados"});
+				
 				/*
 				 * int waited = 0; while (_active && (waited < _splashTime)) {
 				 * sleep(100); if (_active) { waited += 100; } }
 				 */
+				
 				return true;
+
 			} catch (Exception e) {
 				Log.e(TAG, "Exception updating Area Data " + e.toString());
+				loadingAnimator.setDisplayedChild(1);
 			}
 			return false;
 		}
-
-		protected void onPostExecute(boolean startupResult) {
+		
+		@Override
+		protected void onPostExecute(Boolean initResult) {
+			super.onPostExecute(initResult);
 			// stop loading message
-			if (startupResult) {
+			if (initResult) {
+				Log.e(TAG, "Correctly completed initialization");
+				area.initIsRunning = false;
 				setResult(RESULT_OK, new Intent());
+				
 				finish();
 			} else {
+				
 				// Message to say internet is required or there was some error
 				// with completing the intialization
 				Toast.makeText(
 						StartupActivity.this,
 						"An error was encountered while completing application initilization. " +
-						"Please check your internet connection and start activity again.",
-						Toast.LENGTH_LONG).show();
-
+								"Please check your internet connection and start activity again.",
+								Toast.LENGTH_LONG).show();
+				
 			}
-
 		}
 	}
 

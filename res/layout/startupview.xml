@@ -28,7 +28,9 @@
             android:layout_gravity="center_horizontal"
             android:layout_span="2"
             android:gravity="center_horizontal"
-            android:text="Agriculture.Research-based. Evidence.Assistant" android:lines="2" android:textSize="20sp"/>
+            android:lines="2"
+            android:text="Agriculture.Research-based. Evidence.Assistant"
+            android:textSize="20sp" />
     </TableRow>
 
     <TableRow
@@ -66,11 +68,18 @@
                     android:layout_gravity="center_horizontal" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+android:id/empty"
+            <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:text="There was an error retrieving the data" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+android:id/error"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:text="There was an error retrieving the data. Check your Internet connectivity and try again" 
+                    android:gravity="center"/>
+            </LinearLayout>
         </ViewAnimator>
     </TableRow>
 
@@ -78,7 +87,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:paddingBottom="1dip">
+        android:paddingBottom="1dip" >
 
         <TextView
             android:id="@+id/txtBuilt"

@@ -17,27 +17,49 @@
  */
 package jm.org.data.area;
 
+import static jm.org.data.area.AreaConstants.ADD_KEY;
+import static jm.org.data.area.AreaConstants.REMOVE_KEY;
+
 import java.util.ArrayList;
 
+import com.android.actionbarcompat.MainActivity;
+
+import android.app.ActionBar;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TabHost;
 import android.widget.TabWidget;
+import android.widget.Toast;
 
-public class IndicatorActivity extends BaseActivity {
+public class IndicatorActivity extends BaseActivity implements
+		KeywordsFragment.OnCountryChangeListener {
+	private static final String TAG = IndicatorActivity.class.getSimpleName();
 	TabHost mTabHost;
 	ViewPager mViewPager;
 	TabsAdapter mTabsAdapter;
 
+	public int dataSource;
+	private String indicatorID;
+	private String indicatorName;
+	private ArrayList<String> countryList;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		//ActionBar actionBar = getActionBar();
+		//actionBar.setDisplayHomeAsUpEnabled(true);
 
 		setContentView(R.layout.indicator_dashboard);
 		mTabHost = (TabHost) findViewById(android.R.id.tabhost);
@@ -55,16 +77,32 @@ public class IndicatorActivity extends BaseActivity {
 		mTabsAdapter.addTab(
 				mTabHost.newTabSpec("articles").setIndicator("Articles"),
 				ArticlesFragment.class, null);
-		/*
-		 * mTabsAdapter.addTab(mTabHost.newTabSpec("custom").setIndicator("Custom"
-		 * ), LoaderCustomSupport.AppListFragment.class, null);
-		 * mTabsAdapter.addTab
-		 * (mTabHost.newTabSpec("throttle").setIndicator("Throttle"),
-		 * LoaderThrottleSupport.ThrottledLoaderListFragment.class, null);
-		 */
 
 		if (savedInstanceState != null) {
 			mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
+		}
+		countryList = new ArrayList<String>();
+
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater menuInflater = getMenuInflater();
+    	menuInflater.inflate(R.menu.main, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			// app icon in action bar clicked; go home
+			Intent intent = new Intent(this, HomeActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
 		}
 	}
 
@@ -181,5 +219,41 @@ public class IndicatorActivity extends BaseActivity {
 		@Override
 		public void onPageScrollStateChanged(int state) {
 		}
+	}
+
+	@Override
+	public void onCountryChange(int change, String keyword) {
+		switch (change) {
+		case ADD_KEY:
+			countryList.add(keyword);
+			break;
+		case REMOVE_KEY:
+			countryList.remove(keyword);
+			break;
+		}
+		reloadData();
+	}
+
+	public String getIndicatorName() {
+		return indicatorName;
+	}
+	
+	public String[] getCountryList() {
+		return (String[]) countryList.toArray();
+	}
+
+	public void reloadData() {
+		switch (mTabHost.getCurrentTab()) {
+		case 0:
+			Log.d(TAG, "Current tab is Charts");
+			break;
+		case 1:
+			Log.d(TAG, "Current tab is Reports");
+			break;
+		case 2:
+			Log.d(TAG, "Current tab is Articles");
+			break;
+		}
+		Log.d(TAG, "Current tab is " + mTabHost.getCurrentTab());
 	}
 }

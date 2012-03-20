@@ -24,6 +24,7 @@ public class AreaApplication extends Application {
 	
 	public boolean isServiceRunning = false;
 	public boolean isOnline = false;
+	public boolean initIsRunning = false;
 	
 	private Context mContext;
 	
@@ -34,13 +35,14 @@ public class AreaApplication extends Application {
 		mContext = getBaseContext();
 		
 		// check if app is online
-		isOnline = checkNetworkConnection();
+		//isOnline = checkNetworkConnection();
 		
 		String idsKey = getString(R.string.pref_idsKey); 
         String bingKey = getString(R.string.pref_bingKey);
         Log.d(TAG, String.format("IDS: %s. Bing: %s", idsKey, bingKey));
         
         prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+        areaData = new AreaData(mContext);
         
 	}
 	
@@ -112,7 +114,16 @@ public class AreaApplication extends Application {
 			return COUNTRY_SEARCH_DATA;
 		else if (tableName.equals(WB_DATA))
 			return WB_SEARCH_DATA;
-
+		else if (tableName.equals(IDS_SEARCH_TABLE))
+			return IDS_SEARCH_DATA;
+		else if (tableName.equals(IDS_SEARCH_PARAMS))
+			return IDS_PARAM_DATA;
+		else if (tableName.equals(IDS_SEARCH_RESULTS))
+			return IDS_RESULT_DATA;
+		else if (tableName.equals(BING_SEARCH_TABLE))
+			return BING_SEARCH_DATA;
+		else if (tableName.equals(BING_SEARCH_RESULTS))
+			return BING_RESULT_DATA;
 		return -1;
 		}
 

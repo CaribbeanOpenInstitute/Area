@@ -6,7 +6,7 @@ import static android.provider.BaseColumns._ID;
 import static jm.org.data.area.AreaConstants.SEARCH_FAIL;
 import static jm.org.data.area.AreaConstants.WB_COUNTRY_LIST;
 import static jm.org.data.area.AreaConstants.WB_DATA_LIST;
-import static jm.org.data.area.AreaConstants.WB_IND_LIST;
+import static jm.org.data.area.AreaConstants.*;
 import static jm.org.data.area.DBConstants.AP_ID;
 import static jm.org.data.area.DBConstants.COUNTRY;
 import static jm.org.data.area.DBConstants.C_ID;
@@ -24,7 +24,7 @@ import static jm.org.data.area.DBConstants.SEARCH_MODIFIED;
 import static jm.org.data.area.DBConstants.SEARCH_URI;
 import static jm.org.data.area.DBConstants.S_ID;
 import static jm.org.data.area.DBConstants.WB_COUNTRY_CODE;
-import static jm.org.data.area.DBConstants.WB_DATA;
+import static jm.org.data.area.DBConstants.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -115,11 +115,139 @@ public class JSONParse {
 		return jsonText.toString();
 	}
 	
-	
+	public int parseBINGData(String jsonData, String params, String uri){
+		Hashtable<String, String> bing_data = new Hashtable<String, String>();
+		long search_id = 0;
+		JSONArray resultArray;
+		try{
+			JSONObject jsonObject 	= new JSONObject(jsonData);
+			JSONObject response		= jsonObject.getJSONObject("SearchResponse");
+			JSONObject results		= response.getJSONObject("Web");
+			
+			int numOfrecords  = Integer.parseInt(results.getString("Total"));
+			
+			if(numOfrecords > 0){
+				resultArray = results.getJSONArray("Results");
+				String date = timeStamp();
+				// create Search record if it doesn't exist;
+				apiRecord = new ContentValues();
+				apiRecord.put(BING_QUERY	, params	);
+				apiRecord.put(QUERY_DATE	, date		);
+				//public static final String[] FROM_BING_SEARCH_TABLE		= {BING_SEARCH_ID, BING_QUERY, QUERY_DATE };
+				search_id = areaData.insert(BING_SEARCH_TABLE, apiRecord, 1);
+				if(search_id <= 0){
+					Log.e(TAG, "Error inserting BING Search record: query -" + params +  "URI-" + uri);
+					return SEARCH_FAIL;
+				}
+				
+				
+			}else{
+				Log.e(TAG, "Error NO data retrieved from IDS API: URL-" + uri);
+				return SEARCH_FAIL;
+			}
+			if(numOfrecords > 30){
+				numOfrecords = 30;
+			}
+			// get Data returned from the IDS
+			// update the IDS_SEARCH_RESULT table with the documents information
+			for (int i = 0; i < numOfrecords; i++) {
+				apiRecord = new ContentValues();
+				bing_data = parseJSON( bing_data, resultArray.getJSONObject(i), "");
+				
+				// add the IDS Search ID first
+				apiRecord.put(B_S_ID, search_id);
+				
+				for (int a = 0; a < BING_SEARCH_LIST.length; a++){
+					apiRecord.put(FROM_BING_SEARCH_RESULTS[a+2], (String)bing_data.get(BING_SEARCH_LIST[a]));	
+					Log.d("Indicators", ""+ FROM_BING_SEARCH_RESULTS[a+2] + ":-> " + (String)bing_data.get(BING_SEARCH_LIST[a]));
+				}
+				
+				areaData.insert(BING_SEARCH_RESULTS, apiRecord, 0);
+				
+			}
+			
+		}catch (Exception e){
+			Log.e(TAG, e.toString());
+			return SEARCH_FAIL;
+		}
+		return (int) search_id;
+	}
+	public int parseIDSData(String jsonData, int indicator, String params, String uri){
+		Hashtable<String, String> ids_data = new Hashtable<String, String>();
+		long search_id = 0;
+		JSONArray resultArray;
+		try{
+			JSONObject jsonObject 	= new JSONObject(jsonData);
+			
+			JSONObject metadata		= jsonObject.getJSONObject("metadata");
+			int numReturned  = Integer.parseInt(metadata.getString("total_results"));
+			
+			if(numReturned > 0){
+				resultArray = jsonObject.getJSONArray("results");
+				String site = "eldis/", object = "document/", parameter="keyword", querybase = "http://api.ids.ac.uk/openapi/";
+				// create Search record if it doesn't exist;
+				apiRecord = new ContentValues();
+				apiRecord.put(I_ID			, indicator	);
+				apiRecord.put(IDS_BASE_URL	, querybase	);
+				apiRecord.put(IDS_SITE		, site		);
+				apiRecord.put(IDS_OBJECT	, object	);
+				//String[] FROM_IDS_SEARCH= {IDS_SEARCH_ID, I_ID, IDS_BASE_URL, IDS_SITE, IDS_OBJECT};
+				search_id = areaData.insert(IDS_SEARCH_TABLE, apiRecord, 1);
+				if(search_id > 0){
+					//Log.e(TAG, "Num of Parameters:" + params.length);
+					//for(int n = 0; n < params.length; n++){
+					//Log.e(TAG, "Parameter:" + params[n]);
+					apiRecord = new ContentValues();
+					apiRecord.put(IDS_S_ID 			, search_id	);
+					apiRecord.put(IDS_PARAMETER 	, parameter	);
+					apiRecord.put(IDS_OPERAND  		, "="		);
+					apiRecord.put(IDS_PARAM_VALUE	, params	);
+					apiRecord.put(COMBINATION  		, 0			);
+					//FROM_IDS_SEARCH_PARAMS		= {_ID, IDS_S_ID, IDS_PARAMETER, IDS_OPERAND, IDS_PARAM_VALUE, COMBINATION		};
+					areaData.insert(IDS_SEARCH_PARAMS, apiRecord, 1);
+					//FROM_IDS_SEARCH_PARAMS		= {_ID, IDS_S_ID, IDS_PARAMETER, IDS_OPERAND, IDS_PARAM_VALUE, COMBINATION		};
+					//}
+				}else{
+					Log.e(TAG, "Error inserting IDS Search record: Indicator-" + indicator +  "URI-" + uri);
+					return SEARCH_FAIL;
+				}
+				
+				
+			}else{
+				Log.e(TAG, "Error NO data retrieved from IDS API: URL-" + uri);
+				return SEARCH_FAIL;
+			}
+			
+			// get Data returned from the IDS
+			// update the IDS_SEARCH_RESULT table with the documents information
+			for (int i = 0; i < numReturned; i++) {
+				apiRecord = new ContentValues();
+				ids_data = parseJSON( ids_data, resultArray.getJSONObject(i), "");
+				
+				// add the IDS Search ID first
+				apiRecord.put(IDS_S_ID, search_id);
+				
+				for (int a = 0; a < IDS_SEARCH_LIST.length; a++){
+					apiRecord.put(FROM_IDS_SEARCH_RESULTS[a+2], (String)ids_data.get(IDS_SEARCH_LIST[a]));	
+					Log.d("Indicators", ""+ FROM_IDS_SEARCH_RESULTS[a+2] + ":-> " + (String)ids_data.get(IDS_SEARCH_LIST[a]));
+				}
+				apiRecord.put(IDS_DOC_PATH, "");
+				areaData.insert(IDS_SEARCH_RESULTS, apiRecord, 0);
+				
+			}
+			
+		}catch (Exception e){
+			Log.e(TAG, e.toString());
+			return SEARCH_FAIL;
+		}
+		return (int) search_id;
+	}
+
 	public int parseWBData(String jsonData, int indicator, Integer[] countries, String uri){
 		
 		Hashtable<String, String> wb_data = new Hashtable<String, String>();
 		long search_id = 0;
+		int search_country_id = 0;
 		try {
 			
 			JSONArray jsonArray = new JSONArray(jsonData);
@@ -155,6 +283,7 @@ public class JSONParse {
 					}
 				}else{
 					Log.e(TAG, "Error inserting Search record: Indicator-" + indicator + ", API_ID- 1, " + "URI-" + uri);
+					return SEARCH_FAIL;
 				}
 				
 				// move on to parse and update WB_DATA 
@@ -177,9 +306,10 @@ public class JSONParse {
 				countryData.moveToFirst();
 				Cursor SearchCountry	= areaData.rawQuery(SEARCH_COUNTRY,"*", "" + C_ID + " = '"+ countryData.getInt(countryData.getColumnIndex(_ID)) + "' AND "  + S_ID + "= '"+ search_id +"'");
 				SearchCountry.moveToFirst();
+				
 				apiRecord.put(SC_ID, SearchCountry.getInt(SearchCountry.getColumnIndex(_ID)));
 				Log.d("Indicators", ""+ SC_ID + ":-> " + SearchCountry.getInt(SearchCountry.getColumnIndex(_ID)));
-				
+				search_country_id = apiRecord.getAsInteger(SC_ID);
 				for (int a = 0; a < WB_DATA_LIST.length; a++){
 					apiRecord.put(FROM_WB_DATA[a+2], (String)wb_data.get(WB_DATA_LIST[a]));	
 					Log.d("Indicators", ""+FROM_WB_DATA[a+2] + ":-> " + (String)wb_data.get(WB_DATA_LIST[a]));
@@ -193,8 +323,9 @@ public class JSONParse {
 		} catch (Exception e) {
 			//e.printStackTrace();
 			Log.e(TAG, e.toString());
+			return SEARCH_FAIL;
 		}		
-		return 1;
+		return search_country_id;
 	}
 	
 	public int getWBTotal(String jsonData){
