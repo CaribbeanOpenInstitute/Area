@@ -388,12 +388,9 @@ public class AreaData {
 		// if user opts out of synchronized search, then search only indicator that is passed in
 		if (dataSource == WORLD_SEARCH){
 			params    = "" + I_ID + " ='" + ind_id + "'";
-			bingParam = "" + BING_QUERY + " ='" + indicatorStr + "'";
 			
 			// query search table for API-Indicator combination. 
 			wb_result 	= dbHelper.rawQuery(wb_table, "*", params);
-			ids_result 	= dbHelper.rawQuery(ids_table, "*", params);
-			bing_result = dbHelper.rawQuery(bing_table, "*", bingParam);
 			
 			
 			//only one search result should be returned per indicator and api combination.
@@ -633,6 +630,161 @@ public class AreaData {
 		
 		}
 		return true;
+	}
+	
+	public Cursor getData(int dataSource, String indicatorID, String[] country){
+		
+		Cursor cursor, search_cursor, ind_result, wb_result, country_result, country_IDresult;
+		String table = "", indicatorStr, params = "";
+		int ind_id, in_country_id, country_id, period, search_country_id;
+		Integer[] search_country_array;
+		
+		
+		
+		ind_result = dbHelper.rawQuery(INDICATOR, "*" , "" + WB_INDICATOR_ID + " ='" + indicatorID + "'");
+		
+		if (ind_result.getCount() != 1){
+			Log.e(TAG, "Error retrieving Indicatror Information: indicator - " + indicatorID );
+			return null;
+		}else{
+			Log.e(TAG,"" + ind_result.getCount() + " ID: " + ind_result.getColumnIndexOrThrow(_ID));
+			ind_result.moveToFirst();
+			Log.e(TAG,"" + ind_result.getCount() + " ID: " + ind_result.getString( ind_result.getColumnIndexOrThrow(_ID)));
+			ind_id = Integer.parseInt(ind_result.getString(ind_result.getColumnIndexOrThrow(_ID)));
+			indicatorStr = ind_result.getString(ind_result.getColumnIndexOrThrow(INDICATOR_NAME));
+
+			int pos;
+							
+			// find position of first parenthesis or comma to extract relevant words.
+			pos = indicatorStr.indexOf(",");
+			if (pos < 0){
+				pos = indicatorStr.indexOf("(");
+			}
+			// remove section of string after the comma or within and after the parenthesis
+			indicatorStr = indicatorStr.substring(0, pos-1);
+		}
+		ind_result.close();
+		
+		switch (dataSource) {
+			case WORLD_SEARCH:				
+				table = WB_DATA;
+				
+				params    = "" + I_ID + " ='" + ind_id + "'";
+				// get search id Corresponding to search table
+				wb_result = rawQuery(SEARCH, "*", params);
+				// get corresponding search country results that relate to that indicator
+				//only one search result should be returned per indicator and api combination.
+				if (wb_result.getCount() == 1){
+					//check db information starting with country data. 
+					wb_result.moveToFirst();
+					// if data exist for combination, check if there exist data exist for all countries.
+					// get countries list related to search record
+					country_result = dbHelper.rawQuery(SEARCH_COUNTRY, "*", ""+ S_ID +" ='" + wb_result.getInt(wb_result.getColumnIndex(_ID)) +"'");
+					if (country_result.getCount() > 0){
+						// check to see if country params for the current search are already within the database.
+						// Loop through the list of countries currently being searched for, Checking each against the list returned for the current indicator
+						for (int n = 0; n < country.length; n++){
+							// get country ID from country table using the country name or WB_Country _ID passed in
+							country_IDresult = dbHelper.rawQuery(COUNTRY,"*", ""+ COUNTRY_NAME +" ='" + country[n] +"'");
+							
+							if (country_IDresult.getCount() == 1){
+								country_IDresult.moveToFirst();
+								//wb_country_id	= country_IDresult.getString(country_IDresult.getColumnIndex(WB_COUNTRY_ID));
+								in_country_id = country_IDresult.getInt(country_IDresult.getColumnIndex(COUNTRY_ID));
+								//Check through list of countries returned for search record for countries passed in
+								country_result.moveToFirst();
+								whileloop:while(! country_result.isAfterLast()){
+									
+									country_id 			= country_result.getInt(country_result.getColumnIndex(C_ID));
+									period				= country_result.getInt(country_result.getColumnIndex(P_ID));
+									search_country_id	= country_result.getInt(country_result.getColumnIndex(_ID ));
+									if (country_id == in_country_id ){
+										countryIDs.add(search_country_id);
+										break whileloop;
+									}
+									
+									country_result.moveToNext();
+									
+								}							
+								
+							}else{
+								Log.e(TAG,"Error in retrieving Country information: " + country_IDresult.getCount() + " rows returned");
+								
+								return null;
+							}
+							country_IDresult.close();
+						}// end for
+						
+					}else{
+						// if 0 rows were returned, return error. As Initial search would have returned at least 1 country info. 
+						Log.e(TAG,"Error in retrieving Country information: " + country_result.getCount() + " rows returned");
+						
+						return null;
+					}
+						
+					
+					country_result.close();
+					// update cursor to be returned with the country data
+					search_country_array = (Integer[])countryIDs.toArray(new Integer[countryIDs.size()]);
+					for(int a = 0; a < search_country_array.length; a++){
+						if(a == 0){
+							params =  "" + SC_ID + " = '" + search_country_array[a] + "'";
+						}else{
+							params = params + " and " + SC_ID + " = '" + search_country_array[a] + "'";
+						}
+					}
+					 
+				}else{
+					Log.e(TAG,"No Search Info: " + wb_result.getCount() + " rows returned");
+					
+					return null;
+				}
+				wb_result.close();
+				break;
+			case IDS_SEARCH:
+				
+				table = IDS_SEARCH_RESULTS;
+				 
+				params    = "" + I_ID + " ='" + ind_id + "'";
+				
+				// query search table for API-Indicator combination. 
+				search_cursor = rawQuery(IDS_SEARCH_TABLE, "*", params);
+				
+				if (search_cursor.getCount() ==1 ){
+					search_cursor.moveToFirst();
+					params = "" + IDS_S_ID + " ='" + search_cursor.getInt(search_cursor.getColumnIndex(IDS_SEARCH_ID))+ "'";
+					
+				}else{
+					Log.e(TAG,"No Search Info: " +search_cursor.getCount() + " rows returned");
+					
+					return null;
+									
+				}
+				search_cursor.close();
+				break;
+			case BING_SEARCH:
+				
+				table = BING_SEARCH_RESULTS;
+				params = "" + BING_QUERY + " ='" + indicatorStr + "'";
+				
+				// query search table for API-Indicator combination. 
+				search_cursor = dbHelper.rawQuery(BING_SEARCH_TABLE, "*", params);
+				
+				if (search_cursor.getCount() ==1 ){
+					// if the indicator data is found then the assumption is that relevant results are in the database
+					search_cursor.moveToFirst();
+					params = "" + B_S_ID + " ='" + search_cursor.getInt(search_cursor.getColumnIndex(BING_SEARCH_ID))+ "'";
+				}else{
+					Log.e(TAG,"No Search Info: " +search_cursor.getCount() + " rows returned");
+					
+					return null;				
+				}
+				search_cursor.close();
+				break;
+			
+		}
+		cursor = rawQuery(table, "*", params);
+		return cursor;
 	}
 	
 	public int getCountryIndicators(int indicator_id, String indicator, ArrayList<String> countries, ArrayList<Integer> countryIDList, String date){

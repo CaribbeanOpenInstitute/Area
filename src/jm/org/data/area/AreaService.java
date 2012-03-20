@@ -73,12 +73,12 @@ public class AreaService extends Service{
 			
 			return SEARCH_SUCCESS;
 			
-		} else {
+		} else if(return_value > SEARCH_SUCCESS) {
 			Thread genericSearch = new Thread(new GenericSearchRunnable(dSource, return_data));
 			genericSearch.start();
 			// return SEARCH_API_SOME OR SEARCH_API_NONE
 		}
-		return SEARCH_FAIL;
+		return return_value;
 		
 	}
 	
