@@ -170,7 +170,7 @@ public class JSONParse {
 			Log.e(TAG, e.toString());
 			return SEARCH_FAIL;
 		}
-		return SEARCH_SUCCESS;
+		return (int) search_id;
 	}
 	public int parseIDSData(String jsonData, int indicator, String params, String uri){
 		Hashtable<String, String> ids_data = new Hashtable<String, String>();
@@ -240,13 +240,14 @@ public class JSONParse {
 			Log.e(TAG, e.toString());
 			return SEARCH_FAIL;
 		}
-		return SEARCH_SUCCESS;
+		return (int) search_id;
 	}
 
 	public int parseWBData(String jsonData, int indicator, Integer[] countries, String uri){
 		
 		Hashtable<String, String> wb_data = new Hashtable<String, String>();
 		long search_id = 0;
+		int search_country_id = 0;
 		try {
 			
 			JSONArray jsonArray = new JSONArray(jsonData);
@@ -305,9 +306,10 @@ public class JSONParse {
 				countryData.moveToFirst();
 				Cursor SearchCountry	= areaData.rawQuery(SEARCH_COUNTRY,"*", "" + C_ID + " = '"+ countryData.getInt(countryData.getColumnIndex(_ID)) + "' AND "  + S_ID + "= '"+ search_id +"'");
 				SearchCountry.moveToFirst();
+				
 				apiRecord.put(SC_ID, SearchCountry.getInt(SearchCountry.getColumnIndex(_ID)));
 				Log.d("Indicators", ""+ SC_ID + ":-> " + SearchCountry.getInt(SearchCountry.getColumnIndex(_ID)));
-				
+				search_country_id = apiRecord.getAsInteger(SC_ID);
 				for (int a = 0; a < WB_DATA_LIST.length; a++){
 					apiRecord.put(FROM_WB_DATA[a+2], (String)wb_data.get(WB_DATA_LIST[a]));	
 					Log.d("Indicators", ""+FROM_WB_DATA[a+2] + ":-> " + (String)wb_data.get(WB_DATA_LIST[a]));
@@ -323,7 +325,7 @@ public class JSONParse {
 			Log.e(TAG, e.toString());
 			return SEARCH_FAIL;
 		}		
-		return SEARCH_SUCCESS;
+		return search_country_id;
 	}
 	
 	public int getWBTotal(String jsonData){

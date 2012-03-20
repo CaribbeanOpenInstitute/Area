@@ -1,5 +1,7 @@
 package jm.org.data.area;
 
+import java.util.Hashtable;
+
 public interface AreaConstants {
 	
 	/*
@@ -49,7 +51,7 @@ public interface AreaConstants {
 	public static final String WB_IND_DESC		= "sourceNote"	;
 	public static final String[] WB_IND_LIST	= {WB_IND_ID, WB_IND_NAME, WB_IND_DESC};
 	
-	public static final String WB_COUNTRY_ID 				= "id" 					;
+	public static final String WB_COUNTRY_IDSTR 			= "id" 					;
 	public static final String WB_COUNTRY_ISOCODE			= "iso2Code"			;
 	public static final String WB_COUNTRY_NAME				= "name"				;
 	public static final String WB_COUNTRY_REGION_ID			= "region: id"			;
@@ -57,7 +59,7 @@ public interface AreaConstants {
 	public static final String WB_COUNTRY_INCOME_LEVEL_ID	= "incomeLevel: id"		;
 	public static final String WB_COUNTRY_INCOME_LEVEL_NAME = "incomeLevel: value"	;
 	public static final String WB_COUNTRY_CAPITAL			= "capitalCity"			;
-	public static final String[] WB_COUNTRY_LIST	= {WB_COUNTRY_ID, WB_COUNTRY_ISOCODE, WB_COUNTRY_NAME, WB_COUNTRY_CAPITAL, 
+	public static final String[] WB_COUNTRY_LIST	= {WB_COUNTRY_IDSTR, WB_COUNTRY_ISOCODE, WB_COUNTRY_NAME, WB_COUNTRY_CAPITAL, 
 														WB_COUNTRY_INCOME_LEVEL_ID, WB_COUNTRY_INCOME_LEVEL_NAME,
 														WB_COUNTRY_REGION_ID, WB_COUNTRY_REGION_NAME };
 	
@@ -87,10 +89,25 @@ public interface AreaConstants {
 	// list of words to remove from indicator names
 	public static final String[] KEYWORD_LIST = {"and", "land", "under", "area", "index", "in", "at", "the", "on", "for", ""};
 
+	// IDS hashtable containing search keywords corresponding to each indicator
+	 public Hashtable<String, String> INDICATOR_KEYWORDS = new Hashtable<String, String>();
+	 //INDICATOR_KEYWORDS.put("","");
+	 
 	// Synchronous vs Singular Searching
 	public static boolean SEARCH_SYNC = true;
 	
 	//Keywords
 	public static final int ADD_KEY = 0;
 	public static final int REMOVE_KEY = 1;
+	
+	//Result Keys for Searches
+	public static final String RETURN_VALUE		= "ret_value"		;
+	public static final String RETURN_IND_ID	= "indicator_id"	;
+	public static final String RETURN_API_ID	= "api_id"			;
+	public static final String RETURN_WB_IND_ID	= "wb_indicator_id"	;
+	public static final String RETURN_COUNTRIES	= "countries"		;
+	public static final String RETURN_CNTRY_IDs	= "country_ids"		;
+	public static final String RETURN_DATE		= "date_string"		;
+	public static final String RETURN_KEYWORDS	= "keywords"		;
+	public static final String RETURN_STRING	= "searchString"	;
 }

@@ -58,8 +58,8 @@ public class IndicatorActivity extends BaseActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		ActionBar actionBar = getActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
+		//ActionBar actionBar = getActionBar();
+		//actionBar.setDisplayHomeAsUpEnabled(true);
 
 		setContentView(R.layout.indicator_dashboard);
 		mTabHost = (TabHost) findViewById(android.R.id.tabhost);
