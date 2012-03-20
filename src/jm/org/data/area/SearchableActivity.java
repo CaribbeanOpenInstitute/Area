@@ -37,9 +37,9 @@ public class SearchableActivity extends Activity {
         setContentView(R.layout.search_query_results);
         
         // Get active display items for later updates
-        mQueryText = (TextView) findViewById(R.id.txt_query);
-        mAppDataText = (TextView) findViewById(R.id.txt_appdata);
-        mDeliveredByText = (TextView) findViewById(R.id.txt_deliveredby);
+        //mQueryText = (TextView) findViewById(R.id.txt_query);
+        //mAppDataText = (TextView) findViewById(R.id.txt_appdata);
+        //mDeliveredByText = (TextView) findViewById(R.id.txt_deliveredby);
         
         // get and process search query here
         final Intent queryIntent = getIntent();
@@ -107,5 +107,7 @@ public class SearchableActivity extends Activity {
         // Report the method by which we were called.
         mDeliveredByText.setText(entryPoint);
     }
+    
+    
 
 }
