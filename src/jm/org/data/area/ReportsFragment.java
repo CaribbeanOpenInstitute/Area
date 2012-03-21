@@ -30,7 +30,7 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 		setHasOptionsMenu(true);
 		mAdapter = new SearchCursorAdapter(getActivity(), null);
 		IndicatorActivity parentActivity = (IndicatorActivity) getActivity();
-		indicator = parentActivity.getIndicatorName();
+		indicator = parentActivity.getIndicator();
 		//countryList = (String[]) parentActivity.getCountryList();
 		Log.d(TAG, String.format("Indcator: %s. Country List: ", indicator));
 		setListAdapter(mAdapter);
@@ -108,8 +108,8 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 	@Override
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor) {
 		AreaApplication area = (AreaApplication) getActivity().getApplication();
-		cursor = area.areaData.getData(IDS_SEARCH, "SP.RUR.TOTL.ZG", new String[]{"Jamaica"}); 
-		Log.e(TAG, String.format("Cursor size: %d", cursor.getCount()));
+		//cursor = area.areaData.getData(IDS_SEARCH, "SP.RUR.TOTL.ZG", new String[]{"Jamaica"}); 
+		//Log.e(TAG, String.format("Cursor size: %d", cursor.getCount()));
 		mAdapter.swapCursor(cursor);
 		if (isResumed()) {
 			//setListShown(true);
