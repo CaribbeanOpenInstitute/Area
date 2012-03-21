@@ -36,7 +36,7 @@
 	        <meta-data android:name="android.app.searchable"
 	                   android:resource="@xml/searchable"/>
         </activity>
-        
+        <activity android:name="org.achartengine.GraphicalActivity" />
         <activity android:name=".AreaPreferencesActivity" />
         <activity android:name=".IndicatorActivity" />
         <activity android:name=".StartupActivity" 

@@ -13,12 +13,12 @@
         android:text="Chart Fragment"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <ImageView
-        android:id="@+id/chartView"
-        android:layout_width="575dp"
-        android:layout_gravity="center"
+    <LinearLayout
+        android:id="@+id/chart_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.85"
-        android:src="@drawable/ic_launcher" />
+        android:layout_weight="0.90"
+        android:orientation="horizontal" >
+    </LinearLayout>
 
 </LinearLayout>

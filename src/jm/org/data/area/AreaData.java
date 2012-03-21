@@ -340,7 +340,7 @@ public class AreaData {
 	 * @param country	Array of country ids
 	 * @return AreaConstants Search Code
 	 */
-	public Hashtable<String, Object> genericSearch(int dataSource, String indicatorID, String[] country) {
+	public int genericSearch(int dataSource, String indicatorID, String[] country) {
 		//format data for querying
 		Hashtable<String, Object> return_data = new Hashtable<String, Object>();
 		
@@ -365,7 +365,7 @@ public class AreaData {
 		if (ind_result.getCount() != 1){
 			
 			return_data.put(RETURN_VALUE, "" + FATAL_ERROR);
-			return return_data;
+			return FATAL_ERROR;
 		}else{
 			Log.e(TAG,"" + ind_result.getCount() + " ID: " + ind_result.getColumnIndexOrThrow(_ID));
 			ind_result.moveToFirst();
@@ -437,7 +437,7 @@ public class AreaData {
 						}else{
 							Log.e(TAG,"Error in retrieving Country information: " + country_IDresult.getCount() + " rows returned");
 							return_data.put(RETURN_VALUE, "" + FATAL_ERROR);
-							return return_data;
+							return FATAL_ERROR;
 						}
 						country_IDresult.close();
 					}// end for
@@ -446,7 +446,7 @@ public class AreaData {
 					// if 0 rows were returned, return error. As Initial search would have returned at least 1 country info. 
 					Log.e(TAG,"Error in retrieving Country information: " + country_result.getCount() + " rows returned");
 					return_data.put(RETURN_VALUE, "" + FATAL_ERROR);
-					return return_data;
+					return FATAL_ERROR;
 				}
 					
 				// if some countries are missing then update
@@ -462,7 +462,7 @@ public class AreaData {
 					if(country_IDresult.getCount() != 1){
 						Log.e(TAG,"Error in retrieving Country information: " + country_IDresult.getCount() + " rows returned");
 						return_data.put(RETURN_VALUE, "" + FATAL_ERROR);
-						return return_data;
+						return FATAL_ERROR;
 					}else{
 						country_IDresult.moveToFirst();
 						country_IDresult.getInt(country_IDresult.getColumnIndex(WB_COUNTRY_ID));
@@ -471,29 +471,30 @@ public class AreaData {
 					}
 					country_IDresult.close();
 				}
+				getCountryIndicators(ind_id, indicatorID, countries_to_get, countryIDs, "date=1990:2012");
 				return_data.put(RETURN_VALUE		, SEARCH_API_NONE	);
 				return_data.put(RETURN_IND_ID		, ind_id			);
 				return_data.put(RETURN_WB_IND_ID	, indicatorID		);
 				return_data.put(RETURN_COUNTRIES	, countries_to_get	);
 				return_data.put(RETURN_CNTRY_IDs	, countryIDs		);
 				return_data.put(RETURN_DATE			, "date=1990:2012"	);
-				return return_data;
+				return SEARCH_SUCCESS;
 				
 			}
 			wb_result.close();
 			if(!countries_to_get.isEmpty()){
-				//getCountryIndicators(ind_id, indicatorID, countries_to_get, countryIDs, "date=1990:2012");
+				getCountryIndicators(ind_id, indicatorID, countries_to_get, countryIDs, "date=1990:2012");
 				return_data.put(RETURN_VALUE		, SEARCH_API_SOME	);
 				return_data.put(RETURN_IND_ID		, ind_id			);
 				return_data.put(RETURN_WB_IND_ID	, indicatorID		);
 				return_data.put(RETURN_COUNTRIES	, countries_to_get	);
 				return_data.put(RETURN_CNTRY_IDs	, countryIDs		);
 				return_data.put(RETURN_DATE			, "date=1990:2012"	);
-				return return_data;
+				return SEARCH_SUCCESS;
 			}else{
 				Log.e(TAG, "No Values to get :)");
 				return_data.put(RETURN_VALUE, "" + SEARCH_SUCCESS);
-				return return_data;
+				return SEARCH_SUCCESS;
 			}
 			
 			
@@ -507,7 +508,7 @@ public class AreaData {
 				// if results found for this indicator then we assume that all the relevant data is in the database.
 				return_data.put(RETURN_VALUE		, SEARCH_SUCCESS	);
 				
-				return return_data;
+				return SEARCH_SUCCESS;
 			}else{
 				// if no results then go to the API and pull the related values for this indicator.
 				//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -522,11 +523,11 @@ public class AreaData {
 				populateKeywords();
 				indicatorStr = INDICATOR_KEYWORDS.get(indicatorID);
 				keyWords = indicatorStr.split(" ");
-				//getDocuments(ind_id, keyWords);
+				getDocuments(ind_id, keyWords);
 				return_data.put(RETURN_VALUE		, SEARCH_API_NONE	);
 				return_data.put(RETURN_IND_ID		, ind_id			);
 				return_data.put(RETURN_KEYWORDS		, keyWords			);
-				return return_data;
+				return SEARCH_SUCCESS;
 				
 				/*if(keyWords.length <= 2 ){
 					// if 2 or less keywords the go ahead and search
@@ -565,9 +566,9 @@ public class AreaData {
 					if (num_to_delete != num_deleted){
 						
 						return_data.put(RETURN_VALUE		, FATAL_ERROR	);
-						return return_data;
+						return FATAL_ERROR;
 					}
-					//getBingArticles(searchPhrase);
+					getBingArticles(indicatorStr);
 					return_data.put(RETURN_VALUE		, SEARCH_API_NONE	);
 					return_data.put(RETURN_STRING		, indicatorStr		);
 					
@@ -575,13 +576,13 @@ public class AreaData {
 				}else{
 					
 					return_data.put(RETURN_VALUE		, SEARCH_SUCCESS	);
-					return return_data;
+					return SEARCH_SUCCESS;
 				}
 			}else{
-				//getBingArticles(indicatorStr);
+				getBingArticles(indicatorStr);
 				return_data.put(RETURN_VALUE		, SEARCH_API_NONE	);
 				return_data.put(RETURN_STRING		, indicatorStr		);
-				return return_data;
+				return SEARCH_SUCCESS;
 			}
 							
 			bing_result.close();
@@ -593,7 +594,7 @@ public class AreaData {
 		
 		
 		return_data.put(RETURN_VALUE	, SEARCH_FAIL	);
-		return return_data;
+		return  SEARCH_FAIL;
 	}
 
 	

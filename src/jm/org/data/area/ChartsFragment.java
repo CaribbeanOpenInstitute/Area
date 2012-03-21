@@ -1,5 +1,8 @@
 package jm.org.data.area;
 
+import org.achartengine.GraphicalView;
+import org.achartengine.chartdemo.demo.chart.AverageTemperatureChart;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -9,29 +12,39 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class ChartsFragment extends Fragment {
 	public static final String TAG = ChartsFragment.class.getSimpleName();
 	private IndicatorActivity parentActivity;
-	
+	private GraphicalView chart;
+	private LinearLayout layout;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		parentActivity = (IndicatorActivity) getActivity();
-		setHasOptionsMenu(true);
 		
 	}
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		layout = (LinearLayout) parentActivity.findViewById(R.id.chart_view);
+		
+		setHasOptionsMenu(true);
+		chart = new AverageTemperatureChart().execute(getActivity().getBaseContext());
+		Log.e(TAG,"chart view " +chart.toString() + " - " + layout.getId());
+		layout.addView(chart, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.charts, container, false);
+		
 		//getActivity().invalidateOptionsMenu();
 		return view;
 	}
