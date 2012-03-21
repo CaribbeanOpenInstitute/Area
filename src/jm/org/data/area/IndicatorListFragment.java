@@ -1,16 +1,12 @@
 package jm.org.data.area;
 
-import static jm.org.data.area.DBConstants.*;
-import android.content.Context;
+import static jm.org.data.area.DBConstants.WB_INDICATOR_ID;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
@@ -22,7 +18,7 @@ public class IndicatorListFragment extends ListFragment implements
 	private final String POSITION = "position";
 	IndicatorActivity act;
 
-	//SimpleCursorAdapter mAdapter;
+	// SimpleCursorAdapter mAdapter;
 	AreaCursorAdapter myAdapter;
 
 	@Override
@@ -30,8 +26,6 @@ public class IndicatorListFragment extends ListFragment implements
 		super.onCreate(savedInstanceState);
 		myAdapter = new AreaCursorAdapter(getActivity(), null);
 		setListAdapter(myAdapter);
-
-		// get
 
 		// getLoaderManager().initLoader(0, null, this);
 	}
@@ -47,9 +41,8 @@ public class IndicatorListFragment extends ListFragment implements
 		super.onActivityCreated(savedInstanceState);
 		/* Cursor Loader */
 		setEmptyText("No indicators found");
-		
-		// myAdapter = new AreaCursorAdapter();
 
+		// myAdapter = new AreaCursorAdapter();
 
 		// setListAdapter(mAdapter);
 		setListShown(false);
@@ -85,16 +78,16 @@ public class IndicatorListFragment extends ListFragment implements
 		}
 
 		// Already in indicator activity
-		/*
-		 * ChartsFragment chFragment = (ChartsFragment) getFragmentManager()
-		 * .findFragmentById(R.id.chartFragment); if (chFragment != null &&
-		 * chFragment.isInLayout()) { Log.d(TAG,
-		 * "The list item passed to the fragment is " + item);
-		 * chFragment.setText(item); } else { // Activity for phones /* Intent
-		 * intent = new Intent(getActivity().getApplicationContext(),
-		 * DetailActivity.class); intent.putExtra("value", item);
-		 * startActivity(intent);
-		 */
+		
+		  /*ChartsFragment chFragment = (ChartsFragment) getFragmentManager()
+		  .findFragmentById(R.id.chartFragment); if (chFragment != null &&
+		  chFragment.isInLayout()) { Log.d(TAG,
+		  "The list item passed to the fragment is " + item);
+		  chFragment.setText(item); } else { // Activity for phones /* Intent
+		  intent = new Intent(getActivity().getApplicationContext(),
+		  DetailActivity.class); intent.putExtra("value", item);
+		  startActivity(intent);*/
+		 
 	}
 
 	@Override
@@ -104,20 +97,26 @@ public class IndicatorListFragment extends ListFragment implements
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-		//mAdapter.swapCursor(cursor);
+		
+		// mAdapter.swapCursor(cursor);
 		myAdapter.swapCursor(cursor);
 		if (isResumed()) {
 			setListShown(true);
 		} else {
+			Log.d(TAG, "Activity is not being resumed");
 			setListShownNoAnimation(true);
+			myAdapter.setSelectedPosition(act.getPosition());
 		}
-		myAdapter.setSelectedPosition(-1);
 
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> arg0) {
 		myAdapter.swapCursor(null);
+	}
+
+	public void setListSelection(int position) {
+		myAdapter.setSelectedPosition(position);
 	}
 
 	private void setListviewSelection(final ListView list, final int pos) {
