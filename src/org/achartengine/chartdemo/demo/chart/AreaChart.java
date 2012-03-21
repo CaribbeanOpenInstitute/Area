@@ -57,36 +57,39 @@ public class AreaChart extends AbstractDemoChart {
    * @return the built intent
    */
   public GraphicalView execute(Context context) {
-    String[] titles = new String[] { "Jamaica" };
+    String[] titles = new String[] { "Jamaica", "Barbadoes" };
     List<double[]> x = new ArrayList<double[]>();
-    //for (int i = 0; i < titles.length; i++) {
-      x.add(new double[] {1960, 1961, 1962, 1963, 1964, 1965, 1966, 1967, 1968, 1969});
-    //}
+    for (int i = 0; i < titles.length; i++) {
+      x.add(new double[] {60, 61, 62, 63, 64, 65, 66, 67, 68, 69});
+    }
     List<double[]> values = new ArrayList<double[]>();
-    values.add(new double[] { 5330, 5330, 5350, 5350, 5330, 5070, 5170, 5170, 5170, 5170, });
-    //values.add(new double[] { 10, 10, 12, 15, 20, 24, 26, 26, 23, 18, 14, 11 });
+    values.add(new double[] { 4430, 630, 350, 50, 530, 5070, 70, 5170, 5170, 5170});
+    values.add(new double[] { 103, 1430, 124, 1532, 203, 2444, 5426, 5626, 6323, 218 });
     //values.add(new double[] { 5, 5.3, 8, 12, 17, 22, 24.2, 24, 19, 15, 9, 6 });
     //values.add(new double[] { 9, 10, 11, 15, 19, 23, 26, 25, 22, 18, 13, 10 });
-    int[] colors = new int[] {Color.YELLOW };
-    PointStyle[] styles = new PointStyle[] { PointStyle.TRIANGLE };
+    int[] colors = new int[] {Color.YELLOW, Color.BLUE };
+    PointStyle[] styles = new PointStyle[] { PointStyle.TRIANGLE, PointStyle.SQUARE };
     XYMultipleSeriesRenderer renderer = buildRenderer(colors, styles);
     int length = renderer.getSeriesRendererCount();
     for (int i = 0; i < length; i++) {
       ((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setFillPoints(true);
     }
-    setChartSettings(renderer, "Jamaica Agricultural Land", "Year", "Land Area (sq.km)", 1959, 1971, 0, 6000,
+    setChartSettings(renderer, "Jamaica Agricultural Land", "Year", "Land Area (sq.km)", 58, 71, 0, 7000,
         Color.LTGRAY, Color.LTGRAY);
-    renderer.setXLabels(12);
+    renderer.setXLabels(13);
     renderer.setYLabels(10);
     renderer.setShowGrid(true);
     renderer.setXLabelsAlign(Align.RIGHT);
-    renderer.setYLabelsAlign(Align.RIGHT);
+    renderer.setYLabelsAlign(Align.LEFT);
+    renderer.setBackgroundColor(Color.LTGRAY);
+    renderer.setApplyBackgroundColor(true);
     renderer.setZoomButtonsVisible(true);
     renderer.setPanLimits(new double[] { -10, 20, -10, 40 });
     renderer.setZoomLimits(new double[] { -10, 20, -10, 40 });
     renderer.setBackgroundColor(Color.WHITE);
     GraphicalView intent = ChartFactory.getLineChartView(context, buildDataset(titles, x, values),
         renderer);
+    
     return intent;
   }
 
