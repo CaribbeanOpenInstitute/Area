@@ -16,14 +16,12 @@
     <application
         android:name=".AreaApplication"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" >
         android:label="@string/app_name" 
-        android:theme="@style/AppTheme" 
-        >
+        android:theme="@style/AppTheme">
+        
         <activity
             android:name=".HomeActivity"
-            android:label="@string/app_name"
-             >
+            android:label="@string/app_name">
             
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -54,7 +52,8 @@
         <service android:name="AreaService"
             android:process=":AreaService"
             android:icon="@drawable/ic_launcher"
-            android:label="@string/areaService"></service>
+            android:label="@string/areaService">	                    
+        </service>
         
     </application>
 

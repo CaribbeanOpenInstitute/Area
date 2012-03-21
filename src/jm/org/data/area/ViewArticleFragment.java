@@ -22,8 +22,7 @@ public static final String TAG = ViewArticleFragment.class.getSimpleName();
 		
 		
 		WebView articleWebView = (WebView)getView().findViewById(R.id.articleWebView);
-		articleWebView.loadUrl("http://bing.com");
-		
+		articleWebView.loadUrl("http://bing.com");		
 	}
 	
 	@Override

@@ -15,14 +15,9 @@ public class StartupActivity extends Activity {
 
 	protected boolean _active = true;
 	protected int _splashTime = 1; // time to display the splash screen in ms
-	// not sure how this is gonna be used so just placing it here for the time
-	// being
-	// private JSONParse mJsonParse;
 
 	private AreaApplication area;
 	private ViewAnimator loadingAnimator;
-
-	private boolean isOnline;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -32,11 +27,6 @@ public class StartupActivity extends Activity {
 		loadingAnimator = (ViewAnimator)findViewById(R.id.startupSwitcher);	//Loading Animator
 
 		area = (AreaApplication) getApplication();
-
-		// NOT USED
-		// Initialise JSONParser
-		// mJsonParse = new JSONParse(getBaseContext());
-		// mApiPull = new APIPull();
 
 		if (!area.checkNetworkConnection()) {
 			Log.e(StartupActivity.class.toString(), "No Internet connectivity");

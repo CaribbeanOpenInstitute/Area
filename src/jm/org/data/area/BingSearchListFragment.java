@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+// Shows list of results (articles) that bing returns from genral search
 public class BingSearchListFragment extends ListFragment {
 	public static final String TAG = BingSearchListFragment.class.getSimpleName();
 
