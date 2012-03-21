@@ -31,7 +31,7 @@ import android.graphics.Paint.Align;
 /**
  * Average temperature demo chart.
  */
-public class AverageTemperatureChart extends AbstractDemoChart {
+public class AreaChart extends AbstractDemoChart {
   /**
    * Returns the chart name.
    * 

@@ -1,7 +1,7 @@
 package jm.org.data.area;
 
 import org.achartengine.GraphicalView;
-import org.achartengine.chartdemo.demo.chart.AverageTemperatureChart;
+import org.achartengine.chartdemo.demo.chart.AreaChart;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -35,7 +35,7 @@ public class ChartsFragment extends Fragment {
 		layout = (LinearLayout) parentActivity.findViewById(R.id.chart_view);
 		
 		setHasOptionsMenu(true);
-		chart = new AverageTemperatureChart().execute(getActivity().getBaseContext());
+		chart = new AreaChart().execute(getActivity().getBaseContext());
 		Log.e(TAG,"chart view " +chart.toString() + " - " + layout.getId());
 		layout.addView(chart, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 	}
