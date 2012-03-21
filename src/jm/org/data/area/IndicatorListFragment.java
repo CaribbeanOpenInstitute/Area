@@ -1,6 +1,9 @@
 package jm.org.data.area;
 
 import static jm.org.data.area.DBConstants.*;
+
+import android.content.Context;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -16,6 +19,7 @@ public class IndicatorListFragment extends ListFragment implements
 	public static final String TAG = IndicatorListFragment.class
 			.getSimpleName();
 	private final String POSITION = "position";
+	IndicatorActivity act;
 
 	//SimpleCursorAdapter mAdapter;
 	AreaCursorAdapter myAdapter;
@@ -65,17 +69,21 @@ public class IndicatorListFragment extends ListFragment implements
 		String item_id	= cursor.getString(cursor.getColumnIndex(WB_INDICATOR_ID));
 		Log.d(TAG, "Indicator selected is: " + item + "-> ID: " + item_id);
 
+
 		try { // Check if the parent activity is the IndicatorActivity
-			IndicatorActivity act = (IndicatorActivity) getActivity();
+			act = (IndicatorActivity) getActivity();
 		} catch (ClassCastException actException) {
 			Intent intent = new Intent(getActivity().getApplicationContext(),
 					IndicatorActivity.class);
-			intent.putExtra(INDICATOR_NAME, item);
+			intent.putExtra(WB_INDICATOR_ID, item);
 			intent.putExtra(POSITION, position);
 			startActivity(intent);
 		}
-
-		myAdapter.setSelectedPosition(position, getListView());
+		
+		if (act != null) {
+			act.setIndicator(item);
+			myAdapter.setSelectedPosition(position, getListView());
+		}
 
 		// Already in indicator activity
 		/*

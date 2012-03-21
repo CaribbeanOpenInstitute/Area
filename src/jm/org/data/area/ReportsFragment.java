@@ -30,7 +30,7 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 		setHasOptionsMenu(true);
 		mAdapter = new SearchCursorAdapter(getActivity(), null);
 		IndicatorActivity parentActivity = (IndicatorActivity) getActivity();
-		indicator = parentActivity.getIndicatorName();
+		indicator = parentActivity.getIndicator();
 		//countryList = (String[]) parentActivity.getCountryList();
 		Log.d(TAG, String.format("Indcator: %s. Country List: ", indicator));
 		setListAdapter(mAdapter);

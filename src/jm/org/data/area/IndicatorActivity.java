@@ -18,6 +18,7 @@
 package jm.org.data.area;
 
 import static jm.org.data.area.AreaConstants.*;
+import static jm.org.data.area.DBConstants.*;
 import static jm.org.data.area.AreaConstants.REMOVE_KEY;
 
 import java.util.ArrayList;
@@ -53,6 +54,8 @@ public class IndicatorActivity extends BaseActivity implements
 	private String indicatorID;
 	private String indicatorName;
 	private ArrayList<String> countryList;
+	final String POSITION = "position";
+	private int listPosition;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +85,11 @@ public class IndicatorActivity extends BaseActivity implements
 		if (savedInstanceState != null) {
 			mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
 		}
+		
+		final Bundle indicatorBundle = getIntent().getExtras();
+		indicatorID = indicatorBundle.getString(WB_INDICATOR_ID, indicatorID);
+		listPosition = indicatorBundle.getInt(POSITION, -1);
+		Log.d(TAG, String.format("Indicator ID: %s at position %d", indicatorID, listPosition));
 		countryList = new ArrayList<String>();
 		
 		
@@ -237,8 +245,17 @@ public class IndicatorActivity extends BaseActivity implements
 		reloadData();
 	}
 
-	public String getIndicatorName() {
-		return indicatorName;
+	public String getIndicator() {
+		return indicatorID;
+	}
+	
+	public void setIndicator(String indicator) {
+		indicatorID = indicator;
+		Log.d(TAG, "Indicator changed to " + indicator);
+	}
+	
+	public int getPosition() {
+		return listPosition;
 	}
 
 	public Object[] getCountryList() {

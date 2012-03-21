@@ -36,7 +36,7 @@ public class ChartsFragment extends Fragment {
 		
 		setHasOptionsMenu(true);
 		chart = new AreaChart().execute(getActivity().getBaseContext());
-		Log.e(TAG,"chart view " +chart.toString() + " - " + layout.getId() + "current indicator" + parentActivity.getIndicatorName());
+		Log.e(TAG,"chart view " +chart.toString() + " - " + layout.getId() + "current indicator" + parentActivity.getIndicator());
 		layout.addView(chart, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 	}
 	
