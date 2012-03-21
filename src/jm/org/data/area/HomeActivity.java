@@ -1,11 +1,14 @@
 package jm.org.data.area;
 
+import static jm.org.data.area.AreaConstants.IDS_SEARCH;
+import static jm.org.data.area.AreaConstants.SEARCH_SUCCESS;
 import android.app.SearchManager;
 import android.content.Context;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,6 +22,7 @@ public class HomeActivity extends BaseActivity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
+		
 		//Check for application initialization preference
 		if(!area.prefs.getBoolean("startupActivity", false)) {
 			if (!area.initIsRunning) //Run startup activity
@@ -27,6 +31,10 @@ public class HomeActivity extends BaseActivity{
 		}
 		
 		setContentView(R.layout.home_dashboard);
+		//if (area.areaService != null) {
+		//	Log.e(TAG, "Running API call on service");
+			//area.areaService.genericSearch(IDS_SEARCH, "TX.VAL.AGRI.ZS.UN", new String[]{"Jamaica", "Kenya","Barbados"});
+		//}
 	}
 	
 	@Override
@@ -39,7 +47,7 @@ public class HomeActivity extends BaseActivity{
 	    SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 	    SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
 	    searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-	    searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+	    searchView.setIconifiedByDefault(true); // Do not iconify the widget; expand it by default
 
     	return super.onCreateOptionsMenu(menu);
     }
