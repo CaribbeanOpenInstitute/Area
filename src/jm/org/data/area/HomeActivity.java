@@ -1,5 +1,7 @@
 package jm.org.data.area;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences.Editor;
@@ -7,6 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.SearchView;
 
 
 public class HomeActivity extends BaseActivity{
@@ -30,9 +33,17 @@ public class HomeActivity extends BaseActivity{
     public boolean onCreateOptionsMenu(Menu menu) {
     	MenuInflater menuInflater = getMenuInflater();
     	menuInflater.inflate(R.menu.home, menu);
-    	
+  
+	    //getBaseContext();
+		// Get the SearchView and set the searchable configuration
+	    SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+	    SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+	    searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+	    searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+
     	return super.onCreateOptionsMenu(menu);
     }
+	
 
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) {

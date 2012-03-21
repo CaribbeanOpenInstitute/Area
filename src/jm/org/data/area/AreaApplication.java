@@ -34,9 +34,6 @@ public class AreaApplication extends Application {
 		
 		mContext = getBaseContext();
 		
-		// check if app is online
-		//isOnline = checkNetworkConnection();
-		
 		String idsKey = getString(R.string.pref_idsKey); 
         String bingKey = getString(R.string.pref_bingKey);
         Log.d(TAG, String.format("IDS: %s. Bing: %s", idsKey, bingKey));
@@ -83,11 +80,16 @@ public class AreaApplication extends Application {
 				.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 		final android.net.NetworkInfo mobile = connMgr
 				.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-
+		
+		// to fix the error getActivenetworkInfo is something null so it needs to be tested 
+		//http://stackoverflow.com/questions/2753412/android-internet-connectivity-check-problem
+		if (connMgr.getActiveNetworkInfo() == null)
+			return false;
+		
 		final boolean connected = (wifi != null && mobile != null
 				&& connMgr.getActiveNetworkInfo().isAvailable() && connMgr
 				.getActiveNetworkInfo().isConnected());
-
+		
 		if (connected)
 			return true;
 		else
