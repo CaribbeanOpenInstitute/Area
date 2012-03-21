@@ -20,6 +20,7 @@ public class IndicatorListFragment extends ListFragment implements
 	public static final String TAG = IndicatorListFragment.class
 			.getSimpleName();
 	private final String POSITION = "position";
+	IndicatorActivity act;
 
 	//SimpleCursorAdapter mAdapter;
 	AreaCursorAdapter myAdapter;
@@ -69,7 +70,7 @@ public class IndicatorListFragment extends ListFragment implements
 		Log.d(TAG, "Indicator selected is: " + item);
 
 		try { // Check if the parent activity is the IndicatorActivity
-			IndicatorActivity act = (IndicatorActivity) getActivity();
+			act = (IndicatorActivity) getActivity();
 		} catch (ClassCastException actException) {
 			Intent intent = new Intent(getActivity().getApplicationContext(),
 					IndicatorActivity.class);
@@ -77,8 +78,11 @@ public class IndicatorListFragment extends ListFragment implements
 			intent.putExtra(POSITION, position);
 			startActivity(intent);
 		}
-
-		myAdapter.setSelectedPosition(position, getListView());
+		
+		if (act != null) {
+			act.setIndicator(item);
+			myAdapter.setSelectedPosition(position, getListView());
+		}
 
 		// Already in indicator activity
 		/*

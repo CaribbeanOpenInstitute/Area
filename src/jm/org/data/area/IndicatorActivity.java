@@ -249,6 +249,11 @@ public class IndicatorActivity extends BaseActivity implements
 		return indicatorID;
 	}
 	
+	public void setIndicator(String indicator) {
+		indicatorID = indicator;
+		Log.d(TAG, "Indicator changed to " + indicator);
+	}
+	
 	public int getPosition() {
 		return listPosition;
 	}
