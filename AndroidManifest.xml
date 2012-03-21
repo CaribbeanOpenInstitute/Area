@@ -51,9 +51,15 @@
         <service
             android:name="AreaService"
             android:icon="@drawable/ic_launcher"
+<<<<<<< HEAD
             android:label="@string/areaService" />
 
         <!-- android:process=":AreaService" -->
+=======
+            android:label="@string/areaService">	                    
+        </service>
+        
+>>>>>>> 4c14ae5741ee97448c274ca2854f62371b669042
     </application>
 
 </manifest>

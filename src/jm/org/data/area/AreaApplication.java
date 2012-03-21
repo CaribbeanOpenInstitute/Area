@@ -41,9 +41,6 @@ public class AreaApplication extends Application {
 		mContext = getBaseContext();
 		//doBindService();
 		
-		// check if app is online
-		//isOnline = checkNetworkConnection();
-		
 		String idsKey = getString(R.string.pref_idsKey); 
         String bingKey = getString(R.string.pref_bingKey);
         Log.e(TAG, String.format("IDS: %s. Bing: %s", idsKey, bingKey));
