@@ -34,21 +34,28 @@ import android.util.Log;
  * Background service used to make API calls to cloud services 
  * and store in local database
  */
-public class AreaService extends Service{
+public class AreaService extends Service {
 	private static final String TAG = AreaService.class.getSimpleName();
+	private final IBinder mBinder = new MyBinder();
 	private AreaApplication area;
 	
 
 	@Override
 	public IBinder onBind(Intent intent) {
 		Log.d(TAG, "Service Binded");
-		return null; 
+		return mBinder; 
 	}
 	
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		Log.d(TAG, "Service created");
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		Log.e(TAG, "Service destroyed");
 	}
 	
 	public class MyBinder extends Binder {
@@ -171,10 +178,10 @@ public class AreaService extends Service{
 	
 	
 	
-	private boolean inDatabase() {
+	/*private boolean inDatabase() {
 		
 		return false;
-	}
+	}*/
 	
 	private void notifyActivity(int apiCode) {
 		switch(apiCode) {

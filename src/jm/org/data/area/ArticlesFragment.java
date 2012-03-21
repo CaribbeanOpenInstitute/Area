@@ -4,9 +4,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ArticlesFragment extends Fragment {
 public static final String TAG = ArticlesFragment.class.getSimpleName();
@@ -14,7 +18,7 @@ public static final String TAG = ArticlesFragment.class.getSimpleName();
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.e(TAG, "Hello");
+		setHasOptionsMenu(true);
 	}
 	
 	@Override
@@ -25,19 +29,44 @@ public static final String TAG = ArticlesFragment.class.getSimpleName();
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		/*if (container == null) {
-            // We have different layouts, and in one of them this
-            // fragment's containing frame doesn't exist.  The fragment
-            // may still be created from its saved state, but there is
-            // no reason to try to create its view hierarchy because it
-            // won't be displayed.  Note this is not needed -- we could
-            // just run the code below, where we would create and return
-            // the view hierarchy; it would just never be used.
-            return null;
-        }*/
 		View view = inflater.inflate(R.layout.articles, container, false);
 		return view;
 	}
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		MenuInflater menuInflater = getActivity().getMenuInflater();
+        menuInflater.inflate(R.menu.article_list, menu);
+        
+		super.onCreateOptionsMenu(menu, inflater);
+	}
+	
+	@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+                
+            case R.id.menu_reload:
+                Toast.makeText(getActivity(), "Fake refreshing...", Toast.LENGTH_SHORT).show();
+                /*parentActivity.getActionBarHelper().setRefreshActionItemState(true);
+                getWindow().getDecorView().postDelayed(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                getActionBarHelper().setRefreshActionItemState(false);
+                            }
+                        }, 1000);*/
+                break; 
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+	
+	/*@Override
+		public void onPrepareOptionsMenu(Menu menu) {
+			menu.removeItem(R.menu.)
+			super.onPrepareOptionsMenu(menu);
+		}*/
 	
 	public void setText(String item) {
 		Log.d(TAG, item);

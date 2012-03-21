@@ -1,12 +1,17 @@
 package jm.org.data.area;
 
 import android.app.Application;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
+import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import static jm.org.data.area.DBConstants.*;
 import static jm.org.data.area.AreaConstants.*;
@@ -16,6 +21,7 @@ public class AreaApplication extends Application {
 	private String TAG = AreaActivity.class.getSimpleName();
 	public SharedPreferences prefs;
 	public AreaData areaData; 
+	//public AreaService areaService;
 	
 	private Cursor wbCursor;
 	private Cursor idsCursor;
@@ -33,15 +39,37 @@ public class AreaApplication extends Application {
 		super.onCreate();
 		
 		mContext = getBaseContext();
+		//doBindService();
 		
 		String idsKey = getString(R.string.pref_idsKey); 
         String bingKey = getString(R.string.pref_bingKey);
-        Log.d(TAG, String.format("IDS: %s. Bing: %s", idsKey, bingKey));
+        Log.e(TAG, String.format("IDS: %s. Bing: %s", idsKey, bingKey));
         
         prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
         areaData = new AreaData(mContext);
         
 	}
+	
+	/*private ServiceConnection mConnection = new ServiceConnection() {
+
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder binder) {
+			areaService = ((AreaService.MyBinder) binder).getService();
+			Log.e(TAG, "Connected to service");
+		}
+
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+			areaService = null;
+		}
+
+	};
+
+	void doBindService() {
+		bindService(new Intent(mContext, AreaService.class), mConnection,
+				Context.BIND_AUTO_CREATE);
+	}*/
+	
 	
 	public Cursor getSharedCursor(int apiCode) {
 		switch(apiCode) {

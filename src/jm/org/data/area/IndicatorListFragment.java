@@ -21,8 +21,7 @@ public class IndicatorListFragment extends ListFragment implements
 			.getSimpleName();
 	private final String POSITION = "position";
 
-
-	SimpleCursorAdapter mAdapter;
+	//SimpleCursorAdapter mAdapter;
 	AreaCursorAdapter myAdapter;
 
 	@Override
@@ -30,44 +29,42 @@ public class IndicatorListFragment extends ListFragment implements
 		super.onCreate(savedInstanceState);
 		myAdapter = new AreaCursorAdapter(getActivity(), null);
 		setListAdapter(myAdapter);
-		
-		//get
-		
+
+		// get
+
 		// getLoaderManager().initLoader(0, null, this);
 	}
-	
-	/*@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.indicator_list, container, false);
-	}*/
+
+	/*
+	 * @Override public View onCreateView(LayoutInflater inflater, ViewGroup
+	 * container, Bundle savedInstanceState) { return
+	 * inflater.inflate(R.layout.indicator_list, container, false); }
+	 */
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		String[] columns = new String[] { INDICATOR_NAME };
-		int[] to = new int[] { android.R.id.text1 };
-		
 		/* Cursor Loader */
 		setEmptyText("No indicators found");
-		mAdapter = new SimpleCursorAdapter(getActivity(),
-				R.layout.list_item, null, columns, to, 0);
 		
-		//myAdapter = new AreaCursorAdapter();
-		
-		setListShown(false);
+		// myAdapter = new AreaCursorAdapter();
 
-		//setListAdapter(mAdapter);
+
+		// setListAdapter(mAdapter);
 		setListShown(false);
 		getLoaderManager().initLoader(0, null, this);
 
 		// //////////////////////
 	}
-	
+
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		Cursor cursor   = (Cursor) getListAdapter().getItem(position);	//Get Cursor at row position
+		Cursor cursor = (Cursor) getListAdapter().getItem(position); // Get
+																		// Cursor
+																		// at
+																		// row
+																		// position
 		String item = cursor.getString(cursor.getColumnIndex(INDICATOR_NAME));
 		Log.d(TAG, "Indicator selected is: " + item);
 
@@ -77,12 +74,12 @@ public class IndicatorListFragment extends ListFragment implements
 			Intent intent = new Intent(getActivity().getApplicationContext(),
 					IndicatorActivity.class);
 			intent.putExtra(INDICATOR_NAME, item);
-			intent.putExtra(POSITION , position);
+			intent.putExtra(POSITION, position);
 			startActivity(intent);
 		}
-		
+
 		myAdapter.setSelectedPosition(position, getListView());
-		
+
 		// Already in indicator activity
 		/*
 		 * ChartsFragment chFragment = (ChartsFragment) getFragmentManager()
@@ -103,36 +100,32 @@ public class IndicatorListFragment extends ListFragment implements
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-		mAdapter.swapCursor(cursor);
+		//mAdapter.swapCursor(cursor);
 		myAdapter.swapCursor(cursor);
 		if (isResumed()) {
-            setListShown(true);
-        } else {
-            setListShownNoAnimation(true);
-        }
+			setListShown(true);
+		} else {
+			setListShownNoAnimation(true);
+		}
 		myAdapter.setSelectedPosition(-1);
 
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> arg0) {
-		//mAdapter.setData(null);
+		myAdapter.swapCursor(null);
 	}
-	
-	private void setListviewSelection(final ListView list, final int pos) {
-		list.post(new Runnable() 
-		   {
-		    @Override
-		    public void run() 
-		      {
-		        //list.setSelection(pos);
-		        View v = list.getChildAt(pos);
-		        if (v != null) 
-		        {
-		            v.requestFocus();
-		        }
-		    }
-		});
-		}
 
+	private void setListviewSelection(final ListView list, final int pos) {
+		list.post(new Runnable() {
+			@Override
+			public void run() {
+				// list.setSelection(pos);
+				View v = list.getChildAt(pos);
+				if (v != null) {
+					v.requestFocus();
+				}
+			}
+		});
+	}
 }

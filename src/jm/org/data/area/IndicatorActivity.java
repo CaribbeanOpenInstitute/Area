@@ -17,17 +17,17 @@
  */
 package jm.org.data.area;
 
-import static jm.org.data.area.AreaConstants.ADD_KEY;
+import static jm.org.data.area.AreaConstants.*;
 import static jm.org.data.area.AreaConstants.REMOVE_KEY;
 
 import java.util.ArrayList;
 
-import com.android.actionbarcompat.MainActivity;
-
-import android.app.ActionBar;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -58,10 +58,11 @@ public class IndicatorActivity extends BaseActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		//ActionBar actionBar = getActionBar();
-		//actionBar.setDisplayHomeAsUpEnabled(true);
+		// ActionBar actionBar = getActionBar();
+		// actionBar.setDisplayHomeAsUpEnabled(true);
 
 		setContentView(R.layout.indicator_dashboard);
+
 		mTabHost = (TabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup();
 
@@ -82,13 +83,15 @@ public class IndicatorActivity extends BaseActivity implements
 			mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
 		}
 		countryList = new ArrayList<String>();
+		
+		
 
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater menuInflater = getMenuInflater();
-    	menuInflater.inflate(R.menu.main, menu);
+		menuInflater.inflate(R.menu.main, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -237,9 +240,9 @@ public class IndicatorActivity extends BaseActivity implements
 	public String getIndicatorName() {
 		return indicatorName;
 	}
-	
-	public String[] getCountryList() {
-		return (String[]) countryList.toArray();
+
+	public Object[] getCountryList() {
+		return countryList.toArray();
 	}
 
 	public void reloadData() {
