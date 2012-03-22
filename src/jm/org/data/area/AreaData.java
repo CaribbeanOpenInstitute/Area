@@ -471,14 +471,15 @@ public class AreaData {
 					}
 					country_IDresult.close();
 				}
-				getCountryIndicators(ind_id, indicatorID, countries_to_get, countryIDs, "date=1990:2012");
+				//wb_result.close();
+				//getCountryIndicators(ind_id, indicatorID, countries_to_get, countryIDs, "date=1990:2012");
 				return_data.put(RETURN_VALUE		, SEARCH_API_NONE	);
 				return_data.put(RETURN_IND_ID		, ind_id			);
 				return_data.put(RETURN_WB_IND_ID	, indicatorID		);
 				return_data.put(RETURN_COUNTRIES	, countries_to_get	);
 				return_data.put(RETURN_CNTRY_IDs	, countryIDs		);
 				return_data.put(RETURN_DATE			, "date=1990:2012"	);
-				return SEARCH_SUCCESS;
+				//return SEARCH_SUCCESS;
 				
 			}
 			wb_result.close();
@@ -825,7 +826,6 @@ public class AreaData {
 		
 	}
 	
-
 	public int getDocuments(int indicator, String[] parameters){
 		parser = new JSONParse(context);
 		String querybase = "http://api.ids.ac.uk/openapi/";
@@ -842,7 +842,7 @@ public class AreaData {
 		}
 		
 		queryStr = querybase + site + "search/" + object + "?" + parameter  + "=" + paramStr + "&" + num_results;
-		queryStr = "http://api.ids.ac.uk/openapi/eldis/search/documents/?q=Agriculture%26materials&num_results=500";
+		//queryStr = "http://api.ids.ac.uk/openapi/eldis/search/documents/?q=Agriculture%26materials&num_results=50";
 		return parser.parseIDSData(dataService.HTTPRequest(1,queryStr), indicator, paramStr, queryStr);
 		
 	}
@@ -894,7 +894,102 @@ public class AreaData {
 		return countryArray;
 	}
 	
-
+	public int getIndicatorID(String indicator){
+		int id = -1;
+		Cursor ind_result;
+		
+		ind_result = dbHelper.rawQuery(INDICATOR, "*" , "" + WB_INDICATOR_ID + " ='" + indicator + "'");
+		
+		if (ind_result.getCount() != 1){
+			Log.e(TAG, "Error retrieving Indicatror Information: indicator - " + indicator );
+			return id;
+		}else{
+			Log.e(TAG,"" + ind_result.getCount() + " ID: " + ind_result.getColumnIndexOrThrow(_ID));
+			ind_result.moveToFirst();
+			Log.e(TAG,"" + ind_result.getCount() + " ID: " + ind_result.getString( ind_result.getColumnIndexOrThrow(_ID)));
+			
+			id = Integer.parseInt(ind_result.getString(ind_result.getColumnIndexOrThrow(_ID)));
+		}
+		ind_result.close();
+		return id;
+	}
+	
+	public String getIndicatorName(String indicator){
+		String indicatorStr = "";
+		Cursor ind_result;
+		
+		ind_result = dbHelper.rawQuery(INDICATOR, "*" , "" + WB_INDICATOR_ID + " ='" + indicator + "'");
+		
+		if (ind_result.getCount() != 1){
+			Log.e(TAG, "Error retrieving Indicatror Information: indicator - " + indicator );
+			return indicatorStr;
+		}else{
+			Log.e(TAG,"" + ind_result.getCount() + " ID: " + ind_result.getColumnIndexOrThrow(_ID));
+			ind_result.moveToFirst();
+			Log.e(TAG,"" + ind_result.getCount() + " ID: " + ind_result.getString( ind_result.getColumnIndexOrThrow(_ID)));
+			
+			indicatorStr = ind_result.getString(ind_result.getColumnIndexOrThrow(INDICATOR_NAME));
+		}
+		ind_result.close();
+		return indicatorStr;
+	}
+	
+	public double[][] getIndicatorList(int Indicator_id, String countryStr, int period){
+		double [][] values = null;
+		int search_country_id, country_id, search_id;
+		String params;
+		Cursor search, search_country, country, wb_data;
+		params = "" + I_ID + " ='" + Indicator_id + "'";
+		// get search id Corresponding to search table
+		search = rawQuery(SEARCH, "*", params);
+		// get 
+		if(search.getCount() == 1){
+			search.moveToFirst();
+			search_id = search.getInt(search.getColumnIndex(_ID));
+			country = dbHelper.rawQuery(COUNTRY,"*", ""+ COUNTRY_NAME +" ='" + countryStr +"'");
+			if (country.getCount() == 1){
+				country.moveToFirst();
+				country_id = country.getInt(country.getColumnIndex(_ID));
+				
+				search_country = dbHelper.rawQuery(SEARCH_COUNTRY, "*", ""+ S_ID +" ='" + search_id +"' and "
+						+ C_ID +" ='" + country_id +"'" );
+				if(search_country.getCount() == 1){
+					search_country.moveToFirst();
+					search_country_id = search_country.getInt(search_country.getColumnIndex(_ID));
+					wb_data = dbHelper.rawQuery(WB_DATA,"*", ""+ SC_ID +" ='" + search_country_id +"'" +" ORDER BY " + IND_DATE);
+					
+					if(wb_data.getCount() > 0){
+						
+						values = new double[2][wb_data.getCount()];
+						for(int n = 0; n < wb_data.getCount(); n++){
+							wb_data.moveToNext();
+							values[0][n] = (double) wb_data.getInt(wb_data.getColumnIndex(IND_DATE));
+							values[1][n] = wb_data.getDouble(wb_data.getColumnIndex(IND_VALUE));
+						}
+						
+						wb_data.close();
+						
+					}else{
+						values = new double[0][0];
+					}
+						
+				}else{
+					values = new double[0][0];
+				}
+				search_country.close();
+			}else{
+				values = new double[0][0];
+			}
+			country.close();
+		}else{
+			values = new double[0][0];
+		}
+		search.close();
+		
+		
+		return values;
+	}
+	
 	public Cursor rawQuery(String tableName, String tableColumns, String queryParams) {
 		
 		Cursor cursor = null;
@@ -960,7 +1055,7 @@ public class AreaData {
 	
 	private class AreaDB extends SQLiteOpenHelper{
 		
-		private static final int DATABASE_VERSION = 2;
+		private static final int DATABASE_VERSION = 3;
 		private SQLiteDatabase db;
 		
 		
@@ -1055,7 +1150,7 @@ public class AreaData {
 				//+ C_ID 			+ " integer not null, "
 				//+ S_ID 			+ " integer not null, "
 				+ SC_ID 		+ " integer not null, "
-				+ IND_VALUE 	+ " integer not null, "
+				+ IND_VALUE 	+ " double not null, "
 				+ IND_DECIMAL 	+ " integer not null, "
 				+ IND_DATE 		+ " integer not null ) ";
 			
