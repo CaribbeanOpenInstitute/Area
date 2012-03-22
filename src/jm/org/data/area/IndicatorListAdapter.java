@@ -17,7 +17,7 @@ public class IndicatorListAdapter extends SimpleCursorLoader{
 	public Cursor loadInBackground() {
 		area = (AreaApplication) mContext.getApplicationContext();
 		Cursor indicatorCursor = area.areaData.getIndicatorList();
-		Log.d(TAG, String.format("Cursor size returned: %d", indicatorCursor.getCount()));
+		//Log.d(TAG, String.format("Cursor size returned: %d", indicatorCursor.getCount()));
 		return indicatorCursor;
 	}
 

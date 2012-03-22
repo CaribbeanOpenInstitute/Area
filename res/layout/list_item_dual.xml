@@ -28,7 +28,6 @@
         android:layout_marginLeft="?android:attr/listPreferredItemPaddingLeft"
         android:layout_marginTop="8dip"
         android:textAppearance="?android:attr/textAppearanceListItem" 
-        android:text="The Impact of Rural Migration on Caribbean banana plantations"
         />
 
     <TextView
@@ -38,7 +37,6 @@
         android:layout_alignLeft="@id/list_item_title"
         android:layout_below="@id/list_item_title"
         android:textAppearance="?android:attr/textAppearanceSmall" 
-        android:text="John Michael. Ramphal Center (2004)"
         />
 
 </TwoLineListItem>

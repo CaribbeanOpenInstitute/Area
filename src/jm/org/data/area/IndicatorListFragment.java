@@ -71,23 +71,25 @@ public class IndicatorListFragment extends ListFragment implements
 			intent.putExtra(POSITION, position);
 			startActivity(intent);
 		}
-		
+
 		if (act != null) {
 			act.setIndicator(item);
 			myAdapter.setSelectedPosition(position, getListView());
 		}
 
 		// Already in indicator activity
-		
-		  /*ChartsFragment chFragment = (ChartsFragment) getFragmentManager()
-		  .findFragmentById(R.id.chartFragment); if (chFragment != null &&
-		  chFragment.isInLayout()) { Log.d(TAG,
-		  "The list item passed to the fragment is " + item);
-		  chFragment.setText(item); } else { // Activity for phones /* Intent
-		  intent = new Intent(getActivity().getApplicationContext(),
-		  DetailActivity.class); intent.putExtra("value", item);
-		  startActivity(intent);*/
-		 
+
+		/*
+		 * ChartsFragment chFragment = (ChartsFragment) getFragmentManager()
+		 * .findFragmentById(R.id.chartFragment); if (chFragment != null &&
+		 * chFragment.isInLayout()) { Log.d(TAG,
+		 * "The list item passed to the fragment is " + item);
+		 * chFragment.setText(item); } else { // Activity for phones /* Intent
+		 * intent = new Intent(getActivity().getApplicationContext(),
+		 * DetailActivity.class); intent.putExtra("value", item);
+		 * startActivity(intent);
+		 */
+
 	}
 
 	@Override
@@ -97,7 +99,8 @@ public class IndicatorListFragment extends ListFragment implements
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-		
+		AreaApplication area = (AreaApplication) getActivity().getApplication();
+		;
 		// mAdapter.swapCursor(cursor);
 		myAdapter.swapCursor(cursor);
 		if (isResumed()) {
@@ -105,9 +108,12 @@ public class IndicatorListFragment extends ListFragment implements
 		} else {
 			Log.d(TAG, "Activity is not being resumed");
 			setListShownNoAnimation(true);
-			myAdapter.setSelectedPosition(act.getPosition());
+			try {
+				myAdapter.setSelectedPosition(act.getPosition());
+			} catch (NullPointerException e) {
+				//Empty list or startup activy incomplete
+			}
 		}
-
 	}
 
 	@Override

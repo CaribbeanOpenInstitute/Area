@@ -46,7 +46,7 @@ public class AreaCursorAdapter extends CursorAdapter {
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
 		TextView list_item = (TextView)view.findViewById(android.R.id.text1);
-		list_item.setText( cursor.getString(cursor.getColumnIndex(WB_INDICATOR_ID))+ "-" + cursor.getString(cursor.getColumnIndex(INDICATOR_NAME)));
+		list_item.setText( /*cursor.getString(cursor.getColumnIndex(WB_INDICATOR_ID))+ "-" + */cursor.getString(cursor.getColumnIndex(INDICATOR_NAME)));
 		int position = cursor.getPosition();
 		if (mSelectedPosition == position) {
 			view.setBackgroundColor(Color.parseColor("#8AC7E3"));

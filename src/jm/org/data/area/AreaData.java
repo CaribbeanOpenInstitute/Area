@@ -785,6 +785,7 @@ public class AreaData {
 			
 		}
 		cursor = rawQuery(table, "*", params);
+		Log.e(TAG, String.format("Params: %s. Table: %s", params, table));
 		return cursor;
 	}
 	
@@ -830,7 +831,7 @@ public class AreaData {
 		parser = new JSONParse(context);
 		String querybase = "http://api.ids.ac.uk/openapi/";
 		
-		String site = "eldis/", object = "document/", parameter="keyword", num_results = "num_results=500";
+		String site = "eldis/", object = "documents/", parameter="keyword", num_results = "num_results=500";
 		String queryStr;
 		String paramStr = "";
 		for(int n = 0; n < parameters.length; n++){
@@ -842,7 +843,7 @@ public class AreaData {
 		}
 		
 		queryStr = querybase + site + "search/" + object + "?" + parameter  + "=" + paramStr + "&" + num_results;
-		queryStr = "http://api.ids.ac.uk/openapi/eldis/search/documents/?q=Agriculture%26materials&num_results=500";
+		//queryStr = "http://api.ids.ac.uk/openapi/eldis/search/documents/?q=Agriculture%26materials&num_results=500";
 		return parser.parseIDSData(dataService.HTTPRequest(1,queryStr), indicator, paramStr, queryStr);
 		
 	}

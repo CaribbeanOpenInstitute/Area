@@ -28,7 +28,7 @@ public class AreaApplication extends Application {
 	private Cursor bingCursor;
 	
 	
-	public boolean isServiceRunning = false;
+	//public boolean isServiceRunning = false;
 	public boolean isOnline = false;
 	public boolean initIsRunning = false;
 	
