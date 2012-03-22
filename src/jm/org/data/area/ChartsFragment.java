@@ -1,7 +1,7 @@
 package jm.org.data.area;
 
 import org.achartengine.GraphicalView;
-import org.achartengine.chartdemo.demo.chart.AverageTemperatureChart;
+import org.achartengine.chartdemo.demo.chart.AreaChart;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,6 +21,9 @@ public class ChartsFragment extends Fragment {
 	private IndicatorActivity parentActivity;
 	private GraphicalView chart;
 	private LinearLayout layout;
+	private String Indicator;
+	private String[] Countries;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -33,10 +36,18 @@ public class ChartsFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		layout = (LinearLayout) parentActivity.findViewById(R.id.chart_view);
-		
+		Indicator = parentActivity.getIndicator();
+		Indicator = "AG.LND.AGRI.ZS";
+		Countries = parentActivity.getCountryList();
+		Countries = new String[]{"Jamaica", "Barbados"};
 		setHasOptionsMenu(true);
-		chart = new AverageTemperatureChart().execute(getActivity().getBaseContext());
-		Log.e(TAG,"chart view " +chart.toString() + " - " + layout.getId());
+		
+		
+		chart = new AreaChart().execute(getActivity().getBaseContext(), Indicator, Countries);
+		Log.e(TAG,"chart view " +chart.toString() + " - " + layout.getId() + "current indicator" + Indicator + " - "
+				+ "First country: " + Countries[0] + " from " + Countries.length);
+		
+		
 		layout.addView(chart, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 	}
 	

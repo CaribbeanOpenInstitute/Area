@@ -44,10 +44,10 @@ public class HomeActivity extends BaseActivity{
   
 	    //getBaseContext();
 		// Get the SearchView and set the searchable configuration
-	    SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-	    SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-	    searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-	    searchView.setIconifiedByDefault(true); // Do not iconify the widget; expand it by default
+	    //SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+	    //SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+	    //searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+	    //searchView.setIconifiedByDefault(true); // Do not iconify the widget; expand it by default
 
     	return super.onCreateOptionsMenu(menu);
     }

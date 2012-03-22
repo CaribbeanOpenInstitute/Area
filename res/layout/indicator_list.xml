@@ -27,7 +27,7 @@
         android:cacheColorHint="#00000000"
         android:drawSelectorOnTop="false" />
     <!-- android:background="#00000000" -->
-
+    
     <TextView
         android:id="@android:id/empty"
         android:layout_width="wrap_content"

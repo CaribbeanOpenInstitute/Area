@@ -260,8 +260,8 @@ public class IndicatorActivity extends BaseActivity implements
 		return listPosition;
 	}
 
-	public Object[] getCountryList() {
-		return countryList.toArray();
+	public String[] getCountryList() {
+		return (String[])countryList.toArray(new String[countryList.size()]);
 	}
 
 	public void reloadData() {

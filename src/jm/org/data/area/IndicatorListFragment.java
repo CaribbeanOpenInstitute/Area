@@ -1,6 +1,8 @@
 package jm.org.data.area;
 
-import static jm.org.data.area.DBConstants.WB_INDICATOR_ID;
+import static jm.org.data.area.DBConstants.*;
+
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -59,15 +61,17 @@ public class IndicatorListFragment extends ListFragment implements
 																		// at
 																		// row
 																		// position
-		String item = cursor.getString(cursor.getColumnIndex(WB_INDICATOR_ID));
-		Log.d(TAG, "Indicator selected is: " + item);
+		String item = cursor.getString(cursor.getColumnIndex(INDICATOR_NAME));
+		String item_id	= cursor.getString(cursor.getColumnIndex(WB_INDICATOR_ID));
+		Log.d(TAG, "Indicator selected is: " + item + "-> ID: " + item_id);
+
 
 		try { // Check if the parent activity is the IndicatorActivity
 			act = (IndicatorActivity) getActivity();
 		} catch (ClassCastException actException) {
 			Intent intent = new Intent(getActivity().getApplicationContext(),
 					IndicatorActivity.class);
-			intent.putExtra(WB_INDICATOR_ID, item);
+			intent.putExtra(WB_INDICATOR_ID, item_id);
 			intent.putExtra(POSITION, position);
 			startActivity(intent);
 		}
