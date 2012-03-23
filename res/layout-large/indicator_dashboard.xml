@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal" >
+
+    <fragment
+        android:id="@+id/inlistFragment"
+        android:layout_width="250dip"
+        android:layout_height="match_parent"
+        class="jm.org.data.area.IndicatorListFragment" >
+    </fragment>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" 
+        >
+<!--         android:background="@drawable/app_bg" -->
+
+        <TabHost
+            android:id="@android:id/tabhost"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center" 
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical" >
+
+                <TabWidget
+                    android:id="@android:id/tabs"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:orientation="horizontal" 
+                    />
+                    <!-- android:background="@color/Grey" -->
+
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="0"
+                     />
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewpager"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+            </LinearLayout>
+        </TabHost>
+        
+        <!-- <TextView android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="This is an example of text"
+             /> -->
+
+        <fragment
+            android:id="@+id/keywordFragment"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            class="jm.org.data.area.KeywordsFragment"> 
+        </fragment>
+    </LinearLayout>
+
+</LinearLayout>

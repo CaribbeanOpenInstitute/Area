@@ -1,11 +1,16 @@
 package jm.org.data.area;
 
+import static jm.org.data.area.AreaConstants.WORLD_SEARCH;
+import static jm.org.data.area.AreaConstants.SEARCH_SUCCESS;
+
 import java.util.Arrays;
 
 import org.achartengine.GraphicalView;
 import org.achartengine.chartdemo.demo.chart.AreaChart;
 
 import android.graphics.Color;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -26,6 +31,7 @@ public class ChartsFragment extends Fragment {
 	private LinearLayout layout;
 	private String indicator;
 	private String[] countryList;
+	private AreaApplication area;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -78,8 +84,8 @@ public class ChartsFragment extends Fragment {
                 
             case R.id.menu_reload:
                 Toast.makeText(getActivity(), "Fake refreshing...", Toast.LENGTH_SHORT).show();
-               //Get current country list 
-               String[] countryList = (String[]) ((IndicatorActivity) getActivity()).getCountryList();
+               reload(); 
+               
                 
                 /*parentActivity.getActionBarHelper().setRefreshActionItemState(true);
                 getWindow().getDecorView().postDelayed(
@@ -101,21 +107,46 @@ public class ChartsFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 	
-	private void createChart(){
-		indicator = parentActivity.getIndicator();
-		//indicator = "TX.VAL.AGRI.ZS.UN";
-		countryList = parentActivity.getCountryList();
-		//countryList = new String[]{"Jamaica", "Barbados"};
-		setHasOptionsMenu(true);
-		
-		
-		chart = new AreaChart().execute(getActivity().getBaseContext(), indicator, countryList);
-		Log.e(TAG,"chart view " +chart.toString() + " - " + layout.getId() + "current indicator" + indicator + " - "
-				+ "First country: " + countryList[0] + " from " + countryList.length);
-		
-		layout.setBackgroundColor(Color.BLUE);
-		layout.addView(chart, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));/**/
+
+	public void createChart() {
+		//set up chart
+		new getChartData().execute();
 	}
+	
+	private class getChartData extends AsyncTask<Void, Void, Boolean> {
+
+		protected void onPreExecute() {
+			//run on UI thread
+			area = (AreaApplication) getActivity().getApplication();
+		}
+
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			try {
+				
+				if (area.areaData.genericSearch(WORLD_SEARCH, indicator, countryList) >= SEARCH_SUCCESS) {
+					return true; //Generic Search Completed correctly
+				}
+
+			} catch (IllegalStateException ilEx) {
+				Log.e(TAG, "DATABASE LOCK: Error pulling/storing data for Chart");
+			}
+			return false;
+		}
+		
+		@Override
+		protected void onPostExecute(Boolean initResult) {
+			super.onPostExecute(initResult);
+			if (initResult) {
+				Log.e(TAG, "Completed Chart pull");
+				
+			} else {
+				Log.e(TAG, "Problem with pull data");
+			}
+		}
+	}
+	
+
 	public void reload() {
 		IndicatorActivity parentActivity = (IndicatorActivity) getActivity();
 		indicator = parentActivity.getIndicator();
@@ -136,7 +167,8 @@ public class ChartsFragment extends Fragment {
 		layout.removeAllViewsInLayout();
 		layout.addView(chart, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));/**/
 		
-		//reload graph
+		//Remove chart??
+		createChart();
 		
 	}
 }
