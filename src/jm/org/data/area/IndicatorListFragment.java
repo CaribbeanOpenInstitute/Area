@@ -130,7 +130,6 @@ public class IndicatorListFragment extends ListFragment implements
 	}
 	
 	public void reload() {
-		
 		getLoaderManager().restartLoader(0, null, this);
 	}
 
