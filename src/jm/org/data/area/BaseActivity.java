@@ -12,7 +12,7 @@ import com.android.actionbarcompat.ActionBarActivity;
 
 public class BaseActivity extends ActionBarActivity {
 	private final static String TAG = BaseActivity.class.getSimpleName();
-	protected AreaService areaService;
+	//protected AreaService areaService;
 	protected AreaApplication area;
 	
 	@Override
@@ -20,14 +20,14 @@ public class BaseActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		area = (AreaApplication) getApplication();
 		
-		if(!area.isServiceRunning) {
+		/*if(!area.isServiceRunning) {
 			startService(new Intent(this, AreaService.class));
 			area.isServiceRunning = true;
-		}
+		}*/
 		
 	}
 	
-	private ServiceConnection mConnection = new ServiceConnection() {
+	/*private ServiceConnection mConnection = new ServiceConnection() {
     	@Override
     	public void onServiceConnected(ComponentName className, IBinder binder) {
     		areaService = ((AreaService.MyBinder) binder).getService();
@@ -43,6 +43,6 @@ public class BaseActivity extends ActionBarActivity {
 	
 	void doBindService() {
     	bindService(new Intent(this, AreaService.class), mConnection, Context.BIND_AUTO_CREATE);
-    }
+    }*/
 
 }

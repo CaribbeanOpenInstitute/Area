@@ -1,7 +1,16 @@
 package jm.org.data.area;
 
+import static jm.org.data.area.DBConstants.*;
+import static jm.org.data.area.AreaConstants.*;
+
+import java.util.Arrays;
+
+import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,18 +21,32 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ArticlesFragment extends Fragment {
+public class ArticlesFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor>{
 public static final String TAG = ArticlesFragment.class.getSimpleName();
+private String indicator;
+private String[] countryList;
+SearchCursorAdapter mAdapter;
+SimpleCursorAdapter tAdapter;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
+		IndicatorActivity parentActivity = (IndicatorActivity) getActivity();
+		indicator = parentActivity.getIndicator();
+		//countryList = parentActivity.getCountryList();
 	}
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		
+		String[] from = {BING_TITLE, BING_DESC};
+		int[] to = {R.id.list_item_title, R.id.list_item_desc};
+		tAdapter = new SimpleCursorAdapter(getActivity(), R.layout.list_item_dual, null, from, to, 0);
+		
+		setListAdapter(tAdapter);
+		getLoaderManager().initLoader(0, null, this);
 	}
 	
 	@Override
@@ -68,10 +91,26 @@ public static final String TAG = ArticlesFragment.class.getSimpleName();
 			super.onPrepareOptionsMenu(menu);
 		}*/
 	
-	public void setText(String item) {
-		Log.d(TAG, item);
-		TextView view = (TextView) getView().findViewById(R.id.articlesText);
-		view.setText(item);
+	@Override
+	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
+		return new SearchListAdapter(getActivity(), BING_SEARCH, indicator, countryList);
+	}
+
+	@Override
+	public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor) {
+		Log.e(TAG, String.format("Report list Cursor size: %d. Cursor columns: %s. Cursor column count: %d", cursor.getCount(), Arrays.toString(cursor.getColumnNames()), cursor.getCount()));
+		tAdapter.swapCursor(cursor);
+		if (isResumed()) {
+			//setListShown(true);
+		} else {
+			//setListShownNoAnimation(true);
+		}
+	}
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> arg0) {
+		mAdapter.swapCursor(null);
+		
 	}
 
 }

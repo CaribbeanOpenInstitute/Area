@@ -1,12 +1,16 @@
 package jm.org.data.area;
 
-import static jm.org.data.area.AreaConstants.IDS_SEARCH;
-import static jm.org.data.area.DBConstants.IDS_DOC_ID;
+import static jm.org.data.area.DBConstants.*;
+import static jm.org.data.area.AreaConstants.*;
+
+import java.util.Arrays;
+
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,6 +27,7 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 	private String indicator;
 	private String[] countryList;
 	SearchCursorAdapter mAdapter;
+	SimpleCursorAdapter tAdapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -33,20 +38,19 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 		indicator = parentActivity.getIndicator();
 		//countryList = (String[]) parentActivity.getCountryList();
 		Log.d(TAG, String.format("Indcator: %s. Country List: ", indicator));
-		setListAdapter(mAdapter);
+		//setListAdapter(mAdapter);
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		String[] values = new String[] { "The Impact of Rural Migration on Caribbean banana plantations", "iPhone", "WindowsMobile",
-				"Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-				"Linux", "OS/2" };
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-				R.layout.list_item_dual, R.id.list_item_title, values);
 		
+		String[] from = {IDS_DOC_TITLE, IDS_DOC_TYPE};
+		int[] to = {R.id.list_item_title, R.id.list_item_desc};
+		tAdapter = new SimpleCursorAdapter(getActivity(), R.layout.list_item_dual, null, from, to, 0);
+		
+		setListAdapter(tAdapter);
 		getLoaderManager().initLoader(0, null, this);
-		//setListAdapter(adapter);
 		
 		//setEmptyText("No indicators found");
 		//setListShown(false);
@@ -55,7 +59,7 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.indicator_list, container, false);
+		return inflater.inflate(R.layout.reports, container, false);
 	}
 
 	@Override
@@ -94,35 +98,31 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 		Cursor cursor = (Cursor) getListAdapter().getItem(position);
 		
 		String item = cursor.getString(cursor.getColumnIndex(IDS_DOC_ID));
-		Log.d(TAG, "Report selected is: " + item);
+		String itemTitle = cursor.getString(cursor.getColumnIndex(IDS_DOC_TITLE));
+		Log.d(TAG, "Report selected is: " + item + " Title is: " + itemTitle);
 		
 		//Launch Report View
 	}
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-		//Return
-		return new ReportsListAdapter(getActivity(), indicator, countryList);
+		return new SearchListAdapter(getActivity(), IDS_SEARCH, indicator, countryList);
 	}
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor) {
-		AreaApplication area = (AreaApplication) getActivity().getApplication();
-		//cursor = area.areaData.getData(IDS_SEARCH, "SP.RUR.TOTL.ZG", new String[]{"Jamaica"}); 
-		//Log.e(TAG, String.format("Cursor size: %d", cursor.getCount()));
-		mAdapter.swapCursor(cursor);
+		Log.e(TAG, String.format("Report list Cursor size: %d. Cursor columns: %s. Cursor column count: %d", cursor.getCount(), Arrays.toString(cursor.getColumnNames()), cursor.getCount()));
+		tAdapter.swapCursor(cursor);
 		if (isResumed()) {
 			//setListShown(true);
 		} else {
 			//setListShownNoAnimation(true);
 		}
-		
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> arg0) {
-		mAdapter.swapCursor(null);
-		
+		tAdapter.swapCursor(null);
 	}
 
 }

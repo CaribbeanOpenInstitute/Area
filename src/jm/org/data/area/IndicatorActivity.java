@@ -17,18 +17,15 @@
  */
 package jm.org.data.area;
 
-import static jm.org.data.area.AreaConstants.*;
-import static jm.org.data.area.DBConstants.*;
+import static jm.org.data.area.AreaConstants.ADD_KEY;
 import static jm.org.data.area.AreaConstants.REMOVE_KEY;
+import static jm.org.data.area.DBConstants.WB_INDICATOR_ID;
 
 import java.util.ArrayList;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -41,7 +38,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TabHost;
 import android.widget.TabWidget;
-import android.widget.Toast;
 
 public class IndicatorActivity extends BaseActivity implements
 		KeywordsFragment.OnCountryChangeListener {
@@ -87,8 +83,15 @@ public class IndicatorActivity extends BaseActivity implements
 		}
 		
 		final Bundle indicatorBundle = getIntent().getExtras();
-		indicatorID = indicatorBundle.getString(WB_INDICATOR_ID, indicatorID);
+		if(indicatorBundle.getString(WB_INDICATOR_ID) != null)
+			indicatorID = indicatorBundle.getString(WB_INDICATOR_ID);
 		listPosition = indicatorBundle.getInt(POSITION, -1);
+		/*if (listPosition != -1) {
+			IndicatorListFragment inFragment = (IndicatorListFragment) getSupportFragmentManager().findFragmentById(R.id.inlistFragment); 
+			if (inFragment != null && inFragment.isInLayout()) { 
+				inFragment.setListSelection(listPosition);
+			}
+		}*/
 		Log.d(TAG, String.format("Indicator ID: %s at position %d", indicatorID, listPosition));
 		countryList = new ArrayList<String>();
 		
@@ -107,7 +110,6 @@ public class IndicatorActivity extends BaseActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			// app icon in action bar clicked; go home
 			Intent intent = new Intent(this, HomeActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
@@ -258,8 +260,8 @@ public class IndicatorActivity extends BaseActivity implements
 		return listPosition;
 	}
 
-	public Object[] getCountryList() {
-		return countryList.toArray();
+	public String[] getCountryList() {
+		return (String[])countryList.toArray(new String[countryList.size()]);
 	}
 
 	public void reloadData() {
