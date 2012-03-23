@@ -18,11 +18,11 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import android.util.Log;
 
 
-public class APIPull{
+public class APIPull {
 	
 	public APIPull() {}
 		
-	public String HTTPRequest(int api, String uri) {
+	public String HTTPRequest(int api, String uri)  {
 		String errorMsg = "";
 		StringBuilder builder = new StringBuilder();
 		HttpClient client = new DefaultHttpClient();

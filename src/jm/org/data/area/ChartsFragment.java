@@ -8,6 +8,7 @@ import java.util.Arrays;
 import org.achartengine.GraphicalView;
 import org.achartengine.chartdemo.demo.chart.AreaChart;
 
+import android.graphics.Color;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -44,19 +45,7 @@ public class ChartsFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		layout = (LinearLayout) parentActivity.findViewById(R.id.chart_view);
-		indicator = parentActivity.getIndicator();
-		indicator = "AG.LND.AGRI.ZS";
-		countryList = parentActivity.getCountryList();
-		countryList = new String[]{"Jamaica", "Barbados"};
-		setHasOptionsMenu(true);
-		
-		
-		/*chart = new AreaChart().execute(getActivity().getBaseContext(), indicator, countryList);
-		Log.e(TAG,"chart view " +chart.toString() + " - " + layout.getId() + "current indicator" + indicator + " - "
-				+ "First country: " + countryList[0] + " from " + countryList.length);
-		
-		
-		layout.addView(chart, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));*/
+		createChart();
 	}
 	
 	@Override
@@ -118,6 +107,7 @@ public class ChartsFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 	
+
 	public void createChart() {
 		//set up chart
 		new getChartData().execute();
@@ -156,15 +146,26 @@ public class ChartsFragment extends Fragment {
 		}
 	}
 	
+
 	public void reload() {
 		IndicatorActivity parentActivity = (IndicatorActivity) getActivity();
 		indicator = parentActivity.getIndicator();
+		//indicator = "TX.VAL.AGRI.ZS.UN";
 		countryList = parentActivity.getCountryList();
 		Log.d(TAG, String.format(
 				"Charts reload function. \n Current indicator: %s. Country List: %s",
 				indicator,
 				Arrays.toString(countryList)
 				));
+		//countryList = new String[]{"Jamaica", "Barbados", "Kenya"};
+		chart = new AreaChart().execute(getActivity().getBaseContext(), indicator, countryList);
+		Log.e(TAG,"chart view " +chart.toString() + " - " + layout.getId() + "current indicator" + indicator + " - "
+				+ "First country: " + countryList[0] + " from " + countryList.length);
+		
+		//chart.refreshDrawableState();
+		//layout.refreshDrawableState();
+		layout.removeAllViewsInLayout();
+		layout.addView(chart, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));/**/
 		
 		//Remove chart??
 		createChart();
