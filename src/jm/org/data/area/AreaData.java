@@ -1301,6 +1301,9 @@ public class AreaData {
 				Log.d("AREA", "Raw Query Result: Returned " + cursor.getCount() + " record(s)");
 			} catch (SQLException e) {
 				Log.e("AREA", "Raw Query Exception: " + e.toString());
+			} catch (IllegalStateException ilEc){
+				db.close();
+				return rawQuery(tableName, tableColumns,queryParams);
 			}
 			db.close();
 			return cursor;

@@ -35,12 +35,18 @@ public class SearchListAdapter extends SimpleCursorLoader {
 		indicatorID = "AG.PRD.CROP.XD";
 		country = new String[] { "Jamaica", "Barbados" };
 
-		if (area.areaData.genericSearch(searchType, indicatorID, country) >= SEARCH_SUCCESS) {
-			Cursor results = area.areaData.getData(searchType, indicatorID,
-					country);
-			Log.d(TAG, "Returning data. Num of records: " + results.getCount());
+		try {
+			if (area.areaData.genericSearch(searchType, indicatorID, country) >= SEARCH_SUCCESS) {
+				Cursor results = area.areaData.getData(searchType, indicatorID,
+						country);
+				Log.d(TAG, "Returning data. Num of records: " + results.getCount());
 
-			return results;
+				return results;
+			}
+		} catch (IllegalStateException ilEc){
+			Log.e(TAG, "Database list loading returned Database Lock exception on " + searchType + " query");
+			//db.close();
+			//return rawQuery(tableName, tableColumns,queryParams);
 		}
 		Log.d(TAG, "Returning zero");
 		return null;
