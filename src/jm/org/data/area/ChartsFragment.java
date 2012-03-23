@@ -1,5 +1,7 @@
 package jm.org.data.area;
 
+import java.util.Arrays;
+
 import org.achartengine.GraphicalView;
 import org.achartengine.chartdemo.demo.chart.AreaChart;
 
@@ -21,8 +23,8 @@ public class ChartsFragment extends Fragment {
 	private IndicatorActivity parentActivity;
 	private GraphicalView chart;
 	private LinearLayout layout;
-	private String Indicator;
-	private String[] Countries;
+	private String indicator;
+	private String[] countryList;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -36,19 +38,19 @@ public class ChartsFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		layout = (LinearLayout) parentActivity.findViewById(R.id.chart_view);
-		Indicator = parentActivity.getIndicator();
-		Indicator = "AG.LND.AGRI.ZS";
-		Countries = parentActivity.getCountryList();
-		Countries = new String[]{"Jamaica", "Barbados"};
+		indicator = parentActivity.getIndicator();
+		indicator = "AG.LND.AGRI.ZS";
+		countryList = parentActivity.getCountryList();
+		countryList = new String[]{"Jamaica", "Barbados"};
 		setHasOptionsMenu(true);
 		
 		
-		chart = new AreaChart().execute(getActivity().getBaseContext(), Indicator, Countries);
-		Log.e(TAG,"chart view " +chart.toString() + " - " + layout.getId() + "current indicator" + Indicator + " - "
-				+ "First country: " + Countries[0] + " from " + Countries.length);
+		/*chart = new AreaChart().execute(getActivity().getBaseContext(), indicator, countryList);
+		Log.e(TAG,"chart view " +chart.toString() + " - " + layout.getId() + "current indicator" + indicator + " - "
+				+ "First country: " + countryList[0] + " from " + countryList.length);
 		
 		
-		layout.addView(chart, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+		layout.addView(chart, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));*/
 	}
 	
 	@Override
@@ -109,4 +111,18 @@ public class ChartsFragment extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
+	
+	public void reload() {
+		IndicatorActivity parentActivity = (IndicatorActivity) getActivity();
+		indicator = parentActivity.getIndicator();
+		countryList = parentActivity.getCountryList();
+		Log.d(TAG, String.format(
+				"Charts reload function. \n Current indicator: %s. Country List: %s",
+				indicator,
+				Arrays.toString(countryList)
+				));
+		
+		//reload graph
+		
+	}
 }

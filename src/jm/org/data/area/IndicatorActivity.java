@@ -238,9 +238,11 @@ public class IndicatorActivity extends BaseActivity implements
 	public void onCountryChange(int change, String keyword) {
 		switch (change) {
 		case ADD_KEY:
+			Log.d(TAG, "Country " + change + "  " + keyword);
 			countryList.add(keyword);
 			break;
 		case REMOVE_KEY:
+			Log.d(TAG, "Country " + change + "  " + keyword);
 			countryList.remove(keyword);
 			break;
 		}
@@ -265,17 +267,29 @@ public class IndicatorActivity extends BaseActivity implements
 	}
 
 	public void reloadData() {
+		//Solution sourced from: http://stackoverflow.com/a/7393477/498449
+		
+		ChartsFragment chFragment = (ChartsFragment) getSupportFragmentManager().findFragmentByTag("android:switcher:"+R.id.viewpager+":0");
+		ReportsFragment reFragment = (ReportsFragment) getSupportFragmentManager().findFragmentByTag("android:switcher:"+R.id.viewpager+":1");
+		ArticlesFragment arFragment = (ArticlesFragment) getSupportFragmentManager().findFragmentByTag("android:switcher:"+R.id.viewpager+":2");
 		switch (mTabHost.getCurrentTab()) {
 		case 0:
 			Log.d(TAG, "Current tab is Charts");
+			chFragment.reload();
+			reFragment.reload();
 			break;
 		case 1:
 			Log.d(TAG, "Current tab is Reports");
+			reFragment.reload();
+			arFragment.reload();
+			chFragment.reload();
 			break;
 		case 2:
 			Log.d(TAG, "Current tab is Articles");
+			arFragment.reload();
+			reFragment.reload();
 			break;
 		}
-		Log.d(TAG, "Current tab is " + mTabHost.getCurrentTab());
+		//Log.d(TAG, "Current tab is " + mTabHost.getCurrentTab());
 	}
 }

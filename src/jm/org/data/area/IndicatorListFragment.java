@@ -103,8 +103,8 @@ public class IndicatorListFragment extends ListFragment implements
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-		AreaApplication area = (AreaApplication) getActivity().getApplication();
-		;
+		//AreaApplication area = (AreaApplication) getActivity().getApplication();
+		//;
 		// mAdapter.swapCursor(cursor);
 		myAdapter.swapCursor(cursor);
 		if (isResumed()) {
@@ -127,6 +127,11 @@ public class IndicatorListFragment extends ListFragment implements
 
 	public void setListSelection(int position) {
 		myAdapter.setSelectedPosition(position);
+	}
+	
+	public void reload() {
+		
+		getLoaderManager().restartLoader(0, null, this);
 	}
 
 	private void setListviewSelection(final ListView list, final int pos) {

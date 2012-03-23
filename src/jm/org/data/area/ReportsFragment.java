@@ -75,16 +75,9 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 		switch (item.getItemId()) {
 
 		case R.id.menu_reload:
-			Toast.makeText(getActivity(), "Fake refreshing report list...",
-					Toast.LENGTH_SHORT).show();
-			/*
-			 * parentActivity.getActionBarHelper().setRefreshActionItemState(true
-			 * ); getWindow().getDecorView().postDelayed( new Runnable() {
-			 * 
-			 * @Override public void run() {
-			 * getActionBarHelper().setRefreshActionItemState(false); } },
-			 * 1000);
-			 */
+			Toast.makeText(getActivity(), "Refreshing report list...",
+					Toast.LENGTH_LONG).show();
+			reload();
 			break;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -111,12 +104,19 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor) {
-		Log.e(TAG, String.format("Report list Cursor size: %d. Cursor columns: %s. Cursor column count: %d", cursor.getCount(), Arrays.toString(cursor.getColumnNames()), cursor.getCount()));
-		tAdapter.swapCursor(cursor);
-		if (isResumed()) {
-			//setListShown(true);
-		} else {
-			//setListShownNoAnimation(true);
+		if (cursor != null) {
+			Log.e(TAG,
+					String.format(
+							"Report list Cursor size: %d. Cursor columns: %s. Cursor column count: %d",
+							cursor.getCount(),
+							Arrays.toString(cursor.getColumnNames()),
+							cursor.getCount()));
+			tAdapter.swapCursor(cursor);
+			if (isResumed()) {
+				//setListShown(true);
+			} else {
+				//setListShownNoAnimation(true);
+			}
 		}
 	}
 
@@ -124,5 +124,18 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 	public void onLoaderReset(Loader<Cursor> arg0) {
 		tAdapter.swapCursor(null);
 	}
+	
+	public void reload() {
+		IndicatorActivity parentActivity = (IndicatorActivity) getActivity();
+		indicator = parentActivity.getIndicator();
+		countryList = parentActivity.getCountryList();
+		Log.d(TAG, String.format(
+				"Reports reload function. \n Current indicator: %s. Country List: %s",
+				indicator,
+				Arrays.toString(countryList)
+				));
+		getLoaderManager().restartLoader(0, null, this);
+	}
+	
 
 }
