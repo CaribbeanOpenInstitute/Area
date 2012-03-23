@@ -95,8 +95,8 @@ public class ChartsFragment extends Fragment {
                 
             case R.id.menu_reload:
                 Toast.makeText(getActivity(), "Fake refreshing...", Toast.LENGTH_SHORT).show();
-               //Get current country list 
-               String[] countryList = (String[]) ((IndicatorActivity) getActivity()).getCountryList();
+               reload(); 
+               
                 
                 /*parentActivity.getActionBarHelper().setRefreshActionItemState(true);
                 getWindow().getDecorView().postDelayed(
@@ -166,7 +166,8 @@ public class ChartsFragment extends Fragment {
 				Arrays.toString(countryList)
 				));
 		
-		//reload graph
+		//Remove chart??
+		createChart();
 		
 	}
 }
