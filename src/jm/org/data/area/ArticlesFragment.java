@@ -5,6 +5,7 @@ import static jm.org.data.area.AreaConstants.*;
 
 import java.util.Arrays;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -18,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -87,6 +89,23 @@ public class ArticlesFragment extends ListFragment implements
 	 * menu.removeItem(R.menu.) super.onPrepareOptionsMenu(menu); }
 	 */
 
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		super.onListItemClick(l, v, position, id);
+		Cursor cursor = (Cursor) getListAdapter().getItem(position);
+		
+		String item = cursor.getString(cursor.getColumnIndex(BING_TITLE));
+		String item_id = cursor.getString(cursor.getColumnIndex(BING_SEARCH_ID));
+		String itemTitle = cursor.getString(cursor.getColumnIndex(BING_DESC));
+		Log.d(TAG, "Article selected is: " + item + " Title is: " + itemTitle);
+		
+		//Launch Article View
+		Intent intent = new Intent(getActivity().getApplicationContext(),
+				IndicatorActivity.class);
+		intent.putExtra(BING_SEARCH_ID, item_id);
+		startActivity(intent);
+	}
+	
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
 		return new SearchListAdapter(getActivity(), BING_SEARCH, indicator,

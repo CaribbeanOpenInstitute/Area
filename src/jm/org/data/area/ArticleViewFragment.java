@@ -20,9 +20,9 @@ import android.widget.TextView;
 
 import jm.org.data.area.R;
 
-public class ViewArticleFragment extends Fragment {
+public class ArticleViewFragment extends Fragment {
 	
-	public static final String TAG = ViewArticleFragment.class.getSimpleName();
+	public static final String TAG = ArticleViewFragment.class.getSimpleName();
 		
 	/*	
 	// Columns unique to the BING Results table
@@ -43,7 +43,7 @@ public class ViewArticleFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.e(TAG, "ViewArticleFragment");
+		Log.e(TAG, "ArticleViewFragment");
 				
 		// To retrieve the information from the activity that called this intent 	
 		final Bundle indicatorBundle = getActivity().getIntent().getExtras();
