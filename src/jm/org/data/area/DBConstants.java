@@ -88,7 +88,7 @@ public interface DBConstants extends BaseColumns {
 	public static final String BING_QUERY		= "query_string"	;
 	public static final String QUERY_DATE		= "query_date"		;
 	
-	//colums unique to the BING Results table
+	//Columns unique to the BING Results table
 	public static final String BING_TITLE		= "title"		;
 	public static final String BING_DESC		= "description"	;
 	public static final String BING_URL			= "result_url"	;

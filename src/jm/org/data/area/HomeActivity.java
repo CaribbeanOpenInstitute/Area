@@ -7,6 +7,7 @@ import android.content.Context;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences.Editor;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -42,13 +43,18 @@ public class HomeActivity extends BaseActivity{
     	MenuInflater menuInflater = getMenuInflater();
     	menuInflater.inflate(R.menu.home, menu);
   
-	    //getBaseContext();
-		// Get the SearchView and set the searchable configuration
-	    SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-	    SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-	    searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-	    searchView.setIconifiedByDefault(true); // Do not iconify the widget; expand it by default
-
+	    
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			// only for android newer than gingerbread
+			//TODO Implement a Search Dialog fall back for compatibility with Android 2.3 and lower
+			// Currently crashes on Gingerbread or lower
+			// Get the SearchView and set the searchable configuration
+			SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+			SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+			searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+			searchView.setIconifiedByDefault(true); // Do not iconify the widget; expand it by default
+		}
+		
     	return super.onCreateOptionsMenu(menu);
     }
 	
