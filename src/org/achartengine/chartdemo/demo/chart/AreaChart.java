@@ -63,14 +63,14 @@ public class AreaChart extends AbstractDemoChart {
    */
   public GraphicalView execute(Context context, String indicator, String[] countries) {
 	AreaData dataService = new AreaData(context);
-	dataService.genericSearch(WORLD_SEARCH, "AG.LND.AGRI.ZS", new String[]{"Jamaica", "Kenya","Barbados"});
+	//dataService.genericSearch(WORLD_SEARCH, "AG.LND.AGRI.ZS", new String[]{"Jamaica", "Kenya","Barbados"});
 	double[][] data;
 	int ind_id, y_max = 0, pos1, pos2;
 	String indicator_name, x_axis;
 	
 	ind_id = dataService.getIndicatorID(indicator);
 	indicator_name = dataService.getIndicatorName(indicator);
-	
+	Log.e("Charts","Indicator: " + indicator_name + "num of countries: " + countries.length);
 	pos1 = indicator_name.indexOf("(");
 	pos2 = indicator_name.indexOf(")");
 	x_axis = indicator_name.substring(pos1, pos2);
@@ -80,9 +80,12 @@ public class AreaChart extends AbstractDemoChart {
     int[] colors = new int[countries.length];
     PointStyle[] styles = new PointStyle[countries.length];
     String test = "", test1 = "";
+    
     for (int i = 0; i < countries.length; i++) {
     	data = dataService.getIndicatorList(ind_id, countries[i], 1);
     	Log.e("Charts","data length"+ data[0].length);
+    	test  = "";
+    	test1 = "";
     	for (int a = 0; a < data[0].length; a++){
     		test = test + ", " + data[0][a];
     		test1 = test1 + ", " + data[1][a];
@@ -91,7 +94,8 @@ public class AreaChart extends AbstractDemoChart {
     	Log.e("Charts","data values- "+ test1);
     	x.add(data[0]);
     	values.add(data[1]);
-    	y_max = getMax(data[1]);
+    	y_max = getMax(data[1], y_max);
+    	Log.e("Charts","Max "+ y_max);
     	colors[i] = COLOURS[i];
     	styles[i] = STYLEZ[0];
     }
@@ -123,8 +127,8 @@ public class AreaChart extends AbstractDemoChart {
     return intent;
   }
 
-  private int getMax(double[] array){
-	double max = 0;
+  private int getMax(double[] array, int y_max){
+	double max = y_max;
 	
 	for(int n = 0; n < array.length; n++){
 		if (max <= array[n]){

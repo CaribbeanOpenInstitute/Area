@@ -94,7 +94,7 @@ public class IndicatorActivity extends BaseActivity implements
 		}*/
 		Log.d(TAG, String.format("Indicator ID: %s at position %d", indicatorID, listPosition));
 		countryList = new ArrayList<String>();
-		
+		countryList.add("World");
 		
 
 	}
