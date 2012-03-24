@@ -32,8 +32,8 @@ public class SearchListAdapter extends SimpleCursorLoader {
 		area = (AreaApplication) mContext.getApplicationContext();
 
 		//int searchType = IDS_SEARCH;
-		indicatorID = "AG.PRD.CROP.XD";
-		country = new String[] { "Jamaica", "Barbados" };
+		/*indicatorID = "AG.PRD.CROP.XD";
+		country = new String[] { "Jamaica", "Barbados" };*/
 
 		try {
 			if (area.areaData.genericSearch(searchType, indicatorID, country) >= SEARCH_SUCCESS) {

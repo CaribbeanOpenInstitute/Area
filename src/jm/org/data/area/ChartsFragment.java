@@ -166,7 +166,8 @@ public class ChartsFragment extends Fragment {
 		
 	}
 	private void renderChart(){
-		chart = new AreaChart().execute(getActivity().getBaseContext(), indicator, countryList);
+		Log.d(TAG, String.format("Indicator: %s. Country list: %s", indicator, Arrays.toString(countryList)));
+		chart = new AreaChart().execute(getActivity(), indicator, countryList);
 		Log.e(TAG,"chart view " +chart.toString() + " - " + layout.getId() + "current indicator" + indicator + " - "
 				+ "First country: " + countryList[0] + " from " + countryList.length);
 		
