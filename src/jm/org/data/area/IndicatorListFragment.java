@@ -68,6 +68,12 @@ public class IndicatorListFragment extends ListFragment implements
 
 		try { // Check if the parent activity is the IndicatorActivity
 			act = (IndicatorActivity) getActivity();
+			Intent intent = new Intent(getActivity().getApplicationContext(),
+					IndicatorActivity.class);
+			intent.putExtra(WB_INDICATOR_ID, item_id);
+			intent.putExtra(POSITION, position);
+			startActivity(intent);
+			act.finish();
 		} catch (ClassCastException actException) {
 			Intent intent = new Intent(getActivity().getApplicationContext(),
 					IndicatorActivity.class);
