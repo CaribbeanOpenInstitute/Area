@@ -132,7 +132,7 @@ public class ArticlesFragment extends ListFragment implements
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> arg0) {
-		mAdapter.swapCursor(null);
+		tAdapter.swapCursor(null);
 
 	}
 

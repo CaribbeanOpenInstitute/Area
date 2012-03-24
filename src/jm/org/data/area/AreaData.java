@@ -195,6 +195,7 @@ public class AreaData {
 			//Duplicate Check
 			if (tableCode == COUNTRY_SEARCH_DATA || tableCode == WB_SEARCH_DATA || tableCode == SEARCH_DATA || tableCode == IDS_PARAM_DATA) {
 				cursor = db.query(tableName, null, String.format("%s='%s' AND %s='%s'", tableKey, tableRecord.get(tableKey), tableKeyAdd, tableRecord.get(tableKeyAdd)), null, null, null, null);
+				Log.e(TAG,String.format("%s='%s' AND %s='%s'", tableKey, tableRecord.get(tableKey), tableKeyAdd, tableRecord.get(tableKeyAdd)));
 			} else { //Special condition for double primary key on crop table
 				//cursor = db.query(tableName, null, String.format("%s=%s AND %s=%s", tableKey, tableRecord.get(tableKey), tableKeyAdd, tableRecord.get(tableKeyAdd)), null, null, null, null);
 				cursor = db.query(tableName, null, tableKey + "='" + tableRecord.get(tableKey) + "'", null, null, null, null);
@@ -843,7 +844,8 @@ public class AreaData {
 		parser = new JSONParse(context);
 		String querybase = "http://api.ids.ac.uk/openapi/";
 		int return_int;
-		String site = "eldis/", object = "documents/", parameter="keyword", num_results = "num_results=500";
+		String site = "eldis/", object = "documents/", parameter="q", num_results = "num_results=50";
+		String extras = "extra_fields=author+publication_year+publisher+publication_date";
 		String queryStr;
 		String paramStr = "";
 		for(int n = 0; n < parameters.length; n++){
@@ -854,7 +856,7 @@ public class AreaData {
 			}
 		}
 		
-		queryStr = querybase + site + "search/" + object + "?" + parameter  + "=" + paramStr + "&" + num_results;
+		queryStr = querybase + site + "search/" + object + "?" + parameter  + "=" + paramStr + "&" + extras + "&" +num_results;
 		//queryStr = "http://api.ids.ac.uk/openapi/eldis/search/documents/?q=Agriculture%26materials&num_results=50";
 		return_int =  parser.parseIDSData(dataService.HTTPRequest(1,queryStr), indicator, paramStr, queryStr);
 		if(return_int > 0){
@@ -974,6 +976,7 @@ public class AreaData {
 				if(search_country.getCount() == 1){
 					search_country.moveToFirst();
 					search_country_id = search_country.getInt(search_country.getColumnIndex(_ID));
+					Log.e(TAG,String.format("SC_ID %s - _ID %s ", search_country_id, search_country.getInt(search_country.getColumnIndex(_ID)) ));
 					wb_data = dbHelper.rawQuery(WB_DATA,"*", ""+ SC_ID +" ='" + search_country_id +"'" +" ORDER BY " + IND_DATE);
 					
 					if(wb_data.getCount() > 0){
@@ -1077,7 +1080,7 @@ public class AreaData {
 	
 	private class AreaDB extends SQLiteOpenHelper{
 		
-		private static final int DATABASE_VERSION = 4;
+		private static final int DATABASE_VERSION = 6;
 		private SQLiteDatabase db;
 		
 		
@@ -1139,7 +1142,12 @@ public class AreaData {
 				+ IDS_DOC_ID		+ " text not null, "
 				+ IDS_DOC_TYPE		+ " text not null, "
 				+ IDS_DOC_TITLE		+ " text not null, "
+				+ IDS_DOC_AUTH_STR	+ " text not null, "
+				+ IDS_DOC_PUB		+ " text not null, "
+				+ IDS_DOC_DATE		+ " text not null, "
+				+ IDS_DOC_DESC		+ " text not null, "
 				+ IDS_DOC_PATH 		+ " text not null )" ;
+		
 		
 		private static final String CREATE_TABLE_API = "create table " + API + " ( "
 				+ API_ID 			+ " integer primary key autoincrement, "

@@ -3,19 +3,41 @@ package jm.org.data.area;
 
 
 import static android.provider.BaseColumns._ID;
+import static jm.org.data.area.AreaConstants.BING_SEARCH_LIST;
+import static jm.org.data.area.AreaConstants.IDS_SEARCH_DOC_AUTH;
+import static jm.org.data.area.AreaConstants.IDS_SEARCH_LIST;
 import static jm.org.data.area.AreaConstants.SEARCH_FAIL;
 import static jm.org.data.area.AreaConstants.WB_COUNTRY_LIST;
 import static jm.org.data.area.AreaConstants.WB_DATA_LIST;
-import static jm.org.data.area.AreaConstants.*;
+import static jm.org.data.area.AreaConstants.WB_IND_LIST;
 import static jm.org.data.area.DBConstants.AP_ID;
+import static jm.org.data.area.DBConstants.BING_QUERY;
+import static jm.org.data.area.DBConstants.BING_SEARCH_RESULTS;
+import static jm.org.data.area.DBConstants.BING_SEARCH_TABLE;
+import static jm.org.data.area.DBConstants.B_S_ID;
+import static jm.org.data.area.DBConstants.COMBINATION;
 import static jm.org.data.area.DBConstants.COUNTRY;
 import static jm.org.data.area.DBConstants.C_ID;
+import static jm.org.data.area.DBConstants.FROM_BING_SEARCH_RESULTS;
 import static jm.org.data.area.DBConstants.FROM_COUNTRY;
+import static jm.org.data.area.DBConstants.FROM_IDS_SEARCH_RESULTS;
 import static jm.org.data.area.DBConstants.FROM_INDICATOR;
 import static jm.org.data.area.DBConstants.FROM_WB_DATA;
+import static jm.org.data.area.DBConstants.IDS_BASE_URL;
+import static jm.org.data.area.DBConstants.IDS_DOC_PATH;
+import static jm.org.data.area.DBConstants.IDS_OBJECT;
+import static jm.org.data.area.DBConstants.IDS_OPERAND;
+import static jm.org.data.area.DBConstants.IDS_PARAMETER;
+import static jm.org.data.area.DBConstants.IDS_PARAM_VALUE;
+import static jm.org.data.area.DBConstants.IDS_SEARCH_PARAMS;
+import static jm.org.data.area.DBConstants.IDS_SEARCH_RESULTS;
+import static jm.org.data.area.DBConstants.IDS_SEARCH_TABLE;
+import static jm.org.data.area.DBConstants.IDS_SITE;
+import static jm.org.data.area.DBConstants.IDS_S_ID;
 import static jm.org.data.area.DBConstants.INDICATOR;
 import static jm.org.data.area.DBConstants.I_ID;
 import static jm.org.data.area.DBConstants.P_ID;
+import static jm.org.data.area.DBConstants.QUERY_DATE;
 import static jm.org.data.area.DBConstants.SC_ID;
 import static jm.org.data.area.DBConstants.SEARCH;
 import static jm.org.data.area.DBConstants.SEARCH_COUNTRY;
@@ -24,11 +46,12 @@ import static jm.org.data.area.DBConstants.SEARCH_MODIFIED;
 import static jm.org.data.area.DBConstants.SEARCH_URI;
 import static jm.org.data.area.DBConstants.S_ID;
 import static jm.org.data.area.DBConstants.WB_COUNTRY_CODE;
-import static jm.org.data.area.DBConstants.*;
+import static jm.org.data.area.DBConstants.WB_DATA;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Hashtable;
+import java.util.regex.PatternSyntaxException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -307,6 +330,7 @@ public class JSONParse {
 				Cursor SearchCountry	= areaData.rawQuery(SEARCH_COUNTRY,"*", "" + C_ID + " = '"
 								+ countryData.getInt(countryData.getColumnIndex(_ID)) + "' AND "  + S_ID + "= '"+ search_id +"'");
 				SearchCountry.moveToFirst();
+				search_country_id = SearchCountry.getInt(SearchCountry.getColumnIndex(_ID));
 				if(search_country_id < 0){
 					return SEARCH_FAIL;
 				}
@@ -413,6 +437,7 @@ public class JSONParse {
 				
 				for (int a = 0; a < WB_COUNTRY_LIST.length; a++){
 					apiRecord.put(FROM_COUNTRY[a+1], (String)country_data.get(WB_COUNTRY_LIST[a]));	
+					
 					Log.d("Countries", ""+FROM_COUNTRY[a+1] + ":-> " + (String)country_data.get(WB_COUNTRY_LIST[a]));
 				}
 				Log.d(TAG, country_data.toString());
@@ -429,6 +454,7 @@ public class JSONParse {
 	}
 
 	private Hashtable<String, String> parseJSON(Hashtable<String, String> data, JSONObject jsonInnerObject, String base){
+		String key, value;
 		if (! base.equals("")){
 			base = base + ": ";
 		}
@@ -440,8 +466,23 @@ public class JSONParse {
 			for(int x = 0; x < names.length(); x++){
 				
 				if(jsonInnerObject.optJSONObject(names.getString(x)) == null){
-					
-					data.put("" + base + ""+names.getString(x) , jsonInnerObject.getString(names.getString(x)));
+					key = "" + base + ""+names.getString(x);
+					value = jsonInnerObject.getString(names.getString(x));
+					if (key.equals(IDS_SEARCH_DOC_AUTH)){
+						value = "";
+						JSONArray auths = jsonInnerObject.getJSONArray(key);
+						for (int a = 0; a < auths.length(); a++){
+							if(a == 0){
+								value = value + auths.getString(a);
+							}else{
+								value = value + ", " + auths.getString(a) ;
+							}
+							
+						}
+						
+						Log.e(TAG,"Values String "+ value );
+					}
+					data.put(key, value);
 					
 				}else{
 					//jsonText.append("\n" + names.getString(x) + ": ");
@@ -452,6 +493,8 @@ public class JSONParse {
 			}
 		}
 		catch (JSONException e){
+			Log.e(TAG,"Exception in parsing Indicators List "+e.toString());
+		}catch(PatternSyntaxException e){
 			Log.e(TAG,"Exception in parsing Indicators List "+e.toString());
 		}
 		return data;

@@ -256,6 +256,7 @@ public class IndicatorActivity extends BaseActivity implements
 	public void setIndicator(String indicator) {
 		indicatorID = indicator;
 		Log.d(TAG, "Indicator changed to " + indicator);
+		
 	}
 	
 	public int getPosition() {

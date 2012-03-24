@@ -76,12 +76,15 @@ public interface DBConstants extends BaseColumns {
 	public static final String COMBINATION		= "combination"		;
 	
 	//Columns unique to the IDS Search Results table
-	public static final String IDS_DOC_URL		= "doc_url"		;
-	public static final String IDS_DOC_ID		= "doc_id"		;
-	public static final String IDS_DOC_TYPE		= "doc_type"	;
-	public static final String IDS_DOC_TITLE	= "doc_title"	;
-	public static final String IDS_DOC_PATH		= "doc_path"	;
-	
+	public static final String IDS_DOC_URL		= "doc_url"			;
+	public static final String IDS_DOC_ID		= "doc_id"			;
+	public static final String IDS_DOC_TYPE		= "doc_type"		;
+	public static final String IDS_DOC_TITLE	= "doc_title"		;
+	public static final String IDS_DOC_PATH		= "doc_path"		;
+	public static final String IDS_DOC_AUTH_STR = "author_string"	;
+	public static final String IDS_DOC_PUB		= "doc_publisher"	;
+	public static final String IDS_DOC_DESC		= "doc_desciption"	;
+	public static final String IDS_DOC_DATE		= "doc_date"		;
 	
 	// Columns unique to the BING Search table
 	public static final String BING_SEARCH_ID	= _ID				;
@@ -172,7 +175,7 @@ public interface DBConstants extends BaseColumns {
 	public static final String[] FROM_IDS_SEARCH_PARAMS		= {_ID, IDS_S_ID, IDS_PARAMETER, IDS_OPERAND, IDS_PARAM_VALUE, COMBINATION		};
 	
 	public static final String[] FROM_IDS_SEARCH_RESULTS	= {_ID, IDS_S_ID, IDS_DOC_URL, IDS_DOC_ID, IDS_DOC_TYPE, IDS_DOC_TITLE, 
-																IDS_DOC_PATH																};
+																IDS_DOC_AUTH_STR, IDS_DOC_PUB, IDS_DOC_DATE, IDS_DOC_DESC, IDS_DOC_PATH		};
 	
 	public static final String[] FROM_API					= {API_ID, API_NAME, API_DESC, BASE_URI											};
 	
