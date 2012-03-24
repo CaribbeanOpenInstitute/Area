@@ -18,7 +18,9 @@ public class IndicatorListFragment extends ListFragment implements
 	public static final String TAG = IndicatorListFragment.class
 			.getSimpleName();
 	private final String POSITION = "position";
+	private int listPosition;
 	IndicatorActivity act;
+	HomeActivity hAct;
 
 	// SimpleCursorAdapter mAdapter;
 	AreaCursorAdapter myAdapter;
@@ -32,12 +34,6 @@ public class IndicatorListFragment extends ListFragment implements
 		// getLoaderManager().initLoader(0, null, this);
 	}
 
-	/*
-	 * @Override public View onCreateView(LayoutInflater inflater, ViewGroup
-	 * container, Bundle savedInstanceState) { return
-	 * inflater.inflate(R.layout.indicator_list, container, false); }
-	 */
-
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -49,18 +45,34 @@ public class IndicatorListFragment extends ListFragment implements
 		// setListAdapter(mAdapter);
 		setListShown(false);
 		getLoaderManager().initLoader(0, null, this);
-
-		// //////////////////////
+		
+		try { // Check if the parent activity is the IndicatorActivity
+			hAct = (HomeActivity) getActivity();
+			myAdapter.setSelectedPosition(-1, getListView());
+		} catch (ClassCastException actException) {
+			act = (IndicatorActivity) getActivity();
+			myAdapter.setSelectedPosition(act.getPosition(), getListView());
+			getListView().setSelection(act.getPosition());
+			/*if (act == null) {
+				Log.d(TAG, "Indicator activity variable is null");
+				Bundle data = getActivity().getIntent().getExtras();
+				
+				myAdapter.setSelectedPosition(data.getInt(POSITION,-1), getListView());
+				getListView().setSelection(data.getInt(POSITION,-1));
+			} else {
+				Log.d(TAG, "Indicator activity variable is not null");
+				myAdapter.setSelectedPosition(act.getPosition(), getListView());
+				getListView().setSelection(act.getPosition());
+			}*/
+			
+		}
 	}
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		Cursor cursor = (Cursor) getListAdapter().getItem(position); // Get
-																		// Cursor
-																		// at
-																		// row
-																		// position
+		//Get Cursor at list item row
+		Cursor cursor = (Cursor) getListAdapter().getItem(position); 
 		String item = cursor.getString(cursor.getColumnIndex(INDICATOR_NAME));
 		String item_id	= cursor.getString(cursor.getColumnIndex(WB_INDICATOR_ID));
 		Log.d(TAG, "Indicator selected is: " + item + "-> ID: " + item_id);
@@ -78,7 +90,9 @@ public class IndicatorListFragment extends ListFragment implements
 
 		if (act != null) {
 			act.setIndicator(item);
+			act.setPosition(position);
 			myAdapter.setSelectedPosition(position, getListView());
+			listPosition = position;
 		}
 
 		// Already in indicator activity

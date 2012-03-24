@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 public class AreaCursorAdapter extends CursorAdapter {
 	private static final String TAG = AreaCursorAdapter.class.getSimpleName();
-	private int mSelectedPosition = -1;
+	private int mSelectedPosition;
 	private Context mContext;
 	
 	public AreaCursorAdapter(Context context, Cursor c) {

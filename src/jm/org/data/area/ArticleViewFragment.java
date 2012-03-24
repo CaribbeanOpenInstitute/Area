@@ -47,17 +47,19 @@ public class ArticleViewFragment extends Fragment {
 				
 		// To retrieve the information from the activity that called this intent 	
 		final Bundle indicatorBundle = getActivity().getIntent().getExtras();
-		bingTitle = indicatorBundle.getString(BING_TITLE, bingTitle);
-		bingUrl = indicatorBundle.getString(BING_URL, bingUrl);
+		//bingTitle = indicatorBundle.getString(BING_TITLE, bingTitle);
+		//bingUrl = indicatorBundle.getString(BING_URL, bingUrl);
 		
 		Log.d(TAG, String.format("BIng Title ID: %s at URL %s", bingTitle, bingUrl));
 				
-		showWebArticle(bingUrl);	
+		//showWebArticle(bingUrl);
+		
 	}
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		showWebArticle("www.cnn.com");
 	}
 	
 	@Override

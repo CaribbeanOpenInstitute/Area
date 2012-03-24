@@ -45,7 +45,7 @@ public class ChartsFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		layout = (LinearLayout) parentActivity.findViewById(R.id.chart_view);
-		createChart();
+		//createChart();
 	}
 	
 	@Override

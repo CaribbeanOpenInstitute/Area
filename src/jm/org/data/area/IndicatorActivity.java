@@ -23,8 +23,10 @@ import static jm.org.data.area.DBConstants.WB_INDICATOR_ID;
 
 import java.util.ArrayList;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -48,18 +50,27 @@ public class IndicatorActivity extends BaseActivity implements
 
 	public int dataSource;
 	private String indicatorID;
-	private String indicatorName;
+	//private String indicatorName;
 	private ArrayList<String> countryList;
 	final String POSITION = "position";
-	private int listPosition;
+	private int mListPosition;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			// only for android newer than gingerbread
+			 ActionBar actionBar = getActionBar();
+			 actionBar.setDisplayHomeAsUpEnabled(true);
+		}
 
-		// ActionBar actionBar = getActionBar();
-		// actionBar.setDisplayHomeAsUpEnabled(true);
-
+		final Bundle indicatorBundle = getIntent().getExtras();
+		if(indicatorBundle.getString(WB_INDICATOR_ID) != null) {
+			indicatorID = indicatorBundle.getString(WB_INDICATOR_ID);
+			mListPosition = indicatorBundle.getInt(POSITION);
+		}
+		
 		setContentView(R.layout.indicator_dashboard);
 
 		mTabHost = (TabHost) findViewById(android.R.id.tabhost);
@@ -82,21 +93,24 @@ public class IndicatorActivity extends BaseActivity implements
 			mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
 		}
 		
-		final Bundle indicatorBundle = getIntent().getExtras();
-		if(indicatorBundle.getString(WB_INDICATOR_ID) != null)
-			indicatorID = indicatorBundle.getString(WB_INDICATOR_ID);
-		listPosition = indicatorBundle.getInt(POSITION, -1);
-		/*if (listPosition != -1) {
+		//mListPosition = indicatorBundle.getInt(POSITION, -1);
+		/*if (mListPosition != -1) {
 			IndicatorListFragment inFragment = (IndicatorListFragment) getSupportFragmentManager().findFragmentById(R.id.inlistFragment); 
 			if (inFragment != null && inFragment.isInLayout()) { 
-				inFragment.setListSelection(listPosition);
+				inFragment.setListSelection(mListPosition);
 			}
 		}*/
-		Log.d(TAG, String.format("Indicator ID: %s at position %d", indicatorID, listPosition));
+		Log.d(TAG, String.format("Indicator ID: %s at position %d", indicatorID, mListPosition));
 		countryList = new ArrayList<String>();
 		countryList.add("World");
 		
 
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		
 	}
 
 	@Override
@@ -259,9 +273,13 @@ public class IndicatorActivity extends BaseActivity implements
 	}
 	
 	public int getPosition() {
-		return listPosition;
+		return mListPosition;
 	}
 
+	public void setPosition(int lpos) {
+		mListPosition = lpos;
+	}
+	
 	public String[] getCountryList() {
 		return (String[])countryList.toArray(new String[countryList.size()]);
 	}
@@ -292,4 +310,5 @@ public class IndicatorActivity extends BaseActivity implements
 		}
 		//Log.d(TAG, "Current tab is " + mTabHost.getCurrentTab());
 	}
+
 }

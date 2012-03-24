@@ -97,12 +97,14 @@ public class ArticlesFragment extends ListFragment implements
 		String item = cursor.getString(cursor.getColumnIndex(BING_TITLE));
 		String item_id = cursor.getString(cursor.getColumnIndex(BING_SEARCH_ID));
 		String itemTitle = cursor.getString(cursor.getColumnIndex(BING_DESC));
+		//String itemURL= cursor.getString(cursor.getColumnIndex(BING_SEARCH_URL));
 		Log.d(TAG, "Article selected is: " + item + " Title is: " + itemTitle);
 		
 		//Launch Article View
 		Intent intent = new Intent(getActivity().getApplicationContext(),
-				IndicatorActivity.class);
+				ArtcileViewActivity.class);
 		intent.putExtra(BING_SEARCH_ID, item_id);
+		//intent.putExtra(BING_SEARCH_URL, itemURL);
 		startActivity(intent);
 	}
 	
