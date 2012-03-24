@@ -278,10 +278,18 @@ public class IndicatorActivity extends BaseActivity implements
 
 	public void setPosition(int lpos) {
 		mListPosition = lpos;
+    }
+
+	public void addCountry(String countryStr){
+		countryList.add(countryStr);
 	}
 	
 	public String[] getCountryList() {
 		return (String[])countryList.toArray(new String[countryList.size()]);
+	}
+	
+	public ArrayList<String> getCountryListArray() {
+		return countryList;
 	}
 
 	public void reloadData() {

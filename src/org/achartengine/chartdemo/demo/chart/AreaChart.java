@@ -67,13 +67,24 @@ public class AreaChart extends AbstractDemoChart {
 	double[][] data;
 	int ind_id, y_max = 0, pos1, pos2;
 	String indicator_name, x_axis;
+	boolean createChart = false;
 	
 	ind_id = dataService.getIndicatorID(indicator);
 	indicator_name = dataService.getIndicatorName(indicator);
 	Log.e("Charts","Indicator: " + indicator_name + "num of countries: " + countries.length);
 	pos1 = indicator_name.indexOf("(");
 	pos2 = indicator_name.indexOf(")");
+	
+	if (pos1 >= 0){
+		pos1++;
+	}else{
+		pos1 = indicator_name.indexOf(",");
+		pos1++;
+		pos2 = indicator_name.length() - 1;
+	}
+	
 	x_axis = indicator_name.substring(pos1, pos2);
+	
     //String[] titles = new String[] { "Jamaica", "Barbadoes" };
     List<double[]> x 	  = new ArrayList<double[]>();
     List<double[]> values = new ArrayList<double[]>();
@@ -83,48 +94,62 @@ public class AreaChart extends AbstractDemoChart {
     
     for (int i = 0; i < countries.length; i++) {
     	data = dataService.getIndicatorList(ind_id, countries[i], 1);
-    	Log.e("Charts","data length"+ data[0].length);
-    	test  = "";
-    	test1 = "";
-    	for (int a = 0; a < data[0].length; a++){
-    		test = test + ", " + data[0][a];
-    		test1 = test1 + ", " + data[1][a];
+    	if(data.length != 0){
+	    	Log.e("Charts","data length"+ data[0].length);
+	    	test  = "";
+	    	test1 = "";
+	    	for (int a = 0; a < data[0].length; a++){
+	    		test = test + ", " + data[0][a];
+	    		test1 = test1 + ", " + data[1][a];
+	    	}
+	    	Log.e("Charts","data dates - "+ test);
+	    	Log.e("Charts","data values- "+ test1);
+	    	x.add(data[0]);
+	    	values.add(data[1]);
+	    	y_max = getMax(data[1], y_max);
+	    	Log.e("Charts","Max "+ y_max);
+	    	colors[i] = COLOURS[i];
+	    	styles[i] = STYLEZ[0];
+	    	createChart = true;
+    	}else{
+    		createChart = false;
+    		Log.e("Charts","No Data retrieved");
     	}
-    	Log.e("Charts","data dates - "+ test);
-    	Log.e("Charts","data values- "+ test1);
-    	x.add(data[0]);
-    	values.add(data[1]);
-    	y_max = getMax(data[1], y_max);
-    	Log.e("Charts","Max "+ y_max);
-    	colors[i] = COLOURS[i];
-    	styles[i] = STYLEZ[0];
     }
-    
-    y_max = y_max * 2;
-   
-    XYMultipleSeriesRenderer renderer = buildRenderer(colors, styles);
-    int length = renderer.getSeriesRendererCount();
-    for (int i = 0; i < length; i++) {
-      ((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setFillPoints(true);
+    if (createChart){
+	    if(y_max == 0){
+	    	y_max = 1;
+	    }else{
+	    	y_max = y_max * 2;
+	    }
+	   
+	   
+	    XYMultipleSeriesRenderer renderer = buildRenderer(colors, styles);
+	    int length = renderer.getSeriesRendererCount();
+	    for (int i = 0; i < length; i++) {
+	      ((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setFillPoints(true);
+	    }
+	    
+	    setChartSettings(renderer, indicator_name, "Year", x_axis, 1990, 2012, 0, y_max,
+	        Color.LTGRAY, Color.LTGRAY);
+	    renderer.setXLabels(13);
+	    renderer.setYLabels(10);
+	    renderer.setShowGrid(true);
+	    renderer.setXLabelsAlign(Align.RIGHT);
+	    renderer.setYLabelsAlign(Align.LEFT);
+	    renderer.setBackgroundColor(Color.LTGRAY);
+	    renderer.setApplyBackgroundColor(true);
+	    renderer.setZoomButtonsVisible(true);
+	    renderer.setPanLimits(new double[] { -10, 20, -10, 40 });
+	    renderer.setZoomLimits(new double[] { -10, 20, -10, 40 });
+	    renderer.setBackgroundColor(Color.WHITE);
+	    GraphicalView intent = ChartFactory.getLineChartView(context, buildDataset(countries, x, values),
+	        renderer);
+	    
+	    return intent;
+    } else {
+    	return null;
     }
-    
-    setChartSettings(renderer, indicator_name, "Year", x_axis, 1990, 2012, 0, y_max,
-        Color.LTGRAY, Color.LTGRAY);
-    renderer.setXLabels(13);
-    renderer.setYLabels(10);
-    renderer.setShowGrid(true);
-    renderer.setXLabelsAlign(Align.RIGHT);
-    renderer.setYLabelsAlign(Align.LEFT);
-    renderer.setBackgroundColor(Color.LTGRAY);
-    renderer.setApplyBackgroundColor(true);
-    renderer.setZoomButtonsVisible(true);
-    renderer.setPanLimits(new double[] { -10, 20, -10, 40 });
-    renderer.setZoomLimits(new double[] { -10, 20, -10, 40 });
-    renderer.setBackgroundColor(Color.WHITE);
-    GraphicalView intent = ChartFactory.getLineChartView(context, buildDataset(countries, x, values),
-        renderer);
-    
-    return intent;
   }
 
   private int getMax(double[] array, int y_max){

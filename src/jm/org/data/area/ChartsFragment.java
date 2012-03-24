@@ -32,6 +32,7 @@ public class ChartsFragment extends Fragment {
 	private String indicator;
 	private String[] countryList;
 	private AreaApplication area;
+	private int result = 0;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,8 @@ public class ChartsFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		layout = (LinearLayout) parentActivity.findViewById(R.id.chart_view);
-		//createChart();
+		createChart();
+		setHasOptionsMenu(true);
 	}
 	
 	@Override
@@ -111,6 +113,7 @@ public class ChartsFragment extends Fragment {
 	public void createChart() {
 		//set up chart
 		new getChartData().execute();
+		
 	}
 	
 	private class getChartData extends AsyncTask<Void, Void, Boolean> {
@@ -118,6 +121,9 @@ public class ChartsFragment extends Fragment {
 		protected void onPreExecute() {
 			//run on UI thread
 			area = (AreaApplication) getActivity().getApplication();
+			indicator = parentActivity.getIndicator();
+			//indicator = "TX.VAL.AGRI.ZS.UN";
+			countryList = parentActivity.getCountryList();
 		}
 
 		@Override
@@ -139,6 +145,7 @@ public class ChartsFragment extends Fragment {
 			super.onPostExecute(initResult);
 			if (initResult) {
 				Log.e(TAG, "Completed Chart pull");
+				renderChart();
 				
 			} else {
 				Log.e(TAG, "Problem with pull data");
@@ -148,16 +155,17 @@ public class ChartsFragment extends Fragment {
 	
 
 	public void reload() {
-		IndicatorActivity parentActivity = (IndicatorActivity) getActivity();
-		indicator = parentActivity.getIndicator();
-		//indicator = "TX.VAL.AGRI.ZS.UN";
-		countryList = parentActivity.getCountryList();
 		Log.d(TAG, String.format(
 				"Charts reload function. \n Current indicator: %s. Country List: %s",
 				indicator,
 				Arrays.toString(countryList)
 				));
 		//countryList = new String[]{"Jamaica", "Barbados", "Kenya"};
+		new getChartData().execute();
+		
+		
+	}
+	private void renderChart(){
 		chart = new AreaChart().execute(getActivity().getBaseContext(), indicator, countryList);
 		Log.e(TAG,"chart view " +chart.toString() + " - " + layout.getId() + "current indicator" + indicator + " - "
 				+ "First country: " + countryList[0] + " from " + countryList.length);
@@ -165,10 +173,7 @@ public class ChartsFragment extends Fragment {
 		//chart.refreshDrawableState();
 		//layout.refreshDrawableState();
 		layout.removeAllViewsInLayout();
+		layout.setBackgroundColor(Color.BLUE);
 		layout.addView(chart, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));/**/
-		
-		//Remove chart??
-		createChart();
-		
 	}
 }

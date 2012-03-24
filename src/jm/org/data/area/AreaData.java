@@ -3,20 +3,33 @@ package jm.org.data.area;
 import static android.provider.BaseColumns._ID;
 import static jm.org.data.area.AreaConstants.API_LIST;
 import static jm.org.data.area.AreaConstants.BING_RESULT_DATA;
+import static jm.org.data.area.AreaConstants.BING_SEARCH;
 import static jm.org.data.area.AreaConstants.BING_SEARCH_DATA;
 import static jm.org.data.area.AreaConstants.COUNTRY_LIST;
 import static jm.org.data.area.AreaConstants.COUNTRY_SEARCH_DATA;
 import static jm.org.data.area.AreaConstants.FATAL_ERROR;
 import static jm.org.data.area.AreaConstants.IDS_PARAM_DATA;
 import static jm.org.data.area.AreaConstants.IDS_RESULT_DATA;
+import static jm.org.data.area.AreaConstants.IDS_SEARCH;
 import static jm.org.data.area.AreaConstants.IDS_SEARCH_DATA;
+import static jm.org.data.area.AreaConstants.INDICATOR_KEYWORDS;
 import static jm.org.data.area.AreaConstants.INDICATOR_LIST;
 import static jm.org.data.area.AreaConstants.PERIOD_LIST;
+import static jm.org.data.area.AreaConstants.RETURN_CNTRY_IDs;
+import static jm.org.data.area.AreaConstants.RETURN_COUNTRIES;
+import static jm.org.data.area.AreaConstants.RETURN_DATE;
+import static jm.org.data.area.AreaConstants.RETURN_IND_ID;
+import static jm.org.data.area.AreaConstants.RETURN_KEYWORDS;
+import static jm.org.data.area.AreaConstants.RETURN_STRING;
+import static jm.org.data.area.AreaConstants.RETURN_VALUE;
+import static jm.org.data.area.AreaConstants.RETURN_WB_IND_ID;
+import static jm.org.data.area.AreaConstants.SEARCH_API_NONE;
+import static jm.org.data.area.AreaConstants.SEARCH_API_SOME;
 import static jm.org.data.area.AreaConstants.SEARCH_DATA;
 import static jm.org.data.area.AreaConstants.SEARCH_FAIL;
 import static jm.org.data.area.AreaConstants.SEARCH_SUCCESS;
-import static jm.org.data.area.AreaConstants.SEARCH_SYNC;
-import static jm.org.data.area.AreaConstants.*;
+import static jm.org.data.area.AreaConstants.WB_SEARCH_DATA;
+import static jm.org.data.area.AreaConstants.WORLD_SEARCH;
 import static jm.org.data.area.DBConstants.*;
 
 import java.text.ParseException;
@@ -127,7 +140,7 @@ public class AreaData {
 	* @param tableName Name of table record to be inserted into
 	* @param tableRecord Name-value pairs
 	*/
-	public long insert(String tableName, ContentValues tableRecord, int update) {
+	synchronized public long insert(String tableName, ContentValues tableRecord, int update) {
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 		int tableCode = AreaApplication.getTableCode(tableName);
 		long recordid = 0;
@@ -191,7 +204,9 @@ public class AreaData {
 				if(update == 1){
 					try {
 						cursor.moveToFirst();
-						recordid = db.update(tableName, tableRecord, "" + _ID  + " ='" + cursor.getInt(cursor.getColumnIndex(_ID))+ "'", null );
+						recordid = cursor.getInt(cursor.getColumnIndex(_ID));
+						db.update(tableName, tableRecord, "" + _ID  + " ='" + recordid + "'", null );
+						
 						if(recordid != 1){
 							Log.e(TAG,"Error Updating "+ tableName +" Record: " + cursor.getInt(cursor.getColumnIndex(_ID)));
 						}else{
@@ -340,7 +355,7 @@ public class AreaData {
 	 * @param country	Array of country ids
 	 * @return AreaConstants Search Code
 	 */
-	public int genericSearch(int dataSource, String indicatorID, String[] country) {
+	synchronized public int genericSearch(int dataSource, String indicatorID, String[] country) {
 		//format data for querying
 		Hashtable<String, Object> return_data = new Hashtable<String, Object>();
 		
@@ -365,6 +380,7 @@ public class AreaData {
 		if (ind_result.getCount() != 1){
 			
 			return_data.put(RETURN_VALUE, "" + FATAL_ERROR);
+			ind_result.close();
 			return FATAL_ERROR;
 		}else{
 			Log.e(TAG,"" + ind_result.getCount() + " ID: " + ind_result.getColumnIndexOrThrow(_ID));
@@ -437,6 +453,7 @@ public class AreaData {
 						}else{
 							Log.e(TAG,"Error in retrieving Country information: " + country_IDresult.getCount() + " rows returned");
 							return_data.put(RETURN_VALUE, "" + FATAL_ERROR);
+							country_result.close();
 							return FATAL_ERROR;
 						}
 						country_IDresult.close();
@@ -446,6 +463,7 @@ public class AreaData {
 					// if 0 rows were returned, return error. As Initial search would have returned at least 1 country info. 
 					Log.e(TAG,"Error in retrieving Country information: " + country_result.getCount() + " rows returned");
 					return_data.put(RETURN_VALUE, "" + FATAL_ERROR);
+					country_result.close();
 					return FATAL_ERROR;
 				}
 					
@@ -462,6 +480,7 @@ public class AreaData {
 					if(country_IDresult.getCount() != 1){
 						Log.e(TAG,"Error in retrieving Country information: " + country_IDresult.getCount() + " rows returned");
 						return_data.put(RETURN_VALUE, "" + FATAL_ERROR);
+						country_IDresult.close();
 						return FATAL_ERROR;
 					}else{
 						country_IDresult.moveToFirst();
@@ -484,14 +503,8 @@ public class AreaData {
 			}
 			wb_result.close();
 			if(!countries_to_get.isEmpty()){
-				getCountryIndicators(ind_id, indicatorID, countries_to_get, countryIDs, "date=1990:2012");
-				return_data.put(RETURN_VALUE		, SEARCH_API_SOME	);
-				return_data.put(RETURN_IND_ID		, ind_id			);
-				return_data.put(RETURN_WB_IND_ID	, indicatorID		);
-				return_data.put(RETURN_COUNTRIES	, countries_to_get	);
-				return_data.put(RETURN_CNTRY_IDs	, countryIDs		);
-				return_data.put(RETURN_DATE			, "date=1990:2012"	);
-				return SEARCH_SUCCESS;
+				return getCountryIndicators(ind_id, indicatorID, countries_to_get, countryIDs, "date=1990:2012");
+				
 			}else{
 				Log.e(TAG, "No Values to get :)");
 				return_data.put(RETURN_VALUE, "" + SEARCH_SUCCESS);
@@ -508,8 +521,9 @@ public class AreaData {
 			if (ids_result.getCount() ==1 ){
 				// if results found for this indicator then we assume that all the relevant data is in the database.
 				return_data.put(RETURN_VALUE		, SEARCH_SUCCESS	);
-				
+				ids_result.close();
 				return SEARCH_SUCCESS;
+				
 			}else{
 				// if no results then go to the API and pull the related values for this indicator.
 				//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -524,11 +538,8 @@ public class AreaData {
 				populateKeywords();
 				indicatorStr = INDICATOR_KEYWORDS.get(indicatorID);
 				keyWords = indicatorStr.split(" ");
-				getDocuments(ind_id, keyWords);
-				return_data.put(RETURN_VALUE		, SEARCH_API_NONE	);
-				return_data.put(RETURN_IND_ID		, ind_id			);
-				return_data.put(RETURN_KEYWORDS		, keyWords			);
-				return SEARCH_SUCCESS;
+				return getDocuments(ind_id, keyWords);
+				
 				
 				/*if(keyWords.length <= 2 ){
 					// if 2 or less keywords the go ahead and search
@@ -567,6 +578,7 @@ public class AreaData {
 					if (num_to_delete != num_deleted){
 						
 						return_data.put(RETURN_VALUE		, FATAL_ERROR	);
+						bing_result.close();
 						return FATAL_ERROR;
 					}
 					getBingArticles(indicatorStr);
@@ -577,12 +589,14 @@ public class AreaData {
 				}else{
 					
 					return_data.put(RETURN_VALUE		, SEARCH_SUCCESS	);
+					bing_result.close();
 					return SEARCH_SUCCESS;
 				}
 			}else{
 				getBingArticles(indicatorStr);
 				return_data.put(RETURN_VALUE		, SEARCH_API_NONE	);
 				return_data.put(RETURN_STRING		, indicatorStr		);
+				bing_result.close();
 				return SEARCH_SUCCESS;
 			}
 							
@@ -598,8 +612,6 @@ public class AreaData {
 		return  SEARCH_FAIL;
 	}
 
-	
-	
 	public Cursor getIndicatorList(){
 		Cursor result; 
 		
@@ -830,7 +842,7 @@ public class AreaData {
 	public int getDocuments(int indicator, String[] parameters){
 		parser = new JSONParse(context);
 		String querybase = "http://api.ids.ac.uk/openapi/";
-		
+		int return_int;
 		String site = "eldis/", object = "documents/", parameter="keyword", num_results = "num_results=500";
 		String queryStr;
 		String paramStr = "";
@@ -844,8 +856,13 @@ public class AreaData {
 		
 		queryStr = querybase + site + "search/" + object + "?" + parameter  + "=" + paramStr + "&" + num_results;
 		//queryStr = "http://api.ids.ac.uk/openapi/eldis/search/documents/?q=Agriculture%26materials&num_results=50";
-		return parser.parseIDSData(dataService.HTTPRequest(1,queryStr), indicator, paramStr, queryStr);
-		
+		return_int =  parser.parseIDSData(dataService.HTTPRequest(1,queryStr), indicator, paramStr, queryStr);
+		if(return_int > 0){
+			return SEARCH_SUCCESS;
+		}else{
+			return SEARCH_FAIL;
+		}
+			
 	}
 	
 	public int getBingArticles(String param){
@@ -971,18 +988,22 @@ public class AreaData {
 						wb_data.close();
 						
 					}else{
+						wb_data.close();
 						values = new double[0][0];
 					}
 						
 				}else{
+					search_country.close();
 					values = new double[0][0];
 				}
 				search_country.close();
 			}else{
+				country.close();
 				values = new double[0][0];
 			}
 			country.close();
 		}else{
+			search.close();
 			values = new double[0][0];
 		}
 		search.close();
@@ -1056,7 +1077,7 @@ public class AreaData {
 	
 	private class AreaDB extends SQLiteOpenHelper{
 		
-		private static final int DATABASE_VERSION = 3;
+		private static final int DATABASE_VERSION = 4;
 		private SQLiteDatabase db;
 		
 		
@@ -1119,15 +1140,12 @@ public class AreaData {
 				+ IDS_DOC_TYPE		+ " text not null, "
 				+ IDS_DOC_TITLE		+ " text not null, "
 				+ IDS_DOC_PATH 		+ " text not null )" ;
-		 
-		
 		
 		private static final String CREATE_TABLE_API = "create table " + API + " ( "
 				+ API_ID 			+ " integer primary key autoincrement, "
 				+ API_NAME 			+ " text not null, "
 				+ API_DESC 			+ " text not null, " 
 				+ BASE_URI 			+ " text not null )";
-		
 		
 		private static final String CREATE_TABLE_BING_SEARCH = "create table " + BING_SEARCH_TABLE + " ( "
 				+ BING_SEARCH_ID	+ " integer primary key autoincrement, "
@@ -1285,7 +1303,7 @@ public class AreaData {
 			onCreate(db);
 		}
 		
-		public Cursor rawQuery(String tableName, String tableColumns, String queryParams) {
+		synchronized public Cursor rawQuery(String tableName, String tableColumns, String queryParams) {
 			db = this.getReadableDatabase();
 			Cursor cursor = null;
 			String query;

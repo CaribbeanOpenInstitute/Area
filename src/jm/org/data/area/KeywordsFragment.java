@@ -4,8 +4,11 @@
  */
 package jm.org.data.area;
 
-import java.util.ArrayList;
+import static jm.org.data.area.AreaConstants.ADD_KEY;
+import static jm.org.data.area.AreaConstants.REMOVE_KEY;
 
+import java.util.ArrayList;
+import java.util.*;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,8 +23,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import static jm.org.data.area.AreaConstants.*;
-
 public class KeywordsFragment extends Fragment implements OnClickListener {
 	public static final String TAG = KeywordsFragment.class.getSimpleName();
 	AutoCompleteTextView edt_keyword;
@@ -29,7 +30,7 @@ public class KeywordsFragment extends Fragment implements OnClickListener {
 	LinearLayout ll_keyword;
 	OnCountryChangeListener mListener;
 	private AreaApplication area;
-	private Activity parentActivity;
+	private IndicatorActivity parentActivity;
 	private ArrayList<String> countryList;
 
 	@Override
@@ -40,14 +41,13 @@ public class KeywordsFragment extends Fragment implements OnClickListener {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		parentActivity = getActivity();
+		parentActivity = (IndicatorActivity) getActivity();
 		edt_keyword = (AutoCompleteTextView) parentActivity
 				.findViewById(R.id.edt_keyword);
 		btn_addKeyword = (Button) parentActivity
 				.findViewById(R.id.btn_keywordAdd);
 		area = (AreaApplication) parentActivity.getApplication();
-		countryList = new ArrayList<String>();
-
+		
 		btn_addKeyword.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -91,18 +91,21 @@ public class KeywordsFragment extends Fragment implements OnClickListener {
 	public void addKeyword() {
 		String keyword = edt_keyword.getText().toString();
 		keyword.trim();
-		Log.d(TAG, "Keyword is: " + keyword);
+		Log.d(TAG, "Keyword is: " + keyword + " keyword Length " + keyword.length());
 		if (keyword.length() > 2) {
+			
 			Button newKeyword = new Button(parentActivity);
 			newKeyword.setText(keyword);
 			newKeyword.setLayoutParams(new LayoutParams(
 					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+			
 			newKeyword.setOnClickListener(this);
 			ll_keyword.addView(newKeyword);
-			countryList.add(keyword);
+			
 			mListener.onCountryChange(ADD_KEY, (String) keyword);
 			edt_keyword.setText("");
-			Log.d(TAG, "The current countryList are: " + countryList);
+			Log.d(TAG, "The current countryList are: " + Arrays.toString(parentActivity.getCountryList()) );
+			
 			// update graph
 		}
 
