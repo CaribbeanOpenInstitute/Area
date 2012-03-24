@@ -307,6 +307,7 @@ public class JSONParse {
 				Cursor SearchCountry	= areaData.rawQuery(SEARCH_COUNTRY,"*", "" + C_ID + " = '"
 								+ countryData.getInt(countryData.getColumnIndex(_ID)) + "' AND "  + S_ID + "= '"+ search_id +"'");
 				SearchCountry.moveToFirst();
+				search_country_id = SearchCountry.getInt(SearchCountry.getColumnIndex(_ID));
 				if(search_country_id < 0){
 					return SEARCH_FAIL;
 				}

@@ -31,7 +31,7 @@ public class KeywordsFragment extends Fragment implements OnClickListener {
 	OnCountryChangeListener mListener;
 	private AreaApplication area;
 	private IndicatorActivity parentActivity;
-	private ArrayList<String> countryList;
+	//private ArrayList<String> countryList;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -115,18 +115,18 @@ public class KeywordsFragment extends Fragment implements OnClickListener {
 	public void onClick(View v) {
 		Button keyword = (Button) v;
 		ll_keyword.removeView(v);
-		countryList.remove(keyword.getText());
+		//countryList.remove(keyword.getText());
 		mListener.onCountryChange(REMOVE_KEY, (String) keyword.getText());
 		Log.d(TAG, "The removed keyword is: " + keyword.getText());
-		Log.d(TAG, "The current countryList are: " + countryList);
+		//Log.d(TAG, "The current countryList are: " + countryList);
 		// update graph
 
 	}
 
-	public String[] getCountryList() {
+	/*public String[] getCountryList() {
 		return (String[]) countryList.toArray();
 
-	}
+	}*/
 
 	public interface OnCountryChangeListener {
 

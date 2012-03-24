@@ -67,7 +67,7 @@ public class ChartsFragment extends Fragment {
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 	
-	@Override
+	/*@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		//getActivity().invalidateOptionsMenu();
 		if (menu.size() <= 1) {
@@ -78,7 +78,7 @@ public class ChartsFragment extends Fragment {
 		}
 		super.onPrepareOptionsMenu(menu);
 		
-	}
+	}*/
 	
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
