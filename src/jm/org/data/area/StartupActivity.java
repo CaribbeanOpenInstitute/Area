@@ -66,7 +66,7 @@ public class StartupActivity extends Activity {
 				area.areaData.updateCountries();
 
 				// to test generic search
-				area.areaData.genericSearch(WORLD_SEARCH, "TX.VAL.AGRI.ZS.UN", new String[]{"Jamaica", "Kenya","Barbados", "World"});
+				//area.areaData.genericSearch(WORLD_SEARCH, "TX.VAL.AGRI.ZS.UN", new String[]{"Jamaica", "Kenya","Barbados", "World"});
 				
 				/*
 				 * int waited = 0; while (_active && (waited < _splashTime)) {

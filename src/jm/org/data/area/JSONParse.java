@@ -246,7 +246,7 @@ public class JSONParse {
 	public int parseWBData(String jsonData, int indicator, Integer[] countries, String uri){
 		
 		Hashtable<String, String> wb_data = new Hashtable<String, String>();
-		long search_id = 0;
+		long search_id = 0, country_search_id = -1;
 		int search_country_id = 0;
 		try {
 			
@@ -279,7 +279,7 @@ public class JSONParse {
 						apiRecord.put(C_ID 	, countries[n]	);
 						apiRecord.put(P_ID  , 1				);
 						//FROM_SEARCH_COUNTRY	= {_ID, S_ID, C_ID, P_ID};
-						areaData.insert(SEARCH_COUNTRY, apiRecord, 1);
+						country_search_id = areaData.insert(SEARCH_COUNTRY, apiRecord, 1);
 					}
 				}else{
 					Log.e(TAG, "Error inserting Search record: Indicator-" + indicator + ", API_ID- 1, " + "URI-" + uri);
@@ -304,10 +304,13 @@ public class JSONParse {
 				Cursor countryData		= areaData.rawQuery(COUNTRY,"*", "" + WB_COUNTRY_CODE + " = '"+ (String)wb_data.get("country: id")+ "'");
 				// Then get SearchCountry ID from corresponding table now that we have both S_ID and C_ID
 				countryData.moveToFirst();
-				Cursor SearchCountry	= areaData.rawQuery(SEARCH_COUNTRY,"*", "" + C_ID + " = '"+ countryData.getInt(countryData.getColumnIndex(_ID)) + "' AND "  + S_ID + "= '"+ search_id +"'");
+				Cursor SearchCountry	= areaData.rawQuery(SEARCH_COUNTRY,"*", "" + C_ID + " = '"
+								+ countryData.getInt(countryData.getColumnIndex(_ID)) + "' AND "  + S_ID + "= '"+ search_id +"'");
 				SearchCountry.moveToFirst();
-				
-				apiRecord.put(SC_ID, SearchCountry.getInt(SearchCountry.getColumnIndex(_ID)));
+				if(search_country_id < 0){
+					return SEARCH_FAIL;
+				}
+				apiRecord.put(SC_ID, search_country_id);
 				Log.d("Indicators", ""+ SC_ID + ":-> " + SearchCountry.getInt(SearchCountry.getColumnIndex(_ID)));
 				search_country_id = apiRecord.getAsInteger(SC_ID);
 				for (int a = 0; a < WB_DATA_LIST.length; a++){
@@ -322,7 +325,8 @@ public class JSONParse {
 			
 		} catch (Exception e) {
 			//e.printStackTrace();
-			Log.e(TAG, e.toString());
+			
+			Log.e(TAG, "WB DATA" + e.toString());
 			return SEARCH_FAIL;
 		}		
 		return search_country_id;

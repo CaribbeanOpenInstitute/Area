@@ -262,8 +262,16 @@ public class IndicatorActivity extends BaseActivity implements
 		return listPosition;
 	}
 
+	public void addCountry(String countryStr){
+		countryList.add(countryStr);
+	}
+	
 	public String[] getCountryList() {
 		return (String[])countryList.toArray(new String[countryList.size()]);
+	}
+	
+	public ArrayList<String> getCountryListArray() {
+		return countryList;
 	}
 
 	public void reloadData() {
