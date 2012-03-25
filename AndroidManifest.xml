@@ -42,7 +42,6 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity android:name="org.achartengine.GraphicalActivity" />
-
         <activity android:name=".AreaPreferencesActivity" />
         <activity android:name=".IndicatorActivity" />
         <activity
@@ -50,12 +49,10 @@
             android:theme="@style/DialogTheme" />
         <activity android:name=".AreaActivity" />
         <activity android:name=".ArtcileViewActivity" />
-        
 
         <service
             android:name="AreaService"
             android:icon="@drawable/ic_launcher"
-
             android:label="@string/areaService" />
 
         <!-- android:process=":AreaService" -->

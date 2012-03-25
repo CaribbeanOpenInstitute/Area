@@ -111,7 +111,7 @@ public class ReportViewFragment extends Fragment {
             // the view hierarchy; it would just never be used.
             return null;
         }*/
-		View view = inflater.inflate(R.layout.article_view_frag, container, false);
+		View view = inflater.inflate(R.layout.report_view_frag, container, false);
 		
 		return view;
 	}

@@ -3,21 +3,22 @@
  */
 package jm.org.data.area;
 
-import jm.org.data.area.R;
-//import jm.org.data.area.SearchSuggestionSampleProvider;
-
-import android.app.Activity;
+import android.app.ActionBar;
 import android.app.SearchManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-//import android.provider.SearchRecentSuggestions;
+import android.util.Log;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 /**
  * @author Earl
  *
  */
-public class SearchableActivity extends Activity {
+public class SearchableActivity extends BaseActivity {
+	public final String TAG = getClass().getSimpleName();
+	private String globalSearchString = "";
 	
     // UI elements
     TextView mQueryText;
@@ -33,8 +34,13 @@ public class SearchableActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        // Inflate our UI from its XML layout description.
-        setContentView(R.layout.search_query_results);
+        
+        
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			// only for android newer than gingerbread
+			 ActionBar actionBar = getActionBar();
+			 actionBar.setDisplayHomeAsUpEnabled(true);
+		}
         
         // Get active display items for later updates
         //mQueryText = (TextView) findViewById(R.id.txt_query);
@@ -42,14 +48,31 @@ public class SearchableActivity extends Activity {
         //mDeliveredByText = (TextView) findViewById(R.id.txt_deliveredby);
         
         // get and process search query here
-        final Intent queryIntent = getIntent();
-        final String queryAction = queryIntent.getAction();
-        if (Intent.ACTION_SEARCH.equals(queryAction)) {
-            doSearchQuery(queryIntent, "onCreate()");
+        Intent intent = getIntent();
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+          String globalSearchString = intent.getStringExtra(SearchManager.QUERY);
+          Log.d(TAG, "Query string: " + globalSearchString);
+        } else {
+        	globalSearchString = "";
         }
-        else {
-            mDeliveredByText.setText("onCreate(), but no ACTION_SEARCH intent");
-        }
+        
+        // Inflate our UI from its XML layout description.
+        setContentView(R.layout.search_query_results);
+    }
+    
+    @Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+    
+    public String getGlobalQuery() {
+    	return globalSearchString;
     }
     
     /** 
@@ -67,7 +90,7 @@ public class SearchableActivity extends Activity {
         final Intent queryIntent = getIntent();
         final String queryAction = queryIntent.getAction();
         if (Intent.ACTION_SEARCH.equals(queryAction)) {
-            doSearchQuery(queryIntent, "onNewIntent()");
+            //doSearchQuery(queryIntent, "onNewIntent()");
         }
         else {
             mDeliveredByText.setText("onNewIntent(), but no ACTION_SEARCH intent");

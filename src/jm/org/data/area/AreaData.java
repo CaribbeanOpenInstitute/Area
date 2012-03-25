@@ -57,7 +57,7 @@ public class AreaData {
 	AreaDB dbHelper;
 	JSONParse parser;
 	APIPull dataService;
-	
+	private ContentValues apiRecord;
 	ArrayList<String> countries_to_get;
 	ArrayList<Integer> countryIDs;
 	String[] keyWords;
@@ -228,7 +228,7 @@ public class AreaData {
 					Log.d(TAG, String.format("Inserting into table %s", tableName));
 				}
 				catch (RuntimeException e) {
-					Log.e(TAG,"Indicator Insertion Exception: "+e.toString());
+					Log.e(TAG,String.format("Indicator Insertion Exception: Table: %s -> Table Key:%s => value:%s  %s ",tableName, tableKey, tableRecord.get(tableKey), e.toString()));
 				}
 			}
 			cursor.close();
@@ -655,7 +655,6 @@ public class AreaData {
 		Integer[] search_country_array;
 		
 		
-		
 		ind_result = dbHelper.rawQuery(INDICATOR, "*" , "" + WB_INDICATOR_ID + " ='" + indicatorID + "'");
 		
 		if (ind_result.getCount() != 1){
@@ -754,6 +753,13 @@ public class AreaData {
 					
 					return null;
 				}
+				
+				apiRecord = new ContentValues();
+				apiRecord.put(I_ID 				,  wb_result.getInt(wb_result.getColumnIndex(I_ID )));
+				apiRecord.put(AP_ID				, 1	);
+				apiRecord.put(SEARCH_VIEWED		, parser.timeStamp());
+				//FROM_SEARCH			= {SEARCH_ID, I_ID, AP_ID, SEARCH_CREATED, SEARCH_MODIFIED, SEARCH_URI};
+				insert(SEARCH, apiRecord, 1);
 				wb_result.close();
 				break;
 			case IDS_SEARCH:
@@ -775,6 +781,13 @@ public class AreaData {
 					return null;
 									
 				}
+				
+				
+				apiRecord = new ContentValues();
+				apiRecord.put(I_ID			,  search_cursor.getInt(search_cursor.getColumnIndex(I_ID)));
+				apiRecord.put(IDS_VIEW_DATE	, parser.timeStamp());
+				//String[] FROM_IDS_SEARCH= {IDS_SEARCH_ID, I_ID, IDS_BASE_URL, IDS_SITE, IDS_OBJECT};
+				insert(IDS_SEARCH_TABLE, apiRecord, 1);
 				search_cursor.close();
 				break;
 			case BING_SEARCH:
@@ -794,13 +807,73 @@ public class AreaData {
 					
 					return null;				
 				}
+				
+				apiRecord = new ContentValues();
+				apiRecord.put(BING_QUERY	, search_cursor.getInt(search_cursor.getColumnIndex(BING_QUERY)));
+				apiRecord.put(QUERY_VIEW_DATE	, parser.timeStamp());
+				insert(BING_SEARCH_TABLE, apiRecord, 1);
 				search_cursor.close();
 				break;
 			
 		}
 		cursor = rawQuery(table, "*", params);
 		Log.e(TAG, String.format("Params: %s. Table: %s", params, table));
+		
 		return cursor;
+	}
+	
+	public Cursor getRecentData(int dataSource){
+		Cursor max_cursor, cursor = null;
+		switch(dataSource){
+		case WORLD_SEARCH:
+			max_cursor = dbHelper.rawQuery(SEARCH, "MAX("+ SEARCH_VIEWED +") AS recent_time", "");
+			if(max_cursor.moveToFirst()){
+				cursor = dbHelper.rawQuery(SEARCH, "*", "" + SEARCH_VIEWED + " = '"+ 
+												max_cursor.getLong(max_cursor.getColumnIndex("recent_time"))+ "'");
+				if(cursor.moveToFirst()){
+					return cursor;
+				}
+			}else{
+				Log.e(TAG, "Error retrieving recent WB Data:" + max_cursor.getLong(max_cursor.getColumnIndex("recent_time")));
+				max_cursor.close();
+				return null;
+			}
+			max_cursor.close();
+			break;
+		case IDS_SEARCH:
+			cursor = dbHelper.rawQuery(IDS_SEARCH_RESULTS + " ORDER BY " + IDS_VIEW_DATE + "LIMIT 10" , "*", "");
+			break;
+		case BING_SEARCH:
+			cursor = dbHelper.rawQuery(BING_SEARCH_RESULTS + " ORDER BY " + QUERY_VIEW_DATE + "LIMIT 10", "*", "");
+			break;
+		}
+		
+		return cursor;
+	}
+	
+	public Cursor getReport(int reportID){
+		Cursor cursor ;
+		parser = new JSONParse(context);
+		cursor =  dbHelper.rawQuery(IDS_SEARCH_RESULTS, "*", "" + _ID + " = '" + reportID + "'");
+		if(cursor.getCount() != 1){
+			Log.e(TAG, "Error In Retrieving Report: Amount returned:->" + cursor.getCount());
+			cursor.close();
+			return null;
+		}else{
+			apiRecord = new ContentValues();
+			apiRecord.put(IDS_DOC_ID, cursor.getInt(cursor.getColumnIndex(IDS_DOC_ID)));
+			apiRecord.put(IDS_VIEW_DATE, parser.timeStamp());
+			insert(IDS_SEARCH_RESULTS, apiRecord, 1);
+		}
+		return cursor;
+	}
+	
+	public void updateArticle(String bingUrl){
+		parser = new JSONParse(context);
+		apiRecord = new ContentValues();
+		apiRecord.put(BING_URL, bingUrl);
+		apiRecord.put(IDS_VIEW_DATE, parser.timeStamp());
+		insert(BING_SEARCH_RESULTS, apiRecord, 1);
 	}
 	
 	public int getCountryIndicators(int indicator_id, String indicator, ArrayList<String> countries, ArrayList<Integer> countryIDList, String date){
@@ -1023,16 +1096,16 @@ public class AreaData {
 		return cursor;
 	}
 	
-	private Calendar getDate(String formattedDateStr){
+	private Calendar getDate(String epoch){
 		Calendar calendar = null;
-		SimpleDateFormat format = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
-		
+				
 		try{
-			Date date = (Date)format.parse(formattedDateStr);
+			Date date = new Date();
+			date.setTime(Long.parseLong(epoch));
 			calendar = Calendar.getInstance();
 			calendar.setTime(date);
 			
-		}catch (ParseException e){
+		}catch (NumberFormatException e){
 			Log.e(TAG,"Exception in parsing date string "+e.toString());
 		}
 		
@@ -1080,7 +1153,7 @@ public class AreaData {
 	
 	private class AreaDB extends SQLiteOpenHelper{
 		
-		private static final int DATABASE_VERSION = 8;
+		private static final int DATABASE_VERSION = 1;
 		private SQLiteDatabase db;
 		
 		
@@ -1116,8 +1189,9 @@ public class AreaData {
 				+ SEARCH_ID 		+ " integer primary key autoincrement, "
 				+ I_ID				+ " integer not null, "
 				+ AP_ID 			+ " integer not null, "
-				+ SEARCH_CREATED 	+ " integer, "
-				+ SEARCH_MODIFIED 	+ " integer, "
+				+ SEARCH_CREATED 	+ " integer not null, "
+				+ SEARCH_MODIFIED 	+ " integer not null, "
+				+ SEARCH_VIEWED		+ " integer not null, "
 				+ SEARCH_URI 		+ " text not null )" ;
 		
 		private static final String CREATE_TABLE_IDS_SEARCH = "create table " + IDS_SEARCH_TABLE + " ( "
@@ -1126,7 +1200,8 @@ public class AreaData {
 				+ IDS_BASE_URL			+ " text not null,"
 				+ IDS_SITE				+ " text not null, "
 				+ IDS_OBJECT 			+ " text not null, " 
-				+ IDS_TIMESTAMP			+ " integer )" ;
+				+ IDS_TIMESTAMP			+ " integer not null,"
+				+ IDS_VIEW_DATE			+ " integer not null )" ;
 		
 		private static final String CREATE_TABLE_IDS_SEARCH_PARAMS = "create table " + IDS_SEARCH_PARAMS + " ( "
 				+ _ID 				+ " integer primary key autoincrement, "
@@ -1151,6 +1226,7 @@ public class AreaData {
 				+ IDS_DOC_DATE		+ " text not null, "
 				+ IDS_DOC_TIMESTAMP + " text not null, "
 				+ IDS_DOC_DWNLD_URL + " text not null, "
+				+ IDS_VIEW_DATE		+ " integer,"
 				+ IDS_DOC_PATH 		+ " text not null )" ;
 		
 		/* FROM_IDS_SEARCH_RESULTS	= {_ID, IDS_S_ID, IDS_DOC_URL, IDS_DOC_ID, IDS_DOC_TYPE, IDS_DOC_TITLE, 
@@ -1162,11 +1238,13 @@ public class AreaData {
 				+ API_NAME 			+ " text not null, "
 				+ API_DESC 			+ " text not null, " 
 				+ BASE_URI 			+ " text not null )";
+				
 		
 		private static final String CREATE_TABLE_BING_SEARCH = "create table " + BING_SEARCH_TABLE + " ( "
 				+ BING_SEARCH_ID	+ " integer primary key autoincrement, "
 				+ BING_QUERY		+ " text not null, "
-				+ QUERY_DATE		+ " integer)";		
+				+ QUERY_DATE		+ " integer not null, "
+				+ QUERY_VIEW_DATE	+ " integer not null)";
 		//public static final String[] FROM_BING_SEARCH_TABLE		= {BING_SEARCH_ID, BING_QUERY, QUERY_DATE };
 
 		private static final String CREATE_TABLE_BING_SEARCH_RESULTS = "create table " + BING_SEARCH_RESULTS + " ( "
@@ -1176,7 +1254,8 @@ public class AreaData {
 				+ BING_DESC 		+ " text not null, " 
 				+ BING_URL			+ " text not null, "
 				+ BING_DISP_URL		+ " text not null, "
-				+ BING_DATE_TIME	+ " text not null )";
+				+ BING_DATE_TIME	+ " text not null, "
+				+ QUERY_VIEW_DATE	+ " integer )";
 		//public static final String[] FROM_BING_SEARCH_RESULTS	= {_ID, B_S_ID, BING_TITLE, BING_DESC, BING_URL, BING_DISP_URL, BING_DATE_TIME	};
 
 		private static final String CREATE_TABLE_WB_DATA = "create table " + WB_DATA + " ( "
@@ -1258,10 +1337,10 @@ public class AreaData {
 				Log.d("AREA", "Create API table: " + CREATE_TABLE_API									);
 				
 				db.execSQL(CREATE_TABLE_BING_SEARCH												);
-				Log.d("AREA", "Create API table: " + CREATE_TABLE_BING_SEARCH							);
+				Log.d("AREA", "Create Bing search table: " + CREATE_TABLE_BING_SEARCH					);
 				
 				db.execSQL(CREATE_TABLE_BING_SEARCH_RESULTS										);
-				Log.d("AREA", "Create API table: " + CREATE_TABLE_BING_SEARCH_RESULTS					);
+				Log.d("AREA", "Create bing search results table: " + CREATE_TABLE_BING_SEARCH_RESULTS	);
 				
 				db.execSQL(CREATE_TABLE_WB_DATA													);
 				Log.d("AREA", "Create WB_DATA table: " + CREATE_TABLE_WB_DATA							);

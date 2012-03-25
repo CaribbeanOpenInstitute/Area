@@ -99,7 +99,7 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 		
 		//Launch Report View
 				Intent intent = new Intent(getActivity().getApplicationContext(),
-						ReportViewActivity.class);
+						ReportDetailViewActivity.class);
 				intent.putExtra(DOCUMENT_ID, item_id);
 				//intent.putExtra(BING_URL, itemURL);
 				startActivity(intent);

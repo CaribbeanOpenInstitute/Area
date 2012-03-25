@@ -20,10 +20,10 @@ public class HomeListAdapter extends SimpleCursorLoader {
 		area = (AreaApplication) mContext.getApplicationContext();
 		
 		try {
-				/*Cursor results = area.areaData.getRecentData(searchType);
+				Cursor results = area.areaData.getRecentData(searchType);
 				Log.d(TAG, "Returning data. Num of records: " + results.getCount());
 
-				return results;*/
+				return results;/**/
 		} catch (IllegalStateException ilEc){
 			Log.e(TAG, "Database list loading returned Database Lock exception on " + searchType + " query");
 			//db.close();

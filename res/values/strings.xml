@@ -63,6 +63,6 @@
     <string name="pref_startupKey">startupActivity</string>
     <string name="pref_startupTitle">Startup Activity</string>
     <string name="prefs_startup_desc">Application initialization indicator</string>
-    <string name="search_hint">Search Area Database</string>
+    <string name="search_hint">Search for articles or reports</string>
     <string name="menu_reload">Reload</string>
 </resources>
