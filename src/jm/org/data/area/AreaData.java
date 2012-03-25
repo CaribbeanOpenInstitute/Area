@@ -57,7 +57,7 @@ public class AreaData {
 	AreaDB dbHelper;
 	JSONParse parser;
 	APIPull dataService;
-	
+	private ContentValues apiRecord;
 	ArrayList<String> countries_to_get;
 	ArrayList<Integer> countryIDs;
 	String[] keyWords;
@@ -655,7 +655,6 @@ public class AreaData {
 		Integer[] search_country_array;
 		
 		
-		
 		ind_result = dbHelper.rawQuery(INDICATOR, "*" , "" + WB_INDICATOR_ID + " ='" + indicatorID + "'");
 		
 		if (ind_result.getCount() != 1){
@@ -754,6 +753,13 @@ public class AreaData {
 					
 					return null;
 				}
+				
+				apiRecord = new ContentValues();
+				apiRecord.put(I_ID 				,  wb_result.getInt(wb_result.getColumnIndex(I_ID )));
+				apiRecord.put(AP_ID				, 1	);
+				apiRecord.put(SEARCH_VIEWED		, parser.timeStamp());
+				//FROM_SEARCH			= {SEARCH_ID, I_ID, AP_ID, SEARCH_CREATED, SEARCH_MODIFIED, SEARCH_URI};
+				insert(SEARCH, apiRecord, 1);
 				wb_result.close();
 				break;
 			case IDS_SEARCH:
@@ -775,6 +781,13 @@ public class AreaData {
 					return null;
 									
 				}
+				
+				
+				apiRecord = new ContentValues();
+				apiRecord.put(I_ID			,  search_cursor.getInt(search_cursor.getColumnIndex(I_ID)));
+				apiRecord.put(IDS_VIEW_DATE	, parser.timeStamp());
+				//String[] FROM_IDS_SEARCH= {IDS_SEARCH_ID, I_ID, IDS_BASE_URL, IDS_SITE, IDS_OBJECT};
+				insert(IDS_SEARCH_TABLE, apiRecord, 1);
 				search_cursor.close();
 				break;
 			case BING_SEARCH:
@@ -794,12 +807,58 @@ public class AreaData {
 					
 					return null;				
 				}
+				
+				apiRecord = new ContentValues();
+				apiRecord.put(BING_QUERY	, search_cursor.getInt(search_cursor.getColumnIndex(BING_QUERY)));
+				apiRecord.put(QUERY_VIEW_DATE	, parser.timeStamp());
+				insert(BING_SEARCH_TABLE, apiRecord, 1);
 				search_cursor.close();
 				break;
 			
 		}
 		cursor = rawQuery(table, "*", params);
 		Log.e(TAG, String.format("Params: %s. Table: %s", params, table));
+		
+		return cursor;
+	}
+	
+	public Cursor getRecentData(int dataSource){
+		Cursor max_cursor, cursor = null;
+		switch(dataSource){
+		case WORLD_SEARCH:
+			max_cursor = dbHelper.rawQuery(SEARCH, "MAX("+ SEARCH_VIEWED +") AS recent_time", "");
+			if(max_cursor.moveToFirst()){
+				cursor = dbHelper.rawQuery(SEARCH, "*", "" + SEARCH_VIEWED + " = '"+ 
+												max_cursor.getLong(max_cursor.getColumnIndex("recent_time"))+ "'");
+				if(cursor.moveToFirst()){
+					return cursor;
+				}
+			}else{
+				Log.e(TAG, "Error retrieving recent WB Data:" + max_cursor.getLong(max_cursor.getColumnIndex("recent_time")));
+				max_cursor.close();
+				return null;
+			}
+			max_cursor.close();
+			break;
+		case IDS_SEARCH:
+			cursor = dbHelper.rawQuery(IDS_SEARCH_RESULTS + " ORDER BY " + IDS_VIEW_DATE + "LIMIT 10" , "*", "");
+			break;
+		case BING_SEARCH:
+			cursor = dbHelper.rawQuery(BING_SEARCH_RESULTS + " ORDER BY " + QUERY_VIEW_DATE + "LIMIT 10", "*", "");
+			break;
+		}
+		
+		return cursor;
+	}
+	
+	public Cursor getReport(int reportID){
+		Cursor cursor ;
+		cursor =  dbHelper.rawQuery(IDS_SEARCH_RESULTS, "*", "" + _ID + " = '" + reportID + "'");
+		if(cursor.getCount() != 1){
+			Log.e(TAG, "Error In Retrieving Report: Amount returned:->" + cursor.getCount());
+			cursor.close();
+			return null;
+		}
 		return cursor;
 	}
 	
@@ -1116,8 +1175,8 @@ public class AreaData {
 				+ SEARCH_ID 		+ " integer primary key autoincrement, "
 				+ I_ID				+ " integer not null, "
 				+ AP_ID 			+ " integer not null, "
-				+ SEARCH_CREATED 	+ " integer, "
-				+ SEARCH_MODIFIED 	+ " integer, "
+				+ SEARCH_CREATED 	+ " integer not null, "
+				+ SEARCH_MODIFIED 	+ " integer not null, "
 				+ SEARCH_URI 		+ " text not null )" ;
 		
 		private static final String CREATE_TABLE_IDS_SEARCH = "create table " + IDS_SEARCH_TABLE + " ( "
@@ -1126,7 +1185,7 @@ public class AreaData {
 				+ IDS_BASE_URL			+ " text not null,"
 				+ IDS_SITE				+ " text not null, "
 				+ IDS_OBJECT 			+ " text not null, " 
-				+ IDS_TIMESTAMP			+ " integer )" ;
+				+ IDS_TIMESTAMP			+ " integer not null)" ;
 		
 		private static final String CREATE_TABLE_IDS_SEARCH_PARAMS = "create table " + IDS_SEARCH_PARAMS + " ( "
 				+ _ID 				+ " integer primary key autoincrement, "
@@ -1166,7 +1225,7 @@ public class AreaData {
 		private static final String CREATE_TABLE_BING_SEARCH = "create table " + BING_SEARCH_TABLE + " ( "
 				+ BING_SEARCH_ID	+ " integer primary key autoincrement, "
 				+ BING_QUERY		+ " text not null, "
-				+ QUERY_DATE		+ " integer)";		
+				+ QUERY_DATE		+ " integer not null)";		
 		//public static final String[] FROM_BING_SEARCH_TABLE		= {BING_SEARCH_ID, BING_QUERY, QUERY_DATE };
 
 		private static final String CREATE_TABLE_BING_SEARCH_RESULTS = "create table " + BING_SEARCH_RESULTS + " ( "

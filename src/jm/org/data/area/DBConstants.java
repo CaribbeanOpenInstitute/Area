@@ -59,8 +59,9 @@ public interface DBConstants extends MediaColumns {
 	
 	//Columns unique to Search Table
 	public static final String SEARCH_ID			= _ID		 		;
-	public static final String SEARCH_CREATED		= DATE_ADDED		;
-	public static final String SEARCH_MODIFIED		= DATE_MODIFIED 	;
+	public static final String SEARCH_CREATED		= "createdtime"		;
+	public static final String SEARCH_MODIFIED		= "modifiedtime"	;
+	public static final String SEARCH_VIEWED		= "viewedtime"		;
 	public static final String SEARCH_URI			= "uri"				;
 	
 	//Columns unique to the IDS Search table 
@@ -68,7 +69,8 @@ public interface DBConstants extends MediaColumns {
 	public static final String IDS_BASE_URL			= "base_url"		;
 	public static final String IDS_SITE				= "site"			;
 	public static final String IDS_OBJECT			= "data_object"		;
-	public static final String IDS_TIMESTAMP		= DATE_ADDED		;
+	public static final String IDS_TIMESTAMP		= "createdtime"		;
+	public static final String IDS_VIEW_DATE		= "viewedtime"		;
 	
 	
 	//Columns unique to the IDS Search Parameters table
@@ -95,7 +97,8 @@ public interface DBConstants extends MediaColumns {
 	// Columns unique to the BING Search table
 	public static final String BING_SEARCH_ID	= _ID				;
 	public static final String BING_QUERY		= "query_string"	;
-	public static final String QUERY_DATE		= DATE_ADDED		;
+	public static final String QUERY_DATE		= "createdtime"		;
+	public static final String QUERY_VIEW_DATE	= "viewedtime"		;
 	
 	//Columns unique to the BING Results table
 	public static final String BING_TITLE		= "title"		;
@@ -174,28 +177,31 @@ public interface DBConstants extends MediaColumns {
 	
 	public static final String[] FROM_INDICATOR				= {INDICATOR_ID, WB_INDICATOR_ID, INDICATOR_NAME, INDICATOR_DESC				};
 	
-	public static final String[] FROM_SEARCH				= {SEARCH_ID, I_ID, AP_ID, SEARCH_CREATED, SEARCH_MODIFIED, SEARCH_URI			};
+	public static final String[] FROM_SEARCH				= {SEARCH_ID, I_ID, AP_ID, SEARCH_CREATED, SEARCH_MODIFIED, SEARCH_VIEWED,
+																SEARCH_URI																	};
 	
 	public static final String[] FROM_API					= {API_ID, API_NAME, API_DESC, BASE_URI											};
 	
-	public static final String[] FROM_BING_SEARCH_TABLE		= {BING_SEARCH_ID, BING_QUERY, QUERY_DATE										};
+	public static final String[] FROM_BING_SEARCH_TABLE		= {BING_SEARCH_ID, BING_QUERY, QUERY_DATE, QUERY_VIEW_DATE						};
 
-	public static final String[] FROM_BING_SEARCH_RESULTS	= {_ID, B_S_ID, BING_TITLE, BING_DESC, BING_URL, BING_DISP_URL, BING_DATE_TIME	};
-
+	public static final String[] FROM_BING_SEARCH_RESULTS	= {_ID, B_S_ID, BING_TITLE, BING_DESC, BING_URL, BING_DISP_URL, BING_DATE_TIME, 
+																QUERY_VIEW_DATE																};
+	
 	public static final String[] FROM_WB_DATA				= {WB_DATA_ID, SC_ID, IND_VALUE, IND_DECIMAL, IND_DATE							};
 	
 	public static final String[] FROM_SEARCH_COUNTRY		= {_ID, S_ID, C_ID, P_ID														};
 	
 	public static final String[] FROM_PERIOD				= {PERIOD_ID, PERIOD_NAME, P_START_DATE, P_END_DATE								};
 	
-	public static final String[] FROM_IDS_SEARCH_TABLE		= {IDS_SEARCH_ID, I_ID, IDS_BASE_URL, IDS_SITE, IDS_OBJECT, IDS_TIMESTAMP		};
+	public static final String[] FROM_IDS_SEARCH_TABLE		= {IDS_SEARCH_ID, I_ID, IDS_BASE_URL, IDS_SITE, IDS_OBJECT, IDS_TIMESTAMP,
+																IDS_VIEW_DATE																};
 	
 	public static final String[] FROM_IDS_SEARCH_PARAMS		= {_ID, IDS_S_ID, IDS_PARAMETER, IDS_OPERAND, IDS_PARAM_VALUE, COMBINATION		};
 	
 	public static final String[] FROM_IDS_SEARCH_RESULTS	= {_ID, IDS_S_ID, IDS_DOC_URL, IDS_DOC_ID, IDS_DOC_TYPE, IDS_DOC_TITLE, 
 																IDS_DOC_AUTH_STR, IDS_DOC_PUB, IDS_DOC_PUB_DATE, IDS_DOC_DESC,
 																IDS_DOC_SITE, IDS_DOC_DATE, IDS_DOC_TIMESTAMP, IDS_DOC_DWNLD_URL,
-																IDS_DOC_PATH																};
+																IDS_VIEW_DATE, IDS_DOC_PATH																};
 	
 	public static final String[] FROM_IDS_DATA				= {DOCUMENT_ID, IDS_S_ID, DOC_TITLE,LANGUAGE_NAME, LICENCE_TYPE,
 																PUBLICATION_DATE, PUBLISHER, PUBLISHER_COUNTRY, JOURNAL_SITE,

@@ -151,11 +151,12 @@ public class JSONParse {
 			
 			if(numOfrecords > 0){
 				resultArray = results.getJSONArray("Results");
-				String date = timeStamp();
+				long date = timeStamp();
 				// create Search record if it doesn't exist;
 				apiRecord = new ContentValues();
 				apiRecord.put(BING_QUERY	, params	);
-				//apiRecord.put(QUERY_DATE	, date		);
+				apiRecord.put(QUERY_DATE	, date		);
+				apiRecord.put(QUERY_VIEW_DATE	, date		);
 				//public static final String[] FROM_BING_SEARCH_TABLE		= {BING_SEARCH_ID, BING_QUERY, QUERY_DATE };
 				search_id = areaData.insert(BING_SEARCH_TABLE, apiRecord, 1);
 				if(search_id <= 0){
@@ -209,14 +210,15 @@ public class JSONParse {
 			if(numReturned > 0){
 				resultArray = jsonObject.getJSONArray("results");
 				String site = "eldis/", object = "document/", parameter="keyword", querybase = "http://api.ids.ac.uk/openapi/";
-				String date = timeStamp();
+				long date = timeStamp();
 				// create Search record if it doesn't exist;
 				apiRecord = new ContentValues();
 				apiRecord.put(I_ID			, indicator	);
 				apiRecord.put(IDS_BASE_URL	, querybase	);
 				apiRecord.put(IDS_SITE		, site		);
 				apiRecord.put(IDS_OBJECT	, object	);
-				//apiRecord.put(IDS_TIMESTAMP	, date	);
+				apiRecord.put(IDS_TIMESTAMP	, date		);
+				apiRecord.put(IDS_VIEW_DATE	, date		);
 				//String[] FROM_IDS_SEARCH= {IDS_SEARCH_ID, I_ID, IDS_BASE_URL, IDS_SITE, IDS_OBJECT};
 				search_id = areaData.insert(IDS_SEARCH_TABLE, apiRecord, 1);
 				if(search_id > 0){
@@ -288,12 +290,13 @@ public class JSONParse {
 			if (numofObjects > 0){
 				jsonArray = jsonArray.getJSONArray(1);
 				// create or update Search record
-				String date = timeStamp();
+				long date = timeStamp();
 				apiRecord = new ContentValues();
 				apiRecord.put(I_ID 				, indicator	);
 				apiRecord.put(AP_ID				, 1			);
-				//apiRecord.put(SEARCH_CREATED	, date		);
-				//apiRecord.put(SEARCH_MODIFIED	, date		);
+				apiRecord.put(SEARCH_CREATED	, date		);
+				apiRecord.put(SEARCH_MODIFIED	, date		);
+				apiRecord.put(SEARCH_VIEWED		, date		);
 				apiRecord.put(SEARCH_URI		, uri		);
 				//FROM_SEARCH			= {SEARCH_ID, I_ID, AP_ID, SEARCH_CREATED, SEARCH_MODIFIED, SEARCH_URI};
 				search_id = areaData.insert(SEARCH, apiRecord, 1);
@@ -506,12 +509,12 @@ public class JSONParse {
 		return data;
 	}
 	
-	private String timeStamp(){
+	public long timeStamp(){
 		Calendar calendar = Calendar.getInstance();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
 		
-		return format.format(calendar.getTime());
-		
+		//return format.format(calendar.getTime());
+		return calendar.getTime().getTime();
 		
 	}
 }
