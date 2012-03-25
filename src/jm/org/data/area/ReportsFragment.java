@@ -5,6 +5,7 @@ import static jm.org.data.area.AreaConstants.*;
 
 import java.util.Arrays;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -92,10 +93,16 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 		Cursor cursor = (Cursor) getListAdapter().getItem(position);
 		
 		String item = cursor.getString(cursor.getColumnIndex(IDS_DOC_ID));
+		String item_id = cursor.getString(cursor.getColumnIndex(DOCUMENT_ID));
 		String itemTitle = cursor.getString(cursor.getColumnIndex(IDS_DOC_TITLE));
 		Log.d(TAG, "Report selected is: " + item + " Title is: " + itemTitle);
 		
 		//Launch Report View
+				Intent intent = new Intent(getActivity().getApplicationContext(),
+						ReportViewActivity.class);
+				intent.putExtra(DOCUMENT_ID, item_id);
+				//intent.putExtra(BING_URL, itemURL);
+				startActivity(intent);
 	}
 
 	@Override
