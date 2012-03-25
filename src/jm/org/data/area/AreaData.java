@@ -845,7 +845,7 @@ public class AreaData {
 		String querybase = "http://api.ids.ac.uk/openapi/";
 		int return_int;
 		String site = "eldis/", object = "documents/", parameter="q", num_results = "num_results=50";
-		String extras = "extra_fields=author+publication_year+publisher+publication_date";
+		String extras = "extra_fields=description+author+publication_year+publisher+publication_date";
 		String queryStr;
 		String paramStr = "";
 		for(int n = 0; n < parameters.length; n++){
@@ -1044,7 +1044,7 @@ public class AreaData {
 		INDICATOR_KEYWORDS.put("AG.AGR.TRAC.NO",	"agriculture machine"		);
 		INDICATOR_KEYWORDS.put("AG.CON.FERT.MT",	"fertilizer consumption"	);
 		INDICATOR_KEYWORDS.put("AG.CON.FERT.PT.ZS",	"fertilizer consumption"	);
-		INDICATOR_KEYWORDS.put("AG.CON.FERT.ZS",	"fertilizer consumption"	);
+		INDICATOR_KEYWORDS.put("AG.CON.FERT.ZS",	"fertilizer"				);
 		INDICATOR_KEYWORDS.put("AG.LND.AGRI.K2",	"agriculture"				);
 		INDICATOR_KEYWORDS.put("AG.LND.AGRI.ZS",	"agricultural land"			);
 		INDICATOR_KEYWORDS.put("AG.LND.ARBL.HA",	"arable land"				);
@@ -1080,7 +1080,7 @@ public class AreaData {
 	
 	private class AreaDB extends SQLiteOpenHelper{
 		
-		private static final int DATABASE_VERSION = 6;
+		private static final int DATABASE_VERSION = 7;
 		private SQLiteDatabase db;
 		
 		

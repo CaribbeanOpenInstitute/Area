@@ -243,6 +243,9 @@ public class JSONParse {
 			
 			// get Data returned from the IDS
 			// update the IDS_SEARCH_RESULT table with the documents information
+			if(numReturned > 50 ){
+				numReturned  = 50;
+			}
 			for (int i = 0; i < numReturned; i++) {
 				apiRecord = new ContentValues();
 				ids_data = parseJSON( ids_data, resultArray.getJSONObject(i), "");
@@ -250,7 +253,7 @@ public class JSONParse {
 				// add the IDS Search ID first
 				apiRecord.put(IDS_S_ID, search_id);
 				
-				for (int a = 0; a < IDS_SEARCH_LIST.length; a++){
+				for (int a = 0; a < IDS_SEARCH_LIST.length ; a++){
 					apiRecord.put(FROM_IDS_SEARCH_RESULTS[a+2], (String)ids_data.get(IDS_SEARCH_LIST[a]));	
 					Log.d("Indicators", ""+ FROM_IDS_SEARCH_RESULTS[a+2] + ":-> " + (String)ids_data.get(IDS_SEARCH_LIST[a]));
 				}
