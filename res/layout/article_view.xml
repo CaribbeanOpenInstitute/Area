@@ -3,10 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
-    <WebView
-        android:id="@+id/articleWebView"
+    
+    <fragment
+        android:id="@+id/arViewFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        class="jm.org.data.area.ArticleViewFragment" >
+    </fragment>
 
 </LinearLayout>

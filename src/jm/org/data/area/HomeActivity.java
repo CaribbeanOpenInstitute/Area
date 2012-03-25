@@ -81,7 +81,8 @@ public class HomeActivity extends BaseActivity{
 			editor.putBoolean(getString(R.string.pref_startupKey), true);
 			editor.commit();
 			
-			//startActivity(getIntent());		
+			IndicatorListFragment inFragment = (IndicatorListFragment) getSupportFragmentManager().findFragmentById(R.id.listFragment);
+			inFragment.reload();
     	}
 
     }

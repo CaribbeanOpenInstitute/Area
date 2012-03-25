@@ -67,7 +67,7 @@ public class ChartsFragment extends Fragment {
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 	
-	@Override
+	/*@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		//getActivity().invalidateOptionsMenu();
 		if (menu.size() <= 1) {
@@ -78,7 +78,7 @@ public class ChartsFragment extends Fragment {
 		}
 		super.onPrepareOptionsMenu(menu);
 		
-	}
+	}*/
 	
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -166,7 +166,8 @@ public class ChartsFragment extends Fragment {
 		
 	}
 	private void renderChart(){
-		chart = new AreaChart().execute(getActivity().getBaseContext(), indicator, countryList);
+		Log.d(TAG, String.format("Indicator: %s. Country list: %s", indicator, Arrays.toString(countryList)));
+		chart = new AreaChart().execute(getActivity(), indicator, countryList);
 		Log.e(TAG,"chart view " +chart.toString() + " - " + layout.getId() + "current indicator" + indicator + " - "
 				+ "First country: " + countryList[0] + " from " + countryList.length);
 		
