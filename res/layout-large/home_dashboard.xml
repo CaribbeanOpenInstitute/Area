@@ -27,13 +27,15 @@
             android:textSize="30dip" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:orientation="horizontal" >
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="vertical" >
 
                 <TextView
@@ -43,11 +45,20 @@
                     android:layout_marginTop="20dip"
                     android:text="Reports"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <fragment
+                    android:id="@+id/homeReportsFragment"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    class="jm.org.data.area.HomeReportListFragment" >
+                </fragment>
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="vertical" >
 
                 <TextView
@@ -57,13 +68,30 @@
                     android:layout_marginTop="20dip"
                     android:text="Articles"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
+                <fragment
+                    android:id="@+id/homeArticlesFragment"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    class="jm.org.data.area.HomeArticlesListFragment" >
+                </fragment>
+                
             </LinearLayout>
         </LinearLayout>
 
-        <fragment
-            android:id="@+id/homeChartsFragment"
+        <TextView
+            android:id="@+id/homeChartsTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dip"
+            android:text="Charts"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <fragment
+            android:id="@+id/homeChartsFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             class="jm.org.data.area.HomeChartFragment" >
         </fragment>
     </LinearLayout>
