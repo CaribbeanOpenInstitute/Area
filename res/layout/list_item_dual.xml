@@ -28,7 +28,6 @@
         android:layout_marginTop="8dip"
         android:textAppearance="?android:attr/textAppearanceListItem" 
         />
-<!--         android:layout_marginLeft="?android:attr/listPreferredItemPaddingLeft" -->
 
     <TextView
         android:id="@+id/list_item_desc"

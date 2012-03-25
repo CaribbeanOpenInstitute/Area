@@ -6,7 +6,7 @@
     >
     <!-- android:background="@drawable/app_bg" -->
 
-    <TextView
+ <!--    <TextView
         android:id="@+id/homeText"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -14,7 +14,7 @@
         android:layout_marginTop="20dip"
         android:text="Recent Activity"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="30dip" />
+        android:textSize="30dip" /> -->
     
 
 </LinearLayout>

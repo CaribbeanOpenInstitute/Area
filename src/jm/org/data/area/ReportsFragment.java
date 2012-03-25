@@ -45,8 +45,9 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
-		String[] from = {IDS_DOC_TITLE, IDS_DOC_TYPE};
+		String[] from = {IDS_DOC_TITLE, IDS_DOC_AUTH_STR};
 		int[] to = {R.id.list_item_title, R.id.list_item_desc};
+		//tAdapter = new SimpleCursorAdapter(getActivity(), R.layout.list_reports_item, null, from, to, 0);
 		tAdapter = new SimpleCursorAdapter(getActivity(), R.layout.list_item_dual, null, from, to, 0);
 		
 		setListAdapter(tAdapter);
