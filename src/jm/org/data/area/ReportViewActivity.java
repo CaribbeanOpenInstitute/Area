@@ -1,5 +1,5 @@
 package jm.org.data.area;
 
-public class ReportViewActivity {
+public class ReportViewActivity extends BaseActivity {
 
 }

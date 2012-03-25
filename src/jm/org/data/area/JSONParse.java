@@ -10,7 +10,7 @@ import static jm.org.data.area.AreaConstants.SEARCH_FAIL;
 import static jm.org.data.area.AreaConstants.WB_COUNTRY_LIST;
 import static jm.org.data.area.AreaConstants.WB_DATA_LIST;
 import static jm.org.data.area.AreaConstants.WB_IND_LIST;
-import static jm.org.data.area.DBConstants.AP_ID;
+import static jm.org.data.area.DBConstants.*;
 import static jm.org.data.area.DBConstants.BING_QUERY;
 import static jm.org.data.area.DBConstants.BING_SEARCH_RESULTS;
 import static jm.org.data.area.DBConstants.BING_SEARCH_TABLE;
@@ -155,7 +155,7 @@ public class JSONParse {
 				// create Search record if it doesn't exist;
 				apiRecord = new ContentValues();
 				apiRecord.put(BING_QUERY	, params	);
-				apiRecord.put(QUERY_DATE	, date		);
+				//apiRecord.put(QUERY_DATE	, date		);
 				//public static final String[] FROM_BING_SEARCH_TABLE		= {BING_SEARCH_ID, BING_QUERY, QUERY_DATE };
 				search_id = areaData.insert(BING_SEARCH_TABLE, apiRecord, 1);
 				if(search_id <= 0){
@@ -195,6 +195,7 @@ public class JSONParse {
 		}
 		return (int) search_id;
 	}
+
 	public int parseIDSData(String jsonData, int indicator, String params, String uri){
 		Hashtable<String, String> ids_data = new Hashtable<String, String>();
 		long search_id = 0;
@@ -208,12 +209,14 @@ public class JSONParse {
 			if(numReturned > 0){
 				resultArray = jsonObject.getJSONArray("results");
 				String site = "eldis/", object = "document/", parameter="keyword", querybase = "http://api.ids.ac.uk/openapi/";
+				String date = timeStamp();
 				// create Search record if it doesn't exist;
 				apiRecord = new ContentValues();
 				apiRecord.put(I_ID			, indicator	);
 				apiRecord.put(IDS_BASE_URL	, querybase	);
 				apiRecord.put(IDS_SITE		, site		);
 				apiRecord.put(IDS_OBJECT	, object	);
+				//apiRecord.put(IDS_TIMESTAMP	, date	);
 				//String[] FROM_IDS_SEARCH= {IDS_SEARCH_ID, I_ID, IDS_BASE_URL, IDS_SITE, IDS_OBJECT};
 				search_id = areaData.insert(IDS_SEARCH_TABLE, apiRecord, 1);
 				if(search_id > 0){
@@ -289,8 +292,8 @@ public class JSONParse {
 				apiRecord = new ContentValues();
 				apiRecord.put(I_ID 				, indicator	);
 				apiRecord.put(AP_ID				, 1			);
-				apiRecord.put(SEARCH_CREATED	, date		);
-				apiRecord.put(SEARCH_MODIFIED	, date		);
+				//apiRecord.put(SEARCH_CREATED	, date		);
+				//apiRecord.put(SEARCH_MODIFIED	, date		);
 				apiRecord.put(SEARCH_URI		, uri		);
 				//FROM_SEARCH			= {SEARCH_ID, I_ID, AP_ID, SEARCH_CREATED, SEARCH_MODIFIED, SEARCH_URI};
 				search_id = areaData.insert(SEARCH, apiRecord, 1);

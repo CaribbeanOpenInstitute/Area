@@ -76,13 +76,19 @@ public interface AreaConstants {
 	public static final String IDS_SEARCH_DOC_TITLE		= "title"			;
 	public static final String IDS_SEARCH_DOC_AUTH		= "author"			;
 	public static final String IDS_SEARCH_DOC_PUB		= "publisher"		;
-	public static final String IDS_SEARCH_DOC_DATE		= "publication_date";
+	public static final String IDS_SEARCH_DOC_PUB_DATE	= "publication_date";
 	public static final String IDS_SEARCH_DOC_DESC		= "description"		;
+	public static final String IDS_SEARCH_DOC_SITE		= "site"			;
+	public static final String IDS_SEARCH_DOC_DATE		= "date_created"	;
+	public static final String IDS_SEARCH_DOC_TIME		= "timestamp"		;
+	public static final String IDS_SEARCH_DOC_URLS		= "urls"			;
 	
 	public static final String[] IDS_SEARCH_LIST	= { IDS_SEARCH_DOC_URL, IDS_SEARCH_DOC_ID, IDS_SEARCH_DOC_TYPE, IDS_SEARCH_DOC_TITLE,
-														IDS_SEARCH_DOC_AUTH, IDS_SEARCH_DOC_PUB, IDS_SEARCH_DOC_DATE, IDS_SEARCH_DOC_DESC};
-	//public static final String[] FROM_IDS_SEARCH_RESULTS	= {_ID, IDS_S_ID, IDS_DOC_URL, IDS_DOC_ID, IDS_DOC_TYPE, IDS_DOC_TITLE, 
-	//															IDS_DOC_AUTH_STR, IDS_DOC_PUB, IDS_DOC_DATE, IDS_DOC_PATH					};
+														IDS_SEARCH_DOC_AUTH, IDS_SEARCH_DOC_PUB, IDS_SEARCH_DOC_PUB_DATE, IDS_SEARCH_DOC_DESC,
+														IDS_SEARCH_DOC_SITE, IDS_SEARCH_DOC_DATE, IDS_SEARCH_DOC_TIME, IDS_SEARCH_DOC_URLS};
+	/*public static final String[] FROM_IDS_SEARCH_RESULTS	= {_ID, IDS_S_ID, IDS_DOC_URL, IDS_DOC_ID, IDS_DOC_TYPE, IDS_DOC_TITLE, 
+																IDS_DOC_AUTH_STR, IDS_DOC_PUB, IDS_DOC_PUB_DATE, IDS_DOC_DESC,
+																IDS_DOC_SITE, IDS_DOC_DATE, IDS_DOC_TIMESTAMP, IDS_DOC_PATH					};*/
 	//Data keys for the BING API calls
 	public static final String BING_SEARCH_TITLE 	= "Title"		;
 	public static final String BING_SEARCH_DESC		= "Description"	;
