@@ -1,7 +1,7 @@
 package jm.org.data.area;
 
-import static jm.org.data.area.AreaConstants.WORLD_SEARCH;
 import static jm.org.data.area.AreaConstants.SEARCH_SUCCESS;
+import static jm.org.data.area.AreaConstants.WORLD_SEARCH;
 
 import java.util.Arrays;
 
@@ -9,7 +9,6 @@ import org.achartengine.GraphicalView;
 import org.achartengine.chartdemo.demo.chart.AreaChart;
 
 import android.graphics.Color;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ChartsFragment extends Fragment {
@@ -149,6 +149,7 @@ public class ChartsFragment extends Fragment {
 				
 			} else {
 				Log.e(TAG, "Problem with pull data");
+				displayError();
 			}
 		}
 	}
@@ -176,5 +177,12 @@ public class ChartsFragment extends Fragment {
 		layout.removeAllViewsInLayout();
 		layout.setBackgroundColor(Color.BLUE);
 		layout.addView(chart, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));/**/
+	}
+	
+	private void displayError(){
+		TextView txt = new TextView(getActivity());
+		layout.removeAllViewsInLayout();
+		txt.append("No Data Retrieved For Indicator\n"+ indicator);
+		layout.addView(txt);
 	}
 }

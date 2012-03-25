@@ -40,7 +40,7 @@ import java.util.Date;
 import java.util.Hashtable;
 
 import android.content.ContentValues;
-import android.content.Context;
+import android.content.Context; 
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -845,7 +845,7 @@ public class AreaData {
 		String querybase = "http://api.ids.ac.uk/openapi/";
 		int return_int;
 		String site = "eldis/", object = "documents/", parameter="q", num_results = "num_results=50";
-		String extras = "extra_fields=description+author+publication_year+publisher+publication_date";
+		String extras = "extra_fields=timestamp+date_created+site+urls+description+author+publication_year+publisher+publication_date";
 		String queryStr;
 		String paramStr = "";
 		for(int n = 0; n < parameters.length; n++){
@@ -1080,7 +1080,7 @@ public class AreaData {
 	
 	private class AreaDB extends SQLiteOpenHelper{
 		
-		private static final int DATABASE_VERSION = 7;
+		private static final int DATABASE_VERSION = 2;
 		private SQLiteDatabase db;
 		
 		
@@ -1116,8 +1116,8 @@ public class AreaData {
 				+ SEARCH_ID 		+ " integer primary key autoincrement, "
 				+ I_ID				+ " integer not null, "
 				+ AP_ID 			+ " integer not null, "
-				+ SEARCH_CREATED 	+ " datetime not null, "
-				+ SEARCH_MODIFIED 	+ " datetime not null, "
+				+ SEARCH_CREATED 	+ " integer, "
+				+ SEARCH_MODIFIED 	+ " integer, "
 				+ SEARCH_URI 		+ " text not null )" ;
 		
 		private static final String CREATE_TABLE_IDS_SEARCH = "create table " + IDS_SEARCH_TABLE + " ( "
@@ -1125,7 +1125,8 @@ public class AreaData {
 				+ I_ID 					+ " integer not null, "
 				+ IDS_BASE_URL			+ " text not null,"
 				+ IDS_SITE				+ " text not null, "
-				+ IDS_OBJECT 			+ " text not null )" ;
+				+ IDS_OBJECT 			+ " text not null, " 
+				+ IDS_TIMESTAMP			+ " integer )" ;
 		
 		private static final String CREATE_TABLE_IDS_SEARCH_PARAMS = "create table " + IDS_SEARCH_PARAMS + " ( "
 				+ _ID 				+ " integer primary key autoincrement, "
@@ -1133,7 +1134,7 @@ public class AreaData {
 				+ IDS_PARAMETER		+ " text not null, "
 				+ IDS_OPERAND		+ " text not null, "
 				+ IDS_PARAM_VALUE	+ " text not null, "
-				+ COMBINATION 			+ " text not null )" ;
+				+ COMBINATION 		+ " text not null )" ;
 		
 		private static final String CREATE_TABLE_IDS_SEARCH_RESULTS = "create table " + IDS_SEARCH_RESULTS + " ( "
 				+ _ID 				+ " integer primary key autoincrement, "
@@ -1144,10 +1145,17 @@ public class AreaData {
 				+ IDS_DOC_TITLE		+ " text not null, "
 				+ IDS_DOC_AUTH_STR	+ " text not null, "
 				+ IDS_DOC_PUB		+ " text not null, "
-				+ IDS_DOC_DATE		+ " text not null, "
+				+ IDS_DOC_PUB_DATE	+ " text not null, "
 				+ IDS_DOC_DESC		+ " text not null, "
+				+ IDS_DOC_SITE		+ " text not null, "
+				+ IDS_DOC_DATE		+ " text not null, "
+				+ IDS_DOC_TIMESTAMP + " text not null, "
+				+ IDS_DOC_DWNLD_URL + " text not null, "
 				+ IDS_DOC_PATH 		+ " text not null )" ;
 		
+		/* FROM_IDS_SEARCH_RESULTS	= {_ID, IDS_S_ID, IDS_DOC_URL, IDS_DOC_ID, IDS_DOC_TYPE, IDS_DOC_TITLE, 
+										IDS_DOC_AUTH_STR, IDS_DOC_PUB, IDS_DOC_PUB_DATE, IDS_DOC_DESC,
+										IDS_DOC_SITE, IDS_DOC_DATE, IDS_DOC_TIMESTAMP, IDS_DOC_DWNLD_URL, IDS_DOC_PATH					};*/
 		
 		private static final String CREATE_TABLE_API = "create table " + API + " ( "
 				+ API_ID 			+ " integer primary key autoincrement, "
@@ -1158,7 +1166,7 @@ public class AreaData {
 		private static final String CREATE_TABLE_BING_SEARCH = "create table " + BING_SEARCH_TABLE + " ( "
 				+ BING_SEARCH_ID	+ " integer primary key autoincrement, "
 				+ BING_QUERY		+ " text not null, "
-				+ QUERY_DATE		+ " datetime not null)";		
+				+ QUERY_DATE		+ " integer)";		
 		//public static final String[] FROM_BING_SEARCH_TABLE		= {BING_SEARCH_ID, BING_QUERY, QUERY_DATE };
 
 		private static final String CREATE_TABLE_BING_SEARCH_RESULTS = "create table " + BING_SEARCH_RESULTS + " ( "

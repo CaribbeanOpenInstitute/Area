@@ -19,6 +19,19 @@
         android:layout_height="0dp"
         android:layout_weight="0.90"
         android:orientation="horizontal" >
-    </LinearLayout>
+        <TextView
+             android:id="@+id/txtInitializing"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center_horizontal"
+             android:text="Retreiving chart data" />
+
+         <ProgressBar
+             android:id="@+id/progressBar_area"
+             style="@android:style/Widget.ProgressBar.Large.Inverse"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center" />
+       </LinearLayout>
 
 </LinearLayout>

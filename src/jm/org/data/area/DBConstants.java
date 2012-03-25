@@ -1,8 +1,9 @@
 package jm.org.data.area;
 
-import android.provider.BaseColumns;
+//import android.provider.BaseColumns;
+import android.provider.MediaStore.MediaColumns;
 
-public interface DBConstants extends BaseColumns {
+public interface DBConstants extends MediaColumns {
 	
 	
 	/*****************************************************************************************************************************/
@@ -50,7 +51,7 @@ public interface DBConstants extends BaseColumns {
 	public static final String CAPITAL_CITY			= "capital_city"	;
 	
 	//Columns unique to Indicators Table
-	public static final String INDICATOR_ID		= _ID				;
+	public static final String INDICATOR_ID			= _ID				;
 	public static final String WB_INDICATOR_ID		= "indicator_id"	;
 	public static final String INDICATOR_NAME		= "name"			;
 	public static final String INDICATOR_DESC		= "description"		;
@@ -58,15 +59,16 @@ public interface DBConstants extends BaseColumns {
 	
 	//Columns unique to Search Table
 	public static final String SEARCH_ID			= _ID		 		;
-	public static final String SEARCH_CREATED		= "createdtime"	 	;
-	public static final String SEARCH_MODIFIED		= "modifiedtime" 	;
+	public static final String SEARCH_CREATED		= DATE_ADDED		;
+	public static final String SEARCH_MODIFIED		= DATE_MODIFIED 	;
 	public static final String SEARCH_URI			= "uri"				;
 	
 	//Columns unique to the IDS Search table 
-	public static final String IDS_SEARCH_ID		= _ID			;
-	public static final String IDS_BASE_URL			= "base_url"	;
-	public static final String IDS_SITE				= "site"		;
-	public static final String IDS_OBJECT			= "data_object"	;
+	public static final String IDS_SEARCH_ID		= _ID				;
+	public static final String IDS_BASE_URL			= "base_url"		;
+	public static final String IDS_SITE				= "site"			;
+	public static final String IDS_OBJECT			= "data_object"		;
+	public static final String IDS_TIMESTAMP		= DATE_ADDED		;
 	
 	
 	//Columns unique to the IDS Search Parameters table
@@ -76,20 +78,24 @@ public interface DBConstants extends BaseColumns {
 	public static final String COMBINATION		= "combination"		;
 	
 	//Columns unique to the IDS Search Results table
-	public static final String IDS_DOC_URL		= "doc_url"			;
-	public static final String IDS_DOC_ID		= "doc_id"			;
-	public static final String IDS_DOC_TYPE		= "doc_type"		;
-	public static final String IDS_DOC_TITLE	= "doc_title"		;
-	public static final String IDS_DOC_PATH		= "doc_path"		;
-	public static final String IDS_DOC_AUTH_STR = "author_string"	;
-	public static final String IDS_DOC_PUB		= "doc_publisher"	;
-	public static final String IDS_DOC_DESC		= "doc_desciption"	;
-	public static final String IDS_DOC_DATE		= "doc_date"		;
+	public static final String IDS_DOC_URL			= "doc_url"			;
+	public static final String IDS_DOC_ID			= "doc_id"			;
+	public static final String IDS_DOC_TYPE			= "doc_type"		;
+	public static final String IDS_DOC_TITLE		= "doc_title"		;
+	public static final String IDS_DOC_PATH			= "doc_path"		;
+	public static final String IDS_DOC_AUTH_STR 	= "author_string"	;
+	public static final String IDS_DOC_PUB			= "doc_publisher"	;
+	public static final String IDS_DOC_DESC			= "doc_desciption"	;
+	public static final String IDS_DOC_PUB_DATE		= "doc_pub_date"	;
+	public static final String IDS_DOC_SITE			= "doc_site"		;
+	public static final String IDS_DOC_DATE			= "doc_date"		;// date created
+	public static final String IDS_DOC_TIMESTAMP	= "timestamp"		;
+	public static final String IDS_DOC_DWNLD_URL	= "document_url"	;
 	
 	// Columns unique to the BING Search table
 	public static final String BING_SEARCH_ID	= _ID				;
 	public static final String BING_QUERY		= "query_string"	;
-	public static final String QUERY_DATE		= "query_date"		;
+	public static final String QUERY_DATE		= DATE_ADDED		;
 	
 	//Columns unique to the BING Results table
 	public static final String BING_TITLE		= "title"		;
@@ -170,13 +176,6 @@ public interface DBConstants extends BaseColumns {
 	
 	public static final String[] FROM_SEARCH				= {SEARCH_ID, I_ID, AP_ID, SEARCH_CREATED, SEARCH_MODIFIED, SEARCH_URI			};
 	
-	public static final String[] FROM_IDS_SEARCH_TABLE		= {IDS_SEARCH_ID, I_ID, IDS_BASE_URL, IDS_SITE, IDS_OBJECT						};
-	
-	public static final String[] FROM_IDS_SEARCH_PARAMS		= {_ID, IDS_S_ID, IDS_PARAMETER, IDS_OPERAND, IDS_PARAM_VALUE, COMBINATION		};
-	
-	public static final String[] FROM_IDS_SEARCH_RESULTS	= {_ID, IDS_S_ID, IDS_DOC_URL, IDS_DOC_ID, IDS_DOC_TYPE, IDS_DOC_TITLE, 
-																IDS_DOC_AUTH_STR, IDS_DOC_PUB, IDS_DOC_DATE, IDS_DOC_DESC, IDS_DOC_PATH		};
-	
 	public static final String[] FROM_API					= {API_ID, API_NAME, API_DESC, BASE_URI											};
 	
 	public static final String[] FROM_BING_SEARCH_TABLE		= {BING_SEARCH_ID, BING_QUERY, QUERY_DATE										};
@@ -189,7 +188,16 @@ public interface DBConstants extends BaseColumns {
 	
 	public static final String[] FROM_PERIOD				= {PERIOD_ID, PERIOD_NAME, P_START_DATE, P_END_DATE								};
 	
-	public static final String[] FROM_IDS_DATA				= {DOCUMENT_ID, S_ID, DOC_TITLE,LANGUAGE_NAME, LICENCE_TYPE,
+	public static final String[] FROM_IDS_SEARCH_TABLE		= {IDS_SEARCH_ID, I_ID, IDS_BASE_URL, IDS_SITE, IDS_OBJECT, IDS_TIMESTAMP		};
+	
+	public static final String[] FROM_IDS_SEARCH_PARAMS		= {_ID, IDS_S_ID, IDS_PARAMETER, IDS_OPERAND, IDS_PARAM_VALUE, COMBINATION		};
+	
+	public static final String[] FROM_IDS_SEARCH_RESULTS	= {_ID, IDS_S_ID, IDS_DOC_URL, IDS_DOC_ID, IDS_DOC_TYPE, IDS_DOC_TITLE, 
+																IDS_DOC_AUTH_STR, IDS_DOC_PUB, IDS_DOC_PUB_DATE, IDS_DOC_DESC,
+																IDS_DOC_SITE, IDS_DOC_DATE, IDS_DOC_TIMESTAMP, IDS_DOC_DWNLD_URL,
+																IDS_DOC_PATH																};
+	
+	public static final String[] FROM_IDS_DATA				= {DOCUMENT_ID, IDS_S_ID, DOC_TITLE,LANGUAGE_NAME, LICENCE_TYPE,
 																PUBLICATION_DATE, PUBLISHER, PUBLISHER_COUNTRY, JOURNAL_SITE,
 																DOC_NAME, DATE_CREATED, DATE_UPDATED, WEBSITE_URL							};
 	
