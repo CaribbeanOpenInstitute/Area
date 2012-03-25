@@ -1080,7 +1080,7 @@ public class AreaData {
 	
 	private class AreaDB extends SQLiteOpenHelper{
 		
-		private static final int DATABASE_VERSION = 2;
+		private static final int DATABASE_VERSION = 8;
 		private SQLiteDatabase db;
 		
 		
