@@ -2,6 +2,10 @@ package jm.org.data.area;
 
 import static jm.org.data.area.DBConstants.BING_TITLE;
 import static jm.org.data.area.DBConstants.BING_URL;
+import static jm.org.data.area.DBConstants.IDS_DOC_ID;
+import static jm.org.data.area.DBConstants.IDS_SEARCH_RESULTS;
+import static jm.org.data.area.DBConstants.IDS_VIEW_DATE;
+import android.content.ContentValues;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;

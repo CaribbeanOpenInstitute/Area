@@ -159,6 +159,7 @@ public class JSONParse {
 				apiRecord.put(QUERY_VIEW_DATE	, date		);
 				//public static final String[] FROM_BING_SEARCH_TABLE		= {BING_SEARCH_ID, BING_QUERY, QUERY_DATE };
 				search_id = areaData.insert(BING_SEARCH_TABLE, apiRecord, 1);
+				Log.e(TAG, "Inserting BING Search record: query -" + params +  "URI-" + uri);
 				if(search_id <= 0){
 					Log.e(TAG, "Error inserting BING Search record: query -" + params +  "URI-" + uri);
 					return SEARCH_FAIL;

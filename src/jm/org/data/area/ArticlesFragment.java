@@ -5,6 +5,7 @@ import static jm.org.data.area.AreaConstants.*;
 
 import java.util.Arrays;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -101,6 +102,9 @@ public class ArticlesFragment extends ListFragment implements
 		Log.d(TAG, "Article selected is: " + item + " Title is: " + itemTitle);
 		
 		//Launch Article View
+		
+		new AreaData(getActivity().getApplicationContext()).updateArticle(itemURL);
+		Log.e(TAG, "Article Updated is: " + item + " Title is: " + itemTitle);
 		Intent intent = new Intent(getActivity().getApplicationContext(),
 				ArtcileViewActivity.class);
 		intent.putExtra(BING_SEARCH_ID, item_id);

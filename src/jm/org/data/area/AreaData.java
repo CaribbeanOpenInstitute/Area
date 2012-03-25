@@ -228,7 +228,7 @@ public class AreaData {
 					Log.d(TAG, String.format("Inserting into table %s", tableName));
 				}
 				catch (RuntimeException e) {
-					Log.e(TAG,"Indicator Insertion Exception: "+e.toString());
+					Log.e(TAG,String.format("Indicator Insertion Exception: Table: %s -> Table Key:%s => value:%s  %s ",tableName, tableKey, tableRecord.get(tableKey), e.toString()));
 				}
 			}
 			cursor.close();
@@ -853,13 +853,27 @@ public class AreaData {
 	
 	public Cursor getReport(int reportID){
 		Cursor cursor ;
+		parser = new JSONParse(context);
 		cursor =  dbHelper.rawQuery(IDS_SEARCH_RESULTS, "*", "" + _ID + " = '" + reportID + "'");
 		if(cursor.getCount() != 1){
 			Log.e(TAG, "Error In Retrieving Report: Amount returned:->" + cursor.getCount());
 			cursor.close();
 			return null;
+		}else{
+			apiRecord = new ContentValues();
+			apiRecord.put(IDS_DOC_ID, cursor.getInt(cursor.getColumnIndex(IDS_DOC_ID)));
+			apiRecord.put(IDS_VIEW_DATE, parser.timeStamp());
+			insert(IDS_SEARCH_RESULTS, apiRecord, 1);
 		}
 		return cursor;
+	}
+	
+	public void updateArticle(String bingUrl){
+		parser = new JSONParse(context);
+		apiRecord = new ContentValues();
+		apiRecord.put(BING_URL, bingUrl);
+		apiRecord.put(IDS_VIEW_DATE, parser.timeStamp());
+		insert(BING_SEARCH_RESULTS, apiRecord, 1);
 	}
 	
 	public int getCountryIndicators(int indicator_id, String indicator, ArrayList<String> countries, ArrayList<Integer> countryIDList, String date){
@@ -1082,16 +1096,16 @@ public class AreaData {
 		return cursor;
 	}
 	
-	private Calendar getDate(String formattedDateStr){
+	private Calendar getDate(String epoch){
 		Calendar calendar = null;
-		SimpleDateFormat format = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
-		
+				
 		try{
-			Date date = (Date)format.parse(formattedDateStr);
+			Date date = new Date();
+			date.setTime(Long.parseLong(epoch));
 			calendar = Calendar.getInstance();
 			calendar.setTime(date);
 			
-		}catch (ParseException e){
+		}catch (NumberFormatException e){
 			Log.e(TAG,"Exception in parsing date string "+e.toString());
 		}
 		
@@ -1139,7 +1153,7 @@ public class AreaData {
 	
 	private class AreaDB extends SQLiteOpenHelper{
 		
-		private static final int DATABASE_VERSION = 2;
+		private static final int DATABASE_VERSION = 1;
 		private SQLiteDatabase db;
 		
 		
@@ -1177,6 +1191,7 @@ public class AreaData {
 				+ AP_ID 			+ " integer not null, "
 				+ SEARCH_CREATED 	+ " integer not null, "
 				+ SEARCH_MODIFIED 	+ " integer not null, "
+				+ SEARCH_VIEWED		+ " integer not null, "
 				+ SEARCH_URI 		+ " text not null )" ;
 		
 		private static final String CREATE_TABLE_IDS_SEARCH = "create table " + IDS_SEARCH_TABLE + " ( "
@@ -1185,7 +1200,8 @@ public class AreaData {
 				+ IDS_BASE_URL			+ " text not null,"
 				+ IDS_SITE				+ " text not null, "
 				+ IDS_OBJECT 			+ " text not null, " 
-				+ IDS_TIMESTAMP			+ " integer not null)" ;
+				+ IDS_TIMESTAMP			+ " integer not null,"
+				+ IDS_VIEW_DATE			+ " integer not null )" ;
 		
 		private static final String CREATE_TABLE_IDS_SEARCH_PARAMS = "create table " + IDS_SEARCH_PARAMS + " ( "
 				+ _ID 				+ " integer primary key autoincrement, "
@@ -1210,6 +1226,7 @@ public class AreaData {
 				+ IDS_DOC_DATE		+ " text not null, "
 				+ IDS_DOC_TIMESTAMP + " text not null, "
 				+ IDS_DOC_DWNLD_URL + " text not null, "
+				+ IDS_VIEW_DATE		+ " integer,"
 				+ IDS_DOC_PATH 		+ " text not null )" ;
 		
 		/* FROM_IDS_SEARCH_RESULTS	= {_ID, IDS_S_ID, IDS_DOC_URL, IDS_DOC_ID, IDS_DOC_TYPE, IDS_DOC_TITLE, 
@@ -1221,11 +1238,13 @@ public class AreaData {
 				+ API_NAME 			+ " text not null, "
 				+ API_DESC 			+ " text not null, " 
 				+ BASE_URI 			+ " text not null )";
+				
 		
 		private static final String CREATE_TABLE_BING_SEARCH = "create table " + BING_SEARCH_TABLE + " ( "
 				+ BING_SEARCH_ID	+ " integer primary key autoincrement, "
 				+ BING_QUERY		+ " text not null, "
-				+ QUERY_DATE		+ " integer not null)";		
+				+ QUERY_DATE		+ " integer not null, "
+				+ QUERY_VIEW_DATE	+ " integer not null)";
 		//public static final String[] FROM_BING_SEARCH_TABLE		= {BING_SEARCH_ID, BING_QUERY, QUERY_DATE };
 
 		private static final String CREATE_TABLE_BING_SEARCH_RESULTS = "create table " + BING_SEARCH_RESULTS + " ( "
@@ -1235,7 +1254,8 @@ public class AreaData {
 				+ BING_DESC 		+ " text not null, " 
 				+ BING_URL			+ " text not null, "
 				+ BING_DISP_URL		+ " text not null, "
-				+ BING_DATE_TIME	+ " text not null )";
+				+ BING_DATE_TIME	+ " text not null, "
+				+ QUERY_VIEW_DATE	+ " integer )";
 		//public static final String[] FROM_BING_SEARCH_RESULTS	= {_ID, B_S_ID, BING_TITLE, BING_DESC, BING_URL, BING_DISP_URL, BING_DATE_TIME	};
 
 		private static final String CREATE_TABLE_WB_DATA = "create table " + WB_DATA + " ( "
@@ -1317,10 +1337,10 @@ public class AreaData {
 				Log.d("AREA", "Create API table: " + CREATE_TABLE_API									);
 				
 				db.execSQL(CREATE_TABLE_BING_SEARCH												);
-				Log.d("AREA", "Create API table: " + CREATE_TABLE_BING_SEARCH							);
+				Log.d("AREA", "Create Bing search table: " + CREATE_TABLE_BING_SEARCH					);
 				
 				db.execSQL(CREATE_TABLE_BING_SEARCH_RESULTS										);
-				Log.d("AREA", "Create API table: " + CREATE_TABLE_BING_SEARCH_RESULTS					);
+				Log.d("AREA", "Create bing search results table: " + CREATE_TABLE_BING_SEARCH_RESULTS	);
 				
 				db.execSQL(CREATE_TABLE_WB_DATA													);
 				Log.d("AREA", "Create WB_DATA table: " + CREATE_TABLE_WB_DATA							);
