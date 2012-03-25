@@ -92,17 +92,17 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 		super.onListItemClick(l, v, position, id);
 		Cursor cursor = (Cursor) getListAdapter().getItem(position);
 		
-		String item 		= cursor.getString(cursor.getColumnIndex(IDS_DOC_ID));
-		String itemTitle	= cursor.getString(cursor.getColumnIndex(IDS_DOC_TITLE));
-		String itemURL		= cursor.getString(cursor.getColumnIndex(IDS_DOC_DWNLD_URL));
-		Log.d(TAG, "Report selected is: " + item + " Title is: " + itemTitle + " Download from " + itemURL );
+		String item = cursor.getString(cursor.getColumnIndex(IDS_DOC_ID));
+		String item_id = cursor.getString(cursor.getColumnIndex(DOCUMENT_ID));
+		String itemTitle = cursor.getString(cursor.getColumnIndex(IDS_DOC_TITLE));
+		Log.d(TAG, "Report selected is: " + item + " Title is: " + itemTitle);
 		
 		//Launch Report View
-		Intent intent = new Intent(getActivity().getApplicationContext(),
-				ReportViewFragment.class);
-		intent.putExtra(IDS_DOC_ID, item);
-		intent.putExtra(IDS_DOC_DWNLD_URL, itemURL);
-		startActivity(intent);
+				Intent intent = new Intent(getActivity().getApplicationContext(),
+						ReportViewActivity.class);
+				intent.putExtra(DOCUMENT_ID, item_id);
+				//intent.putExtra(BING_URL, itemURL);
+				startActivity(intent);
 	}
 
 	@Override
