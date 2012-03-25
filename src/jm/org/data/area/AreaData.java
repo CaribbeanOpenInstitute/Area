@@ -1044,7 +1044,7 @@ public class AreaData {
 		INDICATOR_KEYWORDS.put("AG.AGR.TRAC.NO",	"agriculture machine"		);
 		INDICATOR_KEYWORDS.put("AG.CON.FERT.MT",	"fertilizer consumption"	);
 		INDICATOR_KEYWORDS.put("AG.CON.FERT.PT.ZS",	"fertilizer consumption"	);
-		INDICATOR_KEYWORDS.put("AG.CON.FERT.ZS",	"fertilizer consumption"	);
+		INDICATOR_KEYWORDS.put("AG.CON.FERT.ZS",	"fertilizer"				);
 		INDICATOR_KEYWORDS.put("AG.LND.AGRI.K2",	"agriculture"				);
 		INDICATOR_KEYWORDS.put("AG.LND.AGRI.ZS",	"agricultural land"			);
 		INDICATOR_KEYWORDS.put("AG.LND.ARBL.HA",	"arable land"				);
