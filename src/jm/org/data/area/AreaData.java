@@ -837,8 +837,10 @@ public class AreaData {
 				cursor = dbHelper.rawQuery(SEARCH, "*", "" + SEARCH_VIEWED + " = '"+ 
 												max_cursor.getLong(max_cursor.getColumnIndex("recent_time"))+ "'");
 				if(cursor.moveToFirst()){
+					max_cursor.close();
 					return cursor;
 				}
+				
 			}else{
 				Log.e(TAG, "Error retrieving recent WB Data:" + max_cursor.getLong(max_cursor.getColumnIndex("recent_time")));
 				max_cursor.close();
@@ -868,7 +870,7 @@ public class AreaData {
 		}else{
 			cursor.moveToFirst();
 			apiRecord = new ContentValues();
-			apiRecord.put(IDS_DOC_ID, cursor.getInt(cursor.getColumnIndex(IDS_DOC_ID)));
+			apiRecord.put(IDS_DOC_ID, cursor.getString(cursor.getColumnIndex(IDS_DOC_ID)));
 			apiRecord.put(IDS_VIEW_DATE, parser.timeStamp());
 			insert(IDS_SEARCH_RESULTS, apiRecord, 1);
 		}

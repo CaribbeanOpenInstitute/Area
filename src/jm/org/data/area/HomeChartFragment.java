@@ -69,6 +69,7 @@ public class HomeChartFragment extends Fragment {
 			Log.d(TAG, "Returning data. Num of records: " + result.getCount());
 			indicator = area.areaData.getIndicatorName(result.getInt(result.getColumnIndexOrThrow(I_ID)));
 			countryList = area.areaData.getSearchCountries(result.getInt(result.getColumnIndexOrThrow(_ID)));
+			result.close();
 			if (countryList.length > 0 && !indicator.equals("")) {
 				Log.e(TAG, "Retrieving Chart data");
 				renderChart();
@@ -80,8 +81,10 @@ public class HomeChartFragment extends Fragment {
 			}
 		} else {
 			Log.e(TAG, "No Search Results");
+			result.close();
 			displayError();
 		}
+		
 		
 	}
 	
