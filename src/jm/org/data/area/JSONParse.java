@@ -9,7 +9,7 @@ import static jm.org.data.area.AreaConstants.IDS_SEARCH_LIST;
 import static jm.org.data.area.AreaConstants.SEARCH_FAIL;
 import static jm.org.data.area.AreaConstants.WB_COUNTRY_LIST;
 import static jm.org.data.area.AreaConstants.WB_DATA_LIST;
-import static jm.org.data.area.AreaConstants.WB_IND_LIST;
+import static jm.org.data.area.AreaConstants.*;
 import static jm.org.data.area.DBConstants.*;
 import static jm.org.data.area.DBConstants.BING_QUERY;
 import static jm.org.data.area.DBConstants.BING_SEARCH_RESULTS;
@@ -478,7 +478,7 @@ public class JSONParse {
 				if(jsonInnerObject.optJSONObject(names.getString(x)) == null){
 					key = "" + base + ""+names.getString(x);
 					value = jsonInnerObject.getString(names.getString(x));
-					if (key.equals(IDS_SEARCH_DOC_AUTH)){
+					if (key.equals(IDS_SEARCH_DOC_AUTH) ||key.equals(IDS_SEARCH_DOC_URLS)){
 						value = "";
 						JSONArray auths = jsonInnerObject.getJSONArray(key);
 						for (int a = 0; a < auths.length(); a++){

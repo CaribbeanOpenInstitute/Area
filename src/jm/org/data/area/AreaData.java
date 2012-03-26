@@ -828,6 +828,68 @@ public class AreaData {
 		return cursor;
 	}
 	
+	public Cursor getGlobalData(int datasource, String searchStr){
+		Cursor cursor, search_cursor;
+		String table = "", params = "";
+		
+		switch(datasource){
+		case BING_SEARCH:
+			table = BING_SEARCH_RESULTS;
+			params = "" + BING_QUERY + " ='" + searchStr + "'";
+			
+			// query search table for API-Indicator combination. 
+			search_cursor = dbHelper.rawQuery(BING_SEARCH_TABLE, "*", params);
+			
+			if (search_cursor.getCount() ==1 ){
+				// if the indicator data is found then the assumption is that relevant results are in the database
+				search_cursor.moveToFirst();
+				params = "" + B_S_ID + " ='" + search_cursor.getInt(search_cursor.getColumnIndex(BING_SEARCH_ID))+ "'";
+			}else{
+				Log.e(TAG,"No Search Info: " +search_cursor.getCount() + " rows returned");
+				
+				return null;				
+			}
+			
+			apiRecord = new ContentValues();
+			apiRecord.put(BING_QUERY	, search_cursor.getInt(search_cursor.getColumnIndex(BING_QUERY)));
+			apiRecord.put(QUERY_VIEW_DATE	, parser.timeStamp());
+			insert(BING_SEARCH_TABLE, apiRecord, 1);
+			search_cursor.close();
+			break;
+		case IDS_SEARCH:
+
+			table = IDS_SEARCH_RESULTS;
+			 
+			params    = "" + IDS_PARAM_VALUE + " ='" + searchStr + "'";
+			
+			// query search table for API-Indicator combination. 
+			search_cursor = rawQuery(IDS_SEARCH_PARAMS, "*", params);
+			
+			if (search_cursor.getCount() ==1 ){
+				search_cursor.moveToFirst();
+				params = "" + IDS_S_ID + " ='" + search_cursor.getInt(search_cursor.getColumnIndex(IDS_SEARCH_ID))+ "'";
+				
+			}else{
+				Log.e(TAG,"No Search Info: " +search_cursor.getCount() + " rows returned");
+				
+				return null;
+								
+			}
+			
+			
+			apiRecord = new ContentValues();
+			apiRecord.put(I_ID			,  search_cursor.getInt(search_cursor.getColumnIndex(I_ID)));
+			apiRecord.put(IDS_VIEW_DATE	, parser.timeStamp());
+			//String[] FROM_IDS_SEARCH= {IDS_SEARCH_ID, I_ID, IDS_BASE_URL, IDS_SITE, IDS_OBJECT};
+			insert(IDS_SEARCH_TABLE, apiRecord, 1);
+			search_cursor.close();
+			break;
+		}
+		cursor = rawQuery(table, "*", params);
+		Log.e(TAG, String.format("Params: %s. Table: %s", params, table));
+		return cursor;
+	}
+	
 	public Cursor getRecentData(int dataSource){
 		Cursor max_cursor, cursor = null;
 		switch(dataSource){
