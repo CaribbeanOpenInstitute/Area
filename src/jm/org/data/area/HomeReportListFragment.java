@@ -1,5 +1,6 @@
 package jm.org.data.area;
 
+import static jm.org.data.area.DBConstants.DOCUMENT_ID;
 import static jm.org.data.area.DBConstants.IDS_DOC_AUTH_STR;
 import static jm.org.data.area.DBConstants.IDS_DOC_ID;
 import static jm.org.data.area.DBConstants.IDS_DOC_TITLE;
@@ -7,6 +8,7 @@ import static jm.org.data.area.AreaConstants.*;
 
 import java.util.Arrays;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -18,39 +20,48 @@ import android.view.View;
 import android.widget.ListView;
 
 public class HomeReportListFragment extends ListFragment implements
-LoaderManager.LoaderCallbacks<Cursor> {
+		LoaderManager.LoaderCallbacks<Cursor> {
 	public final String TAG = getClass().getSimpleName();
-	
+
 	SimpleCursorAdapter mAdapter;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
-		String[] from = {IDS_DOC_TITLE, IDS_DOC_AUTH_STR};
-		int[] to = {R.id.list_item_title, R.id.list_item_desc};
-		//tAdapter = new SimpleCursorAdapter(getActivity(), R.layout.list_reports_item, null, from, to, 0);
-		mAdapter = new SimpleCursorAdapter(getActivity(), R.layout.list_item_dual, null, from, to, 0);
-		
+
+		String[] from = { IDS_DOC_TITLE, IDS_DOC_AUTH_STR };
+		int[] to = { R.id.list_item_title, R.id.list_item_desc };
+		// tAdapter = new SimpleCursorAdapter(getActivity(),
+		// R.layout.list_reports_item, null, from, to, 0);
+		mAdapter = new SimpleCursorAdapter(getActivity(),
+				R.layout.list_item_dual, null, from, to, 0);
+
 		setListAdapter(mAdapter);
 		getLoaderManager().initLoader(0, null, this);
-		
+
 		setEmptyText("No indicators found");
 		setListShown(false);
 	}
-	
+
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		Cursor cursor = (Cursor) getListAdapter().getItem(position);
-		
+
 		String item = cursor.getString(cursor.getColumnIndex(IDS_DOC_ID));
-		String itemTitle = cursor.getString(cursor.getColumnIndex(IDS_DOC_TITLE));
+		int item_id = cursor.getInt(cursor.getColumnIndex(DOCUMENT_ID));
+		String itemTitle = cursor.getString(cursor
+				.getColumnIndex(IDS_DOC_TITLE));
 		Log.d(TAG, "Report selected is: " + item + " Title is: " + itemTitle);
-		
-		//Launch Report View
+
+		// Launch Report View
+		Intent intent = new Intent(getActivity().getApplicationContext(),
+				ReportDetailViewActivity.class);
+		intent.putExtra(DOCUMENT_ID, item_id);
+		// intent.putExtra(BING_URL, itemURL);
+		startActivity(intent);
 	}
-	
+
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
 		return new HomeListAdapter(getActivity(), IDS_SEARCH);
@@ -79,9 +90,9 @@ LoaderManager.LoaderCallbacks<Cursor> {
 	@Override
 	public void onLoaderReset(Loader<Cursor> arg0) {
 		mAdapter.swapCursor(null);
-		
+
 	}
-	
+
 	public void reload() {
 		getLoaderManager().restartLoader(0, null, this);
 	}

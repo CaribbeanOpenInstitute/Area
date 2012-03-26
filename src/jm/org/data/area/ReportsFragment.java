@@ -104,12 +104,12 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 		String itemTitle = cursor.getString(cursor.getColumnIndex(IDS_DOC_TITLE));
 		Log.d(TAG, "Report selected is: " + item + " Title is: " + itemTitle);
 		
-		//Launch Report View
-				Intent intent = new Intent(getActivity().getApplicationContext(),
-						ReportDetailViewActivity.class);
-				intent.putExtra(DOCUMENT_ID, item_id);
-				//intent.putExtra(BING_URL, itemURL);
-				startActivity(intent);
+		// Launch Report View
+		Intent intent = new Intent(getActivity().getApplicationContext(),
+				ReportDetailViewActivity.class);
+		intent.putExtra(DOCUMENT_ID, item_id);
+		// intent.putExtra(BING_URL, itemURL);
+		startActivity(intent);
 	}
 
 	@Override

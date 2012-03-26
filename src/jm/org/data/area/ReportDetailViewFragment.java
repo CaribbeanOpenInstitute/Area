@@ -31,8 +31,7 @@ public class ReportDetailViewFragment extends Fragment implements
 
 	// Meta Data for a report
 	private int docID;
-	private String docTitle, docName, pubDate, publisher, dateCreated,
-			docDesc;
+	private String docTitle, docName, pubDate, publisher, dateCreated, docDesc;
 
 	private Button btnSavePDF;
 
@@ -89,18 +88,8 @@ public class ReportDetailViewFragment extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		/*
-		 * if (container == null) { // We have different layouts, and in one of
-		 * them this // fragment's containing frame doesn't exist. The fragment
-		 * // may still be created from its saved state, but there is // no
-		 * reason to try to create its view hierarchy because it // won't be
-		 * displayed. Note this is not needed -- we could // just run the code
-		 * below, where we would create and return // the view hierarchy; it
-		 * would just never be used. return null; }
-		 */
 		View view = inflater.inflate(R.layout.report_view_frag, container,
 				false);
-
 		return view;
 	}
 
@@ -116,29 +105,39 @@ public class ReportDetailViewFragment extends Fragment implements
 	@Override
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor) {
 		if (cursor.moveToFirst()) {
-			Log.d(TAG, "Cursor columns " + Arrays.toString(cursor.getColumnNames()));
+			Log.d(TAG,
+					"Cursor columns "
+							+ Arrays.toString(cursor.getColumnNames()));
+			final TextView txtMainTitle = (TextView) getView().findViewById(
+					R.id.txtMainTitle);
+			final TextView txtPub = (TextView) getView().findViewById(
+					R.id.txtPublisher);
+			final TextView txtPubDate = (TextView) getView().findViewById(
+					R.id.txtPubDate);
+			final TextView txtDateCreated = (TextView) getView().findViewById(
+					R.id.txtDateCreated);
+			final TextView txtDescription = (TextView) getView().findViewById(
+					R.id.txtDescription);
+			
+			txtMainTitle.setText(cursor.getString(cursor.getColumnIndex(IDS_DOC_TITLE)));
+			txtPub.setText("Publisher: " + cursor.getString(cursor.getColumnIndex(IDS_DOC_PUB)));
+			txtPubDate.setText("Publication Date: " + cursor.getString(cursor.getColumnIndex(IDS_DOC_PUB_DATE)));
+			txtDateCreated.setText("Date Created: " + cursor.getString(cursor.getColumnIndex(IDS_DOC_DATE)));
+			txtDescription.setText(cursor.getString(cursor.getColumnIndex(IDS_DOC_DESC)));
 		}
-		/*
-		 * final TextView txtMainTitle = (TextView)
-		 * getView().findViewById(R.id.txtMainTitle); final TextView txtPub =
-		 * (TextView) getView().findViewById(R.id.txtPublisher); final TextView
-		 * txtPubDate = (TextView) getView().findViewById(R.id.txtPubDate);
-		 * final TextView txtDateCreated = (TextView)
-		 * getView().findViewById(R.id.txtDateCreated); final TextView
-		 * txtDescription = (TextView)
-		 * getView().findViewById(R.id.txtDescription);
-		 * 
-		 * btnSavePDF = (Button) getView().findViewById(R.id.btnSavePdf);
-		 * 
-		 * btnSavePDF.setOnClickListener(new OnClickListener() {
-		 * 
-		 * @Override public void onClick(View v) { savePDF(); } });
-		 * 
-		 * txtMainTitle.setText(docTitle); txtPub.setText("Publisher: " +
-		 * publisher); txtPubDate.setText("Plublisher Date: " + pubDate);
-		 * txtDateCreated.setText("Date Created: " + dateCreated);
-		 * txtDescription.setText(docDesc);
-		 */
+
+
+		btnSavePDF = (Button) getView().findViewById(R.id.btnSavePdf);
+
+		btnSavePDF.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				savePDF();
+			}
+		});
+
+		
 
 	}
 

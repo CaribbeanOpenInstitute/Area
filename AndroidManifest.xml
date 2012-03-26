@@ -21,7 +21,7 @@
         <activity
             android:name=".HomeActivity"
             android:label="@string/app_name"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="sensorLandscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,7 +35,7 @@
                 android:value=".SearchableActivity" />
         </activity>
         <activity android:name=".SearchableActivity"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="sensorLandscape" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -47,16 +47,16 @@
         <activity android:name="org.achartengine.GraphicalActivity" />
         <activity android:name=".AreaPreferencesActivity" />
         <activity android:name=".IndicatorActivity" 
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="sensorLandscape"/>
         <activity
             android:name=".StartupActivity"
             android:theme="@style/DialogTheme" 
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="sensorLandscape"/>
         <activity android:name=".AreaActivity" />
         <activity android:name=".ArtcileViewActivity" 
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="sensorLandscape"/>
         <activity android:name=".ReportDetailViewActivity" 
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="sensorLandscape"/>
 		
         <service
             android:name="AreaService"

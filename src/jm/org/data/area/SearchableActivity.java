@@ -34,8 +34,6 @@ public class SearchableActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        
-        
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			// only for android newer than gingerbread
 			 ActionBar actionBar = getActionBar();
