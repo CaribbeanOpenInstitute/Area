@@ -22,11 +22,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.ViewAnimator;
 
 public class ReportsFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 	public final String TAG = getClass().getSimpleName();
 	private String indicator;
+	private ViewAnimator loadingAnimator;
 	private String[] countryList;
+	private IndicatorActivity parentActivity;
 	SearchCursorAdapter mAdapter;
 	SimpleCursorAdapter tAdapter;
 
@@ -34,8 +37,10 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
+		parentActivity = (IndicatorActivity) getActivity();
+		
 		mAdapter = new SearchCursorAdapter(getActivity(), null);
-		IndicatorActivity parentActivity = (IndicatorActivity) getActivity();
+		
 		indicator = parentActivity.getIndicator();
 		//countryList = (String[]) parentActivity.getCountryList();
 		Log.d(TAG, String.format("Indcator: %s. Country List: ", indicator));
@@ -45,7 +50,8 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
+		loadingAnimator = (ViewAnimator) parentActivity.findViewById(R.id.reportSwitcher);	//Loading Animator
+		loadingAnimator.setDisplayedChild(1);
 		String[] from = {IDS_DOC_TITLE, IDS_DOC_AUTH_STR};
 		int[] to = {R.id.list_item_title, R.id.list_item_desc};
 		//tAdapter = new SimpleCursorAdapter(getActivity(), R.layout.list_reports_item, null, from, to, 0);
@@ -61,6 +67,7 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		
 		return inflater.inflate(R.layout.reports, container, false);
 	}
 
@@ -120,6 +127,7 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 							Arrays.toString(cursor.getColumnNames()),
 							cursor.getCount()));
 			tAdapter.swapCursor(cursor);
+			loadingAnimator.setDisplayedChild(0);
 			if (isResumed()) {
 				//setListShown(true);
 			} else {

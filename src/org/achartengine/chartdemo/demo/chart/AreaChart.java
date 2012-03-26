@@ -137,11 +137,12 @@ public class AreaChart extends AbstractDemoChart {
 	    renderer.setShowGrid(true);
 	    renderer.setXLabelsAlign(Align.RIGHT);
 	    renderer.setYLabelsAlign(Align.LEFT);
-	    renderer.setBackgroundColor(Color.LTGRAY);
+	    renderer.setChartTitleTextSize(16);
+	    //renderer.setBackgroundColor(Color.LTGRAY);
 	    renderer.setApplyBackgroundColor(true);
 	    renderer.setZoomButtonsVisible(true);
-	    renderer.setPanLimits(new double[] { -10, 20, -10, 40 });
-	    renderer.setZoomLimits(new double[] { -10, 20, -10, 40 });
+	    renderer.setPanLimits(new double[] { 1980, 2016, -1*y_max, y_max*2 });
+	    renderer.setZoomLimits(new double[] { 1980, 2016, -1*y_max, y_max*2 });
 	    renderer.setBackgroundColor(Color.WHITE);
 	    GraphicalView intent = ChartFactory.getLineChartView(context, buildDataset(countries, x, values),
 	        renderer);

@@ -166,6 +166,7 @@ public class ChartsFragment extends Fragment {
 		
 		
 	}
+	
 	private void renderChart(){
 		Log.d(TAG, String.format("Indicator: %s. Country list: %s", indicator, Arrays.toString(countryList)));
 		chart = new AreaChart().execute(getActivity(), indicator, countryList);

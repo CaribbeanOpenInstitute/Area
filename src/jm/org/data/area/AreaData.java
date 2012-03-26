@@ -398,7 +398,10 @@ public class AreaData {
 				pos = indicatorStr.indexOf("(");
 			}
 			// remove section of string after the comma or within and after the parenthesis
-			indicatorStr = indicatorStr.substring(0, pos-1);
+			if(pos > 0){
+				indicatorStr = indicatorStr.substring(0, pos-1);
+			}
+			
 		}
 		ind_result.close();
 		
@@ -676,7 +679,9 @@ public class AreaData {
 				pos = indicatorStr.indexOf("(");
 			}
 			// remove section of string after the comma or within and after the parenthesis
-			indicatorStr = indicatorStr.substring(0, pos-1);
+			if(pos > 0){
+				indicatorStr = indicatorStr.substring(0, pos-1);
+			}
 		}
 		ind_result.close();
 		
@@ -1027,6 +1032,57 @@ public class AreaData {
 		ind_result.close();
 		return indicatorStr;
 	}
+	
+	public String getIndicatorName(int indicator){
+		String indicatorStr = "";
+		Cursor ind_result;
+		
+		ind_result = dbHelper.rawQuery(INDICATOR, "*" , "" + INDICATOR_ID + " ='" + indicator + "'");
+		
+		if (ind_result.getCount() != 1){
+			Log.e(TAG, "Error retrieving Indicatror Information: indicator - " + indicator );
+			return indicatorStr;
+		}else{
+			Log.e(TAG,"" + ind_result.getCount() + " ID: " + ind_result.getColumnIndexOrThrow(_ID));
+			ind_result.moveToFirst();
+			Log.e(TAG,"" + ind_result.getCount() + " ID: " + ind_result.getString( ind_result.getColumnIndexOrThrow(_ID)));
+			
+			indicatorStr = ind_result.getString(ind_result.getColumnIndexOrThrow(WB_INDICATOR_ID));
+		}
+		ind_result.close();
+		return indicatorStr;
+	}
+	
+	public String[] getSearchCountries(int search_id){
+		String[] countries;
+		Cursor country_results, country;
+		
+		country_results = dbHelper.rawQuery(SEARCH_COUNTRY, "*", "" + S_ID +" ='" + search_id +"'");
+		if(country_results.getCount() > 0){
+			countries = new String[country_results.getCount()];
+			country_results.moveToFirst();
+			int n = 0;
+			while(!country_results.isAfterLast()){
+				country = dbHelper.rawQuery(COUNTRY, "*", "" + COUNTRY_ID + " = '" + country_results.getInt(country_results.getColumnIndex(C_ID))+ "'");
+				if(country.getCount() !=1){
+					country.close();
+					countries = new String[0];
+					break;
+				}
+				country.moveToFirst();
+				countries[n] = country.getString(country.getColumnIndex(COUNTRY_NAME));
+				country.close();
+				country_results.moveToNext();
+				n++;
+			}
+		}else{
+			countries = new String[0];
+		}
+		country_results.close();
+		return countries;
+		
+	}
+	
 	
 	public double[][] getIndicatorList(int Indicator_id, String countryStr, int period){
 		double [][] values = null;
