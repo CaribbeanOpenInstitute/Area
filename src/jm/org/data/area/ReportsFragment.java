@@ -50,8 +50,8 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		loadingAnimator = (ViewAnimator) parentActivity.findViewById(R.id.reportSwitcher);	//Loading Animator
-		loadingAnimator.setDisplayedChild(1);
+		//loadingAnimator = (ViewAnimator) parentActivity.findViewById(R.id.reportSwitcher);	//Loading Animator
+		//loadingAnimator.setDisplayedChild(1);
 		String[] from = {IDS_DOC_TITLE, IDS_DOC_AUTH_STR};
 		int[] to = {R.id.list_item_title, R.id.list_item_desc};
 		//tAdapter = new SimpleCursorAdapter(getActivity(), R.layout.list_reports_item, null, from, to, 0);
@@ -100,7 +100,7 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 		Cursor cursor = (Cursor) getListAdapter().getItem(position);
 		
 		String item = cursor.getString(cursor.getColumnIndex(IDS_DOC_ID));
-		String item_id = cursor.getString(cursor.getColumnIndex(DOCUMENT_ID));
+		int item_id = cursor.getInt(cursor.getColumnIndex(DOCUMENT_ID));
 		String itemTitle = cursor.getString(cursor.getColumnIndex(IDS_DOC_TITLE));
 		Log.d(TAG, "Report selected is: " + item + " Title is: " + itemTitle);
 		
@@ -127,7 +127,7 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 							Arrays.toString(cursor.getColumnNames()),
 							cursor.getCount()));
 			tAdapter.swapCursor(cursor);
-			loadingAnimator.setDisplayedChild(0);
+			//loadingAnimator.setDisplayedChild(0);
 			if (isResumed()) {
 				//setListShown(true);
 			} else {

@@ -866,6 +866,7 @@ public class AreaData {
 			cursor.close();
 			return null;
 		}else{
+			cursor.moveToFirst();
 			apiRecord = new ContentValues();
 			apiRecord.put(IDS_DOC_ID, cursor.getInt(cursor.getColumnIndex(IDS_DOC_ID)));
 			apiRecord.put(IDS_VIEW_DATE, parser.timeStamp());
