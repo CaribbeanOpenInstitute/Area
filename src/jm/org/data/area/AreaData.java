@@ -35,6 +35,7 @@ import static jm.org.data.area.DBConstants.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Hashtable;
@@ -315,14 +316,12 @@ public class AreaData {
 					return FATAL_ERROR;
 				}
 				getBingArticles(searchPhrase);
-				
-				
-			}else{
-				return SEARCH_SUCCESS;
 			}
+			return SEARCH_SUCCESS;
 		}else{
 			//if searchPhrase was not the subject of a previous search then fetch data from BING API
 			getBingArticles(searchPhrase);
+			
 		}
 		
 		//separate individual keywords from searchPhrase
@@ -335,7 +334,7 @@ public class AreaData {
 				ids_param_str = ids_param_str + "%26" + keyWords[n];
 			}
 		}
-
+		Log.e(TAG,"Array: " + Arrays.toString(keyWords) + " input value: " + searchPhrase);
 		// Check IDS_SEARCH_PARAMS table to see if parameters exist for any previous searches
 		params    = "" + IDS_PARAM_VALUE + " ='" + ids_param_str + "'";
 		ids_result 	= dbHelper.rawQuery(ids_table, "*", params);
@@ -344,9 +343,10 @@ public class AreaData {
 			return SEARCH_SUCCESS;
 		}else{
 			getDocuments(0, keyWords);
+			return SEARCH_SUCCESS;
 		}		
 		
-		return SEARCH_FAIL;
+		
 	}
 	
 	/**
