@@ -653,6 +653,7 @@ public class AreaData {
 		String table = "", indicatorStr, params = "";
 		int ind_id, in_country_id, country_id, period, search_country_id;
 		Integer[] search_country_array;
+		parser = new JSONParse(context);
 		
 		
 		ind_result = dbHelper.rawQuery(INDICATOR, "*" , "" + WB_INDICATOR_ID + " ='" + indicatorID + "'");
@@ -841,10 +842,10 @@ public class AreaData {
 			max_cursor.close();
 			break;
 		case IDS_SEARCH:
-			cursor = dbHelper.rawQuery(IDS_SEARCH_RESULTS + " ORDER BY " + IDS_VIEW_DATE + "LIMIT 10" , "*", "");
+			cursor = dbHelper.rawQuery(IDS_SEARCH_RESULTS, "*", "" + IDS_VIEW_DATE + " > 0 ORDER BY " + IDS_VIEW_DATE + " LIMIT 10" );
 			break;
 		case BING_SEARCH:
-			cursor = dbHelper.rawQuery(BING_SEARCH_RESULTS + " ORDER BY " + QUERY_VIEW_DATE + "LIMIT 10", "*", "");
+			cursor = dbHelper.rawQuery(BING_SEARCH_RESULTS, "*", "" + IDS_VIEW_DATE + " > 0 ORDER BY " + QUERY_VIEW_DATE + " LIMIT 10");
 			break;
 		}
 		
