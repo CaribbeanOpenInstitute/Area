@@ -59,7 +59,9 @@ import org.json.JSONObject;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class JSONParse {
@@ -67,12 +69,13 @@ public class JSONParse {
 	private AreaData areaData;
 	//private Context appContext;
 	private ContentValues apiRecord;
-	
+	public SharedPreferences prefs;
 	
 	public JSONParse(Context context){
 		//appContext = context;
 		areaData = new AreaData(context);
 		apiRecord = new ContentValues();
+		prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		
 	}
 	
@@ -170,8 +173,8 @@ public class JSONParse {
 				Log.e(TAG, "Error NO data retrieved from IDS API: URL-" + uri);
 				return SEARCH_FAIL;
 			}
-			if(numOfrecords > 30){
-				numOfrecords = 30;
+			if(numOfrecords > prefs.getInt("resultNumber", 25)){
+				numOfrecords = prefs.getInt("resultNumber", 25);
 			}
 			// get Data returned from the IDS
 			// update the IDS_SEARCH_RESULT table with the documents information
@@ -249,8 +252,8 @@ public class JSONParse {
 			
 			// get Data returned from the IDS
 			// update the IDS_SEARCH_RESULT table with the documents information
-			if(numReturned > 50 ){
-				numReturned  = 50;
+			if(numReturned > prefs.getInt("resultNumber", 25) ){
+				numReturned  = prefs.getInt("resultNumber", 25);
 			}
 			for (int i = 0; i < numReturned; i++) {
 				apiRecord = new ContentValues();

@@ -42,10 +42,12 @@ import java.util.Hashtable;
 
 import android.content.ContentValues;
 import android.content.Context; 
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 
@@ -62,11 +64,13 @@ public class AreaData {
 	ArrayList<String> countries_to_get;
 	ArrayList<Integer> countryIDs;
 	String[] keyWords;
+	public SharedPreferences prefs;
 
 	public AreaData(Context context){
 		this.context = context;
 		dbHelper = new AreaDB(context);
 		dataService = new APIPull();
+		prefs = PreferenceManager.getDefaultSharedPreferences(context);
 	}
 	
 	// Initialize and Update Tables at Startup
@@ -988,7 +992,7 @@ public class AreaData {
 		parser = new JSONParse(context);
 		String querybase = "http://api.ids.ac.uk/openapi/";
 		int return_int;
-		String site = "eldis/", object = "documents/", parameter="q", num_results = "num_results=50";
+		String site = "eldis/", object = "documents/", parameter="q", num_results = "num_results=" + prefs.getInt("resultNumber", 25);
 		String extras = "extra_fields=timestamp+date_created+site+urls+description+author+publication_year+publisher+publication_date";
 		String queryStr;
 		String paramStr = "";
@@ -1015,7 +1019,7 @@ public class AreaData {
 		parser = new JSONParse(context);
 		String querybase = "http://api.bing.net/json.aspx?";
 		
-		String api_id = "Appid=", query = "query=", source="sources=web", num_results = "web.count=30";
+		String api_id = "Appid=", query = "query=", source="sources=web", num_results = "web.count=" + prefs.getInt("resultNumber", 25) ;
 		String apiKey = "814D155520085B9C88670EA1B4DD2B6E082EEC9F";
 		String queryStr;
 		String paramStr = "";
