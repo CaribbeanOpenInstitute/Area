@@ -1,10 +1,13 @@
 package jm.org.data.area;
 
 import static jm.org.data.area.AreaConstants.BING_SEARCH;
+import static jm.org.data.area.AreaConstants.IDS_SEARCH;
 import static jm.org.data.area.DBConstants.BING_DESC;
-import static jm.org.data.area.DBConstants.BING_SEARCH_ID;
 import static jm.org.data.area.DBConstants.BING_TITLE;
-import static jm.org.data.area.DBConstants.BING_URL;
+import static jm.org.data.area.DBConstants.DOCUMENT_ID;
+import static jm.org.data.area.DBConstants.IDS_DOC_AUTH_STR;
+import static jm.org.data.area.DBConstants.IDS_DOC_ID;
+import static jm.org.data.area.DBConstants.IDS_DOC_TITLE;
 
 import java.util.Arrays;
 
@@ -20,28 +23,28 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-// Shows list of results (articles) that bing returns from general search
-public class BingSearchListFragment extends ListFragment implements
-LoaderManager.LoaderCallbacks<Cursor> {
+public class ReportsGlobalListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor>{
 	public final String TAG = getClass().getSimpleName();
 	SimpleCursorAdapter mAdapter;
 	SearchableActivity parentActivity;
-
+	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
 		parentActivity = (SearchableActivity) getActivity();
 		
-		String[] from = { BING_TITLE, BING_DESC };
+		String[] from = { IDS_DOC_TITLE, IDS_DOC_AUTH_STR };
 		int[] to = { R.id.list_item_title, R.id.list_item_desc };
-		//tAdapter = new SimpleCursorAdapter(getActivity(), R.layout.list_reports_item, null, from, to, 0);
-		mAdapter = new SimpleCursorAdapter(getActivity(), R.layout.list_item_dual, null, from, to, 0);
-		
+		// tAdapter = new SimpleCursorAdapter(getActivity(),
+		// R.layout.list_reports_item, null, from, to, 0);
+		mAdapter = new SimpleCursorAdapter(getActivity(),
+				R.layout.list_item_dual, null, from, to, 0);
+
 		setListAdapter(mAdapter);
 		getLoaderManager().initLoader(0, null, this);
-		
-		setEmptyText("No indicators found");
+
+		setEmptyText("No reports found");
 		setListShown(false);
 	}
 
@@ -49,24 +52,24 @@ LoaderManager.LoaderCallbacks<Cursor> {
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		Cursor cursor = (Cursor) getListAdapter().getItem(position);
-		
-		String item = cursor.getString(cursor.getColumnIndex(BING_TITLE));
-		String item_id = cursor.getString(cursor.getColumnIndex(BING_SEARCH_ID));
-		String itemTitle = cursor.getString(cursor.getColumnIndex(BING_DESC));
-		String itemURL= cursor.getString(cursor.getColumnIndex(BING_URL));
-		Log.d(TAG, "Article selected is: " + item + " Title is: " + itemTitle);
-		
-		//Launch Article View
+
+		String item = cursor.getString(cursor.getColumnIndex(IDS_DOC_ID));
+		int item_id = cursor.getInt(cursor.getColumnIndex(DOCUMENT_ID));
+		String itemTitle = cursor.getString(cursor
+				.getColumnIndex(IDS_DOC_TITLE));
+		Log.d(TAG, "Report selected is: " + item + " Title is: " + itemTitle);
+
+		// Launch Report View
 		Intent intent = new Intent(getActivity().getApplicationContext(),
-				ArtcileViewActivity.class);
-		intent.putExtra(BING_SEARCH_ID, item_id);
-		intent.putExtra(BING_URL, itemURL);
+				ReportDetailViewActivity.class);
+		intent.putExtra(DOCUMENT_ID, item_id);
+		// intent.putExtra(BING_URL, itemURL);
 		startActivity(intent);
 	}
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-		return new GlobalListAdapter(getActivity(), BING_SEARCH, parentActivity.getGlobalQuery());
+		return new GlobalListAdapter(getActivity(), IDS_SEARCH, parentActivity.getGlobalQuery());
 	}
 
 	@Override
@@ -85,16 +88,15 @@ LoaderManager.LoaderCallbacks<Cursor> {
 				setListShownNoAnimation(true);
 			}
 		}
-		setEmptyText("No articles downloaded yet");
+		//setEmptyText("No reports downloaded yet");
 		setListShown(true);
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> arg0) {
 		mAdapter.swapCursor(null);
-		
 	}
-	
+
 	public void reload() {
 		getLoaderManager().restartLoader(0, null, this);
 	}

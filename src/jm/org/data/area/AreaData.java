@@ -831,7 +831,7 @@ public class AreaData {
 	public Cursor getGlobalData(int datasource, String searchStr){
 		Cursor cursor, search_cursor;
 		String table = "", params = "";
-		
+		parser = new JSONParse(context);
 		switch(datasource){
 		case BING_SEARCH:
 			table = BING_SEARCH_RESULTS;

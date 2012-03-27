@@ -3,13 +3,21 @@
 
     <PreferenceCategory android:title="@string/pref_userTitle" >
         <ListPreference
-            android:key="timePeriod"
-            android:summary="@string/prefs_timeDesc"
-            android:title="@string/prefs_time" 
+            android:defaultValue="15"
             android:entries="@array/prefs_timeEntries"
             android:entryValues="@array/prefs_timeValues"
-            android:defaultValue="15" android:persistent="true"/>
-        <ListPreference android:summary="@string/prefResultNumber_desc" android:title="@string/prefResultNumberTitle" android:key="@string/pref_resultKey" android:entryValues="@array/prefs_resultNumbersValues" android:entries="@array/prefs_resultNumbersEntries" android:persistent="true" android:defaultValue="15"/>
+            android:key="timePeriod"
+            android:persistent="true"
+            android:summary="@string/prefs_timeDesc"
+            android:title="@string/prefs_time" />
+        <ListPreference
+            android:defaultValue="15"
+            android:entries="@array/prefs_resultNumbersEntries"
+            android:entryValues="@array/prefs_resultNumbersValues"
+            android:key="@string/pref_resultKey"
+            android:persistent="true"
+            android:summary="@string/prefResultNumber_desc"
+            android:title="@string/prefResultNumberTitle" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_apiTitle" >
         <EditTextPreference
@@ -21,6 +29,13 @@
             android:summary="@string/prefs_bingKey_desc"
             android:title="@string/prefs_bingKeyTitle" />
     </PreferenceCategory>
-    <CheckBoxPreference android:key="@string/pref_startupKey" android:title="@string/pref_startupTitle" android:summary="@string/prefs_startup_desc" android:shouldDisableView="true" android:defaultValue="false" android:enabled="false"/>
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:enabled="false"
+        android:key="@string/pref_startupKey"
+        android:shouldDisableView="true"
+        android:summary="@string/prefs_startup_desc"
+        android:title="@string/pref_startupTitle" />
 
 </PreferenceScreen>
