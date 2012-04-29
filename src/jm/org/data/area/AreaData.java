@@ -288,7 +288,7 @@ public class AreaData {
 	 * @param searchPhrase
 	 * @return AreaConstants Search Code
 	 */
-	public int globalSearch(int API, String searchPhrase) {
+	public synchronized int globalSearch(int API, String searchPhrase) {
 		Calendar today, searchDate;
 		today = Calendar.getInstance();
 		Cursor ids_result, bing_result, records_to_delete;
