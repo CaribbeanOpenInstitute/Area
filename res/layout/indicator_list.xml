@@ -23,7 +23,6 @@
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:layout_weight="1"
-        android:background="@drawable/rounded_border"
         android:cacheColorHint="#00000000"
         android:drawSelectorOnTop="false" />
     <!-- android:background="#00000000" -->

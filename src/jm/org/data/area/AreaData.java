@@ -73,7 +73,9 @@ public class AreaData {
 		prefs = PreferenceManager.getDefaultSharedPreferences(context);
 	}
 	
-	// Initialize and Update Tables at Startup
+	/**
+	 * Initialize and Update Tables at Startup
+	 */
 	public void updateAPIs(){
 		values = new  ContentValues();
 		values.put(API_NAME, "World Bank");
