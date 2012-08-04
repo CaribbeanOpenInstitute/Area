@@ -77,6 +77,7 @@ public class HomeActivity extends BaseActivity {
 	
 	/**
 	 * DESC:	Function called on the completion (success||failure) of the Startup Activity
+	 
 	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode,
