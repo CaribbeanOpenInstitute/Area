@@ -15,6 +15,9 @@
  */
 package org.achartengine.chartdemo.demo.chart;
 
+import static org.achartengine.chartdemo.demo.chart.ChartConstants.COLOURS;
+import static org.achartengine.chartdemo.demo.chart.ChartConstants.STYLEZ;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,9 +33,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint.Align;
 import android.util.Log;
-
-import static jm.org.data.area.AreaConstants.WORLD_SEARCH;
-import static org.achartengine.chartdemo.demo.chart.ChartConstants.*;
 /**
  * Average temperature demo chart.
  */

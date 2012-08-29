@@ -36,8 +36,8 @@ public class SearchableActivity extends BaseActivity {
         
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			// only for android newer than gingerbread
-			 ActionBar actionBar = getActionBar();
-			 actionBar.setDisplayHomeAsUpEnabled(true);
+			 //ActionBar actionBar = getActionBar();
+			 //actionBar.setDisplayHomeAsUpEnabled(true);
 		}
         
         // Get active display items for later updates

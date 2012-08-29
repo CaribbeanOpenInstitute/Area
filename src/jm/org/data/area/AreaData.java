@@ -211,10 +211,10 @@ public class AreaData {
 					try {
 						cursor.moveToFirst();
 						recordid = cursor.getInt(cursor.getColumnIndex(_ID));
-						db.update(tableName, tableRecord, "" + _ID  + " ='" + recordid + "'", null );
+						recordid = db.update(tableName, tableRecord, "" + _ID  + " ='" + recordid + "'", null );
 						
 						if(recordid != 1){
-							Log.e(TAG,"Error Updating "+ tableName +" Record: " + cursor.getInt(cursor.getColumnIndex(_ID)));
+							Log.e(TAG,"Error Updating "+ tableName +" Record: " + cursor.getInt(cursor.getColumnIndex(_ID)) + "rows affected = " + recordid);
 						}else{
 							Log.d(TAG, "Updating "+ tableName +" Record: " + cursor.getInt(cursor.getColumnIndex(_ID)));
 						}
