@@ -48,7 +48,7 @@ public class SearchableActivity extends BaseActivity {
         // get and process search query here
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-          String globalSearchString = intent.getStringExtra(SearchManager.QUERY);
+          globalSearchString = intent.getStringExtra(SearchManager.QUERY);
           Log.d(TAG, "Query string: " + globalSearchString);
         } else {
         	globalSearchString = "";

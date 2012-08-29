@@ -9,8 +9,13 @@ import android.util.Log;
 import android.widget.Toast;
 import android.widget.ViewAnimator;
 
+/**
+ *  DESC: Called when the Area application is first created. Activity downloads initial indicator names
+ *  		country listings, and other initial data  from the World Bank API 
+ *  
+ **/
 public class StartupActivity extends Activity {
-	private static final String TAG = AreaData.class.getSimpleName();
+	private static final String TAG = StartupActivity.class.getSimpleName();
 	private boolean isRunning = false;
 
 	protected boolean _active = true;
@@ -19,26 +24,24 @@ public class StartupActivity extends Activity {
 	private AreaApplication area;
 	private ViewAnimator loadingAnimator;
 
-	/** Called when the activity is first created. */
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.startupview);
 		loadingAnimator = (ViewAnimator)findViewById(R.id.startupSwitcher);	//Loading Animator
-
 		area = (AreaApplication) getApplication();
 
-		if (!area.checkNetworkConnection()) {
-			Log.e(StartupActivity.class.toString(), "No Internet connectivity");
+		if (!area.checkNetworkConnection()) {	//Check the Internet connection
+			Log.e(TAG, "No Internet connectivity");
 			Toast.makeText(
 					StartupActivity.this,
-					"There was an error in completing application initilization. Please check your internet connection and start the application again",
+					"There was an error connecting to the Internet. Please check your connection and start the application again",
 					Toast.LENGTH_LONG).show();
 		} else {
-			if (!isRunning) 
+			if (!isRunning) 	//Check if initialization activity is already running
 				new startupRequest().execute();
 		}
-
 	}
 
 	private class startupRequest extends AsyncTask<Void, Void, Boolean> {
@@ -51,15 +54,9 @@ public class StartupActivity extends Activity {
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			try {
-				//area.areaData = new AreaData(StartupActivity.this);
-				// initial pull of country and indicator data
-				// getCountryList();
-				// getIndicatorsList();
-
 				// initial pull of country and indicator data
 				area.areaData.updateAPIs();
 				area.areaData.updatePeriod();
-				// appdata.updateCountries();
 
 				// Error when debugging needs to be tested
 				area.areaData.updateIndicators();
@@ -67,14 +64,9 @@ public class StartupActivity extends Activity {
 
 				// to test generic search
 				//area.areaData.genericSearch(WORLD_SEARCH, "TX.VAL.AGRI.ZS.UN", new String[]{"Jamaica", "Kenya","Barbados", "World"});
-				
-				/*
-				 * int waited = 0; while (_active && (waited < _splashTime)) {
-				 * sleep(100); if (_active) { waited += 100; } }
-				 */
-				
-				return true;
 
+				return true;
+				
 			} catch (Exception e) {
 				Log.e(TAG, "Exception updating Area Data " + e.toString());
 				loadingAnimator.setDisplayedChild(1);
@@ -85,7 +77,7 @@ public class StartupActivity extends Activity {
 		@Override
 		protected void onPostExecute(Boolean initResult) {
 			super.onPostExecute(initResult);
-			// stop loading message
+			
 			if (initResult) {
 				Log.e(TAG, "Correctly completed initialization");
 				area.initIsRunning = false;
@@ -93,15 +85,13 @@ public class StartupActivity extends Activity {
 				
 				finish();
 			} else {
-				
-				// Message to say internet is required or there was some error
-				// with completing the intialization
-				Toast.makeText(
+				Log.e(TAG, "Failed initialization");
+				/*Toast.makeText(
 						StartupActivity.this,
 						"An error was encountered while completing application initilization. " +
 								"Please check your internet connection and start activity again.",
 								Toast.LENGTH_LONG).show();
-				
+				*/
 			}
 		}
 	}

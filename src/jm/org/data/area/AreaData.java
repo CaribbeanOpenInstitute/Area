@@ -73,7 +73,9 @@ public class AreaData {
 		prefs = PreferenceManager.getDefaultSharedPreferences(context);
 	}
 	
-	// Initialize and Update Tables at Startup
+	/**
+	 * Initialize and Update Tables at Startup
+	 */
 	public void updateAPIs(){
 		values = new  ContentValues();
 		values.put(API_NAME, "World Bank");
@@ -288,7 +290,7 @@ public class AreaData {
 	 * @param searchPhrase
 	 * @return AreaConstants Search Code
 	 */
-	public int globalSearch(int API, String searchPhrase) {
+	public synchronized int globalSearch(int API, String searchPhrase) {
 		Calendar today, searchDate;
 		today = Calendar.getInstance();
 		Cursor ids_result, bing_result, records_to_delete;
@@ -835,7 +837,7 @@ public class AreaData {
 	public Cursor getGlobalData(int datasource, String searchStr){
 		Cursor cursor, search_cursor;
 		String table = "", params = "";
-		
+		parser = new JSONParse(context);
 		switch(datasource){
 		case BING_SEARCH:
 			table = BING_SEARCH_RESULTS;

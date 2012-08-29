@@ -8,7 +8,8 @@
         android:id="@+id/listFragment"
         android:layout_width="400dip"
         android:layout_height="match_parent"
-        class="jm.org.data.area.IndicatorListFragment" />
+        class="jm.org.data.area.IndicatorListFragment"
+        android:background="@drawable/rounded_border" /> 
     <!-- android:theme="@android:style/Theme.Holo.Light" -->
     <!-- android:layout_marginTop="?android:attr/actionBarSize" -->
 
@@ -36,6 +37,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@drawable/rounded_border"
                 android:orientation="vertical" >
 
                 <TextView
@@ -49,8 +51,8 @@
                 <fragment
                     android:id="@+id/homeReportsFragment"
                     android:layout_width="wrap_content"
-                    android:layout_gravity="center"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     class="jm.org.data.area.HomeReportListFragment" >
                 </fragment>
             </LinearLayout>
@@ -68,14 +70,15 @@
                     android:layout_marginTop="20dip"
                     android:text="Articles"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
+
                 <fragment
                     android:id="@+id/homeArticlesFragment"
                     android:layout_width="wrap_content"
-                    android:layout_gravity="center"
                     android:layout_height="wrap_content"
-                    class="jm.org.data.area.HomeArticlesListFragment" >
+                    android:layout_gravity="center"
+                    class="jm.org.data.area.HomeArticlesListFragment"
+                    android:background="@drawable/rounded_border" >
                 </fragment>
-                
             </LinearLayout>
         </LinearLayout>
 
