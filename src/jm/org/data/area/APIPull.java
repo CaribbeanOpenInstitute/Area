@@ -13,8 +13,10 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.ClientConnectionRequest;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import android.util.Base64;
 import android.util.Log;
 
 
@@ -27,8 +29,21 @@ public class APIPull {
 		StringBuilder builder = new StringBuilder();
 		HttpClient client = new DefaultHttpClient();
 		HttpGet httpGet = new HttpGet(uri);
+		String encodedBytes = "";
 		if (api == 1){
 			httpGet.addHeader("Token-Guid", "47040d85-719b-460c-8c4c-8786614e31e6");
+		}else if(api == 0){
+			Log.e(APIPull.class.toString(), "Bing API Pull " + uri);
+			try{
+				encodedBytes = Base64.encodeToString(
+						("avYmuwluAWdg0uT50kqYtgAoKcnr+xp972yHvr6Brx4=" + ":" + "avYmuwluAWdg0uT50kqYtgAoKcnr+xp972yHvr6Brx4=").getBytes(),
+						Base64.DEFAULT);
+			    
+			}catch(Exception e){
+				e.printStackTrace();
+				errorMsg.concat(e.toString());
+			}
+			httpGet.addHeader("Authorization", "Basic " +  encodedBytes);
 		}
 				//"http://api.worldbank.org/country?per_page=10&region=WLD&lendingtype=IDX&format=json");
 				//"http://api.ids.ac.uk/openapi/eldis/get/documents/A59947/full/the-global-status-of-ccs-2011/");
@@ -47,7 +62,7 @@ public class APIPull {
 					builder.append(line);
 				}
 			} else {
-				Log.e(APIPull.class.toString(), "Failed to download file" + uri);
+				Log.e(APIPull.class.toString(), "Failed to download file " + response.getStatusLine().getReasonPhrase());
 				errorMsg.concat(APIPull.class.toString());
 				errorMsg.concat("Failed to download file " + uri);
 				errorMsg.concat("\n-----------------------\n");

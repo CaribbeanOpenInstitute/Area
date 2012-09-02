@@ -40,6 +40,7 @@ public class ArticlesFragment extends ListFragment implements
 		IndicatorActivity parentActivity = (IndicatorActivity) getActivity();
 		indicator = parentActivity.getIndicator();
 		countryList = parentActivity.getCountryList();
+		Log.e(TAG, "Creating Articles Fragment");
 	}
 
 	@Override

@@ -123,7 +123,7 @@ public class AreaData {
 		if(numOfIndicators == 0 ){
 			// error in parsing JSON data
 			Log.e(TAG, "Error In Parsing JSON data");
-		}else{
+		}else{ 
 			parser.parseIndicators(dataService.HTTPRequest(0,
 					"http://api.worldbank.org/topic/1/Indicator?per_page="+ numOfIndicators +"&format=json"));
 		}
@@ -326,7 +326,10 @@ public class AreaData {
 			return SEARCH_SUCCESS;
 		}else{
 			//if searchPhrase was not the subject of a previous search then fetch data from BING API
-			getBingArticles(searchPhrase);
+			if (getBingArticles(searchPhrase) == SEARCH_FAIL){
+				return SEARCH_FAIL;
+			}
+				
 			
 		}
 		
@@ -351,6 +354,8 @@ public class AreaData {
 			getDocuments(0, keyWords);
 			return SEARCH_SUCCESS;
 		}		
+		
+		
 		
 		
 	}
@@ -566,6 +571,7 @@ public class AreaData {
 			}			
 			
 		}else if(dataSource == BING_SEARCH){
+			int success;
 			bingParam = "" + BING_QUERY + " ='" + indicatorStr + "'";
 			
 			// query search table for API-Indicator combination. 
@@ -591,7 +597,9 @@ public class AreaData {
 						bing_result.close();
 						return FATAL_ERROR;
 					}
-					getBingArticles(indicatorStr);
+					if (getBingArticles(indicatorStr) == SEARCH_FAIL){
+						return SEARCH_FAIL;
+					}
 					return_data.put(RETURN_VALUE		, SEARCH_API_NONE	);
 					return_data.put(RETURN_STRING		, indicatorStr		);
 					
@@ -603,7 +611,10 @@ public class AreaData {
 					return SEARCH_SUCCESS;
 				}
 			}else{
-				getBingArticles(indicatorStr);
+				
+				if (getBingArticles(indicatorStr) == SEARCH_FAIL){
+					return SEARCH_FAIL;
+				}
 				return_data.put(RETURN_VALUE		, SEARCH_API_NONE	);
 				return_data.put(RETURN_STRING		, indicatorStr		);
 				bing_result.close();
@@ -1008,6 +1019,7 @@ public class AreaData {
 		
 		queryStr = querybase + site + "search/" + object + "?" + parameter  + "=" + paramStr + "&" + extras + "&" +num_results;
 		//queryStr = "http://api.ids.ac.uk/openapi/eldis/search/documents/?q=Agriculture%26materials&num_results=50";
+		Log.e(TAG, "Pulling IDS Data:" + queryStr);
 		return_int =  parser.parseIDSData(dataService.HTTPRequest(1,queryStr), indicator, paramStr, queryStr);
 		if(return_int > 0){
 			return SEARCH_SUCCESS;
@@ -1019,10 +1031,10 @@ public class AreaData {
 	
 	public int getBingArticles(String param){
 		parser = new JSONParse(context);
-		String querybase = "http://api.bing.net/json.aspx?";
+		String querybase = "https://api.datamarket.azure.com/Bing/Search/Web";
 		
-		String api_id = "Appid=", query = "query=", source="sources=web", num_results = "web.count=" + prefs.getInt("resultNumber", 25) ;
-		String apiKey = "814D155520085B9C88670EA1B4DD2B6E082EEC9F";
+		String query = "Query=", format="$format=json", num_results = "$top=" + prefs.getInt("resultNumber", 25) ;
+		
 		String queryStr;
 		String paramStr = "";
 		String[] parameters = param.split(" ");
@@ -1035,9 +1047,9 @@ public class AreaData {
 			}
 		}
 		
-		queryStr = querybase + api_id + apiKey + "&"+ query + paramStr + "&" + source + "&" + num_results;
+		queryStr = querybase +  "?"+ query + "%27" + paramStr + "%27" + "&"  + num_results + "&" + format;
 		
-		
+		Log.e(TAG, "Pulling BING data:" + queryStr);
 		return parser.parseBINGData(dataService.HTTPRequest(0,queryStr), param, queryStr);
 		
 	}

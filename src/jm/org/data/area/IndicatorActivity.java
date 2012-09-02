@@ -24,6 +24,7 @@ import static jm.org.data.area.DBConstants.WB_INDICATOR_ID;
 import java.util.ArrayList;
 
 import android.app.ActionBar;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -54,6 +55,7 @@ public class IndicatorActivity extends BaseActivity implements
 	private ArrayList<String> countryList;
 	final String POSITION = "position";
 	private int mListPosition;
+	private ProgressDialog dialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +74,7 @@ public class IndicatorActivity extends BaseActivity implements
 		}
 		
 		setContentView(R.layout.indicator_dashboard);
-
+		dialog = new ProgressDialog(this);
 		mTabHost = (TabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup();
 
@@ -292,10 +294,14 @@ public class IndicatorActivity extends BaseActivity implements
 	public ArrayList<String> getCountryListArray() {
 		return countryList;
 	}
-
+	
+	public void resetCountryList() {
+		countryList = new ArrayList<String>();
+		countryList.add("World");
+		
+	}
 	public void reloadData() {
 		//Solution sourced from: http://stackoverflow.com/a/7393477/498449
-		
 		ChartsFragment chFragment = (ChartsFragment) getSupportFragmentManager().findFragmentByTag("android:switcher:"+R.id.viewpager+":0");
 		ReportsFragment reFragment = (ReportsFragment) getSupportFragmentManager().findFragmentByTag("android:switcher:"+R.id.viewpager+":1");
 		ArticlesFragment arFragment = (ArticlesFragment) getSupportFragmentManager().findFragmentByTag("android:switcher:"+R.id.viewpager+":2");
@@ -317,6 +323,7 @@ public class IndicatorActivity extends BaseActivity implements
 			reFragment.reload();
 			break;
 		}
+		
 		//Log.d(TAG, "Current tab is " + mTabHost.getCurrentTab());
 	}
 

@@ -73,6 +73,7 @@ public class AreaService extends Service {
 		Hashtable<String, Object> return_data = new Hashtable<String, Object>();
 		
 		area = (AreaApplication) getApplication();
+		Log.e(TAG, "Calling Generic Search 1");
 		return_value = area.areaData.genericSearch(dSource, indID, ctry);
 		//return_value = (Integer) return_data.get(RETURN_VALUE);
 		

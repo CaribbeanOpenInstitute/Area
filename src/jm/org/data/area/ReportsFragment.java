@@ -5,6 +5,7 @@ import static jm.org.data.area.AreaConstants.*;
 
 import java.util.Arrays;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -32,18 +33,21 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 	private IndicatorActivity parentActivity;
 	SearchCursorAdapter mAdapter;
 	SimpleCursorAdapter tAdapter;
+	private ProgressDialog dialog;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
 		parentActivity = (IndicatorActivity) getActivity();
-		
+		dialog = new ProgressDialog(parentActivity);
 		mAdapter = new SearchCursorAdapter(getActivity(), null);
 		
 		indicator = parentActivity.getIndicator();
+		
 		//countryList = (String[]) parentActivity.getCountryList();
 		Log.d(TAG, String.format("Indcator: %s. Country List: ", indicator));
+		Log.e(TAG, "Creating Reports Fragment");
 		//setListAdapter(mAdapter);
 	}
 
@@ -52,6 +56,8 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 		super.onActivityCreated(savedInstanceState);
 		//loadingAnimator = (ViewAnimator) parentActivity.findViewById(R.id.reportSwitcher);	//Loading Animator
 		//loadingAnimator.setDisplayedChild(1);
+		dialog = ProgressDialog.show(getActivity(), "", 
+                "Loading. Please wait...", true);
 		String[] from = {IDS_DOC_TITLE, IDS_DOC_AUTH_STR};
 		int[] to = {R.id.list_item_title, R.id.list_item_desc};
 		//tAdapter = new SimpleCursorAdapter(getActivity(), R.layout.list_reports_item, null, from, to, 0);
@@ -86,6 +92,8 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 		case R.id.menu_reload:
 			Toast.makeText(getActivity(), "Refreshing report list...",
 					Toast.LENGTH_LONG).show();
+			dialog = ProgressDialog.show(getActivity(), "", 
+	                "Loading. Please wait...", true);
 			reload();
 			break;
 		default:
@@ -134,6 +142,9 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 				//setListShownNoAnimation(true);
 			}
 		}
+		if(dialog.isShowing()){
+			dialog.dismiss();
+		}
 	}
 
 	@Override
@@ -151,6 +162,9 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 				Arrays.toString(countryList)
 				));
 		getLoaderManager().restartLoader(0, null, this);
+		if(dialog.isShowing()){
+			dialog.dismiss();
+		}
 	}
 	
 

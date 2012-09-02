@@ -36,6 +36,7 @@ public class SearchListAdapter extends SimpleCursorLoader {
 		//country = new String[] { "Jamaica", "Barbados" };
 
 		try {
+			Log.e(TAG, "Calling Generic Search 2");
 			if (area.areaData.genericSearch(searchType, indicatorID, country) >= SEARCH_SUCCESS) {
 				Cursor results = area.areaData.getData(searchType, indicatorID,
 						country);

@@ -8,6 +8,7 @@ import java.util.Arrays;
 import org.achartengine.GraphicalView;
 import org.achartengine.chartdemo.demo.chart.AreaChart;
 
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ public class ChartsFragment extends Fragment {
 	private String indicator;
 	private String[] countryList;
 	private AreaApplication area;
+	private ProgressDialog dialog;
 	private int result = 0;
 	
 	@Override
@@ -39,12 +41,15 @@ public class ChartsFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 		
 		parentActivity = (IndicatorActivity) getActivity();
-		
+		dialog = new ProgressDialog(parentActivity);
+		Log.e(TAG, "Creating Charts Fragment");
 	}
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		dialog = ProgressDialog.show(getActivity(), "", 
+                "Loading. Please wait...", true);
 		layout = (LinearLayout) parentActivity.findViewById(R.id.chart_view);
 		createChart();
 		setHasOptionsMenu(true);
@@ -85,7 +90,10 @@ public class ChartsFragment extends Fragment {
         switch (item.getItemId()) {
                 
             case R.id.menu_reload:
-                Toast.makeText(getActivity(), "Fake refreshing...", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "Fake refreshing...", Toast.LENGTH_SHORT).show();
+                dialog = ProgressDialog.show(getActivity(), "", 
+                        "Loading. Please wait...", true);
+               parentActivity.resetCountryList();
                reload(); 
                
                 
@@ -129,7 +137,7 @@ public class ChartsFragment extends Fragment {
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			try {
-				
+				Log.e(TAG, "Calling Generic Search 0");
 				if (area.areaData.genericSearch(WORLD_SEARCH, indicator, countryList) >= SEARCH_SUCCESS) {
 					return true; //Generic Search Completed correctly
 				}
@@ -151,7 +159,11 @@ public class ChartsFragment extends Fragment {
 				Log.e(TAG, "Problem with pull data");
 				displayError();
 			}
+			if(dialog.isShowing()){
+				dialog.dismiss();
+			}
 		}
+		
 	}
 	
 
@@ -161,6 +173,7 @@ public class ChartsFragment extends Fragment {
 				indicator,
 				Arrays.toString(countryList)
 				));
+		 
 		//countryList = new String[]{"Jamaica", "Barbados", "Kenya"};
 		new getChartData().execute();
 		
@@ -178,6 +191,8 @@ public class ChartsFragment extends Fragment {
 		layout.removeAllViewsInLayout();
 		layout.setBackgroundColor(Color.BLUE);
 		layout.addView(chart, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));/**/
+		
+		
 	}
 	
 	private void displayError(){

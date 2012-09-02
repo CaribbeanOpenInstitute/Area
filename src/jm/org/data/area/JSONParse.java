@@ -143,8 +143,9 @@ public class JSONParse {
 	
 	public int parseBINGData(String jsonData, String params, String uri){
 		Hashtable<String, String> bing_data = new Hashtable<String, String>();
-		long search_id = 0;
+		long search_id = -1;
 		JSONArray resultArray;
+		
 		try{
 			JSONObject jsonObject 	= new JSONObject(jsonData);
 			JSONObject response		= jsonObject.getJSONObject("SearchResponse");
@@ -170,7 +171,7 @@ public class JSONParse {
 				
 				
 			}else{
-				Log.e(TAG, "Error NO data retrieved from IDS API: URL-" + uri);
+				Log.e(TAG, "Error NO data retrieved from BING API: URL-" + uri);
 				return SEARCH_FAIL;
 			}
 			if(numOfrecords > prefs.getInt("resultNumber", 25)){
