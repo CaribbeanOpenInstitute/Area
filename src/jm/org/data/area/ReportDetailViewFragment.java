@@ -1,25 +1,35 @@
 package jm.org.data.area;
 
-import static jm.org.data.area.DBConstants.*;
+import static jm.org.data.area.DBConstants.DOCUMENT_ID;
+import static jm.org.data.area.DBConstants.IDS_DOC_DATE;
+import static jm.org.data.area.DBConstants.IDS_DOC_DESC;
+import static jm.org.data.area.DBConstants.IDS_DOC_DWNLD_URL;
+import static jm.org.data.area.DBConstants.IDS_DOC_PUB;
+import static jm.org.data.area.DBConstants.IDS_DOC_PUB_DATE;
+import static jm.org.data.area.DBConstants.IDS_DOC_TITLE;
+import static jm.org.data.area.DBConstants.WB_INDICATOR_ID;
 
+import java.io.File;
 import java.util.Arrays;
 
-//import java.util.ArrayList;
-
+import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
-
-import jm.org.data.area.R;
+import android.widget.Toast;
 
 public class ReportDetailViewFragment extends Fragment implements
 		LoaderManager.LoaderCallbacks<Cursor> {
@@ -28,12 +38,13 @@ public class ReportDetailViewFragment extends Fragment implements
 			.getSimpleName();
 
 	private AreaApplication areaApp;
-
+	private ReportDetailViewActivity parentActivity;
 	// Meta Data for a report
 	private int docID;
-	private String docTitle, docName, pubDate, publisher, dateCreated, docDesc;
-
-	private Button btnSavePDF;
+	private String docTitle, docName, pubDate, publisher, dateCreated, docDesc,url;
+	private ProgressDialog dialog;
+	private Button btnViewReport;
+	
 
 	// private String journalSite;
 	// private String websiteUrl;
@@ -42,7 +53,8 @@ public class ReportDetailViewFragment extends Fragment implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.e(TAG, "ReportDetailViewFragment");
-
+		parentActivity = (ReportDetailViewActivity) getActivity();
+		dialog = new ProgressDialog(parentActivity);
 		// get Area application inorder to pull from the database
 		areaApp = (AreaApplication) getActivity().getApplication();
 
@@ -82,7 +94,8 @@ public class ReportDetailViewFragment extends Fragment implements
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
+		dialog = ProgressDialog.show(parentActivity, "", 
+                "Loading. Please wait...", true);
 	}
 
 	@Override
@@ -116,30 +129,38 @@ public class ReportDetailViewFragment extends Fragment implements
 					R.id.txtPubDate);
 			final TextView txtDateCreated = (TextView) getView().findViewById(
 					R.id.txtDateCreated);
-			final TextView txtDescription = (TextView) getView().findViewById(
+			final WebView txtDescription = (WebView) getView().findViewById(
 					R.id.txtDescription);
 			
 			txtMainTitle.setText(cursor.getString(cursor.getColumnIndex(IDS_DOC_TITLE)));
 			txtPub.setText("Publisher: " + cursor.getString(cursor.getColumnIndex(IDS_DOC_PUB)));
 			txtPubDate.setText("Publication Date: " + cursor.getString(cursor.getColumnIndex(IDS_DOC_PUB_DATE)));
 			txtDateCreated.setText("Date Created: " + cursor.getString(cursor.getColumnIndex(IDS_DOC_DATE)));
-			txtDescription.setText(cursor.getString(cursor.getColumnIndex(IDS_DOC_DESC)));
+			txtDescription.loadData(cursor.getString(cursor.getColumnIndex(IDS_DOC_DESC)), "text/html", "utf-8");
+			url = cursor.getString(cursor.getColumnIndex(IDS_DOC_DWNLD_URL));
+			Toast.makeText(parentActivity.getBaseContext(), "URL" + url, Toast.LENGTH_SHORT).show();
+			if(dialog.isShowing()){
+				dialog.dismiss();
+			}
 		}
 
 
-		btnSavePDF = (Button) getView().findViewById(R.id.btnSavePdf);
+		btnViewReport = (Button) getView().findViewById(R.id.btnViewReport);
 
-		btnSavePDF.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				savePDF();
-			}
-		});
-
-		
+		btnViewReport.setOnClickListener(new View.OnClickListener()
+		    { 
+		        public void onClick(View v) 
+		        {
+	    			Intent intent = new Intent(getActivity().getApplicationContext(),
+	    					ReportWebViewActivity.class);
+	    			intent.putExtra(IDS_DOC_DWNLD_URL, url);	    			
+	    			startActivity(intent);
+		        }
+		    });
 
 	}
+	
+	
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> arg0) {

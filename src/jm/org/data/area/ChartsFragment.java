@@ -50,9 +50,13 @@ public class ChartsFragment extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 		dialog = ProgressDialog.show(getActivity(), "", 
                 "Loading. Please wait...", true);
+		Log.e(TAG, "Charts Fragment dialog created");
 		layout = (LinearLayout) parentActivity.findViewById(R.id.chart_view);
 		createChart();
 		setHasOptionsMenu(true);
+		
+
+		
 	}
 	
 	@Override
@@ -168,6 +172,9 @@ public class ChartsFragment extends Fragment {
 	
 
 	public void reload() {
+		countryList = parentActivity.getCountryList();
+		dialog = ProgressDialog.show(getActivity(), "", 
+                String.format("Loading Data for %s. Please wait...",countryList[countryList.length-1] ), true);
 		Log.d(TAG, String.format(
 				"Charts reload function. \n Current indicator: %s. Country List: %s",
 				indicator,

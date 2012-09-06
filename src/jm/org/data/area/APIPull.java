@@ -32,7 +32,7 @@ public class APIPull {
 		String encodedBytes = "";
 		if (api == 1){
 			httpGet.addHeader("Token-Guid", "47040d85-719b-460c-8c4c-8786614e31e6");
-		}else if(api == 0){
+		}else if(api == 2){
 			Log.e(APIPull.class.toString(), "Bing API Pull " + uri);
 			try{
 				encodedBytes = Base64.encodeToString(

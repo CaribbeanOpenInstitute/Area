@@ -7,9 +7,10 @@ package jm.org.data.area;
 import static jm.org.data.area.AreaConstants.ADD_KEY;
 import static jm.org.data.area.AreaConstants.REMOVE_KEY;
 
-import java.util.ArrayList;
-import java.util.*;
+import java.util.Arrays;
+
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -52,6 +54,10 @@ public class KeywordsFragment extends Fragment implements OnClickListener {
 			@Override
 			public void onClick(View v) {
 				addKeyword();
+				
+				InputMethodManager inputManager = (InputMethodManager) parentActivity.getSystemService(Context.INPUT_METHOD_SERVICE); 
+				inputManager.hideSoftInputFromWindow(parentActivity.getCurrentFocus().getWindowToken(),    InputMethodManager.HIDE_NOT_ALWAYS);
+
 			}
 		});
 
@@ -104,7 +110,9 @@ public class KeywordsFragment extends Fragment implements OnClickListener {
 			
 			mListener.onCountryChange(ADD_KEY, (String) keyword);
 			edt_keyword.setText("");
-			Log.d(TAG, "The current countryList are: " + Arrays.toString(parentActivity.getCountryList()) );
+			
+			
+			Log.e(TAG, "The current countryList are: " + Arrays.toString(parentActivity.getCountryList()) );
 			
 			// update graph
 		}

@@ -67,6 +67,7 @@ public class AreaData {
 	public SharedPreferences prefs;
 
 	public AreaData(Context context){
+		Log.e(TAG, "Initialize Area Data");
 		this.context = context;
 		dbHelper = new AreaDB(context);
 		dataService = new APIPull();
@@ -77,6 +78,7 @@ public class AreaData {
 	 * Initialize and Update Tables at Startup
 	 */
 	public void updateAPIs(){
+		Log.e(TAG, "Updating APIs");
 		values = new  ContentValues();
 		values.put(API_NAME, "World Bank");
 		values.put(API_DESC, "1: World Bank Data API. Retrieves Macro-Economic Data from the World Bank datasets");
@@ -98,7 +100,7 @@ public class AreaData {
 	
 	public void updatePeriod(){
 		Calendar calendar = Calendar.getInstance();
-		
+		Log.e(TAG, "Updating Period Values");
 		//{PERIOD_ID, PERIOD_NAME, P_START_DATE, P_END_DATE	
 		values = new  ContentValues();
 		values.put(PERIOD_NAME, "15 Years");
@@ -115,6 +117,7 @@ public class AreaData {
 	}
 	
 	public void updateIndicators(){
+		Log.e(TAG, "Updating Indicators");
 		// pull data and put in database
 		parser = new JSONParse(context);
 		// error right here
@@ -130,6 +133,7 @@ public class AreaData {
 	}
 	
 	public void updateCountries(){
+		Log.e(TAG, "Updating Countries");
 		parser = new JSONParse(context);
 		int numOfCountries = parser.getWBTotal(dataService.HTTPRequest(0,
 				"http://api.worldbank.org/country?per_page=1&format=json"));
@@ -148,6 +152,7 @@ public class AreaData {
 	* @param tableRecord Name-value pairs
 	*/
 	synchronized public long insert(String tableName, ContentValues tableRecord, int update) {
+		Log.e(TAG, "Inserting/Updating Data in DB");
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 		int tableCode = AreaApplication.getTableCode(tableName);
 		long recordid = 0;
@@ -248,6 +253,7 @@ public class AreaData {
 	}
 	
 	public int delete(String table, String where_clause){
+		Log.e(TAG, "Deleting DB Values");
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 		int rows_affected;
 		//try{
@@ -291,6 +297,7 @@ public class AreaData {
 	 * @return AreaConstants Search Code
 	 */
 	public synchronized int globalSearch(int API, String searchPhrase) {
+		Log.e(TAG, "Global Search");
 		Calendar today, searchDate;
 		today = Calendar.getInstance();
 		Cursor ids_result, bing_result, records_to_delete;
@@ -368,6 +375,7 @@ public class AreaData {
 	 * @return AreaConstants Search Code
 	 */
 	synchronized public int genericSearch(int dataSource, String indicatorID, String[] country) {
+		Log.e(TAG, "Generic Search");
 		//format data for querying
 		Hashtable<String, Object> return_data = new Hashtable<String, Object>();
 		
@@ -632,6 +640,7 @@ public class AreaData {
 		return_data.put(RETURN_VALUE	, SEARCH_FAIL	);
 		return  SEARCH_FAIL;
 	}
+	
 
 	public Cursor getIndicatorList(){
 		Cursor result; 
@@ -641,6 +650,7 @@ public class AreaData {
 		return result;
 	}
 	
+	
 	public Cursor getCountryList(){
 		Cursor result; 
 		
@@ -649,6 +659,7 @@ public class AreaData {
 		return result;
 	}
 
+	
 	public boolean inDatabase(String s_table, String params){
 		Cursor s_result; 
 		
@@ -667,8 +678,9 @@ public class AreaData {
 		return true;
 	}
 	
-	public Cursor getData(int dataSource, String indicatorID, String[] country){
-		
+	
+	synchronized public Cursor getData(int dataSource, String indicatorID, String[] country){
+		Log.e(TAG, "Get Data");
 		Cursor cursor, search_cursor, ind_result, wb_result, country_result, country_IDresult;
 		String table = "", indicatorStr, params = "";
 		int ind_id, in_country_id, country_id, period, search_country_id;
@@ -845,7 +857,9 @@ public class AreaData {
 		return cursor;
 	}
 	
-	public Cursor getGlobalData(int datasource, String searchStr){
+	
+	synchronized public Cursor getGlobalData(int datasource, String searchStr){
+		Log.e(TAG, "Get Global Data");
 		Cursor cursor, search_cursor;
 		String table = "", params = "";
 		parser = new JSONParse(context);
@@ -907,7 +921,9 @@ public class AreaData {
 		return cursor;
 	}
 	
-	public Cursor getRecentData(int dataSource){
+
+	synchronized public Cursor getRecentData(int dataSource){
+		Log.e(TAG, "Get Recent Data");
 		Cursor max_cursor, cursor = null;
 		switch(dataSource){
 		case WORLD_SEARCH:
@@ -938,7 +954,9 @@ public class AreaData {
 		return cursor;
 	}
 	
-	public Cursor getReport(int reportID){
+
+	synchronized public Cursor getReport(int reportID){
+		Log.e(TAG, "Get Report");
 		Cursor cursor ;
 		parser = new JSONParse(context);
 		cursor =  dbHelper.rawQuery(IDS_SEARCH_RESULTS, "*", "" + _ID + " = '" + reportID + "'");
@@ -956,7 +974,7 @@ public class AreaData {
 		return cursor;
 	}
 	
-	public void updateArticle(String bingUrl){
+	public synchronized void updateArticle(String bingUrl){
 		parser = new JSONParse(context);
 		apiRecord = new ContentValues();
 		apiRecord.put(BING_URL, bingUrl);
@@ -964,7 +982,7 @@ public class AreaData {
 		insert(BING_SEARCH_RESULTS, apiRecord, 1);
 	}
 	
-	public int getCountryIndicators(int indicator_id, String indicator, ArrayList<String> countries, ArrayList<Integer> countryIDList, String date){
+	public synchronized int getCountryIndicators(int indicator_id, String indicator, ArrayList<String> countries, ArrayList<Integer> countryIDList, String date){
 		parser = new JSONParse(context);
 		String queryStr = "http://api.worldbank.org/countries/";
 		String countryString = "";
@@ -1001,7 +1019,7 @@ public class AreaData {
 		
 	}
 	
-	public int getDocuments(int indicator, String[] parameters){
+	public synchronized int getDocuments(int indicator, String[] parameters){
 		parser = new JSONParse(context);
 		String querybase = "http://api.ids.ac.uk/openapi/";
 		int return_int;
@@ -1029,7 +1047,7 @@ public class AreaData {
 			
 	}
 	
-	public int getBingArticles(String param){
+	public synchronized int getBingArticles(String param){
 		parser = new JSONParse(context);
 		String querybase = "https://api.datamarket.azure.com/Bing/Search/Web";
 		
@@ -1050,11 +1068,11 @@ public class AreaData {
 		queryStr = querybase +  "?"+ query + "%27" + paramStr + "%27" + "&"  + num_results + "&" + format;
 		
 		Log.e(TAG, "Pulling BING data:" + queryStr);
-		return parser.parseBINGData(dataService.HTTPRequest(0,queryStr), param, queryStr);
+		return parser.parseBINGData(dataService.HTTPRequest(2,queryStr), param, queryStr);
 		
 	}
 
-	public String[] getCountry() {
+	public synchronized String[] getCountry() {
 		SQLiteDatabase db = dbHelper.getReadableDatabase();
 		Cursor cursorCountry = db.query(COUNTRY, new String[] {COUNTRY_NAME}, null, null, COUNTRY_NAME, null, null);
 		String[] countryArray;
@@ -1076,7 +1094,10 @@ public class AreaData {
 		return countryArray;
 	}
 	
-	public int getIndicatorID(String indicator){
+	
+	
+	public synchronized int getIndicatorID(String indicator){
+		Log.e(TAG, "Get Indicator ID by String");
 		int id = -1;
 		Cursor ind_result;
 		
@@ -1096,7 +1117,10 @@ public class AreaData {
 		return id;
 	}
 	
-	public String getIndicatorName(String indicator){
+	
+	
+	public synchronized String getIndicatorName(String indicator){
+		Log.e(TAG, "Get Indicator ID by Name");
 		String indicatorStr = "";
 		Cursor ind_result;
 		
@@ -1116,7 +1140,9 @@ public class AreaData {
 		return indicatorStr;
 	}
 	
-	public String getIndicatorName(int indicator){
+	
+	public synchronized String getIndicatorName(int indicator){
+		Log.e(TAG, "Get Indicator Name");
 		String indicatorStr = "";
 		Cursor ind_result;
 		
@@ -1136,7 +1162,9 @@ public class AreaData {
 		return indicatorStr;
 	}
 	
-	public String[] getSearchCountries(int search_id){
+
+	public synchronized String[] getSearchCountries(int search_id){
+		Log.e(TAG, "Get COuntries BY Search ID");
 		String[] countries;
 		Cursor country_results, country;
 		
@@ -1167,7 +1195,9 @@ public class AreaData {
 	}
 	
 	
-	public double[][] getIndicatorList(int Indicator_id, String countryStr, int period){
+	
+	public synchronized double[][] getIndicatorList(int Indicator_id, String countryStr, int period){
+		Log.e(TAG, "Get List of Indicators with Corresponding country data");
 		double [][] values = null;
 		int search_country_id, country_id, search_id;
 		String params;
@@ -1228,7 +1258,8 @@ public class AreaData {
 		return values;
 	}
 	
-	public Cursor rawQuery(String tableName, String tableColumns, String queryParams) {
+	
+	public synchronized Cursor rawQuery(String tableName, String tableColumns, String queryParams) {
 		
 		Cursor cursor = null;
 		cursor = dbHelper.rawQuery(tableName, tableColumns, queryParams);
@@ -1290,6 +1321,8 @@ public class AreaData {
 		INDICATOR_KEYWORDS.put("TX.VAL.AGRI.ZS.UN",	"agriculture exports"		);
 		
 	}
+	
+
 	
 	private class AreaDB extends SQLiteOpenHelper{
 		
