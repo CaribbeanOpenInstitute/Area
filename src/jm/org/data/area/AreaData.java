@@ -1047,6 +1047,7 @@ public class AreaData {
 			
 	}
 	
+	
 	public synchronized int getBingArticles(String param){
 		parser = new JSONParse(context);
 		String querybase = "https://api.datamarket.azure.com/Bing/Search/Web";
@@ -1071,6 +1072,7 @@ public class AreaData {
 		return parser.parseBINGData(dataService.HTTPRequest(2,queryStr), param, queryStr);
 		
 	}
+	
 
 	public synchronized String[] getCountry() {
 		SQLiteDatabase db = dbHelper.getReadableDatabase();

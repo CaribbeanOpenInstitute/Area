@@ -5,12 +5,6 @@ package jm.org.data.area;
 import static jm.org.data.area.DBConstants.IDS_DOC_DWNLD_URL;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import android.app.ActionBar;
 import android.app.ProgressDialog;
@@ -19,8 +13,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.MenuItem;
 import android.webkit.WebView;
@@ -36,7 +32,8 @@ public class ReportWebViewActivity extends BaseActivity
 	private String defaultURL = "data.org.jm";
 	private Context appContext ;
 	private ProgressDialog dialog ;
-	
+	private AreaApplication area;
+	private String appPath;
 	/** Called when the activity is first created. */
     
 	@Override
@@ -44,7 +41,8 @@ public class ReportWebViewActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.report_pdf_view);
-        
+        appPath = getPath();
+        Log.e(TAG, "Path => " + appPath);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			// only for android newer than gingerbread
 			 ActionBar actionBar = getActionBar();
@@ -62,8 +60,10 @@ public class ReportWebViewActivity extends BaseActivity
 		}else{
 			url = defaultURL;
 		}
-		PDFfile = getPDF(url);
-		if(PDFfile == url){
+		
+		new getPDF().execute();
+		
+		/*if(PDFfile == url){
 			Log.d(TAG, "No PDF at URL");
 			articleWebView = (WebView) findViewById(R.id.reportWebView);
 			showWebArticle(url);
@@ -72,10 +72,13 @@ public class ReportWebViewActivity extends BaseActivity
 	        //displayPDF(url);
 		}else{
 			Log.d(TAG, "Displaying PDF File");
-			displayPDF(PDFfile);
-		}
+			//displayPDF(PDFfile);
+		}	*/	
+		
 		
     }
+	
+
 	
 	public void showWebArticle(String articleUrl) {
 		Log.d(TAG, articleUrl);
@@ -96,11 +99,7 @@ public class ReportWebViewActivity extends BaseActivity
 	 *Solution explained: http://developer.android.com/resources/tutorials/views/hello-webview.html
 	 */
 	private class ArticleViewClient extends WebViewClient {
-	    @Override
-	    public boolean shouldOverrideUrlLoading(WebView view, String url) {
-	        view.loadUrl(url);
-	        return true;
-	    }
+	    
 	    
 	    @Override
 	    public void onPageStarted (WebView view, String url, Bitmap favicon){
@@ -132,57 +131,45 @@ public class ReportWebViewActivity extends BaseActivity
 		}
 	}
     
-    private String getPDF(String pdfurl){
-    	String path = pdfurl;
-    	
-    	try {
-    
-    	    //this is the name of the local file you will create
-    		int slashIndex = pdfurl.lastIndexOf('/');
-            int dotIndex = pdfurl.lastIndexOf('.');
-            if (pdfurl.substring(dotIndex + 1) == "pdf"){
-	    	    String targetFileName;
-	    	    
-	    	    targetFileName = pdfurl.substring(slashIndex + 1);
-	    	    Log.d(TAG, String.format("File Name: %s ", targetFileName));
-	    	    //boolean eof = false;
-	    	    URL u = new URL(pdfurl);
-	    	    
-	    	    HttpURLConnection c = (HttpURLConnection) u.openConnection();
-	    	    c.setRequestMethod("HEAD");
-	    	    
-	    	    if (c.getResponseCode() == HttpURLConnection.HTTP_OK){
-	    	    	Log.d(TAG, String.format("File Exists %s ", pdfurl));
-	    	    	c.setRequestMethod("GET");
-		    	    c.setDoOutput(true);
-		    	    c.connect();
-		    	    FileOutputStream f = new FileOutputStream(new File(this.getFilesDir() + targetFileName));
-		    	    Log.d(TAG, "Downloading pdf");
-	    	        InputStream in = c.getInputStream();
-	    	        byte[] buffer = new byte[1024];
-	    	        int len1 = 0;
-	    	        
-	    	        while ( (len1 = in.read(buffer)) != -1 ) {
-	    	        	f.write(buffer,0, len1);
-	    	        }
-	    	        
-	    	        f.close();
-	    	        c.disconnect();
-	    	        path = getFilesDir()+targetFileName;
-	    	        Log.d(TAG, String.format("File Path: %s ", path));
-	    	    }
-            }
-    	} catch (MalformedURLException e) {
-    	    // TODO Auto-generated catch block
-    	    e.printStackTrace();
-    	} catch (IOException e) {
-    	    // TODO Auto-generated catch block
-    	    e.printStackTrace();
-    	}
+    private class getPDF extends AsyncTask<Void, Void, Boolean> {
 
-    	
-    	return path;
-    }
+		protected void onPreExecute() {
+			//run on UI thread
+			
+			area = (AreaApplication) getApplication();
+			
+		}
+
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			try {
+				Log.e(TAG, "Getting Pdf");
+				PDFfile = area.netserv.getPDF(url, appPath + "/");
+				return true; 
+				
+
+			} catch (IllegalStateException ilEx) {
+				Log.e(TAG, "DATABASE LOCK: Error pulling/storing data for Chart");
+			}
+			PDFfile = url;
+			return false;
+		}
+		
+		@Override
+		protected void onPostExecute(Boolean initResult) {
+			super.onPostExecute(initResult);
+			if (initResult) {
+				Log.e(TAG, "Completed PDF Retrieval ");
+				displayPDF(PDFfile);
+				
+			} else {
+				Log.e(TAG, "Problem with PDF Retrieval");
+				
+			}
+			
+		}
+		
+	}
     
     private void displayPDF(String pdfurl){
     	File pdfFile = new File(pdfurl); 
@@ -221,4 +208,17 @@ public class ReportWebViewActivity extends BaseActivity
         //displayPDF(url);
     }
     
+    private String getPath(){
+    	String storage;
+    	File path = Environment.getExternalStorageDirectory();
+    	
+		path = new File(path.getPath() + "/AREA");
+		//if (path.mkdirs()){
+		storage = path.getPath();
+		/*}else{
+			storage = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
+		}*/
+		
+    	return storage;
+    }
 }

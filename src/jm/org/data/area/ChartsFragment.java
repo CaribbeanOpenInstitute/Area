@@ -49,7 +49,7 @@ public class ChartsFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		dialog = ProgressDialog.show(getActivity(), "", 
-                "Loading. Please wait...", true);
+                "Loading Chart Data. Please wait...", true);
 		Log.e(TAG, "Charts Fragment dialog created");
 		layout = (LinearLayout) parentActivity.findViewById(R.id.chart_view);
 		createChart();
@@ -95,8 +95,7 @@ public class ChartsFragment extends Fragment {
                 
             case R.id.menu_reload:
                 //Toast.makeText(getActivity(), "Fake refreshing...", Toast.LENGTH_SHORT).show();
-                dialog = ProgressDialog.show(getActivity(), "", 
-                        "Loading. Please wait...", true);
+                
                parentActivity.resetCountryList();
                reload(); 
                
@@ -199,7 +198,9 @@ public class ChartsFragment extends Fragment {
 		layout.setBackgroundColor(Color.BLUE);
 		layout.addView(chart, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));/**/
 		
-		
+		if(dialog.isShowing()){
+			dialog.dismiss();
+		}
 	}
 	
 	private void displayError(){

@@ -188,7 +188,7 @@ public class JSONParse {
 				
 				for (int a = 0; a < BING_SEARCH_LIST.length; a++){
 					apiRecord.put(FROM_BING_SEARCH_RESULTS[a+2], (String)bing_data.get(BING_SEARCH_LIST[a]));	
-					Log.d("Indicators", ""+ FROM_BING_SEARCH_RESULTS[a+2] + ":-> " + (String)bing_data.get(BING_SEARCH_LIST[a]));
+					//Log.d("Indicators", ""+ FROM_BING_SEARCH_RESULTS[a+2] + ":-> " + (String)bing_data.get(BING_SEARCH_LIST[a]));
 				}
 				
 				areaData.insert(BING_SEARCH_RESULTS, apiRecord, 0);
@@ -265,7 +265,7 @@ public class JSONParse {
 				
 				for (int a = 0; a < IDS_SEARCH_LIST.length ; a++){
 					apiRecord.put(FROM_IDS_SEARCH_RESULTS[a+2], (String)ids_data.get(IDS_SEARCH_LIST[a]));	
-					Log.d("Indicators", ""+ FROM_IDS_SEARCH_RESULTS[a+2] + ":-> " + (String)ids_data.get(IDS_SEARCH_LIST[a]));
+					//Log.d("Indicators", ""+ FROM_IDS_SEARCH_RESULTS[a+2] + ":-> " + (String)ids_data.get(IDS_SEARCH_LIST[a]));
 				}
 				apiRecord.put(IDS_DOC_PATH, "");
 				areaData.insert(IDS_SEARCH_RESULTS, apiRecord, 0);
@@ -282,7 +282,7 @@ public class JSONParse {
 	public int parseWBData(String jsonData, int indicator, Integer[] countries, String uri){
 		
 		Hashtable<String, String> wb_data = new Hashtable<String, String>();
-		long search_id = 0, country_search_id = -1;
+		long search_id = 0, query_s_id = 0, country_search_id = -1;
 		int search_country_id = 0;
 		try {
 			
@@ -305,6 +305,11 @@ public class JSONParse {
 				apiRecord.put(SEARCH_URI		, uri		);
 				//FROM_SEARCH			= {SEARCH_ID, I_ID, AP_ID, SEARCH_CREATED, SEARCH_MODIFIED, SEARCH_URI};
 				search_id = areaData.insert(SEARCH, apiRecord, 1);
+				Cursor query_s 	= areaData.rawQuery(SEARCH,"*", "" + I_ID + " = '"+ indicator + "'");
+				// Then get SearchCountry ID from corresponding table now that we have both S_ID and C_ID
+				query_s.moveToFirst();
+				Log.e(TAG, "Search_id:" + query_s.getInt(query_s.getColumnIndex(_ID)));
+				search_id = query_s.getInt(query_s.getColumnIndex(_ID));
 				Log.e(TAG, "Search_id:" + search_id);
 				// create or update Search_Country record
 				if(search_id > 0){
@@ -317,6 +322,7 @@ public class JSONParse {
 						apiRecord.put(P_ID  , 1				);
 						//FROM_SEARCH_COUNTRY	= {_ID, S_ID, C_ID, P_ID};
 						country_search_id = areaData.insert(SEARCH_COUNTRY, apiRecord, 1);
+						Log.e(TAG, "" + country_search_id);
 					}
 				}else{
 					Log.e(TAG, "Error inserting Search record: Indicator-" + indicator + ", API_ID- 1, " + "URI-" + uri);
@@ -349,11 +355,11 @@ public class JSONParse {
 					return SEARCH_FAIL;
 				}
 				apiRecord.put(SC_ID, search_country_id);
-				Log.d("Indicators", ""+ SC_ID + ":-> " + SearchCountry.getInt(SearchCountry.getColumnIndex(_ID)));
+				//Log.d("Indicators", ""+ SC_ID + ":-> " + SearchCountry.getInt(SearchCountry.getColumnIndex(_ID)));
 				search_country_id = apiRecord.getAsInteger(SC_ID);
 				for (int a = 0; a < WB_DATA_LIST.length; a++){
 					apiRecord.put(FROM_WB_DATA[a+2], (String)wb_data.get(WB_DATA_LIST[a]));	
-					Log.d("Indicators", ""+FROM_WB_DATA[a+2] + ":-> " + (String)wb_data.get(WB_DATA_LIST[a]));
+					//Log.d("Indicators", ""+FROM_WB_DATA[a+2] + ":-> " + (String)wb_data.get(WB_DATA_LIST[a]));
 				}
 				countryData.close();
 				SearchCountry.close();
@@ -410,7 +416,7 @@ public class JSONParse {
 				indicator_data = parseJSON(indicator_data, jsonArray.getJSONObject(i), "");
 				for (int a = 0; a < WB_IND_LIST.length; a++){
 					apiRecord.put(FROM_INDICATOR[a+1], (String)indicator_data.get(WB_IND_LIST[a]));	
-					Log.d("Indicators", ""+FROM_INDICATOR[a+1] + ":-> " + (String)indicator_data.get(WB_IND_LIST[a]));
+					//Log.d("Indicators", ""+FROM_INDICATOR[a+1] + ":-> " + (String)indicator_data.get(WB_IND_LIST[a]));
 				}
 				Log.d(TAG, indicator_data.toString());
 				areaData.insert(INDICATOR, apiRecord, 0);
@@ -452,7 +458,7 @@ public class JSONParse {
 				for (int a = 0; a < WB_COUNTRY_LIST.length; a++){
 					apiRecord.put(FROM_COUNTRY[a+1], (String)country_data.get(WB_COUNTRY_LIST[a]));	
 					
-					Log.d("Countries", ""+FROM_COUNTRY[a+1] + ":-> " + (String)country_data.get(WB_COUNTRY_LIST[a]));
+					//Log.d("Countries", ""+FROM_COUNTRY[a+1] + ":-> " + (String)country_data.get(WB_COUNTRY_LIST[a]));
 				}
 				Log.d(TAG, country_data.toString());
 				areaData.insert(COUNTRY, apiRecord, 0);

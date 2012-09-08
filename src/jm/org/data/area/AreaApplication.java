@@ -21,6 +21,7 @@ public class AreaApplication extends Application {
 	private String TAG = AreaActivity.class.getSimpleName();
 	public SharedPreferences prefs;
 	public AreaData areaData; 
+	public APIPull netserv;
 	//public AreaService areaService;
 	
 	private Cursor wbCursor;
@@ -47,6 +48,8 @@ public class AreaApplication extends Application {
         
         prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
         areaData = new AreaData(mContext);
+        netserv = new APIPull();
+        
         
 	}
 	

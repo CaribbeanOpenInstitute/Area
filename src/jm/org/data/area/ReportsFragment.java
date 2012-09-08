@@ -57,7 +57,7 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 		//loadingAnimator = (ViewAnimator) parentActivity.findViewById(R.id.reportSwitcher);	//Loading Animator
 		//loadingAnimator.setDisplayedChild(1);
 		dialog = ProgressDialog.show(getActivity(), "", 
-                "Loading. Please wait...", true);
+                "Loading Reports Data. Please wait...", true);
 		Log.e(TAG, "Reports Fragment dialog created");
 		String[] from = {IDS_DOC_TITLE, IDS_DOC_AUTH_STR};
 		int[] to = {R.id.list_item_title, R.id.list_item_desc};
@@ -95,7 +95,7 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 			Toast.makeText(getActivity(), "Refreshing report list...",
 					Toast.LENGTH_LONG).show();
 			dialog = ProgressDialog.show(getActivity(), "", 
-	                "Loading. Please wait...", true);
+	                "Loading Reports Data. Please wait...", true);
 			reload();
 			break;
 		default:
@@ -119,6 +119,9 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 				ReportDetailViewActivity.class);
 		intent.putExtra(DOCUMENT_ID, item_id);
 		// intent.putExtra(BING_URL, itemURL);
+		if(dialog.isShowing()){
+			dialog.dismiss();
+		}
 		startActivity(intent);
 	}
 
