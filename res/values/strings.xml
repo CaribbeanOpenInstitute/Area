@@ -65,4 +65,5 @@
     <string name="prefs_startup_desc">Application initialization indicator</string>
     <string name="search_hint">Search for articles or reports</string>
     <string name="menu_reload">Reload</string>
+    <string name="test">Tap to Add Country/Region/Income Level</string>
 </resources>

@@ -11,12 +11,16 @@ import java.util.Arrays;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.InputMethodManager;
@@ -68,6 +72,43 @@ public class KeywordsFragment extends Fragment implements OnClickListener {
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(parentActivity,
 				android.R.layout.simple_list_item_1, country);
 		edt_keyword.setAdapter(adapter);
+		edt_keyword.setHint(R.string.test);
+		/*edt_keyword.setTextColor(Color.WHITE);
+		
+		edt_keyword.setBackgroundColor(Color.CYAN);
+		edt_keyword.setOnTouchListener(new OnTouchListener(){
+
+			@Override
+			public boolean onTouch(View arg0, MotionEvent arg1) {
+				Log.e(TAG, "Touched");
+				edt_keyword.setText("");
+				return false;
+			}
+			
+		});
+		edt_keyword.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				Log.e(TAG, "Clicked");
+				edt_keyword.setText("");
+				
+				
+			}
+			
+		});
+		edt_keyword.setOnFocusChangeListener(new OnFocusChangeListener(){
+
+			@Override
+			public void onFocusChange(View arg0, boolean arg1) {
+				Log.e(TAG, "Changed Focus");
+				edt_keyword.setText("");
+				edt_keyword.setTextColor(Color.BLACK);
+				edt_keyword.setBackgroundColor(Color.WHITE);
+			}
+			
+		});*/
+		
 	}
 
 	@Override

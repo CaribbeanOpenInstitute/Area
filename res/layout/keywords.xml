@@ -27,36 +27,40 @@
         android:layout_height="match_parent"
         android:orientation="horizontal" >
 
-        <TextView
+        <!-- TextView
             android:id="@+id/txt_keyword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Country / Region / Income level"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#0000ff"
-             />
+             / -->
 
         <!-- Auto complete text box -->
 
         <AutoCompleteTextView
             android:id="@+id/edt_keyword"
             android:layout_width="0dp"
+            android:text="Tap to Select Country/Region/Income level"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
              />
 
-        <!--
+        <!-- 
+
         <EditText
             android:id="@+id/edt_keyword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1" 
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp">
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:hint="@string/test" >
+
         </EditText>
-        -->
+         -->
 
         <Button
             android:id="@+id/btn_keywordAdd"
