@@ -87,7 +87,7 @@ public class ReportWebViewActivity extends BaseActivity
 		//Receive the actual URL from the parent intent
 		//articleWebView = (WebView)getView().findViewById(R.id.articleWebView);
 		articleWebView.loadUrl(articleUrl);
-		
+		articleWebView.getSettings().setJavaScriptEnabled(true);
 		if(dialog.isShowing()){
 			dialog.dismiss();
 		}
@@ -118,6 +118,12 @@ public class ReportWebViewActivity extends BaseActivity
     		}
 
     	}
+	    @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
+	    
 	}
     
     @Override
@@ -202,6 +208,8 @@ public class ReportWebViewActivity extends BaseActivity
     private void showWebView(String weburl) 
     {
     	articleWebView = (WebView) findViewById(R.id.reportWebView);
+    	
+
 		showWebArticle(url);
 		
 		articleWebView.setWebViewClient(new ArticleViewClient());

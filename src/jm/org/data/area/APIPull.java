@@ -12,15 +12,17 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import android.util.Base64;
 import android.util.Log;
 
 
@@ -34,24 +36,35 @@ public class APIPull {
 		StringBuilder builder = new StringBuilder();
 		HttpClient client = new DefaultHttpClient();
 		HttpGet httpGet = new HttpGet(uri);
-		String encodedBytes = "";
+		String encodedBytesstr = "";
+		byte[] encodedBytes;
 		if(api == 2){
 			Log.e(APIPull.class.toString(), "Bing API Pull " + uri);
 			try{
 				
-				encodedBytes = Base64.encodeToString(
-						("avYmuwluAWdg0uT50kqYtgAoKcnr+xp972yHvr6Brx4=:avYmuwluAWdg0uT50kqYtgAoKcnr+xp972yHvr6Brx4=").getBytes("UTF-8"), 
-						Base64.URL_SAFE);
+				encodedBytes = Base64.encodeBase64((":avYmuwluAWdg0uT50kqYtgAoKcnr+xp972yHvr6Brx4=").getBytes());
+				encodedBytesstr = new String(encodedBytes);
+				/*byte[] decstr = Base64.decode(encodedBytes);
+				Log.e(APIPull.class.toString(), encodedBytes + " - " + ));
+				Log.e(APIPull.class.toString(), encodedBytesstr);
+				httpGet.setHeader("Authorization", "Basic " +  encodedBytesstr);
 				
-				Log.e(APIPull.class.toString(), encodedBytes + " - " + new String(Base64.decode(encodedBytes.getBytes(), Base64.DEFAULT), "UTF-8"));
-				                
+				Log.e(APIPull.class.toString(),"executing request " + httpGet.getURI());
+
+	            // Create a response handler
+	            ResponseHandler<String> responseHandler = new BasicResponseHandler();
+	            String responseBody = client.execute(httpGet, responseHandler);
+	            Log.e(APIPull.class.toString(),"----------------------------------------");
+	            Log.e(APIPull.class.toString(),responseBody);
+	            Log.e(APIPull.class.toString(),"----------------------------------------");
+*/	            
 			}catch(Exception e){
 				e.printStackTrace();
 				errorMsg.concat(e.toString());
 			}
 			
-			Log.e(APIPull.class.toString(), encodedBytes);
-			httpGet.addHeader("Authorization", "Basic " +  encodedBytes);
+			Log.e(APIPull.class.toString(), encodedBytesstr);
+			httpGet.setHeader("Authorization", "Basic " +  encodedBytesstr);
 		}else if (api == 1){
 			httpGet.addHeader("Token-Guid", "47040d85-719b-460c-8c4c-8786614e31e6");
 		}

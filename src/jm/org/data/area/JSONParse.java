@@ -145,17 +145,18 @@ public class JSONParse {
 		Hashtable<String, String> bing_data = new Hashtable<String, String>();
 		long search_id = -1;
 		JSONArray resultArray;
-		
+		long date = timeStamp();
 		try{
 			JSONObject jsonObject 	= new JSONObject(jsonData);
-			JSONObject response		= jsonObject.getJSONObject("SearchResponse");
-			JSONObject results		= response.getJSONObject("Web");
+			JSONObject response		= jsonObject.getJSONObject("d");
+			resultArray = response.getJSONArray("results");
+			//JSONObject results		= response.getJSONObject("Web");
 			
-			int numOfrecords  = Integer.parseInt(results.getString("Total"));
+			int numOfrecords  = resultArray.length();
 			
 			if(numOfrecords > 0){
-				resultArray = results.getJSONArray("Results");
-				long date = timeStamp();
+				//resultArray = results.getJSONArray("Results");
+				
 				// create Search record if it doesn't exist;
 				apiRecord = new ContentValues();
 				apiRecord.put(BING_QUERY	, params	);
@@ -190,7 +191,7 @@ public class JSONParse {
 					apiRecord.put(FROM_BING_SEARCH_RESULTS[a+2], (String)bing_data.get(BING_SEARCH_LIST[a]));	
 					//Log.d("Indicators", ""+ FROM_BING_SEARCH_RESULTS[a+2] + ":-> " + (String)bing_data.get(BING_SEARCH_LIST[a]));
 				}
-				
+				apiRecord.put(BING_DATE_TIME, date);
 				areaData.insert(BING_SEARCH_RESULTS, apiRecord, 0);
 				
 			}

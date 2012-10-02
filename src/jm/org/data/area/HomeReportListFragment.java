@@ -8,6 +8,7 @@ import static jm.org.data.area.AreaConstants.*;
 
 import java.util.Arrays;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -22,13 +23,16 @@ import android.widget.ListView;
 public class HomeReportListFragment extends ListFragment implements
 		LoaderManager.LoaderCallbacks<Cursor> {
 	public final String TAG = getClass().getSimpleName();
-
+	private ProgressDialog dialog;
 	SimpleCursorAdapter mAdapter;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
+		
+		dialog = new ProgressDialog(getActivity());
+		dialog = ProgressDialog.show(getActivity(), "", 
+                "Loading. Please wait...", true);
 		String[] from = { IDS_DOC_TITLE, IDS_DOC_AUTH_STR };
 		int[] to = { R.id.list_item_title, R.id.list_item_desc };
 		// tAdapter = new SimpleCursorAdapter(getActivity(),
@@ -41,6 +45,7 @@ public class HomeReportListFragment extends ListFragment implements
 
 		setEmptyText("No indicators found");
 		setListShown(false);
+		
 	}
 
 	@Override
@@ -85,6 +90,9 @@ public class HomeReportListFragment extends ListFragment implements
 		}
 		setEmptyText("No reports downloaded yet");
 		setListShown(true);
+		if(dialog.isShowing()){
+			dialog.dismiss();
+		}
 	}
 
 	@Override

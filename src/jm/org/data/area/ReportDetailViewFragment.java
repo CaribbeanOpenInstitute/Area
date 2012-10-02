@@ -106,9 +106,7 @@ public class ReportDetailViewFragment extends Fragment implements
 		return view;
 	}
 
-	private void savePDF() {
-	}
-
+	
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
 		Log.d(TAG, "onCreateLoader: Calling database to get data");

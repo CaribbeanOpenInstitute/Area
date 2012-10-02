@@ -95,7 +95,7 @@ public interface AreaConstants {
 	public static final String BING_SEARCH_URL		= "Url"	 		;
 	public static final String BING_SEARCH_DISP_URL	= "DisplayUrl"	;
 	public static final String BING_SEARCH_DATE		= "DateTime"	;
-	public static final String[] BING_SEARCH_LIST = {BING_SEARCH_TITLE, BING_SEARCH_DESC, BING_SEARCH_URL, BING_SEARCH_DISP_URL, BING_SEARCH_DATE};
+	public static final String[] BING_SEARCH_LIST = {BING_SEARCH_TITLE, BING_SEARCH_DESC, BING_SEARCH_URL, BING_SEARCH_DISP_URL};
 	//public static final String[] FROM_BING_SEARCH_RESULTS	= {_ID, B_S_ID, BING_TITLE, BING_DESC, BING_URL, BING_DISP_URL, BING_DATE_TIME	};
 	
 	

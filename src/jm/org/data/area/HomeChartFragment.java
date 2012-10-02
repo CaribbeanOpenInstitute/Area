@@ -10,6 +10,7 @@ import java.util.Arrays;
 import org.achartengine.GraphicalView;
 import org.achartengine.chartdemo.demo.chart.AreaChart;
 
+import android.app.ProgressDialog;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -34,20 +35,24 @@ public class HomeChartFragment extends Fragment {
 	private String[] countryList;
 	private AreaApplication area;
 	private int result = 0;
+	private ProgressDialog dialog;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		parentActivity = (HomeActivity) getActivity();
+		dialog = new ProgressDialog(parentActivity);
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
+		dialog = ProgressDialog.show(parentActivity, "", 
+                "Loading. Please wait...", true);
 		layout = (LinearLayout) parentActivity.findViewById(R.id.home_chart_view);
 		createChart();
 		setHasOptionsMenu(true);
+		
 		
 		
 		
@@ -79,11 +84,18 @@ public class HomeChartFragment extends Fragment {
 				Log.d(TAG, String.format("Indicator: %s. Country list: %s", indicator, Arrays.toString(countryList)));
 				displayError();
 			}
+			if(dialog.isShowing()){
+				dialog.dismiss();
+			}
 		} else {
 			Log.e(TAG, "No Search Results");
 			result.close();
 			displayError();
+			if(dialog.isShowing()){
+				dialog.dismiss();
+			}
 		}
+		
 		
 		
 	}
