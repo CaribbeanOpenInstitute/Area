@@ -10,8 +10,8 @@
         android:smallScreens="false" />
 
     <uses-sdk
-        android:minSdkVersion="7"
-        android:targetSdkVersion="14" />
+        android:minSdkVersion="11"
+        android:targetSdkVersion="15" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -21,7 +21,7 @@
         android:name=".AreaApplication"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme" android:debuggable="true">
         <activity
             android:name=".HomeActivity"
             android:label="@string/app_name"
@@ -73,6 +73,12 @@
             android:name="AreaService"
             android:icon="@drawable/ic_launcher"
             android:label="@string/areaService" />
+        <provider 
+            android:name=".AreaProvider"
+            android:authorities="jm.org.data.area.AreaProvider"
+            android:multiprocess="true">
+            
+        </provider>
 
         <!-- android:process=":AreaService" -->
 

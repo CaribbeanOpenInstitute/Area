@@ -31,7 +31,7 @@
             android:id="@+id/homeFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            class="jm.org.data.area.HomeFragment" >
+            class="jm.org.data.area.HomeChartFragment" >
            
         </fragment>
 

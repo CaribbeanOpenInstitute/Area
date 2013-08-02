@@ -18,7 +18,8 @@ public class SearchListAdapter extends SimpleCursorLoader {
 		mContext = context;
 	}
 
-	public SearchListAdapter(Context context, int sType, String indID, String[] ctry) {
+	public SearchListAdapter(Context context, int sType, String indID,
+			String[] ctry) {
 		super(context);
 		Log.e(TAG, "Creating SearchListAdapter.");
 		searchType = sType;
@@ -31,23 +32,26 @@ public class SearchListAdapter extends SimpleCursorLoader {
 	public Cursor loadInBackground() {
 		area = (AreaApplication) mContext.getApplicationContext();
 
-		//int searchType = IDS_SEARCH;
-		//indicatorID = "AG.PRD.CROP.XD";
-		//country = new String[] { "Jamaica", "Barbados" };
+		// int searchType = IDS_SEARCH;
+		// indicatorID = "AG.PRD.CROP.XD";
+		// country = new String[] { "Jamaica", "Barbados" };
 
 		try {
 			Log.e(TAG, "Calling Generic Search 2");
 			if (area.areaData.genericSearch(searchType, indicatorID, country) >= SEARCH_SUCCESS) {
 				Cursor results = area.areaData.getData(searchType, indicatorID,
 						country);
-				Log.d(TAG, "Returning data. Num of records: " + results.getCount());
+				Log.d(TAG,
+						"Returning data. Num of records: " + results.getCount());
 
 				return results;
 			}
-		} catch (IllegalStateException ilEc){
-			Log.e(TAG, "Database list loading returned Database Lock exception on " + searchType + " query");
-			//db.close();
-			//return rawQuery(tableName, tableColumns,queryParams);
+		} catch (IllegalStateException ilEc) {
+			Log.e(TAG,
+					"Database list loading returned Database Lock exception on "
+							+ searchType + " query");
+			// db.close();
+			// return rawQuery(tableName, tableColumns,queryParams);
 		}
 		Log.d(TAG, "Returning zero");
 		return null;

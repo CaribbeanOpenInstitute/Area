@@ -12,9 +12,10 @@ import android.view.MenuItem;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-/**HomeActivity
- *
- *DESC:		Main application activity. 
+/**
+ * HomeActivity
+ * 
+ * DESC: Main application activity.
  */
 public class HomeActivity extends BaseActivity {
 	private static final String TAG = HomeActivity.class.getSimpleName();
@@ -23,7 +24,8 @@ public class HomeActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// Check for application initialization preference. If false, then runs startup activity
+		// Check for application initialization preference. If false, then runs
+		// startup activity
 		if (!area.prefs.getBoolean("startupActivity", false)) {
 			if (!area.initIsRunning) // Run startup activity
 				startActivityForResult(new Intent(HomeActivity.this,
@@ -48,7 +50,7 @@ public class HomeActivity extends BaseActivity {
 			// TODO Implement a Search Dialog fall back for compatibility with
 			// Android 2.3 and lower
 			// Currently crashes on Gingerbread or lower
-			
+
 			// Get the SearchView and set the searchable configuration
 			SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 			SearchView searchView = (SearchView) menu
@@ -74,10 +76,10 @@ public class HomeActivity extends BaseActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	/**
-	 * DESC:	Function called on the completion (success||failure) of the Startup Activity
-	 
+	 * DESC: Function called on the completion (success||failure) of the Startup
+	 * Activity
 	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode,
@@ -92,9 +94,11 @@ public class HomeActivity extends BaseActivity {
 			IndicatorListFragment inFragment = (IndicatorListFragment) getSupportFragmentManager()
 					.findFragmentById(R.id.listFragment);
 			inFragment.reload();
-		}
-		else {	//Startup Failed
-			Toast.makeText(HomeActivity.this, "There was an error running the application initialization. Please try again.", Toast.LENGTH_SHORT).show();
+		} else { // Startup Failed
+			Toast.makeText(
+					HomeActivity.this,
+					"There was an error running the application initialization. Please try again.",
+					Toast.LENGTH_SHORT).show();
 		}
 
 	}

@@ -31,7 +31,6 @@ public class ArticlesFragment extends ListFragment implements
 	private String[] countryList;
 	SearchCursorAdapter mAdapter;
 	SimpleCursorAdapter tAdapter;
-	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -95,16 +94,18 @@ public class ArticlesFragment extends ListFragment implements
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		Cursor cursor = (Cursor) getListAdapter().getItem(position);
-		
+
 		String item = cursor.getString(cursor.getColumnIndex(BING_TITLE));
-		String item_id = cursor.getString(cursor.getColumnIndex(BING_SEARCH_ID));
+		String item_id = cursor
+				.getString(cursor.getColumnIndex(BING_SEARCH_ID));
 		String itemTitle = cursor.getString(cursor.getColumnIndex(BING_DESC));
-		String itemURL= cursor.getString(cursor.getColumnIndex(BING_URL));
+		String itemURL = cursor.getString(cursor.getColumnIndex(BING_URL));
 		Log.d(TAG, "Article selected is: " + item + " Title is: " + itemTitle);
-		
-		//Launch Article View
-		
-		new AreaData(getActivity().getApplicationContext()).updateArticle(itemURL);
+
+		// Launch Article View
+
+		new AreaData(getActivity().getApplicationContext())
+				.updateArticle(itemURL);
 		Log.e(TAG, "Article Updated is: " + item + " Title is: " + itemTitle);
 		Intent intent = new Intent(getActivity().getApplicationContext(),
 				ArtcileViewActivity.class);
@@ -112,7 +113,7 @@ public class ArticlesFragment extends ListFragment implements
 		intent.putExtra(BING_URL, itemURL);
 		startActivity(intent);
 	}
-	
+
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
 		return new SearchListAdapter(getActivity(), BING_SEARCH, indicator,
@@ -147,11 +148,10 @@ public class ArticlesFragment extends ListFragment implements
 		IndicatorActivity parentActivity = (IndicatorActivity) getActivity();
 		indicator = parentActivity.getIndicator();
 		countryList = parentActivity.getCountryList();
-		Log.d(TAG, String.format(
-				"Articles reload function. \n Current indicator: %s. Country List: %s",
-				indicator,
-				Arrays.toString(countryList)
-				));
+		Log.d(TAG,
+				String.format(
+						"Articles reload function. \n Current indicator: %s. Country List: %s",
+						indicator, Arrays.toString(countryList)));
 		getLoaderManager().restartLoader(0, null, this);
 	}
 

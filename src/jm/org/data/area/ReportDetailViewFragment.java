@@ -41,10 +41,10 @@ public class ReportDetailViewFragment extends Fragment implements
 	private ReportDetailViewActivity parentActivity;
 	// Meta Data for a report
 	private int docID;
-	private String docTitle, docName, pubDate, publisher, dateCreated, docDesc,url;
+	private String docTitle, docName, pubDate, publisher, dateCreated, docDesc,
+			url;
 	private ProgressDialog dialog;
 	private Button btnViewReport;
-	
 
 	// private String journalSite;
 	// private String websiteUrl;
@@ -94,8 +94,8 @@ public class ReportDetailViewFragment extends Fragment implements
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		dialog = ProgressDialog.show(parentActivity, "", 
-                "Loading. Please wait...", true);
+		dialog = ProgressDialog.show(parentActivity, "",
+				"Loading. Please wait...", true);
 	}
 
 	@Override
@@ -106,7 +106,6 @@ public class ReportDetailViewFragment extends Fragment implements
 		return view;
 	}
 
-	
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
 		Log.d(TAG, "onCreateLoader: Calling database to get data");
@@ -129,36 +128,40 @@ public class ReportDetailViewFragment extends Fragment implements
 					R.id.txtDateCreated);
 			final WebView txtDescription = (WebView) getView().findViewById(
 					R.id.txtDescription);
-			
-			txtMainTitle.setText(cursor.getString(cursor.getColumnIndex(IDS_DOC_TITLE)));
-			txtPub.setText("Publisher: " + cursor.getString(cursor.getColumnIndex(IDS_DOC_PUB)));
-			txtPubDate.setText("Publication Date: " + cursor.getString(cursor.getColumnIndex(IDS_DOC_PUB_DATE)));
-			txtDateCreated.setText("Date Created: " + cursor.getString(cursor.getColumnIndex(IDS_DOC_DATE)));
-			txtDescription.loadData(cursor.getString(cursor.getColumnIndex(IDS_DOC_DESC)), "text/html", "utf-8");
+
+			txtMainTitle.setText(cursor.getString(cursor
+					.getColumnIndex(IDS_DOC_TITLE)));
+			txtPub.setText("Publisher: "
+					+ cursor.getString(cursor.getColumnIndex(IDS_DOC_PUB)));
+			txtPubDate
+					.setText("Publication Date: "
+							+ cursor.getString(cursor
+									.getColumnIndex(IDS_DOC_PUB_DATE)));
+			txtDateCreated.setText("Date Created: "
+					+ cursor.getString(cursor.getColumnIndex(IDS_DOC_DATE)));
+			txtDescription.loadData(
+					cursor.getString(cursor.getColumnIndex(IDS_DOC_DESC)),
+					"text/html", "utf-8");
 			url = cursor.getString(cursor.getColumnIndex(IDS_DOC_DWNLD_URL));
-			Toast.makeText(parentActivity.getBaseContext(), "URL" + url, Toast.LENGTH_SHORT).show();
-			if(dialog.isShowing()){
+			Toast.makeText(parentActivity.getBaseContext(), "URL" + url,
+					Toast.LENGTH_SHORT).show();
+			if (dialog.isShowing()) {
 				dialog.dismiss();
 			}
 		}
 
-
 		btnViewReport = (Button) getView().findViewById(R.id.btnViewReport);
 
-		btnViewReport.setOnClickListener(new View.OnClickListener()
-		    { 
-		        public void onClick(View v) 
-		        {
-	    			Intent intent = new Intent(getActivity().getApplicationContext(),
-	    					ReportWebViewActivity.class);
-	    			intent.putExtra(IDS_DOC_DWNLD_URL, url);	    			
-	    			startActivity(intent);
-		        }
-		    });
+		btnViewReport.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(getActivity()
+						.getApplicationContext(), ReportWebViewActivity.class);
+				intent.putExtra(IDS_DOC_DWNLD_URL, url);
+				startActivity(intent);
+			}
+		});
 
 	}
-	
-	
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> arg0) {

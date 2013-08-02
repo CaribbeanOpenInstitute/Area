@@ -25,7 +25,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.ViewAnimator;
 
-public class ReportsFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ReportsFragment extends ListFragment implements
+		LoaderManager.LoaderCallbacks<Cursor> {
 	public final String TAG = getClass().getSimpleName();
 	private String indicator;
 	private ViewAnimator loadingAnimator;
@@ -42,40 +43,42 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 		parentActivity = (IndicatorActivity) getActivity();
 		dialog = new ProgressDialog(parentActivity);
 		mAdapter = new SearchCursorAdapter(getActivity(), null);
-		
+
 		indicator = parentActivity.getIndicator();
-		
-		//countryList = (String[]) parentActivity.getCountryList();
+
+		// countryList = (String[]) parentActivity.getCountryList();
 		Log.d(TAG, String.format("Indcator: %s. Country List: ", indicator));
 		Log.e(TAG, "Creating Reports Fragment");
-		//setListAdapter(mAdapter);
+		// setListAdapter(mAdapter);
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		//loadingAnimator = (ViewAnimator) parentActivity.findViewById(R.id.reportSwitcher);	//Loading Animator
-		//loadingAnimator.setDisplayedChild(1);
-		dialog = ProgressDialog.show(getActivity(), "", 
-                "Loading Reports Data. Please wait...", true);
+		// loadingAnimator = (ViewAnimator)
+		// parentActivity.findViewById(R.id.reportSwitcher); //Loading Animator
+		// loadingAnimator.setDisplayedChild(1);
+		dialog = ProgressDialog.show(getActivity(), "",
+				"Loading Reports Data. Please wait...", true);
 		Log.e(TAG, "Reports Fragment dialog created");
-		String[] from = {IDS_DOC_TITLE, IDS_DOC_AUTH_STR};
-		int[] to = {R.id.list_item_title, R.id.list_item_desc};
-		//tAdapter = new SimpleCursorAdapter(getActivity(), R.layout.list_reports_item, null, from, to, 0);
-		tAdapter = new SimpleCursorAdapter(getActivity(), R.layout.list_item_dual, null, from, to, 0);
-		
+		String[] from = { IDS_DOC_TITLE, IDS_DOC_AUTH_STR };
+		int[] to = { R.id.list_item_title, R.id.list_item_desc };
+		// tAdapter = new SimpleCursorAdapter(getActivity(),
+		// R.layout.list_reports_item, null, from, to, 0);
+		tAdapter = new SimpleCursorAdapter(getActivity(),
+				R.layout.list_item_dual, null, from, to, 0);
+
 		setListAdapter(tAdapter);
 		getLoaderManager().initLoader(0, null, this);
-		
 
-		//setEmptyText("No indicators found");
-		//setListShown(false);
+		// setEmptyText("No indicators found");
+		// setListShown(false);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		
+
 		return inflater.inflate(R.layout.reports, container, false);
 	}
 
@@ -94,8 +97,8 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 		case R.id.menu_reload:
 			Toast.makeText(getActivity(), "Refreshing report list...",
 					Toast.LENGTH_LONG).show();
-			dialog = ProgressDialog.show(getActivity(), "", 
-	                "Loading Reports Data. Please wait...", true);
+			dialog = ProgressDialog.show(getActivity(), "",
+					"Loading Reports Data. Please wait...", true);
 			reload();
 			break;
 		default:
@@ -103,23 +106,24 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		Cursor cursor = (Cursor) getListAdapter().getItem(position);
-		
+
 		String item = cursor.getString(cursor.getColumnIndex(IDS_DOC_ID));
 		int item_id = cursor.getInt(cursor.getColumnIndex(DOCUMENT_ID));
-		String itemTitle = cursor.getString(cursor.getColumnIndex(IDS_DOC_TITLE));
+		String itemTitle = cursor.getString(cursor
+				.getColumnIndex(IDS_DOC_TITLE));
 		Log.d(TAG, "Report selected is: " + item + " Title is: " + itemTitle);
-		
+
 		// Launch Report View
 		Intent intent = new Intent(getActivity().getApplicationContext(),
 				ReportDetailViewActivity.class);
 		intent.putExtra(DOCUMENT_ID, item_id);
 		// intent.putExtra(BING_URL, itemURL);
-		if(dialog.isShowing()){
+		if (dialog.isShowing()) {
 			dialog.dismiss();
 		}
 		startActivity(intent);
@@ -127,7 +131,8 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-		return new SearchListAdapter(getActivity(), IDS_SEARCH, indicator, countryList);
+		return new SearchListAdapter(getActivity(), IDS_SEARCH, indicator,
+				countryList);
 	}
 
 	@Override
@@ -140,14 +145,14 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 							Arrays.toString(cursor.getColumnNames()),
 							cursor.getCount()));
 			tAdapter.swapCursor(cursor);
-			//loadingAnimator.setDisplayedChild(0);
+			// loadingAnimator.setDisplayedChild(0);
 			if (isResumed()) {
-				//setListShown(true);
+				// setListShown(true);
 			} else {
-				//setListShownNoAnimation(true);
+				// setListShownNoAnimation(true);
 			}
 		}
-		if(dialog.isShowing()){
+		if (dialog.isShowing()) {
 			dialog.dismiss();
 		}
 	}
@@ -156,21 +161,19 @@ public class ReportsFragment extends ListFragment implements LoaderManager.Loade
 	public void onLoaderReset(Loader<Cursor> arg0) {
 		tAdapter.swapCursor(null);
 	}
-	
+
 	public void reload() {
 		IndicatorActivity parentActivity = (IndicatorActivity) getActivity();
 		indicator = parentActivity.getIndicator();
 		countryList = parentActivity.getCountryList();
-		Log.d(TAG, String.format(
-				"Reports reload function. \n Current indicator: %s. Country List: %s",
-				indicator,
-				Arrays.toString(countryList)
-				));
+		Log.d(TAG,
+				String.format(
+						"Reports reload function. \n Current indicator: %s. Country List: %s",
+						indicator, Arrays.toString(countryList)));
 		getLoaderManager().restartLoader(0, null, this);
-		if(dialog.isShowing()){
+		if (dialog.isShowing()) {
 			dialog.dismiss();
 		}
 	}
-	
 
 }

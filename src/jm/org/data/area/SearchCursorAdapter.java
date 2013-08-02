@@ -51,14 +51,22 @@ public class SearchCursorAdapter extends CursorAdapter {
 		TextView list_title = (TextView) view
 				.findViewById(R.id.list_item_title);
 		TextView list_desc = (TextView) view.findViewById(R.id.list_item_desc);
-		
+
 		if (cursor.getColumnIndex(IDS_DOC_TITLE) != -1) {
-			Log.e(TAG, String.format("Report list Cursor size: %d. Current position: %d. Cursor columns: %s. Cursor column count: %d", cursor.getCount(), cursor.getPosition(), Arrays.toString(cursor.getColumnNames()), cursor.getCount()));
+			Log.e(TAG,
+					String.format(
+							"Report list Cursor size: %d. Current position: %d. Cursor columns: %s. Cursor column count: %d",
+							cursor.getCount(), cursor.getPosition(),
+							Arrays.toString(cursor.getColumnNames()),
+							cursor.getCount()));
 			// IDS List
-			String title = cursor.getString(cursor.getColumnIndex(IDS_DOC_TITLE));
-			/*String desc = String.format("%s. %s (%s)",
-					cursor.getString(cursor.getColumnIndex(IDS_DOC_TYPE)),
-					cursor.getString(cursor.getColumnIndex(IDS_DOC_TYPE)));*/
+			String title = cursor.getString(cursor
+					.getColumnIndex(IDS_DOC_TITLE));
+			/*
+			 * String desc = String.format("%s. %s (%s)",
+			 * cursor.getString(cursor.getColumnIndex(IDS_DOC_TYPE)),
+			 * cursor.getString(cursor.getColumnIndex(IDS_DOC_TYPE)));
+			 */
 			Log.e(TAG, "Title: " + title + ". Desc" + "desc");
 			list_title.setText(title);
 			list_desc.setText("desc");

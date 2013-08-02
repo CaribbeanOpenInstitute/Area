@@ -19,20 +19,20 @@ package org.apache.commons.codec;
 
 /**
  * Defines common decoding methods for String decoders.
- *
+ * 
  * @version $Id: StringDecoder.java 1379145 2012-08-30 21:02:52Z tn $
  */
 public interface StringDecoder extends Decoder {
 
-    /**
-     * Decodes a String and returns a String.
-     *
-     * @param source
-     *            the String to decode
-     * @return the encoded String
-     * @throws DecoderException
-     *             thrown if there is an error condition during the Encoding process.
-     */
-    String decode(String source) throws DecoderException;
+	/**
+	 * Decodes a String and returns a String.
+	 * 
+	 * @param source
+	 *            the String to decode
+	 * @return the encoded String
+	 * @throws DecoderException
+	 *             thrown if there is an error condition during the Encoding
+	 *             process.
+	 */
+	String decode(String source) throws DecoderException;
 }
-

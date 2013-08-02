@@ -18,36 +18,37 @@
 package org.apache.commons.codec.language.bm;
 
 /**
- * Supported types of names. Unless you are matching particular family names, use {@link #GENERIC}. The
- * <code>GENERIC</code> NameType should work reasonably well for non-name words. The other encodings are
- * specifically tuned to family names, and may not work well at all for general text.
- *
+ * Supported types of names. Unless you are matching particular family names,
+ * use {@link #GENERIC}. The <code>GENERIC</code> NameType should work
+ * reasonably well for non-name words. The other encodings are specifically
+ * tuned to family names, and may not work well at all for general text.
+ * 
  * @since 1.6
  * @version $Id: NameType.java 1376690 2012-08-23 20:51:45Z tn $
  */
 public enum NameType {
 
-    /** Ashkenazi family names */
-    ASHKENAZI("ash"),
+	/** Ashkenazi family names */
+	ASHKENAZI("ash"),
 
-    /** Generic names and words */
-    GENERIC("gen"),
+	/** Generic names and words */
+	GENERIC("gen"),
 
-    /** Sephardic family names */
-    SEPHARDIC("sep");
+	/** Sephardic family names */
+	SEPHARDIC("sep");
 
-    private final String name;
+	private final String name;
 
-    NameType(String name) {
-        this.name = name;
-    }
+	NameType(String name) {
+		this.name = name;
+	}
 
-    /**
-     * Gets the short version of the name type.
-     *
-     * @return the NameType short string
-     */
-    public String getName() {
-        return this.name;
-    }
+	/**
+	 * Gets the short version of the name type.
+	 * 
+	 * @return the NameType short string
+	 */
+	public String getName() {
+		return this.name;
+	}
 }

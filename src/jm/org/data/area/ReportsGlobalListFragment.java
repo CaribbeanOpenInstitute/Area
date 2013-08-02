@@ -23,17 +23,18 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class ReportsGlobalListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor>{
+public class ReportsGlobalListFragment extends ListFragment implements
+		LoaderManager.LoaderCallbacks<Cursor> {
 	public final String TAG = getClass().getSimpleName();
 	SimpleCursorAdapter mAdapter;
 	SearchableActivity parentActivity;
-	
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
+
 		parentActivity = (SearchableActivity) getActivity();
-		
+
 		String[] from = { IDS_DOC_TITLE, IDS_DOC_AUTH_STR };
 		int[] to = { R.id.list_item_title, R.id.list_item_desc };
 		// tAdapter = new SimpleCursorAdapter(getActivity(),
@@ -69,7 +70,8 @@ public class ReportsGlobalListFragment extends ListFragment implements LoaderMan
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-		return new GlobalListAdapter(getActivity(), IDS_SEARCH, parentActivity.getGlobalQuery());
+		return new GlobalListAdapter(getActivity(), IDS_SEARCH,
+				parentActivity.getGlobalQuery());
 	}
 
 	@Override
@@ -88,7 +90,7 @@ public class ReportsGlobalListFragment extends ListFragment implements LoaderMan
 				setListShownNoAnimation(true);
 			}
 		}
-		//setEmptyText("No reports downloaded yet");
+		// setEmptyText("No reports downloaded yet");
 		setListShown(true);
 	}
 

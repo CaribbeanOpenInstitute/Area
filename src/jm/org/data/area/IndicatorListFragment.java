@@ -45,7 +45,7 @@ public class IndicatorListFragment extends ListFragment implements
 		// setListAdapter(mAdapter);
 		setListShown(false);
 		getLoaderManager().initLoader(0, null, this);
-		
+
 		try { // Check if the parent activity is the IndicatorActivity
 			hAct = (HomeActivity) getActivity();
 			myAdapter.setSelectedPosition(-1, getListView());
@@ -53,30 +53,31 @@ public class IndicatorListFragment extends ListFragment implements
 			act = (IndicatorActivity) getActivity();
 			myAdapter.setSelectedPosition(act.getPosition(), getListView());
 			getListView().setSelection(act.getPosition());
-			/*if (act == null) {
-				Log.d(TAG, "Indicator activity variable is null");
-				Bundle data = getActivity().getIntent().getExtras();
-				
-				myAdapter.setSelectedPosition(data.getInt(POSITION,-1), getListView());
-				getListView().setSelection(data.getInt(POSITION,-1));
-			} else {
-				Log.d(TAG, "Indicator activity variable is not null");
-				myAdapter.setSelectedPosition(act.getPosition(), getListView());
-				getListView().setSelection(act.getPosition());
-			}*/
-			
+			/*
+			 * if (act == null) { Log.d(TAG,
+			 * "Indicator activity variable is null"); Bundle data =
+			 * getActivity().getIntent().getExtras();
+			 * 
+			 * myAdapter.setSelectedPosition(data.getInt(POSITION,-1),
+			 * getListView());
+			 * getListView().setSelection(data.getInt(POSITION,-1)); } else {
+			 * Log.d(TAG, "Indicator activity variable is not null");
+			 * myAdapter.setSelectedPosition(act.getPosition(), getListView());
+			 * getListView().setSelection(act.getPosition()); }
+			 */
+
 		}
 	}
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		//Get Cursor at list item row
-		Cursor cursor = (Cursor) getListAdapter().getItem(position); 
+		// Get Cursor at list item row
+		Cursor cursor = (Cursor) getListAdapter().getItem(position);
 		String item = cursor.getString(cursor.getColumnIndex(INDICATOR_NAME));
-		String item_id	= cursor.getString(cursor.getColumnIndex(WB_INDICATOR_ID));
+		String item_id = cursor.getString(cursor
+				.getColumnIndex(WB_INDICATOR_ID));
 		Log.d(TAG, "Indicator selected is: " + item + "-> ID: " + item_id);
-
 
 		try { // Check if the parent activity is the IndicatorActivity
 			act = (IndicatorActivity) getActivity();
@@ -123,8 +124,9 @@ public class IndicatorListFragment extends ListFragment implements
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-		//AreaApplication area = (AreaApplication) getActivity().getApplication();
-		//;
+		// AreaApplication area = (AreaApplication)
+		// getActivity().getApplication();
+		// ;
 		// mAdapter.swapCursor(cursor);
 		myAdapter.swapCursor(cursor);
 		if (isResumed()) {
@@ -135,7 +137,7 @@ public class IndicatorListFragment extends ListFragment implements
 			try {
 				myAdapter.setSelectedPosition(act.getPosition());
 			} catch (NullPointerException e) {
-				//Empty list or startup activy incomplete
+				// Empty list or startup activy incomplete
 			}
 		}
 	}
@@ -148,7 +150,7 @@ public class IndicatorListFragment extends ListFragment implements
 	public void setListSelection(int position) {
 		myAdapter.setSelectedPosition(position);
 	}
-	
+
 	public void reload() {
 		getLoaderManager().restartLoader(0, null, this);
 	}

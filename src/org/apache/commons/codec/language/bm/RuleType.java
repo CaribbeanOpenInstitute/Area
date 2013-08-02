@@ -19,27 +19,33 @@ package org.apache.commons.codec.language.bm;
 
 /**
  * Types of rule.
- *
+ * 
  * @since 1.6
  * @version $Id: RuleType.java 1376690 2012-08-23 20:51:45Z tn $
  */
 public enum RuleType {
 
-    /** Approximate rules, which will lead to the largest number of phonetic interpretations. */
-    APPROX("approx"),
-    /** Exact rules, which will lead to a minimum number of phonetic interpretations. */
-    EXACT("exact"),
-    /** For internal use only. Please use {@link #APPROX} or {@link #EXACT}. */
-    RULES("rules");
+	/**
+	 * Approximate rules, which will lead to the largest number of phonetic
+	 * interpretations.
+	 */
+	APPROX("approx"),
+	/**
+	 * Exact rules, which will lead to a minimum number of phonetic
+	 * interpretations.
+	 */
+	EXACT("exact"),
+	/** For internal use only. Please use {@link #APPROX} or {@link #EXACT}. */
+	RULES("rules");
 
-    private final String name;
+	private final String name;
 
-    RuleType(String name) {
-        this.name = name;
-    }
+	RuleType(String name) {
+		this.name = name;
+	}
 
-    public String getName() {
-        return this.name;
-    }
+	public String getName() {
+		return this.name;
+	}
 
 }

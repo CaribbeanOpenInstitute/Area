@@ -16,66 +16,58 @@ import android.widget.Toast;
 import static jm.org.data.area.DBConstants.*;
 import static jm.org.data.area.AreaConstants.*;
 
-
 public class AreaApplication extends Application {
 	private String TAG = AreaActivity.class.getSimpleName();
 	public SharedPreferences prefs;
-	public AreaData areaData; 
+	public AreaData areaData;
 	public APIPull netserv;
-	//public AreaService areaService;
-	
+	// public AreaService areaService;
+
 	private Cursor wbCursor;
 	private Cursor idsCursor;
 	private Cursor bingCursor;
-	
-	
-	//public boolean isServiceRunning = false;
+
+	// public boolean isServiceRunning = false;
 	public boolean isOnline = false;
 	public boolean initIsRunning = false;
-	
+
 	private Context mContext;
-	
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		
+
 		mContext = getBaseContext();
-		//doBindService();
-		
-		String idsKey = getString(R.string.pref_idsKey); 
-        String bingKey = getString(R.string.pref_bingKey);
-        Log.e(TAG, String.format("IDS: %s. Bing: %s", idsKey, bingKey));
-        
-        prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
-        areaData = new AreaData(mContext);
-        netserv = new APIPull();
-        
-        
+		// doBindService();
+
+		String idsKey = getString(R.string.pref_idsKey);
+		String bingKey = getString(R.string.pref_bingKey);
+		Log.e(TAG, String.format("IDS: %s. Bing: %s", idsKey, bingKey));
+
+		prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+		areaData = new AreaData(mContext);
+		netserv = new APIPull();
+
 	}
-	
-	/*private ServiceConnection mConnection = new ServiceConnection() {
 
-		@Override
-		public void onServiceConnected(ComponentName name, IBinder binder) {
-			areaService = ((AreaService.MyBinder) binder).getService();
-			Log.e(TAG, "Connected to service");
-		}
+	/*
+	 * private ServiceConnection mConnection = new ServiceConnection() {
+	 * 
+	 * @Override public void onServiceConnected(ComponentName name, IBinder
+	 * binder) { areaService = ((AreaService.MyBinder) binder).getService();
+	 * Log.e(TAG, "Connected to service"); }
+	 * 
+	 * @Override public void onServiceDisconnected(ComponentName name) {
+	 * areaService = null; }
+	 * 
+	 * };
+	 * 
+	 * void doBindService() { bindService(new Intent(mContext,
+	 * AreaService.class), mConnection, Context.BIND_AUTO_CREATE); }
+	 */
 
-		@Override
-		public void onServiceDisconnected(ComponentName name) {
-			areaService = null;
-		}
-
-	};
-
-	void doBindService() {
-		bindService(new Intent(mContext, AreaService.class), mConnection,
-				Context.BIND_AUTO_CREATE);
-	}*/
-	
-	
 	public Cursor getSharedCursor(int apiCode) {
-		switch(apiCode) {
+		switch (apiCode) {
 		case WORLD_SEARCH:
 			return wbCursor;
 		case IDS_SEARCH:
@@ -86,9 +78,9 @@ public class AreaApplication extends Application {
 			return null;
 		}
 	}
-	
+
 	public void setSharedCursor(int apiCode, Cursor cursor) {
-		switch(apiCode) {
+		switch (apiCode) {
 		case WORLD_SEARCH:
 			wbCursor = cursor;
 		case IDS_SEARCH:
@@ -111,22 +103,23 @@ public class AreaApplication extends Application {
 				.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 		final android.net.NetworkInfo mobile = connMgr
 				.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-		
-		// to fix the error getActivenetworkInfo is something null so it needs to be tested 
-		//http://stackoverflow.com/questions/2753412/android-internet-connectivity-check-problem
+
+		// to fix the error getActivenetworkInfo is something null so it needs
+		// to be tested
+		// http://stackoverflow.com/questions/2753412/android-internet-connectivity-check-problem
 		if (connMgr.getActiveNetworkInfo() == null)
 			return false;
-		
+
 		final boolean connected = (wifi != null && mobile != null
 				&& connMgr.getActiveNetworkInfo().isAvailable() && connMgr
 				.getActiveNetworkInfo().isConnected());
-		
+
 		if (connected)
 			return true;
 		else
 			return false;
 	}
-	
+
 	public static int getTableCode(String tableName) {
 		if (tableName.equals(INDICATOR))
 			return INDICATOR_LIST;
@@ -153,6 +146,6 @@ public class AreaApplication extends Application {
 		else if (tableName.equals(BING_SEARCH_RESULTS))
 			return BING_RESULT_DATA;
 		return -1;
-		}
+	}
 
 }

@@ -13,19 +13,19 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 public class ArtcileViewActivity extends BaseActivity {
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.article_view);
-		
+
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			// only for android newer than gingerbread
-			 ActionBar actionBar = getActionBar();
-			 actionBar.setDisplayHomeAsUpEnabled(true);
+			ActionBar actionBar = getActionBar();
+			actionBar.setDisplayHomeAsUpEnabled(true);
 		}
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -36,5 +36,5 @@ public class ArtcileViewActivity extends BaseActivity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
+
 }

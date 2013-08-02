@@ -29,10 +29,10 @@ public class HomeReportListFragment extends ListFragment implements
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
+
 		dialog = new ProgressDialog(getActivity());
-		dialog = ProgressDialog.show(getActivity(), "", 
-                "Loading. Please wait...", true);
+		dialog = ProgressDialog.show(getActivity(), "",
+				"Loading. Please wait...", true);
 		String[] from = { IDS_DOC_TITLE, IDS_DOC_AUTH_STR };
 		int[] to = { R.id.list_item_title, R.id.list_item_desc };
 		// tAdapter = new SimpleCursorAdapter(getActivity(),
@@ -45,7 +45,7 @@ public class HomeReportListFragment extends ListFragment implements
 
 		setEmptyText("No indicators found");
 		setListShown(false);
-		
+
 	}
 
 	@Override
@@ -90,7 +90,7 @@ public class HomeReportListFragment extends ListFragment implements
 		}
 		setEmptyText("No reports downloaded yet");
 		setListShown(true);
-		if(dialog.isShowing()){
+		if (dialog.isShowing()) {
 			dialog.dismiss();
 		}
 	}

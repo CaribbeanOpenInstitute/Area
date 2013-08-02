@@ -22,58 +22,66 @@ import org.apache.commons.codec.StringEncoder;
 
 /**
  * Encodes a string into a Caverphone value.
- *
- * This is an algorithm created by the Caversham Project at the University of Otago. It implements the Caverphone 2.0
- * algorithm:
- *
- * <p>This class is immutable and thread-safe.</p>
- *
+ * 
+ * This is an algorithm created by the Caversham Project at the University of
+ * Otago. It implements the Caverphone 2.0 algorithm:
+ * 
+ * <p>
+ * This class is immutable and thread-safe.
+ * </p>
+ * 
  * @version $Id: Caverphone.java 1075947 2011-03-01 17:56:14Z ggregory $
- * @see <a href="http://en.wikipedia.org/wiki/Caverphone">Wikipedia - Caverphone</a>
+ * @see <a href="http://en.wikipedia.org/wiki/Caverphone">Wikipedia -
+ *      Caverphone</a>
  * @since 1.5
  */
 public abstract class AbstractCaverphone implements StringEncoder {
 
-    /**
-     * Creates an instance of the Caverphone encoder
-     */
-    public AbstractCaverphone() {
-        super();
-    }
+	/**
+	 * Creates an instance of the Caverphone encoder
+	 */
+	public AbstractCaverphone() {
+		super();
+	}
 
-    /**
-     * Encodes an Object using the caverphone algorithm. This method is provided in order to satisfy the requirements of
-     * the Encoder interface, and will throw an EncoderException if the supplied object is not of type java.lang.String.
-     *
-     * @param source
-     *            Object to encode
-     * @return An object (or type java.lang.String) containing the caverphone code which corresponds to the String
-     *         supplied.
-     * @throws EncoderException
-     *             if the parameter supplied is not of type java.lang.String
-     */
-    @Override
-    public Object encode(Object source) throws EncoderException {
-        if (!(source instanceof String)) {
-            throw new EncoderException("Parameter supplied to Caverphone encode is not of type java.lang.String");
-        }
-        return this.encode((String) source);
-    }
+	/**
+	 * Encodes an Object using the caverphone algorithm. This method is provided
+	 * in order to satisfy the requirements of the Encoder interface, and will
+	 * throw an EncoderException if the supplied object is not of type
+	 * java.lang.String.
+	 * 
+	 * @param source
+	 *            Object to encode
+	 * @return An object (or type java.lang.String) containing the caverphone
+	 *         code which corresponds to the String supplied.
+	 * @throws EncoderException
+	 *             if the parameter supplied is not of type java.lang.String
+	 */
+	@Override
+	public Object encode(Object source) throws EncoderException {
+		if (!(source instanceof String)) {
+			throw new EncoderException(
+					"Parameter supplied to Caverphone encode is not of type java.lang.String");
+		}
+		return this.encode((String) source);
+	}
 
-    /**
-     * Tests if the encodings of two strings are equal.
-     *
-     * This method might be promoted to a new AbstractStringEncoder superclass.
-     *
-     * @param str1
-     *            First of two strings to compare
-     * @param str2
-     *            Second of two strings to compare
-     * @return {@code true} if the encodings of these strings are identical, {@code false} otherwise.
-     * @throws EncoderException
-     */
-    public boolean isEncodeEqual(String str1, String str2) throws EncoderException {
-        return this.encode(str1).equals(this.encode(str2));
-    }
+	/**
+	 * Tests if the encodings of two strings are equal.
+	 * 
+	 * This method might be promoted to a new AbstractStringEncoder superclass.
+	 * 
+	 * @param str1
+	 *            First of two strings to compare
+	 * @param str2
+	 *            Second of two strings to compare
+	 * @return {@code true} if the encodings of these strings are identical,
+	 *         {@code false} otherwise.
+	 * @throws EncoderException
+	 */
+	public boolean isEncodeEqual(String str1, String str2)
+			throws EncoderException {
+		return this.encode(str1).equals(this.encode(str2));
+	}
 
 }

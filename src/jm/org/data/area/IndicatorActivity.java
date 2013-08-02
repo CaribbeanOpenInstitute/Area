@@ -51,7 +51,7 @@ public class IndicatorActivity extends BaseActivity implements
 
 	public int dataSource;
 	private String indicatorID;
-	//private String indicatorName;
+	// private String indicatorName;
 	private ArrayList<String> countryList;
 	final String POSITION = "position";
 	private int mListPosition;
@@ -60,19 +60,19 @@ public class IndicatorActivity extends BaseActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			// only for android newer than gingerbread
-			 //ActionBar actionBar = getActionBar();
-			 //actionBar.setDisplayHomeAsUpEnabled(true);
+			// ActionBar actionBar = getActionBar();
+			// actionBar.setDisplayHomeAsUpEnabled(true);
 		}
 
 		final Bundle indicatorBundle = getIntent().getExtras();
-		if(indicatorBundle.getString(WB_INDICATOR_ID) != null) {
+		if (indicatorBundle.getString(WB_INDICATOR_ID) != null) {
 			indicatorID = indicatorBundle.getString(WB_INDICATOR_ID);
 			mListPosition = indicatorBundle.getInt(POSITION);
 		}
-		
+
 		setContentView(R.layout.indicator_dashboard);
 		dialog = new ProgressDialog(this);
 		mTabHost = (TabHost) findViewById(android.R.id.tabhost);
@@ -94,25 +94,26 @@ public class IndicatorActivity extends BaseActivity implements
 		if (savedInstanceState != null) {
 			mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
 		}
-		
-		//mListPosition = indicatorBundle.getInt(POSITION, -1);
-		/*if (mListPosition != -1) {
-			IndicatorListFragment inFragment = (IndicatorListFragment) getSupportFragmentManager().findFragmentById(R.id.inlistFragment); 
-			if (inFragment != null && inFragment.isInLayout()) { 
-				inFragment.setListSelection(mListPosition);
-			}
-		}*/
-		Log.d(TAG, String.format("Indicator ID: %s at position %d", indicatorID, mListPosition));
+
+		// mListPosition = indicatorBundle.getInt(POSITION, -1);
+		/*
+		 * if (mListPosition != -1) { IndicatorListFragment inFragment =
+		 * (IndicatorListFragment)
+		 * getSupportFragmentManager().findFragmentById(R.id.inlistFragment); if
+		 * (inFragment != null && inFragment.isInLayout()) {
+		 * inFragment.setListSelection(mListPosition); } }
+		 */
+		Log.d(TAG, String.format("Indicator ID: %s at position %d",
+				indicatorID, mListPosition));
 		countryList = new ArrayList<String>();
 		countryList.add("World");
-		
 
 	}
-	
+
 	@Override
 	protected void onPause() {
 		super.onPause();
-		
+
 	}
 
 	@Override
@@ -268,43 +269,47 @@ public class IndicatorActivity extends BaseActivity implements
 	public String getIndicator() {
 		return indicatorID;
 	}
-	
+
 	public void setIndicator(String indicator) {
 		indicatorID = indicator;
 		Log.d(TAG, "Indicator changed to " + indicator);
-		
+
 	}
-	
+
 	public int getPosition() {
 		return mListPosition;
 	}
 
 	public void setPosition(int lpos) {
 		mListPosition = lpos;
-    }
+	}
 
-	public void addCountry(String countryStr){
+	public void addCountry(String countryStr) {
 		countryList.add(countryStr);
 	}
-	
+
 	public String[] getCountryList() {
-		return (String[])countryList.toArray(new String[countryList.size()]);
+		return (String[]) countryList.toArray(new String[countryList.size()]);
 	}
-	
+
 	public ArrayList<String> getCountryListArray() {
 		return countryList;
 	}
-	
+
 	public void resetCountryList() {
 		countryList = new ArrayList<String>();
 		countryList.add("World");
-		
+
 	}
+
 	public void reloadData() {
-		//Solution sourced from: http://stackoverflow.com/a/7393477/498449
-		ChartsFragment chFragment = (ChartsFragment) getSupportFragmentManager().findFragmentByTag("android:switcher:"+R.id.viewpager+":0");
-		ReportsFragment reFragment = (ReportsFragment) getSupportFragmentManager().findFragmentByTag("android:switcher:"+R.id.viewpager+":1");
-		ArticlesFragment arFragment = (ArticlesFragment) getSupportFragmentManager().findFragmentByTag("android:switcher:"+R.id.viewpager+":2");
+		// Solution sourced from: http://stackoverflow.com/a/7393477/498449
+		ChartsFragment chFragment = (ChartsFragment) getSupportFragmentManager()
+				.findFragmentByTag("android:switcher:" + R.id.viewpager + ":0");
+		ReportsFragment reFragment = (ReportsFragment) getSupportFragmentManager()
+				.findFragmentByTag("android:switcher:" + R.id.viewpager + ":1");
+		ArticlesFragment arFragment = (ArticlesFragment) getSupportFragmentManager()
+				.findFragmentByTag("android:switcher:" + R.id.viewpager + ":2");
 		switch (mTabHost.getCurrentTab()) {
 		case 0:
 			Log.d(TAG, "Current tab is Charts");
@@ -323,8 +328,8 @@ public class IndicatorActivity extends BaseActivity implements
 			reFragment.reload();
 			break;
 		}
-		
-		//Log.d(TAG, "Current tab is " + mTabHost.getCurrentTab());
+
+		// Log.d(TAG, "Current tab is " + mTabHost.getCurrentTab());
 	}
 
 }

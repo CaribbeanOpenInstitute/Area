@@ -10,9 +10,10 @@ import android.widget.Toast;
 import android.widget.ViewAnimator;
 
 /**
- *  DESC: Called when the Area application is first created. Activity downloads initial indicator names
- *  		country listings, and other initial data  from the World Bank API 
- *  
+ * DESC: Called when the Area application is first created. Activity downloads
+ * initial indicator names country listings, and other initial data from the
+ * World Bank API
+ * 
  **/
 public class StartupActivity extends Activity {
 	private static final String TAG = StartupActivity.class.getSimpleName();
@@ -24,22 +25,23 @@ public class StartupActivity extends Activity {
 	private AreaApplication area;
 	private ViewAnimator loadingAnimator;
 
-	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.startupview);
-		loadingAnimator = (ViewAnimator)findViewById(R.id.startupSwitcher);	//Loading Animator
+		loadingAnimator = (ViewAnimator) findViewById(R.id.startupSwitcher); // Loading
+																				// Animator
 		area = (AreaApplication) getApplication();
 
-		if (!area.checkNetworkConnection()) {	//Check the Internet connection
+		if (!area.checkNetworkConnection()) { // Check the Internet connection
 			Log.e(TAG, "No Internet connectivity");
 			Toast.makeText(
 					StartupActivity.this,
 					"There was an error connecting to the Internet. Please check your connection and start the application again",
 					Toast.LENGTH_LONG).show();
 		} else {
-			if (!isRunning) 	//Check if initialization activity is already running
+			if (!isRunning) // Check if initialization activity is already
+							// running
 				new startupRequest().execute();
 		}
 	}
@@ -63,35 +65,38 @@ public class StartupActivity extends Activity {
 				area.areaData.updateCountries();
 
 				// to test generic search
-				//area.areaData.genericSearch(WORLD_SEARCH, "TX.VAL.AGRI.ZS.UN", new String[]{"Jamaica", "Kenya","Barbados", "World"});
+				// area.areaData.genericSearch(WORLD_SEARCH,
+				// "TX.VAL.AGRI.ZS.UN", new String[]{"Jamaica",
+				// "Kenya","Barbados", "World"});
 
 				return true;
-				
+
 			} catch (Exception e) {
 				Log.e(TAG, "Exception updating Area Data " + e.toString());
 				loadingAnimator.setDisplayedChild(1);
 			}
 			return false;
 		}
-		
+
 		@Override
 		protected void onPostExecute(Boolean initResult) {
 			super.onPostExecute(initResult);
-			
+
 			if (initResult) {
 				Log.e(TAG, "Correctly completed initialization");
 				area.initIsRunning = false;
 				setResult(RESULT_OK, new Intent());
-				
+
 				finish();
 			} else {
 				Log.e(TAG, "Failed initialization");
-				/*Toast.makeText(
-						StartupActivity.this,
-						"An error was encountered while completing application initilization. " +
-								"Please check your internet connection and start activity again.",
-								Toast.LENGTH_LONG).show();
-				*/
+				/*
+				 * Toast.makeText( StartupActivity.this,
+				 * "An error was encountered while completing application initilization. "
+				 * +
+				 * "Please check your internet connection and start activity again."
+				 * , Toast.LENGTH_LONG).show();
+				 */
 			}
 		}
 	}
