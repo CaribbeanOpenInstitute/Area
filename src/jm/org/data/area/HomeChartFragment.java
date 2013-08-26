@@ -1,8 +1,8 @@
 package jm.org.data.area;
 
-import static jm.org.data.area.AreaConstants.SEARCH_SUCCESS;
+import static android.provider.BaseColumns._ID;
 import static jm.org.data.area.AreaConstants.WORLD_SEARCH;
-import static jm.org.data.area.DBConstants.*;
+import static jm.org.data.area.DBConstants.I_ID;
 
 import java.util.Arrays;
 
@@ -12,7 +12,6 @@ import org.achartengine.chartdemo.demo.chart.AreaChart;
 import android.app.ProgressDialog;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -33,7 +32,7 @@ public class HomeChartFragment extends Fragment {
 	private String indicator;
 	private String[] countryList;
 	private AreaApplication area;
-	private int result = 0;
+	//private int result = 0;
 	private ProgressDialog dialog;
 
 	@Override
@@ -110,8 +109,8 @@ public class HomeChartFragment extends Fragment {
 		// layout.refreshDrawableState();
 		layout.removeAllViewsInLayout();
 		layout.setBackgroundColor(Color.BLUE);
-		layout.addView(chart, new LayoutParams(LayoutParams.FILL_PARENT,
-				LayoutParams.FILL_PARENT));/**/
+		layout.addView(chart, new LayoutParams(LayoutParams.MATCH_PARENT,
+				LayoutParams.MATCH_PARENT));/**/
 	}
 
 	private void displayError() {

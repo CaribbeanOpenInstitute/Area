@@ -3,20 +3,26 @@
 import static android.provider.BaseColumns._ID;
 import static jm.org.data.area.AreaConstants.BING_SEARCH_LIST;
 import static jm.org.data.area.AreaConstants.IDS_SEARCH_DOC_AUTH;
+import static jm.org.data.area.AreaConstants.IDS_SEARCH_DOC_URLS;
 import static jm.org.data.area.AreaConstants.IDS_SEARCH_LIST;
 import static jm.org.data.area.AreaConstants.SEARCH_FAIL;
+import static jm.org.data.area.AreaConstants.WB_CATEGORY_LIST;
 import static jm.org.data.area.AreaConstants.WB_COUNTRY_LIST;
 import static jm.org.data.area.AreaConstants.WB_DATA_LIST;
-import static jm.org.data.area.AreaConstants.*;
-import static jm.org.data.area.DBConstants.*;
+import static jm.org.data.area.AreaConstants.WB_IND_CATEGORY;
+import static jm.org.data.area.AreaConstants.WB_IND_LIST;
+import static jm.org.data.area.DBConstants.AP_ID;
+import static jm.org.data.area.DBConstants.BING_DATE_TIME;
 import static jm.org.data.area.DBConstants.BING_QUERY;
 import static jm.org.data.area.DBConstants.BING_SEARCH_RESULTS;
 import static jm.org.data.area.DBConstants.BING_SEARCH_TABLE;
 import static jm.org.data.area.DBConstants.B_S_ID;
+import static jm.org.data.area.DBConstants.CAT_ID;
 import static jm.org.data.area.DBConstants.COMBINATION;
 import static jm.org.data.area.DBConstants.COUNTRY;
 import static jm.org.data.area.DBConstants.C_ID;
 import static jm.org.data.area.DBConstants.FROM_BING_SEARCH_RESULTS;
+import static jm.org.data.area.DBConstants.FROM_CATEGORY;
 import static jm.org.data.area.DBConstants.FROM_COUNTRY;
 import static jm.org.data.area.DBConstants.FROM_IDS_SEARCH_RESULTS;
 import static jm.org.data.area.DBConstants.FROM_INDICATOR;
@@ -27,26 +33,33 @@ import static jm.org.data.area.DBConstants.IDS_OBJECT;
 import static jm.org.data.area.DBConstants.IDS_OPERAND;
 import static jm.org.data.area.DBConstants.IDS_PARAMETER;
 import static jm.org.data.area.DBConstants.IDS_PARAM_VALUE;
+import static jm.org.data.area.DBConstants.IDS_P_ID;
 import static jm.org.data.area.DBConstants.IDS_SEARCH_PARAMS;
 import static jm.org.data.area.DBConstants.IDS_SEARCH_RESULTS;
 import static jm.org.data.area.DBConstants.IDS_SEARCH_TABLE;
 import static jm.org.data.area.DBConstants.IDS_SITE;
 import static jm.org.data.area.DBConstants.IDS_S_ID;
+import static jm.org.data.area.DBConstants.IDS_TIMESTAMP;
+import static jm.org.data.area.DBConstants.IDS_VIEW_DATE;
 import static jm.org.data.area.DBConstants.INDICATOR;
+import static jm.org.data.area.DBConstants.IND_CATEGORIES;
 import static jm.org.data.area.DBConstants.I_ID;
 import static jm.org.data.area.DBConstants.P_ID;
 import static jm.org.data.area.DBConstants.QUERY_DATE;
+import static jm.org.data.area.DBConstants.QUERY_VIEW_DATE;
 import static jm.org.data.area.DBConstants.SC_ID;
 import static jm.org.data.area.DBConstants.SEARCH;
 import static jm.org.data.area.DBConstants.SEARCH_COUNTRY;
 import static jm.org.data.area.DBConstants.SEARCH_CREATED;
 import static jm.org.data.area.DBConstants.SEARCH_MODIFIED;
 import static jm.org.data.area.DBConstants.SEARCH_URI;
+import static jm.org.data.area.DBConstants.SEARCH_VIEWED;
 import static jm.org.data.area.DBConstants.S_ID;
+import static jm.org.data.area.DBConstants.WB_CATEGORY;
 import static jm.org.data.area.DBConstants.WB_COUNTRY_CODE;
 import static jm.org.data.area.DBConstants.WB_DATA;
 
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.regex.PatternSyntaxException;
@@ -66,9 +79,11 @@ public class JSONParse {
 	private static final String TAG = JSONParse.class.getSimpleName();
 	private AreaData areaData;
 	// private Context appContext;
-	private ContentValues apiRecord;
+	private ContentValues apiRecord, catRecord;
 	public SharedPreferences prefs;
 
+	private ArrayList<String> categories;
+	
 	public JSONParse(Context context) {
 		// appContext = context;
 		areaData = new AreaData(context);
@@ -169,7 +184,7 @@ public class JSONParse {
 				// {BING_SEARCH_ID, BING_QUERY, QUERY_DATE };
 				search_id = areaData.insert(BING_SEARCH_TABLE, apiRecord, 1);
 				Log.e(TAG, "Inserting BING Search record: query -" + params
-						+ "URI-" + uri);
+						+ " URI-" + uri);
 				if (search_id <= 0) {
 					Log.e(TAG, "Error inserting BING Search record: query -"
 							+ params + "URI-" + uri);
@@ -214,7 +229,8 @@ public class JSONParse {
 	public int parseIDSData(String jsonData, int indicator, String params,
 			String uri) {
 		Hashtable<String, String> ids_data = new Hashtable<String, String>();
-		long search_id = 0;
+		long search_id = 0, param_id = 0;
+		
 		JSONArray resultArray;
 		try {
 			JSONObject jsonObject = new JSONObject(jsonData);
@@ -238,6 +254,7 @@ public class JSONParse {
 				// String[] FROM_IDS_SEARCH= {IDS_SEARCH_ID, I_ID, IDS_BASE_URL,
 				// IDS_SITE, IDS_OBJECT};
 				search_id = areaData.insert(IDS_SEARCH_TABLE, apiRecord, 1);
+				
 				if (search_id > 0) {
 					// Log.e(TAG, "Num of Parameters:" + params.length);
 					// for(int n = 0; n < params.length; n++){
@@ -250,7 +267,7 @@ public class JSONParse {
 					apiRecord.put(COMBINATION, 0);
 					// FROM_IDS_SEARCH_PARAMS = {_ID, IDS_S_ID, IDS_PARAMETER,
 					// IDS_OPERAND, IDS_PARAM_VALUE, COMBINATION };
-					areaData.insert(IDS_SEARCH_PARAMS, apiRecord, 1);
+					param_id = areaData.insert(IDS_SEARCH_PARAMS, apiRecord, 1);
 					// FROM_IDS_SEARCH_PARAMS = {_ID, IDS_S_ID, IDS_PARAMETER,
 					// IDS_OPERAND, IDS_PARAM_VALUE, COMBINATION };
 					// }
@@ -276,9 +293,10 @@ public class JSONParse {
 
 				// add the IDS Search ID first
 				apiRecord.put(IDS_S_ID, search_id);
+				apiRecord.put(IDS_P_ID, param_id);
 
 				for (int a = 0; a < IDS_SEARCH_LIST.length; a++) {
-					apiRecord.put(FROM_IDS_SEARCH_RESULTS[a + 2],
+					apiRecord.put(FROM_IDS_SEARCH_RESULTS[a + 3],
 							(String) ids_data.get(IDS_SEARCH_LIST[a]));
 					// Log.d("Indicators", ""+ FROM_IDS_SEARCH_RESULTS[a+2] +
 					// ":-> " + (String)ids_data.get(IDS_SEARCH_LIST[a]));
@@ -299,7 +317,7 @@ public class JSONParse {
 			String uri) {
 
 		Hashtable<String, String> wb_data = new Hashtable<String, String>();
-		long search_id = 0, query_s_id = 0, country_search_id = -1;
+		long search_id = 0,  country_search_id = -1;
 		int search_country_id = 0;
 		try {
 
@@ -324,7 +342,7 @@ public class JSONParse {
 				// FROM_SEARCH = {SEARCH_ID, I_ID, AP_ID, SEARCH_CREATED,
 				// SEARCH_MODIFIED, SEARCH_URI};
 				search_id = areaData.insert(SEARCH, apiRecord, 1);
-				Cursor query_s = areaData.rawQuery(SEARCH, "*", "" + I_ID
+				Cursor query_s = areaData.rawQuery(SEARCH, null, "" + I_ID
 						+ " = '" + indicator + "'");
 				// Then get SearchCountry ID from corresponding table now that
 				// we have both S_ID and C_ID
@@ -370,7 +388,7 @@ public class JSONParse {
 				// get Country ID from Country table based on the Country code
 				Cursor countryData = areaData.rawQuery(
 						COUNTRY,
-						"*",
+						null,
 						"" + WB_COUNTRY_CODE + " = '"
 								+ (String) wb_data.get("country: id") + "'");
 				// Then get SearchCountry ID from corresponding table now that
@@ -378,7 +396,7 @@ public class JSONParse {
 				countryData.moveToFirst();
 				Cursor SearchCountry = areaData.rawQuery(
 						SEARCH_COUNTRY,
-						"*",
+						null,
 						""
 								+ C_ID
 								+ " = '"
@@ -456,14 +474,33 @@ public class JSONParse {
 				apiRecord = new ContentValues();
 				indicator_data = parseJSON(indicator_data,
 						jsonArray.getJSONObject(i), "");
+				
+				
+				
 				for (int a = 0; a < WB_IND_LIST.length; a++) {
 					apiRecord.put(FROM_INDICATOR[a + 1],
 							(String) indicator_data.get(WB_IND_LIST[a]));
-					// Log.d("Indicators", ""+FROM_INDICATOR[a+1] + ":-> " +
-					// (String)indicator_data.get(WB_IND_LIST[a]));
+					 Log.d("Indicators", ""+FROM_INDICATOR[a+1] + ":-> " +
+					 (String)indicator_data.get(WB_IND_LIST[a]));
 				}
-				Log.d(TAG, indicator_data.toString());
-				areaData.insert(INDICATOR, apiRecord, 0);
+				//Log.d(TAG, indicator_data.toString());
+				Long ind_id = areaData.insert(INDICATOR, apiRecord, 0);
+				
+				// Update Indicator Categories
+				
+				if(!categories.isEmpty()){
+					for(int foo = 0; foo < categories.size(); foo++){
+						catRecord = new ContentValues();
+						if(categories.get(foo) == null){
+							catRecord.put(CAT_ID, 0);
+						}else{
+							catRecord.put(CAT_ID, categories.get(foo));
+						}
+						
+						catRecord.put(I_ID, ind_id);
+						areaData.insert(IND_CATEGORIES, catRecord, 0);
+					}
+				}
 			}
 
 		} catch (Exception e) {
@@ -474,6 +511,48 @@ public class JSONParse {
 		return jsonText.toString();
 	}
 
+	public String parseCategories(String jsonData) {
+
+		Hashtable<String, String> category_data = new Hashtable<String, String>();
+
+		StringBuilder jsonText = new StringBuilder();
+		try {
+
+			JSONArray jsonArray = new JSONArray(jsonData);
+			JSONObject jsonObject = jsonArray.getJSONObject(0);
+
+			int numReturned = Integer
+					.parseInt(jsonObject.getString("per_page"));
+			int numofObjects = Integer.parseInt(jsonObject.getString("total"));
+
+			if (numofObjects > 0) {
+				jsonArray = jsonArray.getJSONArray(1);
+			} else {
+				// no data returned from World bank API pull
+			}
+			// get Data returned from the world bank
+			for (int i = 0; i < numReturned; i++) {
+				apiRecord = new ContentValues();
+				category_data = parseJSON(category_data,
+						jsonArray.getJSONObject(i), "");
+				for (int a = 0; a < WB_CATEGORY_LIST.length; a++) {
+					apiRecord.put(FROM_CATEGORY[a + 1],
+							(String) category_data.get(WB_CATEGORY_LIST[a]));
+					Log.d("Catergories", ""+FROM_CATEGORY[a+1] + ":-> " +
+					 (String)category_data.get(WB_CATEGORY_LIST[a]));
+				}
+				//Log.d(TAG, category_data.toString());
+				areaData.insert(WB_CATEGORY, apiRecord, 0);
+			}
+
+		} catch (Exception e) {
+			// e.printStackTrace();
+			Log.e(TAG, e.toString());
+		}
+
+		return jsonText.toString();
+	}
+	
 	// implemented on the basis that parseIndicators is working
 	public int parseCountries(String jsonData) {
 
@@ -508,7 +587,7 @@ public class JSONParse {
 					// Log.d("Countries", ""+FROM_COUNTRY[a+1] + ":-> " +
 					// (String)country_data.get(WB_COUNTRY_LIST[a]));
 				}
-				Log.d(TAG, country_data.toString());
+				//Log.d(TAG, country_data.toString());
 				areaData.insert(COUNTRY, apiRecord, 0);
 			}
 
@@ -524,6 +603,7 @@ public class JSONParse {
 	private Hashtable<String, String> parseJSON(Hashtable<String, String> data,
 			JSONObject jsonInnerObject, String base) {
 		String key, value;
+		int length;
 		if (!base.equals("")) {
 			base = base + ": ";
 		}
@@ -534,9 +614,20 @@ public class JSONParse {
 
 			for (int x = 0; x < names.length(); x++) {
 
-				if (jsonInnerObject.optJSONObject(names.getString(x)) == null) {
+				if (jsonInnerObject.optJSONObject(names.getString(x)) == null && jsonInnerObject.optJSONArray(names.getString(x))==null) {
+					
 					key = "" + base + "" + names.getString(x);
 					value = jsonInnerObject.getString(names.getString(x));
+					// add normal key value pairs to hashtable
+					data.put(key, value);
+					//Log.d(TAG, "" + key + " :-> " + value);
+
+				} else if(jsonInnerObject.optJSONArray(names.getString(x)) != null)  {
+					
+					length = jsonInnerObject.getJSONArray(names.getString(x)).length();
+					
+					key = "" + base + "" + names.getString(x);
+					// if the array is for document authors or Urls create a csv list
 					if (key.equals(IDS_SEARCH_DOC_AUTH)
 							|| key.equals(IDS_SEARCH_DOC_URLS)) {
 						value = "";
@@ -551,15 +642,30 @@ public class JSONParse {
 						}
 
 						Log.e(TAG, "Values String " + value);
+						data.put(key, value);
+					}else if(key.equals(WB_IND_CATEGORY)){
+						Log.e(TAG, "Topics " + jsonInnerObject.getJSONArray(names.getString(x)).toString());
+						categories = new ArrayList<String>();
+						for (int a = 0; a < length; a++) {
+							
+							categories.add(jsonInnerObject.getJSONArray(names.getString(x)).getJSONObject(a).getString("id"));
+							
+							Log.e(TAG, "Adding Category ID: " + 
+									jsonInnerObject.getJSONArray(names.getString(x)).getJSONObject(a).getString("id"));
+						}
+						
+						Log.e(TAG, "Categories " + categories.toString());
+					}else{
+						// if not authors or URLs then get key value pairs from array
+						for (int a = 0; a < length; a++) {
+							
+							data = parseJSON(data,
+									jsonInnerObject.getJSONArray(names.getString(x)).getJSONObject(a),
+									"" + names.getString(x));
+						}
 					}
-					data.put(key, value);
-
-				} else {
-					// jsonText.append("\n" + names.getString(x) + ": ");
-					// jsonText.append("\n\t"
-					// +jsonInnerObject.optJSONObject(names.getString(x)).toString());
-					// data.put(names.getString(x) ,
-					// jsonInnerObject.optJSONObject(names.getString(x)).toString());
+						
+				}else{
 					data = parseJSON(data,
 							jsonInnerObject.optJSONObject(names.getString(x)),
 							names.getString(x));
@@ -575,7 +681,7 @@ public class JSONParse {
 
 	public long timeStamp() {
 		Calendar calendar = Calendar.getInstance();
-		SimpleDateFormat format = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
+		//SimpleDateFormat format = new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
 
 		// return format.format(calendar.getTime());
 		return calendar.getTime().getTime();

@@ -1,6 +1,5 @@
 package jm.org.data.area;
 
-import static jm.org.data.area.AreaConstants.WORLD_SEARCH;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -61,6 +60,9 @@ public class StartupActivity extends Activity {
 				area.areaData.updatePeriod();
 
 				// Error when debugging needs to be tested
+				area.areaData.updateDataTypes();
+				area.areaData.updateSelections();
+				area.areaData.updateCategories();
 				area.areaData.updateIndicators();
 				area.areaData.updateCountries();
 

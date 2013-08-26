@@ -1,8 +1,7 @@
 package jm.org.data.area;
 
-import static jm.org.data.area.DBConstants.*;
-
-import android.content.Context;
+import static jm.org.data.area.DBConstants.INDICATOR_NAME;
+import static jm.org.data.area.DBConstants.WB_INDICATOR_ID;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -18,11 +17,10 @@ public class IndicatorListFragment extends ListFragment implements
 	public static final String TAG = IndicatorListFragment.class
 			.getSimpleName();
 	private final String POSITION = "position";
-	private int listPosition;
+	//private int listPosition;
 	IndicatorActivity act;
 	HomeActivity hAct;
 
-	// SimpleCursorAdapter mAdapter;
 	AreaCursorAdapter myAdapter;
 
 	@Override
@@ -99,7 +97,7 @@ public class IndicatorListFragment extends ListFragment implements
 			act.setIndicator(item);
 			act.setPosition(position);
 			myAdapter.setSelectedPosition(position, getListView());
-			listPosition = position;
+			//listPosition = position;
 		}
 
 		// Already in indicator activity
@@ -144,7 +142,7 @@ public class IndicatorListFragment extends ListFragment implements
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> arg0) {
-		myAdapter.swapCursor(null);
+		//myAdapter.swapCursor(null);
 	}
 
 	public void setListSelection(int position) {
@@ -155,7 +153,7 @@ public class IndicatorListFragment extends ListFragment implements
 		getLoaderManager().restartLoader(0, null, this);
 	}
 
-	private void setListviewSelection(final ListView list, final int pos) {
+	/*private void setListviewSelection(final ListView list, final int pos) {
 		list.post(new Runnable() {
 			@Override
 			public void run() {
@@ -166,5 +164,29 @@ public class IndicatorListFragment extends ListFragment implements
 				}
 			}
 		});
-	}
+	}*/
+	
+	@Override
+	public void onStop() {
+	    try {
+	      super.onStop();
+
+	      if (this.myAdapter !=null){
+	        this.myAdapter.getCursor().close();
+	        this.myAdapter = null;
+	      }
+	      
+	      this.getLoaderManager().destroyLoader(0);
+	      
+	      /*if (this.mActivityListCursorObj != null) {
+	        this.mActivityListCursorObj.close();
+	      }*/
+
+	      super.onStop();
+	    } catch (Exception error) {
+	    	Log.d(TAG, "Error in stopping Adapter");
+	    	
+	    }// end try/catch (Exception error)
+	  }// end onStop
+
 }

@@ -66,6 +66,9 @@
             android:name=".ReportDetailViewActivity"
             android:screenOrientation="sensorLandscape" />
         <activity
+            android:name=".ExpandableList2"
+            android:screenOrientation="sensorLandscape" />
+        <activity
             android:name=".ReportWebViewActivity"
             android:screenOrientation="sensorLandscape" />
 
@@ -76,9 +79,9 @@
         <provider 
             android:name=".AreaProvider"
             android:authorities="jm.org.data.area.AreaProvider"
-            android:multiprocess="true">
+            android:multiprocess="true" />
             
-        </provider>
+        
 
         <!-- android:process=":AreaService" -->
 

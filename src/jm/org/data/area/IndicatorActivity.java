@@ -18,13 +18,15 @@
 package jm.org.data.area;
 
 import static jm.org.data.area.AreaConstants.ADD_KEY;
+import static jm.org.data.area.AreaConstants.CHILD_POSITION;
+import static jm.org.data.area.AreaConstants.GROUP_POSITION;
 import static jm.org.data.area.AreaConstants.REMOVE_KEY;
+import static jm.org.data.area.DBConstants.SELECTION_ID;
+import static jm.org.data.area.DBConstants.SELECTION_NAME;
 import static jm.org.data.area.DBConstants.WB_INDICATOR_ID;
 
 import java.util.ArrayList;
 
-import android.app.ActionBar;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -50,12 +52,12 @@ public class IndicatorActivity extends BaseActivity implements
 	TabsAdapter mTabsAdapter;
 
 	public int dataSource;
-	private String indicatorID;
+	private String indicatorID, selection;
 	// private String indicatorName;
 	private ArrayList<String> countryList;
-	final String POSITION = "position";
-	private int mListPosition;
-	private ProgressDialog dialog;
+	
+	private int mListPosition, mChildPosition, mGroupPosition, mSelection;
+	//private ProgressDialog dialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,12 +71,21 @@ public class IndicatorActivity extends BaseActivity implements
 
 		final Bundle indicatorBundle = getIntent().getExtras();
 		if (indicatorBundle.getString(WB_INDICATOR_ID) != null) {
+			
 			indicatorID = indicatorBundle.getString(WB_INDICATOR_ID);
-			mListPosition = indicatorBundle.getInt(POSITION);
+			mGroupPosition = indicatorBundle.getInt(GROUP_POSITION);
+			mChildPosition = indicatorBundle.getInt(CHILD_POSITION);
+			mSelection = indicatorBundle.getInt(SELECTION_ID  );
+			selection  = indicatorBundle.getString(SELECTION_NAME);
+			
+		}else if(indicatorBundle.getString(SELECTION_NAME) != null){
+			
+			mSelection = indicatorBundle.getInt(SELECTION_ID  );
+			selection  = indicatorBundle.getString(SELECTION_NAME);
 		}
 
 		setContentView(R.layout.indicator_dashboard);
-		dialog = new ProgressDialog(this);
+		//dialog = new ProgressDialog(this);
 		mTabHost = (TabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup();
 
@@ -104,7 +115,7 @@ public class IndicatorActivity extends BaseActivity implements
 		 * inFragment.setListSelection(mListPosition); } }
 		 */
 		Log.d(TAG, String.format("Indicator ID: %s at position %d",
-				indicatorID, mListPosition));
+				indicatorID, mChildPosition));
 		countryList = new ArrayList<String>();
 		countryList.add("World");
 
@@ -120,8 +131,11 @@ public class IndicatorActivity extends BaseActivity implements
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater menuInflater = getMenuInflater();
 		menuInflater.inflate(R.menu.main, menu);
+		Log.d(TAG, "OnCreateOptionsMenu");
 		return super.onCreateOptionsMenu(menu);
 	}
+	
+	
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -161,12 +175,12 @@ public class IndicatorActivity extends BaseActivity implements
 		private final ArrayList<TabInfo> mTabs = new ArrayList<TabInfo>();
 
 		static final class TabInfo {
-			private final String tag;
+			//private final String tag;
 			private final Class<?> clss;
 			private final Bundle args;
 
 			TabInfo(String _tag, Class<?> _class, Bundle _args) {
-				tag = _tag;
+				//tag = _tag;
 				clss = _class;
 				args = _args;
 			}
@@ -197,6 +211,7 @@ public class IndicatorActivity extends BaseActivity implements
 			mTabHost.setOnTabChangedListener(this);
 			mViewPager.setAdapter(this);
 			mViewPager.setOnPageChangeListener(this);
+			
 		}
 
 		public void addTab(TabHost.TabSpec tabSpec, Class<?> clss, Bundle args) {
@@ -223,13 +238,10 @@ public class IndicatorActivity extends BaseActivity implements
 
 		@Override
 		public void onTabChanged(String tabId) {
+			Log.d(TAG, "TabChanged");
 			int position = mTabHost.getCurrentTab();
 			mViewPager.setCurrentItem(position);
-		}
-
-		@Override
-		public void onPageScrolled(int position, float positionOffset,
-				int positionOffsetPixels) {
+			
 		}
 
 		@Override
@@ -239,6 +251,7 @@ public class IndicatorActivity extends BaseActivity implements
 			// The jerk.
 			// This hack tries to prevent this from pulling focus out of our
 			// ViewPager.
+			Log.d(TAG, "onPageSelected");
 			TabWidget widget = mTabHost.getTabWidget();
 			int oldFocusability = widget.getDescendantFocusability();
 			widget.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
@@ -247,11 +260,27 @@ public class IndicatorActivity extends BaseActivity implements
 		}
 
 		@Override
-		public void onPageScrollStateChanged(int state) {
+		public void onPageScrollStateChanged(int arg0) {
+			// TODO Auto-generated method stub
+			
 		}
+
+		@Override
+		public void onPageScrolled(int position, float positionOffSet, int arg2) {
+			
+			//Log.d(TAG, "onPageScrolled");
+			
+			
+			
+		}
+
+		/*@Override
+		public void onPageScrollStateChanged(int state) {
+			
+		}*/
 	}
 
-	@Override
+	
 	public void onCountryChange(int change, String keyword) {
 		switch (change) {
 		case ADD_KEY:
@@ -275,13 +304,44 @@ public class IndicatorActivity extends BaseActivity implements
 		Log.d(TAG, "Indicator changed to " + indicator);
 
 	}
+	
+	public String getSelection() {
+		return selection;
+	}
 
+	public void setSelection(String indicator) {
+		selection = indicator;
+		Log.d(TAG, "Selection changed to " + selection);
+
+	}
+
+	public int getSelectionID(){
+		return mSelection;
+	}
+	
 	public int getPosition() {
 		return mListPosition;
 	}
+	
+	public int getGroupPosition() {
+		return mGroupPosition;
+	}
+	
+	public int getChildPosition() {
+		return mChildPosition;
+	}
 
-	public void setPosition(int lpos) {
-		mListPosition = lpos;
+	public void setPosition(int gPos, int cPos) {
+		mGroupPosition = gPos;
+		mChildPosition = cPos;
+	}
+	
+	public void setPosition(int lPos) {
+		mListPosition = lPos;
+	}
+	
+	public void setSelection(int lPos) {
+		mSelection = lPos;
 	}
 
 	public void addCountry(String countryStr) {

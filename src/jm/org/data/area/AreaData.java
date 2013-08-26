@@ -5,8 +5,10 @@ import static jm.org.data.area.AreaConstants.API_LIST;
 import static jm.org.data.area.AreaConstants.BING_RESULT_DATA;
 import static jm.org.data.area.AreaConstants.BING_SEARCH;
 import static jm.org.data.area.AreaConstants.BING_SEARCH_DATA;
+import static jm.org.data.area.AreaConstants.CATEGORY_LIST;
 import static jm.org.data.area.AreaConstants.COUNTRY_LIST;
 import static jm.org.data.area.AreaConstants.COUNTRY_SEARCH_DATA;
+import static jm.org.data.area.AreaConstants.DATA_TYPES_LIST;
 import static jm.org.data.area.AreaConstants.FATAL_ERROR;
 import static jm.org.data.area.AreaConstants.IDS_PARAM_DATA;
 import static jm.org.data.area.AreaConstants.IDS_RESULT_DATA;
@@ -14,27 +16,79 @@ import static jm.org.data.area.AreaConstants.IDS_SEARCH;
 import static jm.org.data.area.AreaConstants.IDS_SEARCH_DATA;
 import static jm.org.data.area.AreaConstants.INDICATOR_KEYWORDS;
 import static jm.org.data.area.AreaConstants.INDICATOR_LIST;
+import static jm.org.data.area.AreaConstants.IND_CATEGORIES_DATA;
 import static jm.org.data.area.AreaConstants.PERIOD_LIST;
 import static jm.org.data.area.AreaConstants.RETURN_CNTRY_IDs;
 import static jm.org.data.area.AreaConstants.RETURN_COUNTRIES;
 import static jm.org.data.area.AreaConstants.RETURN_DATE;
 import static jm.org.data.area.AreaConstants.RETURN_IND_ID;
-import static jm.org.data.area.AreaConstants.RETURN_KEYWORDS;
 import static jm.org.data.area.AreaConstants.RETURN_STRING;
 import static jm.org.data.area.AreaConstants.RETURN_VALUE;
 import static jm.org.data.area.AreaConstants.RETURN_WB_IND_ID;
 import static jm.org.data.area.AreaConstants.SEARCH_API_NONE;
-import static jm.org.data.area.AreaConstants.SEARCH_API_SOME;
 import static jm.org.data.area.AreaConstants.SEARCH_DATA;
 import static jm.org.data.area.AreaConstants.SEARCH_FAIL;
 import static jm.org.data.area.AreaConstants.SEARCH_SUCCESS;
+import static jm.org.data.area.AreaConstants.SELECTIONS_DATA;
 import static jm.org.data.area.AreaConstants.WB_SEARCH_DATA;
 import static jm.org.data.area.AreaConstants.WORLD_SEARCH;
-import static jm.org.data.area.DBConstants.*;
-import jm.org.data.area.AreaDB;
+import static jm.org.data.area.DBConstants.API;
+import static jm.org.data.area.DBConstants.API_DESC;
+import static jm.org.data.area.DBConstants.API_NAME;
+import static jm.org.data.area.DBConstants.AP_ID;
+import static jm.org.data.area.DBConstants.AREA_SELECTIONS;
+import static jm.org.data.area.DBConstants.BASE_URI;
+import static jm.org.data.area.DBConstants.BING_QUERY;
+import static jm.org.data.area.DBConstants.BING_SEARCH_ID;
+import static jm.org.data.area.DBConstants.BING_SEARCH_RESULTS;
+import static jm.org.data.area.DBConstants.BING_SEARCH_TABLE;
+import static jm.org.data.area.DBConstants.BING_URL;
+import static jm.org.data.area.DBConstants.B_S_ID;
+import static jm.org.data.area.DBConstants.CAT_ID;
+import static jm.org.data.area.DBConstants.COUNTRY;
+import static jm.org.data.area.DBConstants.COUNTRY_ID;
+import static jm.org.data.area.DBConstants.COUNTRY_NAME;
+import static jm.org.data.area.DBConstants.C_ID;
+import static jm.org.data.area.DBConstants.DATA_TYPES;
+import static jm.org.data.area.DBConstants.DATA_TYPE_DESC;
+import static jm.org.data.area.DBConstants.DATA_TYPE_NAME;
+import static jm.org.data.area.DBConstants.IDS_DOC_ID;
+import static jm.org.data.area.DBConstants.IDS_PARAMETER;
+import static jm.org.data.area.DBConstants.IDS_PARAM_VALUE;
+import static jm.org.data.area.DBConstants.IDS_P_ID;
+import static jm.org.data.area.DBConstants.IDS_SEARCH_ID;
+import static jm.org.data.area.DBConstants.IDS_SEARCH_PARAMS;
+import static jm.org.data.area.DBConstants.IDS_SEARCH_RESULTS;
+import static jm.org.data.area.DBConstants.IDS_SEARCH_TABLE;
+import static jm.org.data.area.DBConstants.IDS_S_ID;
+import static jm.org.data.area.DBConstants.IDS_VIEW_DATE;
+import static jm.org.data.area.DBConstants.INDICATOR;
+import static jm.org.data.area.DBConstants.INDICATOR_ID;
+import static jm.org.data.area.DBConstants.INDICATOR_NAME;
+import static jm.org.data.area.DBConstants.IND_CATEGORIES;
+import static jm.org.data.area.DBConstants.IND_DATE;
+import static jm.org.data.area.DBConstants.IND_VALUE;
+import static jm.org.data.area.DBConstants.I_ID;
+import static jm.org.data.area.DBConstants.PERIOD;
+import static jm.org.data.area.DBConstants.PERIOD_NAME;
+import static jm.org.data.area.DBConstants.P_END_DATE;
+import static jm.org.data.area.DBConstants.P_START_DATE;
+import static jm.org.data.area.DBConstants.QUERY_DATE;
+import static jm.org.data.area.DBConstants.QUERY_VIEW_DATE;
+import static jm.org.data.area.DBConstants.SC_ID;
+import static jm.org.data.area.DBConstants.SEARCH;
+import static jm.org.data.area.DBConstants.SEARCH_COUNTRY;
+import static jm.org.data.area.DBConstants.SEARCH_VIEWED;
+import static jm.org.data.area.DBConstants.SELECTION_DESC;
+import static jm.org.data.area.DBConstants.SELECTION_ID;
+import static jm.org.data.area.DBConstants.SELECTION_NAME;
+import static jm.org.data.area.DBConstants.S_ID;
+import static jm.org.data.area.DBConstants.WB_CATEGORY;
+import static jm.org.data.area.DBConstants.WB_CATEGORY_ID;
+import static jm.org.data.area.DBConstants.WB_COUNTRY_ID;
+import static jm.org.data.area.DBConstants.WB_DATA;
+import static jm.org.data.area.DBConstants.WB_INDICATOR_ID;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -44,12 +98,9 @@ import java.util.Hashtable;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Context; 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -60,21 +111,37 @@ public class AreaData {
 
 	private static final String TAG = AreaData.class.getSimpleName();
 	//private int currentApiVersion = android.os.Build.VERSION.SDK_INT;
-	ContentValues values;
-	Context context;
-	AreaDB dbHelper;
-	JSONParse parser;
-	APIPull dataService;
+	
+	private ContentValues values;
+	private Context context;
+	//AreaDB dbHelper;
+	public ContentResolver areaResolver;
+	
+	public JSONParse parser;
+	public APIPull dataService;
+	
 	private ContentValues apiRecord;
-	ArrayList<String> countries_to_get;
-	ArrayList<Integer> countryIDs;
-	String[] keyWords;
+	
+	private ArrayList<String> countries_to_get;
+	private ArrayList<Integer> countryIDs;
+	private String[] keyWords;
+	
+	private Uri providerUri;
+	
 	public SharedPreferences prefs;
-
+	
+	private int tableCode ;
+	private long recordid ;
+	
+	private Cursor cursorCountry= null, retCursor = null;
+	
+	
+	
 	public AreaData(Context context){
 		Log.e(TAG, "Initialize Area Data");
 		this.context = context;
-		dbHelper = new AreaDB(context);
+		//dbHelper = new AreaDB(context);
+		areaResolver = context.getContentResolver();
 		dataService = new APIPull();
 		prefs = PreferenceManager.getDefaultSharedPreferences(context);
 	}
@@ -120,12 +187,95 @@ public class AreaData {
 		insert(PERIOD, values,0);
 
 	}
+	
+	public void updateDataTypes(){
+		
+		Log.e(TAG, "Updating Data Types Values");
+			
+		values = new  ContentValues();
+				values.put(DATA_TYPE_NAME, "Charts");
+		values.put(DATA_TYPE_DESC, "Charts generated by the application based" +
+				" on the values of indicators for various countries over a period of time");
+		insert(DATA_TYPES, values,0);
+
+		values = new  ContentValues();
+		values.put(DATA_TYPE_NAME, "Reports");
+		values.put(DATA_TYPE_DESC, "Reports are academic works pulled from the IDS document API");
+		insert(DATA_TYPES, values,0);
+		
+		values = new  ContentValues();
+		values.put(DATA_TYPE_NAME, "Articles");
+		values.put(DATA_TYPE_DESC, "Articles pulled from the web related to the users searches or particular indicators");
+		insert(DATA_TYPES, values,0);
+
+	}
+	
+	public void updateSelections(){
+		Log.e(TAG, "Updating User Selections");
+		
+		values = new  ContentValues();
+		values.put(SELECTION_NAME, "Indicators");
+		values.put(SELECTION_DESC, "Indicators listed by categories pulled" +
+				" from the systems Indicator data source. See Data source Listing");
+		insert(AREA_SELECTIONS, values,0);
+
+		values = new  ContentValues();
+		values.put(SELECTION_NAME, "Country Profiles");
+		values.put(SELECTION_DESC, "Full Country Profiles displaying the Economic status of and Major Economic Indicators");
+		insert(AREA_SELECTIONS, values,0);
+		
+		values = new  ContentValues();
+		values.put(SELECTION_NAME, "Collections");
+		values.put(SELECTION_DESC, "Collections contain Saved Data that " +
+				"has been grouped together around a users chosen theme or other preferences");
+		insert(AREA_SELECTIONS, values,0);
+		
+		values = new  ContentValues();
+		values.put(SELECTION_NAME, "Saved Items");
+		values.put(SELECTION_DESC, "Saved Items allow users to save and review Charts," +
+				" Articles and Reports Sharing or Viewing at their leasure");
+		insert(AREA_SELECTIONS, values,0);
+	}
+	
+	public void updateCategories(){
+		Log.e(TAG, "Updating Categories");
+		// pull data and put in database
+		parser = new JSONParse(context);
+		// error right here
+		int numOfCategories = parser.getWBTotal(dataService.HTTPRequest(0,
+				"http://api.worldbank.org/topic?per_page=1&format=json"));
+		if(numOfCategories == 0 ){
+			// error in parsing JSON data
+			Log.e(TAG, "Error In Parsing JSON data");
+		}else{ 
+			parser.parseCategories(dataService.HTTPRequest(0,
+					"http://api.worldbank.org/topic?per_page="+ numOfCategories +"&format=json"));
+		}
+	}
 
 	public void updateIndicators(){
 		Log.e(TAG, "Updating Indicators");
 		// pull data and put in database
 		parser = new JSONParse(context);
-		// error right here
+		/*
+		Cursor result= //dbHelper.rawQuery(INDICATOR, null, "");
+				rawQuery(WB_CATEGORY, new String[]{CATEGORY_ID}, "");
+		// get indicators for each category
+		Log.e(TAG, "CATEGORIES: " + result.getCount());
+		while(result.moveToNext()){
+			int topic = result.getInt(result.getColumnIndex(CATEGORY_ID));
+			
+			int numOfIndicators = parser.getWBTotal(dataService.HTTPRequest(0,
+					"http://api.worldbank.org/topic/" + topic+ "/Indicator?per_page=1&format=json"));
+			if(numOfIndicators == 0 ){
+				// error in parsing JSON data
+				Log.e(TAG, "Error In Parsing JSON data");
+			}else{ 
+				parser.parseIndicators(dataService.HTTPRequest(0,
+						"http://api.worldbank.org/topic/" + topic+ "/Indicator?per_page="+ numOfIndicators +"&format=json"));
+			}
+		}*/
+		
 		int numOfIndicators = parser.getWBTotal(dataService.HTTPRequest(0,
 				"http://api.worldbank.org/topic/1/Indicator?per_page=1&format=json"));
 		if(numOfIndicators == 0 ){
@@ -135,6 +285,7 @@ public class AreaData {
 			parser.parseIndicators(dataService.HTTPRequest(0,
 					"http://api.worldbank.org/topic/1/Indicator?per_page="+ numOfIndicators +"&format=json"));
 		}
+		
 	}
 
 	public void updateCountries(){
@@ -166,12 +317,11 @@ public class AreaData {
 	* @param tableRecord Name-value pairs
 	*/
 	synchronized public long insert(String tableName, ContentValues tableRecord, int update) {
-		Log.e(TAG, "Inserting/Updating Data in DB");
-		SQLiteDatabase db = dbHelper.getWritableDatabase();
-		ContentResolver cr = context.getContentResolver();
-		Uri uri = Uri.parse(AreaProvider.AUTHORITY+"/"+tableName);
-		int tableCode = AreaApplication.getTableCode(tableName);
-		long recordid = 0;
+		Log.i(TAG, "Inserting/Updating Data in DB for Table :" + tableName);
+		//SQLiteDatabase db = dbHelper.getWritableDatabase();
+		providerUri = Uri.parse(AreaProvider.AUTHORITY+"/"+tableName);		
+		tableCode = AreaApplication.getTableCode(tableName);
+		recordid = 0;
 		String tableKey = "";
 		String tableKeyAdd = "";
 		Cursor cursor = null;
@@ -183,6 +333,9 @@ public class AreaData {
 				break;
 			case COUNTRY_LIST:
 				tableKey = WB_COUNTRY_ID;
+				break;
+			case CATEGORY_LIST:
+				tableKey = WB_CATEGORY_ID;
 				break;
 			case API_LIST:
 				tableKey = API_NAME;
@@ -218,17 +371,29 @@ public class AreaData {
 			case BING_RESULT_DATA:
 				tableKey = BING_URL;
 				break;
+			case IND_CATEGORIES_DATA:
+				tableKey = CAT_ID;
+				tableKeyAdd = I_ID;
+				break;
+			case SELECTIONS_DATA:
+				tableKey = SELECTION_NAME;
+				break;
+			case DATA_TYPES_LIST:
+				tableKey = 	DATA_TYPE_NAME;
+				break;
+				
 		}
 		try{
-			//Duplicate Check
-			if (tableCode == COUNTRY_SEARCH_DATA || tableCode == WB_SEARCH_DATA || tableCode == SEARCH_DATA || tableCode == IDS_PARAM_DATA) {
+			//if there is an additional table key use both to check for duplication
+			if (!tableKeyAdd.equals("")) {
 				cursor = //db.query(tableName, null, String.format("%s='%s' AND %s='%s'", tableKey, tableRecord.get(tableKey), tableKeyAdd, tableRecord.get(tableKeyAdd)), null, null, null, null);
-						cr.query(uri, null, String.format("%s='%s' AND %s='%s'", tableKey, tableRecord.get(tableKey), tableKeyAdd, tableRecord.get(tableKeyAdd)), null, null);
-				Log.e(TAG,String.format("%s='%s' AND %s='%s'", tableKey, tableRecord.get(tableKey), tableKeyAdd, tableRecord.get(tableKeyAdd)));
-			} else { //Special condition for double primary key on crop table
+						areaResolver.query(providerUri, null, String.format("%s='%s' AND %s='%s'", tableKey, tableRecord.get(tableKey), tableKeyAdd, tableRecord.get(tableKeyAdd)), null, null);
+				Log.e(TAG,String.format("Insert Query %s='%s' AND %s='%s'", tableKey, tableRecord.get(tableKey), tableKeyAdd, tableRecord.get(tableKeyAdd)));
+			} else { //otherwise only check single key
 				//cursor = db.query(tableName, null, String.format("%s=%s AND %s=%s", tableKey, tableRecord.get(tableKey), tableKeyAdd, tableRecord.get(tableKeyAdd)), null, null, null, null);
 				cursor = //db.query(tableName, null, tableKey + "='" + tableRecord.get(tableKey) + "'", null, null, null, null);
-						cr.query(uri, null, tableKey + "='" + tableRecord.get(tableKey) + "'", null, null);
+						areaResolver.query(providerUri, null, tableKey + "='" + tableRecord.get(tableKey) + "'", null, null);
+				Log.e(TAG,String.format("Insert Query %s='%s'", tableKey, tableRecord.get(tableKey)));
 			}
 
 			if (cursor.getCount() > 0) {
@@ -237,7 +402,7 @@ public class AreaData {
 						cursor.moveToFirst();
 						recordid = cursor.getInt(cursor.getColumnIndex(_ID));
 						recordid = //db.update(tableName, tableRecord, "" + _ID  + " ='" + recordid + "'", null );
-								cr.update(uri, tableRecord, "" + _ID  + " ='" + recordid + "'", null );
+								areaResolver.update(providerUri, tableRecord, "" + _ID  + " ='" + recordid + "'", null );
 
 						if(recordid != 1){
 							Log.e(TAG,"Error Updating "+ tableName +" Record: " + cursor.getInt(cursor.getColumnIndex(_ID)) + "rows affected = " + recordid);
@@ -256,15 +421,17 @@ public class AreaData {
 			} else {
 				try {
 					recordid = //db.insertOrThrow(tableName, null, tableRecord);
-							ContentUris.parseId(cr.insert(uri, tableRecord));
+							ContentUris.parseId(areaResolver.insert(providerUri, tableRecord));
 					Log.d(TAG, String.format("Inserting into table %s", tableName));
 				}
 				catch (RuntimeException e) {
-					Log.e(TAG,String.format("Indicator Insertion Exception: Table: %s -> Table Key:%s => value:%s  %s ",tableName, tableKey, tableRecord.get(tableKey), e.toString()));
+					
+					Log.e(TAG,String.format("Indicator Insertion Exception: Table: %s -> Table Key:%s => value:%s \nValues %s\n %s",
+							tableName, tableKey, tableRecord.get(tableKey), tableRecord.toString(), e.toString()));
 				}
 			}
 			cursor.close();
-			db.close();
+			
 		}catch(Exception e){
 			Log.e(TAG,"Cursor Exception: "+e.toString());
 		}
@@ -274,13 +441,13 @@ public class AreaData {
 
 	public int delete(String table, String where_clause){
 		Log.e(TAG, "Deleting DB Values");
-		ContentResolver cr = context.getContentResolver();
-		Uri uri = Uri.parse(AreaProvider.AUTHORITY+"/"+table); 
-		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		areaResolver = context.getContentResolver();
+		providerUri = Uri.parse(AreaProvider.AUTHORITY+"/"+table); 
+		
 		int rows_affected;
 		//try{
 		rows_affected = //db.delete(table, where_clause, null);
-				cr.delete(uri, where_clause, null);
+				areaResolver.delete(providerUri, where_clause, null);
 		//}catch(Exception e){
 
 		//}
@@ -323,8 +490,8 @@ public class AreaData {
 		// for BING search check if the searchPrase has been the subject of a previous search
 
 		bingParam = "" + BING_QUERY + " ='" + searchPhrase + "'";
-		bing_result = //dbHelper.rawQuery(bing_table, "*", bingParam);
-				rawQuery(bing_table, "*", bingParam);
+		bing_result = //dbHelper.rawQuery(bing_table, null, bingParam);
+				rawQuery(bing_table, null, bingParam);
 
 		//if it was the subject then data exists in the database
 		if (bing_result.getCount() ==1 ){
@@ -337,17 +504,22 @@ public class AreaData {
 				//get current search ID
 				deleteParam = "" + B_S_ID + " ='" + bing_result.getString(bing_result.getColumnIndex(BING_SEARCH_ID)) + "'";
 				// get number of results to delete - for error checking 
-				records_to_delete = //dbHelper.rawQuery(BING_SEARCH_RESULTS, "*", deleteParam);
-						rawQuery(BING_SEARCH_RESULTS, "*", deleteParam);
+				records_to_delete = //dbHelper.rawQuery(BING_SEARCH_RESULTS, null, deleteParam);
+						rawQuery(BING_SEARCH_RESULTS, null, deleteParam);
 				num_deleted = delete(BING_SEARCH_RESULTS, deleteParam);
 				num_to_delete = records_to_delete.getCount();
 				if (num_to_delete != num_deleted){
+					records_to_delete.close();
+					bing_result.close();
 					return FATAL_ERROR;
 				}
+				records_to_delete.close();
+				bing_result.close();
 				getBingArticles(searchPhrase);
 			}
 			return SEARCH_SUCCESS;
 		}else{
+			bing_result.close();
 			//if searchPhrase was not the subject of a previous search then fetch data from BING API
 			if (getBingArticles(searchPhrase) == SEARCH_FAIL){
 				return SEARCH_FAIL;
@@ -369,12 +541,14 @@ public class AreaData {
 		Log.e(TAG,"Array: " + Arrays.toString(keyWords) + " input value: " + searchPhrase);
 		// Check IDS_SEARCH_PARAMS table to see if parameters exist for any previous searches
 		params    = "" + IDS_PARAM_VALUE + " ='" + ids_param_str + "'";
-		ids_result 	= //dbHelper.rawQuery(ids_table, "*", params);
-				rawQuery(ids_table, "*", params);
+		ids_result 	= //dbHelper.rawQuery(ids_table, null, params);
+				rawQuery(ids_table, null, params);
 		// if results are found for this indicator then we assume that all relevant articles would be in the database
 		if (ids_result.getCount() > 0){
+			ids_result.close();
 			return SEARCH_SUCCESS;
 		}else{
+			ids_result.close();
 			getDocuments(0, keyWords);
 			return SEARCH_SUCCESS;
 		}		
@@ -397,12 +571,12 @@ public class AreaData {
 		Hashtable<String, Object> return_data = new Hashtable<String, Object>();
 
 		Cursor wb_result, ids_result, bing_result, ind_result, country_result, country_IDresult;
-		int ind_id, search_id, country_id = -1, period, in_country_id;
+		int ind_id,  country_id = -1, in_country_id; //, period;
 		String params, bingParam,  wb_country_id = "";
 		Calendar today, searchDate;
 		today = Calendar.getInstance();
 		Cursor  records_to_delete;
-		String  deleteParam, ids_param_str = "";
+		String  deleteParam;
 		int num_to_delete, num_deleted;
 
 		boolean has_country = false;
@@ -412,8 +586,8 @@ public class AreaData {
 		countryIDs		 = new ArrayList<Integer>();
 
 		// get indicator ID from db
-		ind_result = //dbHelper.rawQuery(INDICATOR, "*" , "" + WB_INDICATOR_ID + " ='" + indicatorID + "'");
-				rawQuery(INDICATOR, "*" , "" + WB_INDICATOR_ID + " ='" + indicatorID + "'");
+		ind_result = //dbHelper.rawQuery(INDICATOR, null , "" + WB_INDICATOR_ID + " ='" + indicatorID + "'");
+				rawQuery(INDICATOR, null , "" + WB_INDICATOR_ID + " ='" + indicatorID + "'");
 
 		if (ind_result.getCount() != 1){
 
@@ -447,8 +621,8 @@ public class AreaData {
 			params    = "" + I_ID + " ='" + ind_id + "'";
 
 			// query search table for API-Indicator combination. 
-			wb_result 	= //dbHelper.rawQuery(wb_table, "*", params);
-					rawQuery(wb_table, "*", params);
+			wb_result 	= //dbHelper.rawQuery(wb_table, null, params);
+					rawQuery(wb_table, null, params);
 
 
 			//only one search result should be returned per indicator and api combination.
@@ -457,15 +631,15 @@ public class AreaData {
 				wb_result.moveToFirst();
 				// if data exist for combination, check if there exist data exist for all countries.
 				// get countries list related to search record
-				country_result = //dbHelper.rawQuery(SEARCH_COUNTRY, "*", ""+ S_ID +" ='" + wb_result.getInt(wb_result.getColumnIndex(_ID)) +"'");
-						rawQuery(SEARCH_COUNTRY, "*", ""+ S_ID +" ='" + wb_result.getInt(wb_result.getColumnIndex(_ID)) +"'");
+				country_result = //dbHelper.rawQuery(SEARCH_COUNTRY, null, ""+ S_ID +" ='" + wb_result.getInt(wb_result.getColumnIndex(_ID)) +"'");
+						rawQuery(SEARCH_COUNTRY, null, ""+ S_ID +" ='" + wb_result.getInt(wb_result.getColumnIndex(_ID)) +"'");
 				if (country_result.getCount() > 0){
 					// check to see if country params for the current search are already within the database.
 					// Loop through the list of countries currently being searched for, Checking each against the list returned for the current indicator
 					for (int n = 0; n < country.length; n++){
 						// get country ID from country table using the country name or WB_Country _ID passed in
-						country_IDresult = //dbHelper.rawQuery(COUNTRY,"*", ""+ COUNTRY_NAME +" ='" + country[n] +"'");
-						rawQuery(COUNTRY,"*", ""+ COUNTRY_NAME +" ='" + country[n] +"'");
+						country_IDresult = //dbHelper.rawQuery(COUNTRY,null, ""+ COUNTRY_NAME +" ='" + country[n] +"'");
+						rawQuery(COUNTRY,null, ""+ COUNTRY_NAME +" ='" + country[n] +"'");
 
 						if (country_IDresult.getCount() == 1){
 							country_IDresult.moveToFirst();
@@ -476,7 +650,7 @@ public class AreaData {
 							whileloop:while(! country_result.isAfterLast()){
 
 								country_id 		= country_result.getInt(country_result.getColumnIndex(C_ID));
-								period			= country_result.getInt(country_result.getColumnIndex(P_ID));
+								//period			= country_result.getInt(country_result.getColumnIndex(P_ID));
 
 								if (country_id == in_country_id ){
 									has_country = true;
@@ -493,7 +667,7 @@ public class AreaData {
 								countryIDs.add(in_country_id);
 							}
 
-
+							//country_result.close();
 						}else{
 							Log.e(TAG,"Error in retrieving Country information: " + country_IDresult.getCount() + " rows returned");
 							return_data.put(RETURN_VALUE, "" + FATAL_ERROR);
@@ -502,7 +676,7 @@ public class AreaData {
 						}
 						country_IDresult.close();
 					}// end for
-
+					
 				}else{
 					// if 0 rows were returned, return error. As Initial search would have returned at least 1 country info. 
 					Log.e(TAG,"Error in retrieving Country information: " + country_result.getCount() + " rows returned");
@@ -520,8 +694,8 @@ public class AreaData {
 				for(int n = 0; n < country.length; n++){
 
 					//get country id to add to list of countries to retrieve
-					country_IDresult = //dbHelper.rawQuery(COUNTRY,"*", ""+ COUNTRY_NAME +" ='" + country[n] +"'");
-							rawQuery(COUNTRY,"*", ""+ COUNTRY_NAME +" ='" + country[n] +"'");
+					country_IDresult = //dbHelper.rawQuery(COUNTRY,null, ""+ COUNTRY_NAME +" ='" + country[n] +"'");
+							rawQuery(COUNTRY,null, ""+ COUNTRY_NAME +" ='" + country[n] +"'");
 					if(country_IDresult.getCount() != 1){
 						Log.e(TAG,"Error in retrieving Country information: " + country_IDresult.getCount() + " rows returned");
 						return_data.put(RETURN_VALUE, "" + FATAL_ERROR);
@@ -556,13 +730,13 @@ public class AreaData {
 				return SEARCH_SUCCESS;
 			}
 
-
+			
 		}else if(dataSource == IDS_SEARCH){
 			params    = "" + I_ID + " ='" + ind_id + "'";
 
 			// query search table for API-Indicator combination. 
-			ids_result 	= //dbHelper.rawQuery(ids_table, "*", params);
-			rawQuery(ids_table, "*", params);
+			ids_result 	= //dbHelper.rawQuery(ids_table, null, params);
+			rawQuery(ids_table, null, params);
 
 			if (ids_result.getCount() ==1 ){
 				// if results found for this indicator then we assume that all the relevant data is in the database.
@@ -602,12 +776,12 @@ public class AreaData {
 			}			
 
 		}else if(dataSource == BING_SEARCH){
-			int success;
+			//int success;
 			bingParam = "" + BING_QUERY + " ='" + indicatorStr + "'";
 
 			// query search table for API-Indicator combination. 
-			bing_result = //dbHelper.rawQuery(bing_table, "*", bingParam);
-					rawQuery(bing_table, "*", bingParam);
+			bing_result = //dbHelper.rawQuery(bing_table, null, bingParam);
+					rawQuery(bing_table, null, bingParam);
 
 			if (bing_result.getCount() ==1 ){
 				// if the indicator data is found then the assumption is that relevant results are in the database
@@ -620,10 +794,11 @@ public class AreaData {
 					//get current search ID
 					deleteParam = "" + B_S_ID + " ='" + bing_result.getString(bing_result.getColumnIndex(BING_SEARCH_ID)) + "'";
 					// get number of results to delete - for error checking 
-					records_to_delete = //dbHelper.rawQuery(BING_SEARCH_RESULTS, "*", deleteParam);
-							rawQuery(BING_SEARCH_RESULTS, "*", deleteParam);
+					records_to_delete = //dbHelper.rawQuery(BING_SEARCH_RESULTS, null, deleteParam);
+							rawQuery(BING_SEARCH_RESULTS, null, deleteParam);
 					num_deleted = delete(BING_SEARCH_RESULTS, deleteParam);
 					num_to_delete = records_to_delete.getCount();
+					records_to_delete.close();
 					if (num_to_delete != num_deleted){
 
 						return_data.put(RETURN_VALUE		, FATAL_ERROR	);
@@ -667,11 +842,41 @@ public class AreaData {
 	}
 
 
+	public Cursor getSelectionList(int exclude){
+		Cursor result; 
+
+		result = //dbHelper.rawQuery(INDICATOR, null, "");
+				rawQuery(AREA_SELECTIONS, null, "" + SELECTION_ID + " != '" + exclude + "'");
+
+		return result;
+	}
+	
+	
 	public Cursor getIndicatorList(){
 		Cursor result; 
 
-		result = //dbHelper.rawQuery(INDICATOR, "*", "");
-				rawQuery(INDICATOR, "*", "");
+		result = //dbHelper.rawQuery(INDICATOR, null, "");
+				rawQuery(INDICATOR, null, "");
+
+		return result;
+	}
+	
+	public Cursor getIndicatorList(String category){
+		Cursor result; 
+		Log.d(TAG, "getting indicators for category :" + category);
+		result = //dbHelper.rawQuery(INDICATOR, null, "");
+				rawQuery("" + INDICATOR + " i INNER JOIN " + IND_CATEGORIES + " i_c  ON i." +  INDICATOR_ID +" = i_c." + I_ID + " ",
+						new String[] {"i."+ INDICATOR_ID,"i."+ INDICATOR_NAME ,"i."+ WB_INDICATOR_ID},
+						"" + CAT_ID + " ='" + category + "'");
+
+		return result;
+	}
+	
+	public Cursor getCategoryList(){
+		Cursor result; 
+
+		result = //dbHelper.rawQuery(INDICATOR, null, "");
+				rawQuery(WB_CATEGORY, null, "");
 
 		return result;
 	}
@@ -681,7 +886,7 @@ public class AreaData {
 		Cursor result; 
 
 		result = //dbHelper.rawQuery(COUNTRY, COUNTRY_NAME, "");
-				rawQuery(COUNTRY, COUNTRY_NAME, "");
+				rawQuery(COUNTRY, null, "");
 
 		return result;
 	}
@@ -691,8 +896,8 @@ public class AreaData {
 		Cursor s_result; 
 
 		// query search table for API-Indicator combination. 
-		s_result = //dbHelper.rawQuery(s_table, "*", params);
-				rawQuery(s_table, "*", params);
+		s_result = //dbHelper.rawQuery(s_table, null, params);
+				rawQuery(s_table, null, params);
 
 		// if data exist for combination, check if there exist data exist for all countries. 
 		if (s_result.getCount() != 0){
@@ -711,13 +916,13 @@ public class AreaData {
 		Log.e(TAG, "Get Data");
 		Cursor cursor, search_cursor, ind_result, wb_result, country_result, country_IDresult;
 		String table = "", indicatorStr, params = "";
-		int ind_id, in_country_id, country_id, period, search_country_id;
+		int ind_id, in_country_id, country_id, search_country_id; //, period;
 		Integer[] search_country_array;
 		parser = new JSONParse(context);
 
 
-		ind_result = //dbHelper.rawQuery(INDICATOR, "*" , "" + WB_INDICATOR_ID + " ='" + indicatorID + "'");
-				rawQuery(INDICATOR, "*" , "" + WB_INDICATOR_ID + " ='" + indicatorID + "'");
+		ind_result = //dbHelper.rawQuery(INDICATOR, null , "" + WB_INDICATOR_ID + " ='" + indicatorID + "'");
+				rawQuery(INDICATOR, null , "" + WB_INDICATOR_ID + " ='" + indicatorID + "'");
 
 		if (ind_result.getCount() != 1){
 			Log.e(TAG, "Error retrieving Indicatror Information: indicator - " + indicatorID );
@@ -749,7 +954,7 @@ public class AreaData {
 
 				params    = "" + I_ID + " ='" + ind_id + "'";
 				// get search id Corresponding to search table
-				wb_result = rawQuery(SEARCH, "*", params);
+				wb_result = rawQuery(SEARCH, null, params);
 				// get corresponding search country results that relate to that indicator
 				//only one search result should be returned per indicator and api combination.
 				if (wb_result.getCount() == 1){
@@ -757,15 +962,15 @@ public class AreaData {
 					wb_result.moveToFirst();
 					// if data exist for combination, check if there exist data exist for all countries.
 					// get countries list related to search record
-					country_result = //dbHelper.rawQuery(SEARCH_COUNTRY, "*", ""+ S_ID +" ='" + wb_result.getInt(wb_result.getColumnIndex(_ID)) +"'");
-							rawQuery(SEARCH_COUNTRY, "*", ""+ S_ID +" ='" + wb_result.getInt(wb_result.getColumnIndex(_ID)) +"'");
+					country_result = //dbHelper.rawQuery(SEARCH_COUNTRY, null, ""+ S_ID +" ='" + wb_result.getInt(wb_result.getColumnIndex(_ID)) +"'");
+							rawQuery(SEARCH_COUNTRY, null, ""+ S_ID +" ='" + wb_result.getInt(wb_result.getColumnIndex(_ID)) +"'");
 					if (country_result.getCount() > 0){
 						// check to see if country params for the current search are already within the database.
 						// Loop through the list of countries currently being searched for, Checking each against the list returned for the current indicator
 						for (int n = 0; n < country.length; n++){
 							// get country ID from country table using the country name or WB_Country _ID passed in
-							country_IDresult = //dbHelper.rawQuery(COUNTRY,"*", ""+ COUNTRY_NAME +" ='" + country[n] +"'");
-									rawQuery(COUNTRY,"*", ""+ COUNTRY_NAME +" ='" + country[n] +"'");
+							country_IDresult = //dbHelper.rawQuery(COUNTRY,null, ""+ COUNTRY_NAME +" ='" + country[n] +"'");
+									rawQuery(COUNTRY,null, ""+ COUNTRY_NAME +" ='" + country[n] +"'");
 
 							if (country_IDresult.getCount() == 1){
 								country_IDresult.moveToFirst();
@@ -776,7 +981,7 @@ public class AreaData {
 								whileloop:while(! country_result.isAfterLast()){
 
 									country_id 			= country_result.getInt(country_result.getColumnIndex(C_ID));
-									period				= country_result.getInt(country_result.getColumnIndex(P_ID));
+									//period				= country_result.getInt(country_result.getColumnIndex(P_ID));
 									search_country_id	= country_result.getInt(country_result.getColumnIndex(_ID ));
 									if (country_id == in_country_id ){
 										countryIDs.add(search_country_id);
@@ -789,7 +994,8 @@ public class AreaData {
 
 							}else{
 								Log.e(TAG,"Error in retrieving Country information: " + country_IDresult.getCount() + " rows returned");
-
+								country_IDresult.close();
+								country_result.close();
 								return null;
 							}
 							country_IDresult.close();
@@ -798,7 +1004,7 @@ public class AreaData {
 					}else{
 						// if 0 rows were returned, return error. As Initial search would have returned at least 1 country info. 
 						Log.e(TAG,"Error in retrieving Country information: " + country_result.getCount() + " rows returned");
-
+						country_result.close();
 						return null;
 					}
 
@@ -835,7 +1041,7 @@ public class AreaData {
 				params    = "" + I_ID + " ='" + ind_id + "'";
 
 				// query search table for API-Indicator combination. 
-				search_cursor = rawQuery(IDS_SEARCH_TABLE, "*", params);
+				search_cursor = rawQuery(IDS_SEARCH_TABLE, null, params);
 
 				if (search_cursor.getCount() ==1 ){
 					search_cursor.moveToFirst();
@@ -862,8 +1068,8 @@ public class AreaData {
 				params = "" + BING_QUERY + " ='" + indicatorStr + "'";
 
 				// query search table for API-Indicator combination. 
-				search_cursor = //dbHelper.rawQuery(BING_SEARCH_TABLE, "*", params);
-						rawQuery(BING_SEARCH_TABLE, "*", params);
+				search_cursor = //dbHelper.rawQuery(BING_SEARCH_TABLE, null, params);
+						rawQuery(BING_SEARCH_TABLE, null, params);
 
 				if (search_cursor.getCount() ==1 ){
 					// if the indicator data is found then the assumption is that relevant results are in the database
@@ -871,19 +1077,19 @@ public class AreaData {
 					params = "" + B_S_ID + " ='" + search_cursor.getInt(search_cursor.getColumnIndex(BING_SEARCH_ID))+ "'";
 				}else{
 					Log.e(TAG,"No Search Info: " +search_cursor.getCount() + " rows returned");
-
+					search_cursor.close();
 					return null;				
 				}
 
 				apiRecord = new ContentValues();
-				apiRecord.put(BING_QUERY	, search_cursor.getInt(search_cursor.getColumnIndex(BING_QUERY)));
+				apiRecord.put(BING_QUERY	, search_cursor.getString(search_cursor.getColumnIndex(BING_QUERY)));
 				apiRecord.put(QUERY_VIEW_DATE	, parser.timeStamp());
 				insert(BING_SEARCH_TABLE, apiRecord, 1);
 				search_cursor.close();
 				break;
 
 		}
-		cursor = rawQuery(table, "*", params);
+		cursor = rawQuery(table, null, params);
 		Log.e(TAG, String.format("Params: %s. Table: %s", params, table));
 
 		return cursor;
@@ -891,7 +1097,7 @@ public class AreaData {
 
 
 	synchronized public Cursor getGlobalData(int datasource, String searchStr){
-		Log.e(TAG, "Get Global Data");
+		Log.e(TAG, "Get Global Data from " + datasource + " search:-> " + searchStr);
 		Cursor cursor, search_cursor;
 		String table = "", params = "";
 		parser = new JSONParse(context);
@@ -901,8 +1107,8 @@ public class AreaData {
 			params = "" + BING_QUERY + " ='" + searchStr + "'";
 
 			// query search table for API-Indicator combination. 
-			search_cursor = //dbHelper.rawQuery(BING_SEARCH_TABLE, "*", params);
-					rawQuery(BING_SEARCH_TABLE, "*", params);
+			search_cursor = //dbHelper.rawQuery(BING_SEARCH_TABLE, null, params);
+					rawQuery(BING_SEARCH_TABLE, null, params);
 
 			if (search_cursor.getCount() ==1 ){
 				// if the indicator data is found then the assumption is that relevant results are in the database
@@ -915,7 +1121,7 @@ public class AreaData {
 			}
 
 			apiRecord = new ContentValues();
-			apiRecord.put(BING_QUERY	, search_cursor.getInt(search_cursor.getColumnIndex(BING_QUERY)));
+			apiRecord.put(BING_QUERY	, search_cursor.getString(search_cursor.getColumnIndex(BING_QUERY)));
 			apiRecord.put(QUERY_VIEW_DATE	, parser.timeStamp());
 			insert(BING_SEARCH_TABLE, apiRecord, 1);
 			search_cursor.close();
@@ -927,29 +1133,32 @@ public class AreaData {
 			params    = "" + IDS_PARAM_VALUE + " ='" + searchStr + "'";
 
 			// query search table for API-Indicator combination. 
-			search_cursor = rawQuery(IDS_SEARCH_PARAMS, "*", params);
+			Log.e(TAG,"Search Info => params:-> " + params );
+			search_cursor = rawQuery(IDS_SEARCH_PARAMS, null, params);
 
 			if (search_cursor.getCount() ==1 ){
 				search_cursor.moveToFirst();
-				params = "" + IDS_S_ID + " ='" + search_cursor.getInt(search_cursor.getColumnIndex(IDS_SEARCH_ID))+ "'";
-
+				params = "" + IDS_P_ID + " ='" + search_cursor.getInt(search_cursor.getColumnIndex(_ID))+ "'";
+				Log.e(TAG,"Result Info => params:-> " + params );
 			}else{
 				Log.e(TAG,"No Search Info: " +search_cursor.getCount() + " rows returned");
-
+				search_cursor.close();
 				return null;
 
 			}
 
-
+			Log.e(TAG,"Position: " + search_cursor.getPosition() + "and " + search_cursor.getCount() + " rows returned");
+			search_cursor.close();
 			apiRecord = new ContentValues();
-			apiRecord.put(I_ID			,  search_cursor.getInt(search_cursor.getColumnIndex(I_ID)));
+			apiRecord.put(I_ID			,  0);
 			apiRecord.put(IDS_VIEW_DATE	, parser.timeStamp());
 			//String[] FROM_IDS_SEARCH= {IDS_SEARCH_ID, I_ID, IDS_BASE_URL, IDS_SITE, IDS_OBJECT};
+			
 			insert(IDS_SEARCH_TABLE, apiRecord, 1);
-			search_cursor.close();
+			
 			break;
 		}
-		cursor = rawQuery(table, "*", params);
+		cursor = rawQuery(table, null, params);
 		Log.e(TAG, String.format("Params: %s. Table: %s", params, table));
 		return cursor;
 	}
@@ -961,11 +1170,11 @@ public class AreaData {
 		switch(dataSource){
 		case WORLD_SEARCH:
 			max_cursor = //dbHelper.rawQuery(SEARCH, "MAX("+ SEARCH_VIEWED +") AS recent_time", "");
-					rawQuery(SEARCH, "MAX("+ SEARCH_VIEWED +") AS recent_time", "");
+					rawQuery(SEARCH, new String[] {"MAX("+ SEARCH_VIEWED +") AS recent_time"}, null, SEARCH_VIEWED);
 			if(max_cursor.moveToFirst()){
-				cursor = //dbHelper.rawQuery(SEARCH, "*", "" + SEARCH_VIEWED + " = '"+ 
+				cursor = //dbHelper.rawQuery(SEARCH, null, "" + SEARCH_VIEWED + " = '"+ 
 												//max_cursor.getLong(max_cursor.getColumnIndex("recent_time"))+ "'");
-						rawQuery(SEARCH, "*", "" + SEARCH_VIEWED + " = '"+ 
+						rawQuery(SEARCH, null, "" + SEARCH_VIEWED + " = '"+ 
 								max_cursor.getLong(max_cursor.getColumnIndex("recent_time"))+ "'");				
 				if(cursor.moveToFirst()){
 					max_cursor.close();
@@ -980,12 +1189,12 @@ public class AreaData {
 			max_cursor.close();
 			break;
 		case IDS_SEARCH:
-			cursor = //dbHelper.rawQuery(IDS_SEARCH_RESULTS, "*", "" + IDS_VIEW_DATE + " > 0 ORDER BY " + IDS_VIEW_DATE + " LIMIT 10" );
-					rawQuery(IDS_SEARCH_RESULTS, "*", "" + IDS_VIEW_DATE + " > 0 ORDER BY " + IDS_VIEW_DATE + " LIMIT 10" );
+			cursor = //dbHelper.rawQuery(IDS_SEARCH_RESULTS, null, "" + IDS_VIEW_DATE + " > 0 ORDER BY " + IDS_VIEW_DATE + " LIMIT 10" );
+					rawQuery(IDS_SEARCH_RESULTS, null, "" + IDS_VIEW_DATE + " > 0 ",  IDS_VIEW_DATE + " LIMIT 10" );
 			break;
 		case BING_SEARCH:
-			cursor = //dbHelper.rawQuery(BING_SEARCH_RESULTS, "*", "" + IDS_VIEW_DATE + " > 0 ORDER BY " + QUERY_VIEW_DATE + " LIMIT 10");
-					rawQuery(BING_SEARCH_RESULTS, "*", "" + IDS_VIEW_DATE + " > 0 ORDER BY " + QUERY_VIEW_DATE + " LIMIT 10");
+			cursor = //dbHelper.rawQuery(BING_SEARCH_RESULTS, null, "" + IDS_VIEW_DATE + " > 0 ORDER BY " + QUERY_VIEW_DATE + " LIMIT 10");
+					rawQuery(BING_SEARCH_RESULTS, null, "" + IDS_VIEW_DATE + " > 0 ",   QUERY_VIEW_DATE + " LIMIT 10");
 			break;
 		}
 
@@ -997,8 +1206,8 @@ public class AreaData {
 		Log.e(TAG, "Get Report");
 		Cursor cursor ;
 		parser = new JSONParse(context);
-		cursor =  //dbHelper.rawQuery(IDS_SEARCH_RESULTS, "*", "" + _ID + " = '" + reportID + "'");
-				rawQuery(IDS_SEARCH_RESULTS, "*", "" + _ID + " = '" + reportID + "'");
+		cursor =  //dbHelper.rawQuery(IDS_SEARCH_RESULTS, null, "" + _ID + " = '" + reportID + "'");
+				rawQuery(IDS_SEARCH_RESULTS, null, "" + _ID + " = '" + reportID + "'");
 		if(cursor.getCount() != 1){
 			Log.e(TAG, "Error In Retrieving Report: Amount returned:->" + cursor.getCount());
 			cursor.close();
@@ -1114,8 +1323,11 @@ public class AreaData {
 
 
 	public synchronized String[] getCountry() {
-		SQLiteDatabase db = dbHelper.getReadableDatabase();
-		Cursor cursorCountry = db.query(COUNTRY, new String[] {COUNTRY_NAME}, null, null, COUNTRY_NAME, null, null);
+		//SQLiteDatabase db = dbHelper.getReadableDatabase();
+		
+		providerUri = Uri.parse(AreaProvider.AUTHORITY+"/"+ COUNTRY);
+		cursorCountry = areaResolver.query(providerUri, new String[] {COUNTRY_NAME}, null, null, null);
+		//Cursor cursorCountry = db.query(COUNTRY, new String[] {COUNTRY_NAME}, null, null, COUNTRY_NAME, null, null);
 		String[] countryArray;
 
 		if(cursorCountry.getCount() > 0) {
@@ -1130,23 +1342,25 @@ public class AreaData {
 			countryArray = new String[] {};
 		}
 		cursorCountry.close();
-		db.close();
-
+		
 		return countryArray;
 	}
 
-
+	public synchronized Cursor getCountry(int countryID) {
+		return 	rawQuery(COUNTRY, null, "" + _ID +" ='" + countryID +"'");
+	}
 
 	public synchronized int getIndicatorID(String indicator){
 		Log.e(TAG, "Get Indicator ID by String");
 		int id = -1;
 		Cursor ind_result;
 
-		ind_result = //dbHelper.rawQuery(INDICATOR, "*" , "" + WB_INDICATOR_ID + " ='" + indicator + "'");
-				rawQuery(INDICATOR, "*" , "" + WB_INDICATOR_ID + " ='" + indicator + "'");
+		ind_result = //dbHelper.rawQuery(INDICATOR, null , "" + WB_INDICATOR_ID + " ='" + indicator + "'");
+				rawQuery(INDICATOR, null , "" + WB_INDICATOR_ID + " ='" + indicator + "'");
 
 		if (ind_result.getCount() != 1){
 			Log.e(TAG, "Error retrieving Indicatror Information: indicator - " + indicator );
+			ind_result.close();
 			return id;
 		}else{
 			Log.e(TAG,"" + ind_result.getCount() + " ID: " + ind_result.getColumnIndexOrThrow(_ID));
@@ -1166,11 +1380,12 @@ public class AreaData {
 		String indicatorStr = "";
 		Cursor ind_result;
 
-		ind_result = //dbHelper.rawQuery(INDICATOR, "*" , "" + WB_INDICATOR_ID + " ='" + indicator + "'");
-				rawQuery(INDICATOR, "*" , "" + WB_INDICATOR_ID + " ='" + indicator + "'");
+		ind_result = //dbHelper.rawQuery(INDICATOR, null , "" + WB_INDICATOR_ID + " ='" + indicator + "'");
+				rawQuery(INDICATOR, null , "" + WB_INDICATOR_ID + " ='" + indicator + "'");
 
 		if (ind_result.getCount() != 1){
 			Log.e(TAG, "Error retrieving Indicatror Information: indicator - " + indicator );
+			ind_result.close();
 			return indicatorStr;
 		}else{
 			Log.e(TAG,"" + ind_result.getCount() + " ID: " + ind_result.getColumnIndexOrThrow(_ID));
@@ -1189,11 +1404,12 @@ public class AreaData {
 		String indicatorStr = "";
 		Cursor ind_result;
 
-		ind_result = //dbHelper.rawQuery(INDICATOR, "*" , "" + INDICATOR_ID + " ='" + indicator + "'");
-				rawQuery(INDICATOR, "*" , "" + INDICATOR_ID + " ='" + indicator + "'");
+		ind_result = //dbHelper.rawQuery(INDICATOR, null , "" + INDICATOR_ID + " ='" + indicator + "'");
+				rawQuery(INDICATOR, null , "" + INDICATOR_ID + " ='" + indicator + "'");
 
 		if (ind_result.getCount() != 1){
 			Log.e(TAG, "Error retrieving Indicatror Information: indicator - " + indicator );
+			ind_result.close();
 			return indicatorStr;
 		}else{
 			Log.e(TAG,"" + ind_result.getCount() + " ID: " + ind_result.getColumnIndexOrThrow(_ID));
@@ -1212,15 +1428,15 @@ public class AreaData {
 		String[] countries;
 		Cursor country_results, country;
 
-		country_results = //dbHelper.rawQuery(SEARCH_COUNTRY, "*", "" + S_ID +" ='" + search_id +"'");
-				rawQuery(SEARCH_COUNTRY, "*", "" + S_ID +" ='" + search_id +"'");
+		country_results = //dbHelper.rawQuery(SEARCH_COUNTRY, null, "" + S_ID +" ='" + search_id +"'");
+				rawQuery(SEARCH_COUNTRY, null, "" + S_ID +" ='" + search_id +"'");
 		if(country_results.getCount() > 0){
 			countries = new String[country_results.getCount()];
 			country_results.moveToFirst();
 			int n = 0;
 			while(!country_results.isAfterLast()){
-				country = //dbHelper.rawQuery(COUNTRY, "*", "" + COUNTRY_ID + " = '" + country_results.getInt(country_results.getColumnIndex(C_ID))+ "'");
-						rawQuery(COUNTRY, "*", "" + COUNTRY_ID + " = '" + country_results.getInt(country_results.getColumnIndex(C_ID))+ "'");
+				country = //dbHelper.rawQuery(COUNTRY, null, "" + COUNTRY_ID + " = '" + country_results.getInt(country_results.getColumnIndex(C_ID))+ "'");
+						rawQuery(COUNTRY, null, "" + COUNTRY_ID + " = '" + country_results.getInt(country_results.getColumnIndex(C_ID))+ "'");
 				if(country.getCount() !=1){
 					country.close();
 					countries = new String[0];
@@ -1250,27 +1466,27 @@ public class AreaData {
 		Cursor search, search_country, country, wb_data;
 		params = "" + I_ID + " ='" + Indicator_id + "'";
 		// get search id Corresponding to search table
-		search = rawQuery(SEARCH, "*", params);
+		search = rawQuery(SEARCH, null, params);
 		// get 
 		if(search.getCount() == 1){
 			search.moveToFirst();
 			search_id = search.getInt(search.getColumnIndex(_ID));
-			country = //dbHelper.rawQuery(COUNTRY,"*", ""+ COUNTRY_NAME +" ='" + countryStr +"'");
-					rawQuery(COUNTRY,"*", ""+ COUNTRY_NAME +" ='" + countryStr +"'");
+			country = //dbHelper.rawQuery(COUNTRY,null, ""+ COUNTRY_NAME +" ='" + countryStr +"'");
+					rawQuery(COUNTRY,null, ""+ COUNTRY_NAME +" ='" + countryStr +"'");
 			if (country.getCount() == 1){
 				country.moveToFirst();
 				country_id = country.getInt(country.getColumnIndex(_ID));
 
-				search_country = //dbHelper.rawQuery(SEARCH_COUNTRY, "*", ""+ S_ID +" ='" + search_id +"' and "
+				search_country = //dbHelper.rawQuery(SEARCH_COUNTRY, null, ""+ S_ID +" ='" + search_id +"' and "
 						//+ C_ID +" ='" + country_id +"'" );
-						rawQuery(SEARCH_COUNTRY, "*", ""+ S_ID +" ='" + search_id +"' and "
+						rawQuery(SEARCH_COUNTRY, null, ""+ S_ID +" ='" + search_id +"' and "
 								+ C_ID +" ='" + country_id +"'" );
 				if(search_country.getCount() == 1){
 					search_country.moveToFirst();
 					search_country_id = search_country.getInt(search_country.getColumnIndex(_ID));
 					Log.e(TAG,String.format("SC_ID %s - _ID %s ", search_country_id, search_country.getInt(search_country.getColumnIndex(_ID)) ));
-					wb_data = //dbHelper.rawQuery(WB_DATA,"*", ""+ SC_ID +" ='" + search_country_id +"'" +" ORDER BY " + IND_DATE);
-							rawQuery(WB_DATA,"*", ""+ SC_ID +" ='" + search_country_id +"'" +" ORDER BY " + IND_DATE);
+					wb_data = //dbHelper.rawQuery(WB_DATA,null, ""+ SC_ID +" ='" + search_country_id +"'" +" ORDER BY " + IND_DATE);
+							rawQuery(WB_DATA,null, ""+ SC_ID +" ='" + search_country_id +"'", IND_DATE);
 
 					if(wb_data.getCount() > 0){
 
@@ -1283,23 +1499,23 @@ public class AreaData {
 
 						wb_data.close();
 
-					}else{
+					} else{
 						wb_data.close();
 						values = new double[0][0];
 					}
 
 				}else{
-					search_country.close();
+					//search_country.close();
 					values = new double[0][0];
 				}
 				search_country.close();
 			}else{
-				country.close();
+				//country.close();
 				values = new double[0][0];
 			}
 			country.close();
 		}else{
-			search.close();
+			//search.close();
 			values = new double[0][0];
 		}
 		search.close();
@@ -1309,13 +1525,24 @@ public class AreaData {
 	}
 
 
-	public synchronized Cursor rawQuery(String tableName, String tableColumns, String queryParams) {
-
-		Cursor cursor = null;
+	public synchronized Cursor rawQuery(String tableName, String[] tableColumns, String queryParams, String order) {
+		retCursor = null;
+		providerUri = Uri.parse(AreaProvider.AUTHORITY+"/"+ tableName);
 		
-		cursor = dbHelper.rawQuery(tableName, tableColumns, queryParams);
-
-		return cursor;
+		//retCursor = dbHelper.rawQuery(tableName, tableColumns, queryParams);
+		retCursor = areaResolver.query(providerUri, tableColumns, queryParams, null, order);
+		
+		return retCursor;
+	}
+	
+	public synchronized Cursor rawQuery(String tableName, String[] tableColumns, String queryParams) {
+		retCursor = null;
+		providerUri = Uri.parse(AreaProvider.AUTHORITY+"/"+ tableName);
+		
+		//retCursor = dbHelper.rawQuery(tableName, tableColumns, queryParams);
+		retCursor = areaResolver.query(providerUri, tableColumns, queryParams, null, null);
+		
+		return retCursor;
 	}
 
 	private Calendar getDate(String epoch){
@@ -1373,279 +1600,4 @@ public class AreaData {
 
 	}
 
-
-
-	/*private class AreaDB extends SQLiteOpenHelper{
-
-		private static final int DATABASE_VERSION = 1;
-		private SQLiteDatabase db;
-
-
-		public AreaDB(Context ctx) {
-			super(ctx, DATABASE_NAME, null, DATABASE_VERSION);
-		}
-
-		private static final String CREATE_TABLE_COUNTRY = "create table " + COUNTRY + " ( "
-				+ COUNTRY_ID 			+ " integer primary key autoincrement, "
-				+ WB_COUNTRY_ID 		+ " text not null, "
-				+ WB_COUNTRY_CODE		+ " text not null, "
-				+ COUNTRY_NAME 			+ " text not null, "
-				+ CAPITAL_CITY			+ " text not null, "
-				+ INCOME_LEVEL_ID 		+ " text not null, "
-				+ INCOME_LEVEL_NAME 	+ " text not null, "
-				+ POPULATION 			+ " integer, "
-				+ COUNTRY_REGION_ID 	+ " text not null, "
-				+ COUNTRY_REGION_NAME 	+ " text not null, "
-				+ GDP 					+ " integer, "
-				+ GNI_CAPITA 			+ " integer, "
-				+ POVERTY 				+ " integer, "
-				+ LIFE_EX 				+ " integer, "
-				+ LITERACY 				+ " integer)";
-
-
-		private static final String CREATE_TABLE_INDICATOR = "create table " + INDICATOR + " ( "
-				+ INDICATOR_ID 		+ " integer primary key autoincrement, "
-				+ WB_INDICATOR_ID 	+ " integer not null, "
-				+ INDICATOR_NAME 	+ " text not null, "
-				+ INDICATOR_DESC 	+ " text not null )";
-
-		private static final String CREATE_TABLE_SEARCH = "create table " + SEARCH + " ( "
-				+ SEARCH_ID 		+ " integer primary key autoincrement, "
-				+ I_ID				+ " integer not null, "
-				+ AP_ID 			+ " integer not null, "
-				+ SEARCH_CREATED 	+ " integer not null, "
-				+ SEARCH_MODIFIED 	+ " integer not null, "
-				+ SEARCH_VIEWED		+ " integer not null, "
-				+ SEARCH_URI 		+ " text not null )" ;
-
-		private static final String CREATE_TABLE_IDS_SEARCH = "create table " + IDS_SEARCH_TABLE + " ( "
-				+ IDS_SEARCH_ID 		+ " integer primary key autoincrement, "
-				+ I_ID 					+ " integer not null, "
-				+ IDS_BASE_URL			+ " text not null,"
-				+ IDS_SITE				+ " text not null, "
-				+ IDS_OBJECT 			+ " text not null, " 
-				+ IDS_TIMESTAMP			+ " integer not null,"
-				+ IDS_VIEW_DATE			+ " integer not null )" ;
-
-		private static final String CREATE_TABLE_IDS_SEARCH_PARAMS = "create table " + IDS_SEARCH_PARAMS + " ( "
-				+ _ID 				+ " integer primary key autoincrement, "
-				+ IDS_S_ID			+ " integer not null,"
-				+ IDS_PARAMETER		+ " text not null, "
-				+ IDS_OPERAND		+ " text not null, "
-				+ IDS_PARAM_VALUE	+ " text not null, "
-				+ COMBINATION 		+ " text not null )" ;
-
-		private static final String CREATE_TABLE_IDS_SEARCH_RESULTS = "create table " + IDS_SEARCH_RESULTS + " ( "
-				+ _ID 				+ " integer primary key autoincrement, "
-				+ IDS_S_ID			+ " integer not null,"
-				+ IDS_DOC_URL		+ " text not null, "
-				+ IDS_DOC_ID		+ " text not null, "
-				+ IDS_DOC_TYPE		+ " text not null, "
-				+ IDS_DOC_TITLE		+ " text not null, "
-				+ IDS_DOC_AUTH_STR	+ " text not null, "
-				+ IDS_DOC_PUB		+ " text not null, "
-				+ IDS_DOC_PUB_DATE	+ " text not null, "
-				+ IDS_DOC_DESC		+ " text not null, "
-				+ IDS_DOC_SITE		+ " text not null, "
-				+ IDS_DOC_DATE		+ " text not null, "
-				+ IDS_DOC_TIMESTAMP + " text not null, "
-				+ IDS_DOC_DWNLD_URL + " text not null, "
-				+ IDS_VIEW_DATE		+ " integer,"
-				+ IDS_DOC_PATH 		+ " text not null )" ;
-
-		/* FROM_IDS_SEARCH_RESULTS	= {_ID, IDS_S_ID, IDS_DOC_URL, IDS_DOC_ID, IDS_DOC_TYPE, IDS_DOC_TITLE, 
-										IDS_DOC_AUTH_STR, IDS_DOC_PUB, IDS_DOC_PUB_DATE, IDS_DOC_DESC,
-										IDS_DOC_SITE, IDS_DOC_DATE, IDS_DOC_TIMESTAMP, IDS_DOC_DWNLD_URL, IDS_DOC_PATH					};*/
-
-	/*	private static final String CREATE_TABLE_API = "create table " + API + " ( "
-				+ API_ID 			+ " integer primary key autoincrement, "
-				+ API_NAME 			+ " text not null, "
-				+ API_DESC 			+ " text not null, " 
-				+ BASE_URI 			+ " text not null )";
-
-
-		private static final String CREATE_TABLE_BING_SEARCH = "create table " + BING_SEARCH_TABLE + " ( "
-				+ BING_SEARCH_ID	+ " integer primary key autoincrement, "
-				+ BING_QUERY		+ " text not null, "
-				+ QUERY_DATE		+ " integer not null, "
-				+ QUERY_VIEW_DATE	+ " integer not null)";
-		//public static final String[] FROM_BING_SEARCH_TABLE		= {BING_SEARCH_ID, BING_QUERY, QUERY_DATE };
-
-		private static final String CREATE_TABLE_BING_SEARCH_RESULTS = "create table " + BING_SEARCH_RESULTS + " ( "
-				+ _ID	 			+ " integer primary key autoincrement, "
-				+ B_S_ID			+ " integer not null,"
-				+ BING_TITLE 		+ " text not null, "
-				+ BING_DESC 		+ " text not null, " 
-				+ BING_URL			+ " text not null, "
-				+ BING_DISP_URL		+ " text not null, "
-				+ BING_DATE_TIME	+ " text not null, "
-				+ QUERY_VIEW_DATE	+ " integer )";
-		//public static final String[] FROM_BING_SEARCH_RESULTS	= {_ID, B_S_ID, BING_TITLE, BING_DESC, BING_URL, BING_DISP_URL, BING_DATE_TIME	};
-
-		private static final String CREATE_TABLE_WB_DATA = "create table " + WB_DATA + " ( "
-				+ WB_DATA_ID 	+ " integer primary key autoincrement, "
-				//+ I_ID 			+ " integer not null, "
-				//+ C_ID 			+ " integer not null, "
-				//+ S_ID 			+ " integer not null, "
-				+ SC_ID 		+ " integer not null, "
-				+ IND_VALUE 	+ " double not null, "
-				+ IND_DECIMAL 	+ " integer not null, "
-				+ IND_DATE 		+ " integer not null ) ";
-
-		private static final String CREATE_TABLE_SEARCH_COUNTRY = "create table " + SEARCH_COUNTRY + " ( "
-				+ _ID 	+ " integer primary key autoincrement, "
-				+ S_ID 	+ " integer not null, "
-				+ C_ID 	+ " integer not null, "
-				+ P_ID 	+ " integer not null )";
-
-		private static final String CREATE_TABLE_PERIOD = "create table " + PERIOD + " ( "
-				+ PERIOD_ID 	+ " integer primary key autoincrement, "
-				+ PERIOD_NAME 	+ " text not null, "
-				+ P_START_DATE 	+ " integer not null, "
-				+ P_END_DATE 	+ " integer not null )";
-
-		private static final String CREATE_TABLE_IDS_DATA = "create table " + IDS_DATA  + " ( "
-				+ DOCUMENT_ID 		+ " integer primary key autoincrement, "
-				+ S_ID				+ " integer not null, "
-				+ DOC_TITLE 		+ " text not null, "
-				+ LANGUAGE_NAME		+ " text not null, "
-				+ LICENCE_TYPE 		+ " text not null, "
-				+ PUBLICATION_DATE 	+ " datetime not null, "
-				+ PUBLISHER 		+ " text not null, "
-				+ PUBLISHER_COUNTRY + " text not null, "
-				+ JOURNAL_SITE 		+ " text not null, "
-				+ DOC_NAME 			+ " text not null, "
-				+ DATE_CREATED		+ " datetime not null, "
-				+ DATE_UPDATED 		+ " datetime not null, "
-				+ WEBSITE_URL 		+ " text not null )";
-
-		private static final String CREATE_TABLE_IDS_AUTHOR = "create table " + IDS_AUTHOR + " ( "
-				+ AUTHOR_ID		 + " integer primary key autoincrement, "
-				+ D_ID			 + " integer not null, "
-				+ AUTHOR_NAME	 + " text not null )";
-
-		private static final String CREATE_TABLE_IDS_DOC_THEME = "create table " + IDS_DOC_THEME + " ( "
-				+ _ID 		+ " integer primary key autoincrement, "
-				+ T_ID 		+ " integer not null, "
-				+ D_ID 		+ " integer not null )";
-
-		private static final String CREATE_TABLE_IDS_THEME = "create table " + IDS_THEME + " ( "
-				+ THEME_ID 		+ " integer primary key autoincrement, "
-				+ THEME_NAME 	+ " text not null, "
-				+ IDS_THEME_ID 	+ " text not null, "
-				+ THEME_URL 	+ " text not null, "
-				+ THEME_LEVEL 	+ " integer not null)" ;
-
-		@Override
-		public void onCreate(SQLiteDatabase db) {
-			try {
-				db.execSQL(CREATE_TABLE_COUNTRY															);
-				Log.d("AREA", "Create COUNTRY table: " + CREATE_TABLE_COUNTRY					);
-
-				db.execSQL(CREATE_TABLE_INDICATOR														);
-				Log.d("AREA", "Create INDICATOR table: " + CREATE_TABLE_INDICATOR				);
-
-				db.execSQL(CREATE_TABLE_SEARCH															);
-				Log.d("AREA", "Create SEARCH table: " + CREATE_TABLE_SEARCH						);
-
-				db.execSQL(CREATE_TABLE_IDS_SEARCH														);
-				Log.d("AREA", "Create SEARCH table: " + CREATE_TABLE_IDS_SEARCH					);
-
-				db.execSQL(CREATE_TABLE_IDS_SEARCH_PARAMS												);
-				Log.d("AREA", "Create SEARCH table: " + CREATE_TABLE_IDS_SEARCH_PARAMS			);
-
-				db.execSQL(CREATE_TABLE_IDS_SEARCH_RESULTS										);
-				Log.d("AREA", "Create SEARCH table: " + CREATE_TABLE_IDS_SEARCH_RESULTS					);
-
-				db.execSQL(CREATE_TABLE_API														);
-				Log.d("AREA", "Create API table: " + CREATE_TABLE_API									);
-
-				db.execSQL(CREATE_TABLE_BING_SEARCH												);
-				Log.d("AREA", "Create Bing search table: " + CREATE_TABLE_BING_SEARCH					);
-
-				db.execSQL(CREATE_TABLE_BING_SEARCH_RESULTS										);
-				Log.d("AREA", "Create bing search results table: " + CREATE_TABLE_BING_SEARCH_RESULTS	);
-
-				db.execSQL(CREATE_TABLE_WB_DATA													);
-				Log.d("AREA", "Create WB_DATA table: " + CREATE_TABLE_WB_DATA							);
-
-				db.execSQL(CREATE_TABLE_SEARCH_COUNTRY											);
-				Log.d("AREA", "Create SEARCH_COUNTRY table: " + CREATE_TABLE_SEARCH_COUNTRY				);
-
-				db.execSQL(CREATE_TABLE_PERIOD													);
-				Log.d("AREA", "Create PERIOD table: " + CREATE_TABLE_PERIOD								);
-
-				db.execSQL(CREATE_TABLE_IDS_DATA												);
-				Log.d("AREA", "Create IDS_DATA table: " + CREATE_TABLE_IDS_DATA							);
-
-				db.execSQL(CREATE_TABLE_IDS_AUTHOR												);
-				Log.d("AREA", "Create IDS_AUTHOR table: " + CREATE_TABLE_IDS_AUTHOR						);
-
-				db.execSQL(CREATE_TABLE_IDS_DOC_THEME											);
-				Log.d("AREA", "Create IDS_DOC_THEME table: " + CREATE_TABLE_IDS_DOC_THEME				);
-
-				db.execSQL(CREATE_TABLE_IDS_THEME												);
-				Log.d("AREA", "Create IDS_THEME table: " + CREATE_TABLE_IDS_THEME						);
-
-
-			} catch (RuntimeException e) {
-			Log.d("AREA", "Unable to create tables: ");
-			}
-		}
-
-		@Override
-		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-			Log.w("AREA", "Upgrading database from version " + oldVersion + " to "
-					+ newVersion + ", which will destroy all old data");
-			try {
-				db.execSQL("DROP TABLE IF EXISTS " + COUNTRY				);
-				db.execSQL("DROP TABLE IF EXISTS " + INDICATOR				);
-				db.execSQL("DROP TABLE IF EXISTS " + SEARCH					);
-				db.execSQL("DROP TABLE IF EXISTS " + IDS_SEARCH_TABLE		);
-				db.execSQL("DROP TABLE IF EXISTS " + IDS_SEARCH_PARAMS		);
-				db.execSQL("DROP TABLE IF EXISTS " + IDS_SEARCH_RESULTS		);
-				db.execSQL("DROP TABLE IF EXISTS " + API					);
-				db.execSQL("DROP TABLE IF EXISTS " + BING_SEARCH_TABLE		);
-				db.execSQL("DROP TABLE IF EXISTS " + BING_SEARCH_RESULTS	);
-				db.execSQL("DROP TABLE IF EXISTS " + WB_DATA				);
-				db.execSQL("DROP TABLE IF EXISTS " + SEARCH_COUNTRY			);
-				db.execSQL("DROP TABLE IF EXISTS " + PERIOD					);
-				db.execSQL("DROP TABLE IF EXISTS " + IDS_DATA				);
-				db.execSQL("DROP TABLE IF EXISTS " + IDS_AUTHOR				);
-				db.execSQL("DROP TABLE IF EXISTS " + IDS_DOC_THEME			);
-				db.execSQL("DROP TABLE IF EXISTS " + IDS_THEME 				);
-			} catch (SQLException e) {
-				Log.d("AREA", "Upgrade step: " + "Unable to DROP TABLES");
-			}
-
-			onCreate(db);
-		}
-
-		synchronized public Cursor rawQuery(String tableName, String tableColumns, String queryParams) {
-			db = this.getReadableDatabase();
-			Cursor cursor = null;
-			String query;
-			if (queryParams.equals("")){
-				query = "SELECT "+ tableColumns + " FROM " + tableName ;
-			}else{
-				query = "SELECT "+ tableColumns + " FROM " + tableName +" WHERE " + queryParams;
-			}
-
-			try {
-				cursor = db.rawQuery(query, null);
-				Log.d("AREA", "Raw Query: " + query);
-				Log.d("AREA", "Raw Query Result: Returned " + cursor.getCount() + " record(s)");
-			} catch (SQLException e) {
-				Log.e("AREA", "Raw Query Exception: " + e.toString());
-			} catch (IllegalStateException ilEc){
-				db.close();
-				return rawQuery(tableName, tableColumns,queryParams);
-			}
-			db.close();
-			return cursor;
-		}
-
-
-	}*/
 }

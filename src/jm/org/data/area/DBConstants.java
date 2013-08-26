@@ -15,8 +15,11 @@ public interface DBConstants extends MediaColumns {
 	public static final String DATABASE_NAME = "area.db";
 
 	// Tables for area Database
+	
+	//Data Tables
 	public static final String COUNTRY = "area_country";
 	public static final String INDICATOR = "area_indicator";
+	public static final String WB_CATEGORY = "area_categories";
 	public static final String SEARCH = "area_wb_search";
 	public static final String IDS_SEARCH_TABLE = "area_ids_search";
 	public static final String BING_SEARCH_TABLE = "area_bing_search";
@@ -31,7 +34,30 @@ public interface DBConstants extends MediaColumns {
 	public static final String IDS_AUTHOR = "area_ids_author";
 	public static final String IDS_DOC_THEME = "area_ids_data_theme";
 	public static final String IDS_THEME = "area_ids_theme";
+	public static final String IND_CATEGORIES = "area_ind_cat";
+	public static final String COLLECTIONS = "area_collection";
+	public static final String COLL_DATA = "area_collection_data";
+	public static final String SAVED_DATA = "area_saved_data";
+	public static final String CHARTS = "area_charts";
+	public static final String DATA_TYPES = "area_data_type";
+	public static final String AREA_SELECTIONS = "area_selections";
 
+	
+	//Columns unique to the Categories table
+	//public static final String AREA_SELECTIONS = "area_selections";
+	public static final String SELECTION_ID = _ID;
+	public static final String SELECTION_NAME = "name";
+	public static final String SELECTION_DESC = "description";
+	
+	//Columns unique to the Categories table
+	public static final String CATEGORY_ID = _ID;
+	public static final String WB_CATEGORY_ID = "category_id";
+	public static final String CATEGORY_NAME = "name";
+	public static final String CATEGORY_DESC = "description";
+	
+	//Columns unique to the Indicator Categories table
+	public static final String IND_CAT_ID = _ID;
+		
 	// Columns unique to Country Table
 	public static final String COUNTRY_ID = _ID;
 	public static final String WB_COUNTRY_ID = "country_id";
@@ -54,7 +80,34 @@ public interface DBConstants extends MediaColumns {
 	public static final String WB_INDICATOR_ID = "indicator_id";
 	public static final String INDICATOR_NAME = "name";
 	public static final String INDICATOR_DESC = "description";
-
+		
+	
+	// Columns unique to Collections Table
+	public static final String COLLECTION_ID = _ID;
+	public static final String COLLECTION_NAME = "name";
+	public static final String COLLECTION_DESC = "description";
+	
+	// Columns unique to Colection's Data Table
+	public static final String COLL_DATA_ID = _ID;
+	
+	// Columns unique to Saved Data Table
+	public static final String SAVED_DATA_ID = _ID;
+	public static final String ENTITY_ID = "entity_id"; // the id of the actual data record{chart, article, report}
+	
+	// Columns unique to Data Types Table
+	public static final String DATA_TYPE_ID = _ID;
+	public static final String DATA_TYPE_NAME = "name";
+	public static final String DATA_TYPE_DESC = "description";
+		
+	
+	// Columns unique to Charts Table
+	public static final String CHART_ID = _ID;
+	public static final String CHART_NAME = "name";
+	public static final String CHART_DESC = "description";
+	public static final String CHART_COUNTRIES = "countries";
+	
+	
+	
 	// Columns unique to Search Table
 	public static final String SEARCH_ID = _ID;
 	public static final String SEARCH_CREATED = "createdtime";
@@ -159,16 +212,47 @@ public interface DBConstants extends MediaColumns {
 	public static final String AP_ID = "api_id";
 	public static final String SC_ID = "search_counrty";
 	public static final String B_S_ID = "bing_search_id";
-
+	public static final String CAT_ID = "category_id";
+	public static final String COLL_ID = "collection_id";
+	public static final String S_D_ID = "saved_data_id";
+	public static final String R_ID = "reort_id";
+	public static final String AR_ID = "article_id";
+	public static final String IDS_P_ID = "param_id";
+	public static final String D_T_ID = "data_type_id";
+	
 	// Column Arrays for individual tables
 	public static final String[] FROM_COUNTRY = { COUNTRY_ID, WB_COUNTRY_ID,
 			WB_COUNTRY_CODE, COUNTRY_NAME, CAPITAL_CITY, INCOME_LEVEL_ID,
 			INCOME_LEVEL_NAME, COUNTRY_REGION_ID, COUNTRY_REGION_NAME, GDP,
 			GNI_CAPITA, POVERTY, LIFE_EX, LITERACY, POPULATION, };
 
+	public static final String[]FROM_CATEGORY = { CATEGORY_ID, WB_CATEGORY_ID, CATEGORY_NAME, 
+			CATEGORY_DESC };
+	
 	public static final String[] FROM_INDICATOR = { INDICATOR_ID,
 			WB_INDICATOR_ID, INDICATOR_NAME, INDICATOR_DESC };
 
+	
+	public static final String[] FROM_INDICATOR_CATEGORIES = { IND_CAT_ID, CAT_ID, I_ID};
+	
+	public static final String[] FROM_COLLECTIONS = { COLLECTION_ID, COLLECTION_NAME,
+		COLLECTION_DESC};
+	
+	public static final String[] FROM_COLLECTIONS_DATA = { COLL_DATA_ID, COLL_ID,
+		S_D_ID};
+	
+	public static final String[] FROM_SAVED_DATA = { SAVED_DATA_ID, D_T_ID,
+		ENTITY_ID};
+	
+	public static final String[] FROM_DATA_TYPES = { DATA_TYPE_ID, DATA_TYPE_NAME,
+		DATA_TYPE_DESC};
+	
+	public static final String[] FROM_CHARTS = { CHART_ID, CHART_NAME,
+		CHART_DESC, I_ID, CHART_COUNTRIES};
+	
+	public static final String[] FROM_SELECTIONS = { SELECTION_ID, SELECTION_NAME,
+		SELECTION_DESC};
+	
 	public static final String[] FROM_SEARCH = { SEARCH_ID, I_ID, AP_ID,
 			SEARCH_CREATED, SEARCH_MODIFIED, SEARCH_VIEWED, SEARCH_URI };
 
@@ -196,7 +280,7 @@ public interface DBConstants extends MediaColumns {
 	public static final String[] FROM_IDS_SEARCH_PARAMS = { _ID, IDS_S_ID,
 			IDS_PARAMETER, IDS_OPERAND, IDS_PARAM_VALUE, COMBINATION };
 
-	public static final String[] FROM_IDS_SEARCH_RESULTS = { _ID, IDS_S_ID,
+	public static final String[] FROM_IDS_SEARCH_RESULTS = { _ID, IDS_S_ID, IDS_P_ID,
 			IDS_DOC_URL, IDS_DOC_ID, IDS_DOC_TYPE, IDS_DOC_TITLE,
 			IDS_DOC_AUTH_STR, IDS_DOC_PUB, IDS_DOC_PUB_DATE, IDS_DOC_DESC,
 			IDS_DOC_SITE, IDS_DOC_DATE, IDS_DOC_TIMESTAMP, IDS_DOC_DWNLD_URL,

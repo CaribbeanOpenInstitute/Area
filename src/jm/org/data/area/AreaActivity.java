@@ -11,15 +11,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import static jm.org.data.area.AreaConstants.WORLD_SEARCH;
 
 import com.android.actionbarcompat.ActionBarActivity;
-import jm.org.data.area.R;
 
 public class AreaActivity extends ActionBarActivity {
-	private String TAG = AreaActivity.class.getSimpleName();
+	
+	//private String TAG = AreaActivity.class.getSimpleName();	
 
 	private TextView jsonText;
 	AreaApplication area;
@@ -76,20 +73,20 @@ public class AreaActivity extends ActionBarActivity {
 
 		// Called before in the StartUpActivity
 
-		AreaData dataService = new AreaData(AreaActivity.this);
+		//AreaData dataService = new AreaData(AreaActivity.this);
 		// dataService.genericSearch(WORLD_SEARCH, "TX.VAL.AGRI.ZS.UN", new
 		// String[]{"Jamaica", "Kenya","Barbados"});
 	}
 
-	private void showPrefs(String idsKey, String bingKey, String dateRange,
+	/*private void showPrefs(String idsKey, String bingKey, String dateRange,
 			String resultMax) {
 		Toast.makeText(
-				AreaActivity.this,
-				String.format(
-						"IDS API Key: %s, Bing API Key: %s, Time period: %s years and and Max results: %s articles/reports",
-						idsKey, bingKey, dateRange, resultMax),
-				Toast.LENGTH_LONG).show();
-	}
+		AreaActivity.this,
+		String.format(
+				"IDS API Key: %s, Bing API Key: %s, Time period: %s years and and Max results: %s articles/reports",
+				idsKey, bingKey, dateRange, resultMax),
+		Toast.LENGTH_LONG).show();
+	}*/
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

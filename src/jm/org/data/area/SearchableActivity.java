@@ -3,7 +3,6 @@
  */
 package jm.org.data.area;
 
-import android.app.ActionBar;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Build;

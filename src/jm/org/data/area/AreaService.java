@@ -12,12 +12,16 @@ import static jm.org.data.area.AreaConstants.RETURN_DATE;
 import static jm.org.data.area.AreaConstants.RETURN_IND_ID;
 import static jm.org.data.area.AreaConstants.RETURN_KEYWORDS;
 import static jm.org.data.area.AreaConstants.RETURN_STRING;
-import static jm.org.data.area.AreaConstants.RETURN_VALUE;
 import static jm.org.data.area.AreaConstants.RETURN_WB_IND_ID;
 import static jm.org.data.area.AreaConstants.SEARCH_FAIL;
 import static jm.org.data.area.AreaConstants.SEARCH_SUCCESS;
 import static jm.org.data.area.AreaConstants.WORLD_SEARCH;
-import static jm.org.data.area.DBConstants.*;
+import static jm.org.data.area.DBConstants.BING_SEARCH_RESULTS;
+import static jm.org.data.area.DBConstants.B_S_ID;
+import static jm.org.data.area.DBConstants.IDS_SEARCH_RESULTS;
+import static jm.org.data.area.DBConstants.IDS_S_ID;
+import static jm.org.data.area.DBConstants.SC_ID;
+import static jm.org.data.area.DBConstants.WB_DATA;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -175,7 +179,7 @@ public class AreaService extends Service {
 			// Query DB
 			// get Search record based on the api being searched and return the
 			// associated list of values
-			cursor = area.areaData.rawQuery(table, "*", tableKey + " = '"
+			cursor = area.areaData.rawQuery(table, null, tableKey + " = '"
 					+ search_id + "'");
 			// Set Shared Cursor: area.setSharedCursor(apiCode, cursor);
 			area.setSharedCursor(dataSource, cursor);

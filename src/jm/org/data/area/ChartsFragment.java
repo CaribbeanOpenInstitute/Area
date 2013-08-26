@@ -34,7 +34,7 @@ public class ChartsFragment extends Fragment {
 	private String[] countryList;
 	private AreaApplication area;
 	private ProgressDialog dialog;
-	private int result = 0;
+	//private int result = 0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -68,11 +68,13 @@ public class ChartsFragment extends Fragment {
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		Log.d(TAG, "OnCreateOptionsMenu");
 		MenuInflater menuInflater = getActivity().getMenuInflater();
 		menuInflater.inflate(R.menu.chart, menu);
-
 		super.onCreateOptionsMenu(menu, inflater);
+		
 	}
+	
 
 	/*
 	 * @Override public void onPrepareOptionsMenu(Menu menu) {
@@ -182,23 +184,34 @@ public class ChartsFragment extends Fragment {
 
 	}
 
+	
 	private void renderChart() {
 		Log.d(TAG, String.format("Indicator: %s. Country list: %s", indicator,
 				Arrays.toString(countryList)));
 		chart = new AreaChart().execute(getActivity(), indicator, countryList);
-		Log.e(TAG, "chart view " + chart.toString() + " - " + layout.getId()
-				+ "current indicator" + indicator + " - " + "First country: "
-				+ countryList[0] + " from " + countryList.length);
-
-		// chart.refreshDrawableState();
-		// layout.refreshDrawableState();
-		layout.removeAllViewsInLayout();
-		layout.setBackgroundColor(Color.BLUE);
-		layout.addView(chart, new LayoutParams(LayoutParams.FILL_PARENT,
-				LayoutParams.FILL_PARENT));/**/
-
-		if (dialog.isShowing()) {
-			dialog.dismiss();
+		if (chart == null){
+			Toast.makeText(getActivity(), "Error in Loading Chart data.\n Chart is Reloading",
+					Toast.LENGTH_SHORT).show();
+			if (dialog.isShowing()) {
+				dialog.dismiss();
+			}
+			reload();
+			
+		}else{
+			Log.e(TAG, "chart view " + chart.toString() + " - " + layout.getId()
+					+ "current indicator" + indicator + " - " + "First country: "
+					+ countryList[0] + " from " + countryList.length);
+	
+			// chart.refreshDrawableState();
+			// layout.refreshDrawableState();
+			layout.removeAllViewsInLayout();
+			layout.setBackgroundColor(Color.BLUE);
+			layout.addView(chart, new LayoutParams(LayoutParams.MATCH_PARENT,
+					LayoutParams.MATCH_PARENT));/**/
+	
+			if (dialog.isShowing()) {
+				dialog.dismiss();
+			}
 		}
 	}
 
@@ -208,4 +221,6 @@ public class ChartsFragment extends Fragment {
 		txt.append("No Data Retrieved For Indicator\n" + indicator);
 		layout.addView(txt);
 	}
+	
+	
 }

@@ -8,7 +8,7 @@
         android:id="@+id/listFragment"
         android:layout_width="400dip"
         android:layout_height="match_parent"
-        class="jm.org.data.area.IndicatorListFragment" />
+        class="jm.org.data.area.ExpandableListFragment" />
     <!-- android:theme="@android:style/Theme.Holo.Light" -->
     <!-- android:layout_marginTop="?android:attr/actionBarSize" -->
 

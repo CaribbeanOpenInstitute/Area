@@ -1,6 +1,6 @@
 package jm.org.data.area;
 
-import static jm.org.data.area.DBConstants.*;
+import static jm.org.data.area.DBConstants.INDICATOR_NAME;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -15,11 +15,12 @@ import android.widget.TextView;
 public class AreaCursorAdapter extends CursorAdapter {
 	private static final String TAG = AreaCursorAdapter.class.getSimpleName();
 	private int mSelectedPosition;
-	private Context mContext;
+	
+	//private Context mContext;
 
 	public AreaCursorAdapter(Context context, Cursor c) {
 		super(context, c, 0);
-		mContext = context;
+		//mContext = context;
 	}
 
 	public void setSelectedPosition(int position) {
@@ -28,9 +29,9 @@ public class AreaCursorAdapter extends CursorAdapter {
 			mSelectedPosition = position;
 
 		}
-
+		
 	}
-
+	
 	public void setSelectedPosition(int position, ListView l) {
 		if (mSelectedPosition != position) {
 			// View view = (View) l.getItemAtPosition(position);

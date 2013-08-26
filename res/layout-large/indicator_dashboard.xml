@@ -6,10 +6,23 @@
 
     <fragment
         android:id="@+id/inlistFragment"
-        android:layout_width="250dip"
-        android:layout_height="match_parent"
-        class="jm.org.data.area.IndicatorListFragment" >
+        android:layout_width="250dp"
+        android:layout_height="1dp"
+        android:layout_weight="2"
+        class="jm.org.data.area.ExpandableListFragment" >
     </fragment>
+    
+    <TextView
+            android:id="@+id/indSeparator"
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"
+            android:layout_marginTop="20dip"
+            android:background="#8AC7E3"/>
+	<fragment
+        android:id="@+id/sListFragment2"
+        android:layout_width="250dp"
+        android:layout_height="match_parent"
+        class="jm.org.data.area.SelectionListFragment" />
 
     <LinearLayout
         android:layout_width="fill_parent"

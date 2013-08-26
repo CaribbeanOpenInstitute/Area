@@ -3,7 +3,6 @@ package jm.org.data.area;
 import static jm.org.data.area.AreaConstants.SEARCH_SUCCESS;
 import android.content.Context;
 import android.database.Cursor;
-import android.support.v4.content.Loader;
 import android.util.Log;
 
 public class GlobalListAdapter extends SimpleCursorLoader {

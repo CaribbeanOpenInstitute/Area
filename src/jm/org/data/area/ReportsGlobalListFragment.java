@@ -102,4 +102,27 @@ public class ReportsGlobalListFragment extends ListFragment implements
 	public void reload() {
 		getLoaderManager().restartLoader(0, null, this);
 	}
+	
+	@Override
+	public void onStop() {
+	    try {
+	      super.onStop();
+
+	      if (this.mAdapter !=null){
+	        this.mAdapter.getCursor().close();
+	        this.mAdapter = null;
+	      }
+	      
+	      this.getLoaderManager().destroyLoader(0);
+	      
+	      /*if (this.mActivityListCursorObj != null) {
+	        this.mActivityListCursorObj.close();
+	      }*/
+
+	      super.onStop();
+	    } catch (Exception error) {
+	    	Log.d(TAG, "Error in stopping Adapter");
+	    	
+	    }// end try/catch (Exception error)
+	  }// end onStop
 }

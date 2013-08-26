@@ -19,6 +19,7 @@ package com.android.actionbarcompat;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 
@@ -42,10 +43,13 @@ public abstract class ActionBarHelper {
 	 */
 	public static ActionBarHelper createInstance(Activity activity) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+			Log.d("ActionBarHelper", "ICE_CREAM_SANDWICH");
 			return new ActionBarHelperICS(activity);
 		} else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			Log.d("ActionBarHelper", "HONEYCOMB");
 			return new ActionBarHelperHoneycomb(activity);
 		} else {
+			Log.d("ActionBarHelper", "BASE HELPER");
 			return new ActionBarHelperBase(activity);
 		}
 	}

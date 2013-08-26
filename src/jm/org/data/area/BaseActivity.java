@@ -1,17 +1,11 @@
 package jm.org.data.area;
 
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.util.Log;
 
 import com.android.actionbarcompat.ActionBarActivity;
 
 public class BaseActivity extends ActionBarActivity {
-	private final static String TAG = BaseActivity.class.getSimpleName();
+	//private final static String TAG = BaseActivity.class.getSimpleName();
 	// protected AreaService areaService;
 	protected AreaApplication area;
 

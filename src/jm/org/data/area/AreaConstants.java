@@ -30,6 +30,10 @@ public interface AreaConstants {
 	public static final int IDS_RESULT_DATA = 10;
 	public static final int BING_SEARCH_DATA = 11;
 	public static final int BING_RESULT_DATA = 12;
+	public static final int CATEGORY_LIST = 13;
+	public static final int IND_CATEGORIES_DATA = 14;
+	public static final int SELECTIONS_DATA = 15;
+	public static final int DATA_TYPES_LIST = 16;
 
 	/*
 	 * API CODE
@@ -37,6 +41,14 @@ public interface AreaConstants {
 	public static final int WORLD_SEARCH = 0;
 	public static final int IDS_SEARCH = 1;
 	public static final int BING_SEARCH = 2;
+	
+	/*
+	 * SELECTIONS
+	 */
+	public static final int S_INDICATORS  = 1;
+	public static final int S_COUNTRIES   = 2;
+	public static final int S_COLLECTIONS = 3;
+	public static final int S_SAVED_DATA  = 4;
 
 	// Broadcast Receivers
 	public static final String ACTION_WORLD_UPDATE = "Area.WorldBank.Update";
@@ -46,6 +58,7 @@ public interface AreaConstants {
 
 	// Data keys for World Bank API Calls
 	public static final String WB_IND_ID = "id";
+	public static final String WB_IND_CATEGORY = "topics";
 	public static final String WB_IND_NAME = "name";
 	public static final String WB_IND_DESC = "sourceNote";
 	public static final String[] WB_IND_LIST = { WB_IND_ID, WB_IND_NAME,
@@ -63,6 +76,12 @@ public interface AreaConstants {
 			WB_COUNTRY_ISOCODE, WB_COUNTRY_NAME, WB_COUNTRY_CAPITAL,
 			WB_COUNTRY_INCOME_LEVEL_ID, WB_COUNTRY_INCOME_LEVEL_NAME,
 			WB_COUNTRY_REGION_ID, WB_COUNTRY_REGION_NAME };
+	
+	public static final String WB_CATEGORY_IDSTR = "id";
+	public static final String WB_CATEGORY_NAME = "value";
+	public static final String WB_CATEGORY_DESC = "sourceNote";
+	public static final String[] WB_CATEGORY_LIST = { WB_CATEGORY_IDSTR,
+			WB_CATEGORY_NAME, WB_CATEGORY_DESC};
 
 	public static final String WB_IND_VALUE = "value";
 	public static final String WB_IND_DECIMAL = "decimal";
@@ -131,4 +150,10 @@ public interface AreaConstants {
 	public static final String RETURN_DATE = "date_string";
 	public static final String RETURN_KEYWORDS = "keywords";
 	public static final String RETURN_STRING = "searchString";
+	
+	
+	//General search Strings
+	public static final String POSITION = "position";
+	public static final String GROUP_POSITION = "group_position";
+	public static final String CHILD_POSITION = "child_position";
 }

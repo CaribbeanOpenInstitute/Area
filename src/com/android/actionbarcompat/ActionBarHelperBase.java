@@ -29,6 +29,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.InflateException;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -46,6 +47,7 @@ import android.widget.TextView;
  * A class that implements the action bar pattern for pre-Honeycomb devices.
  */
 public class ActionBarHelperBase extends ActionBarHelper {
+	private static final String TAG = ActionBarHelperBase.class.getSimpleName();
 	private static final String MENU_RES_NAMESPACE = "http://schemas.android.com/apk/res/android";
 	private static final String MENU_ATTR_ID = "id";
 	private static final String MENU_ATTR_SHOW_AS_ACTION = "showAsAction";
@@ -60,11 +62,13 @@ public class ActionBarHelperBase extends ActionBarHelper {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		mActivity.requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+		super.onCreate(savedInstanceState);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public void onPostCreate(Bundle savedInstanceState) {
+		Log.d(TAG, "onPostCreateActionBar");
 		mActivity.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
 				R.layout.actionbar_compat);
 		setupActionBar();
@@ -84,6 +88,7 @@ public class ActionBarHelperBase extends ActionBarHelper {
 	 * Sets up the compatibility action bar with the given title.
 	 */
 	private void setupActionBar() {
+		Log.d(TAG, "SetupActionBar");
 		final ViewGroup actionBarCompat = getActionBarCompat();
 		if (actionBarCompat == null) {
 			return;
@@ -155,6 +160,7 @@ public class ActionBarHelperBase extends ActionBarHelper {
 	 * metadata on pre-Honeycomb devices.
 	 */
 	public MenuInflater getMenuInflater(MenuInflater superMenuInflater) {
+		Log.d(TAG, "Inflating Menu");
 		return new WrappedMenuInflater(mActivity, superMenuInflater);
 	}
 
@@ -294,6 +300,7 @@ public class ActionBarHelperBase extends ActionBarHelper {
 						if (showAsAction == MenuItem.SHOW_AS_ACTION_ALWAYS
 								|| showAsAction == MenuItem.SHOW_AS_ACTION_IF_ROOM) {
 							mActionItemIds.add(itemId);
+							Log.d(TAG, "Adding Menu Item " + itemId);
 						}
 						break;
 

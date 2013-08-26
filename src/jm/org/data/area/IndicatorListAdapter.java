@@ -2,11 +2,10 @@ package jm.org.data.area;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 
 public class IndicatorListAdapter extends SimpleCursorLoader {
-	private static final String TAG = IndicatorListAdapter.class
-			.getSimpleName();
+	//private static final String TAG = IndicatorListAdapter.class
+	//		.getSimpleName();
 	private Context mContext;
 
 	public IndicatorListAdapter(Context context) {
