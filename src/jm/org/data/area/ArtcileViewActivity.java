@@ -5,6 +5,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 public class ArtcileViewActivity extends BaseActivity {
 
 	@Override
@@ -29,5 +31,20 @@ public class ArtcileViewActivity extends BaseActivity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+		
+		EasyTracker.getInstance(this).activityStart(this);  // Add this method.
+		}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+	
+		EasyTracker.getInstance(this).activityStop(this);  // Add this method.
+	}
+
 
 }

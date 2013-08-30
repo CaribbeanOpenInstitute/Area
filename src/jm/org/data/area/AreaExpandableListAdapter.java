@@ -7,6 +7,10 @@ import static jm.org.data.area.DBConstants.SELECTION_ID;
 import static jm.org.data.area.DBConstants.SELECTION_NAME;
 import static jm.org.data.area.DBConstants.WB_CATEGORY_ID;
 import static jm.org.data.area.DBConstants.WB_INDICATOR_ID;
+
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
+
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -166,6 +170,7 @@ public class AreaExpandableListAdapter extends SimpleCursorTreeAdapter  {
 				thisAdapter = (SimpleCursorTreeAdapter) parentView.getExpandableListAdapter();
 				// Get Cursor at list item row
 				child = thisAdapter.getChild(mSelectedPosition, parentView.getPositionForView(view)-(mSelectedPosition+1));
+				group = thisAdapter.getGroup(mSelectedPosition);
 				
 				Log.d(TAG, "Child Position is : "  + (parentView.getPositionForView(view)- (mSelectedPosition + 1)) + 
 						"\nParent Position is : " + mSelectedPosition +
@@ -175,7 +180,22 @@ public class AreaExpandableListAdapter extends SimpleCursorTreeAdapter  {
 				String item_id = child.getString(child
 						.getColumnIndex(WB_INDICATOR_ID));
 				Log.d(TAG, "Indicator selected is: " + item + "-> ID: " + item_id);
-	
+				
+				// May return null if a EasyTracker has not yet been initialized with a
+				// property ID.
+				EasyTracker easyTracker = EasyTracker.getInstance(mContext);
+
+				// MapBuilder.createEvent().build() returns a Map of event fields and values
+				// that are set and sent with the hit.
+				easyTracker.send(MapBuilder
+				    .createEvent("ui_action",     // Event category (required)
+				                 "Indicator_Expandable_List_Selction",  // Event action (required)
+				                 "Indicator selected is: " + item + " Unique ID is: " + item_id + 
+				                 "From Group" + group.getString(group.getColumnIndex(CATEGORY_NAME)),   // Event label
+				                 null)            // Event value
+				    .build()
+				);
+				
 				try { // Check if the parent activity is the IndicatorActivity
 					act = (IndicatorActivity) mContext;
 					Intent intent = new Intent(mContext.getApplicationContext(),

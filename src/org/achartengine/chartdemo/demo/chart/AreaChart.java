@@ -21,6 +21,7 @@ import static org.achartengine.chartdemo.demo.chart.ChartConstants.STYLEZ;
 import java.util.ArrayList;
 import java.util.List;
 
+import jm.org.data.area.AreaApplication;
 import jm.org.data.area.AreaData;
 
 import org.achartengine.ChartFactory;
@@ -63,9 +64,13 @@ public class AreaChart extends AbstractDemoChart {
 	 *            the context
 	 * @return the built intent
 	 */
+	
+	protected AreaApplication area;
+	
 	public GraphicalView execute(Context context, String indicator,
 			String[] countries) {
-		AreaData dataService = new AreaData(context);
+		//AreaData dataService = new AreaData(context);
+		area =  (AreaApplication) context.getApplicationContext();
 		// dataService.genericSearch(WORLD_SEARCH, "AG.LND.AGRI.ZS", new
 		// String[]{"Jamaica", "Kenya","Barbados"});
 		double[][] data;
@@ -73,8 +78,8 @@ public class AreaChart extends AbstractDemoChart {
 		String indicator_name, x_axis;
 		boolean createChart = false;
 
-		ind_id = dataService.getIndicatorID(indicator);
-		indicator_name = dataService.getIndicatorName(indicator);
+		ind_id = area.areaData.getIndicatorID(indicator);
+		indicator_name = area.areaData.getIndicatorName(indicator);
 		Log.e("Charts", "Indicator: " + indicator_name + "num of countries: "
 				+ countries.length);
 		pos1 = indicator_name.indexOf("(");
@@ -98,7 +103,7 @@ public class AreaChart extends AbstractDemoChart {
 		String test = "", test1 = "";
 
 		for (int i = 0; i < countries.length; i++) {
-			data = dataService.getIndicatorList(ind_id, countries[i], 1);
+			data = area.areaData.getIndicatorList(ind_id, countries[i], 1);
 			if (data.length != 0) {
 				Log.e("Charts", "data length" + data[0].length);
 				test = "";

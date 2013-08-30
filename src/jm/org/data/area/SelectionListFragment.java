@@ -2,6 +2,10 @@ package jm.org.data.area;
 
 import static jm.org.data.area.DBConstants.*;
 import static jm.org.data.area.AreaConstants.*;
+
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -74,6 +78,19 @@ public class SelectionListFragment extends ListFragment implements
 		public static final int S_COUNTRIES  = 2;
 		public static final int S_COLECTIONS = 3;
 		public static final int S_SAVED_DATA = 4;*/
+		// May return null if a EasyTracker has not yet been initialized with a
+		// property ID.
+		EasyTracker easyTracker = EasyTracker.getInstance(getActivity());
+
+		// MapBuilder.createEvent().build() returns a Map of event fields and values
+		// that are set and sent with the hit.
+		easyTracker.send(MapBuilder
+		    .createEvent("ui_action",     // Event category (required)
+		                 "Main_List_Selction",  // Event action (required)
+		                 "Selection is: " + item,   // Event label
+		                 null)            // Event value
+		    .build()
+		);
 		
 		switch (item_id){
 		case S_INDICATORS:
@@ -146,13 +163,19 @@ public class SelectionListFragment extends ListFragment implements
 	}
 
 	@Override
+	public void onResume(){
+		reload();
+		super.onResume();
+	}
+	 
+	@Override
 	public void onStop() {
 	    try {
 	      super.onStop();
 
 	      if (this.myAdapter !=null){
 	        this.myAdapter.getCursor().close();
-	        this.myAdapter = null;
+	        //this.myAdapter = null;
 	      }
 	      
 	      //this.getLoaderManager().destroyLoader(0);

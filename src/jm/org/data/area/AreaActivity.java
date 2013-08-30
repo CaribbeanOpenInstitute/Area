@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.actionbarcompat.ActionBarActivity;
+import com.google.analytics.tracking.android.EasyTracker;
 
 public class AreaActivity extends ActionBarActivity {
 	
@@ -121,4 +122,19 @@ public class AreaActivity extends ActionBarActivity {
 		return super.onOptionsItemSelected(item);
 
 	}
+	
+	@Override
+	  public void onStart() {
+	    super.onStart();
+	    
+	    EasyTracker.getInstance(this).activityStart(this);  // Add this method.
+	  }
+
+	  @Override
+	  public void onStop() {
+	    super.onStop();
+	    
+	    EasyTracker.getInstance(this).activityStop(this);  // Add this method.
+	  }
+
 }

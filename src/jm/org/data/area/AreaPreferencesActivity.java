@@ -7,6 +7,8 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 import android.view.MenuItem;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 public class AreaPreferencesActivity extends PreferenceActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,5 +31,20 @@ public class AreaPreferencesActivity extends PreferenceActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	@Override
+	  public void onStart() {
+	    super.onStart();
+	  
+	    EasyTracker.getInstance(this).activityStart(this);  // Add this method.
+	  }
+
+	  @Override
+	  public void onStop() {
+	    super.onStop();
+	  
+	    EasyTracker.getInstance(this).activityStop(this);  // Add this method.
+	  }
+
 
 }

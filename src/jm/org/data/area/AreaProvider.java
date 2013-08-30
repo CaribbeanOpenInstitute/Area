@@ -236,7 +236,12 @@ public class AreaProvider extends ContentProvider {
 	public Cursor query(Uri uri, String[] projection, String selection,
 			String[] selectionArgs, String sortOrder) {
 		
-		db = dbHelper.getReadableDatabase();
+		
+		if(db == null){
+			db = dbHelper.getReadableDatabase();
+		}else if (!db.isOpen()){
+			db = dbHelper.getReadableDatabase();
+		}
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 		Cursor cursor = null;
 		qb.setTables(uri.getLastPathSegment());

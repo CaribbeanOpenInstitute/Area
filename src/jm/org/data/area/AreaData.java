@@ -1222,6 +1222,7 @@ public class AreaData {
 		return cursor;
 	}
 
+	
 	public synchronized void updateArticle(String bingUrl){
 		parser = new JSONParse(context);
 		apiRecord = new ContentValues();
@@ -1230,6 +1231,7 @@ public class AreaData {
 		insert(BING_SEARCH_RESULTS, apiRecord, 1);
 	}
 
+	
 	public synchronized int getCountryIndicators(int indicator_id, String indicator, ArrayList<String> countries, ArrayList<Integer> countryIDList, String date){
 		parser = new JSONParse(context);
 		String queryStr = "http://api.worldbank.org/countries/";
@@ -1267,6 +1269,7 @@ public class AreaData {
 
 	}
 
+	
 	public synchronized int getDocuments(int indicator, String[] parameters){
 		parser = new JSONParse(context);
 		String querybase = "http://api.ids.ac.uk/openapi/";
@@ -1346,10 +1349,12 @@ public class AreaData {
 		return countryArray;
 	}
 
+	
 	public synchronized Cursor getCountry(int countryID) {
 		return 	rawQuery(COUNTRY, null, "" + _ID +" ='" + countryID +"'");
 	}
 
+	
 	public synchronized int getIndicatorID(String indicator){
 		Log.e(TAG, "Get Indicator ID by String");
 		int id = -1;
@@ -1372,7 +1377,6 @@ public class AreaData {
 		ind_result.close();
 		return id;
 	}
-
 
 
 	public synchronized String getIndicatorName(String indicator){
@@ -1457,7 +1461,6 @@ public class AreaData {
 	}
 
 
-
 	public synchronized double[][] getIndicatorList(int Indicator_id, String countryStr, int period){
 		Log.e(TAG, "Get List of Indicators with Corresponding country data");
 		double [][] values = null;
@@ -1534,6 +1537,7 @@ public class AreaData {
 		
 		return retCursor;
 	}
+
 	
 	public synchronized Cursor rawQuery(String tableName, String[] tableColumns, String queryParams) {
 		retCursor = null;
@@ -1545,6 +1549,7 @@ public class AreaData {
 		return retCursor;
 	}
 
+	
 	private Calendar getDate(String epoch){
 		Calendar calendar = null;
 
@@ -1562,6 +1567,7 @@ public class AreaData {
 		 return calendar;
 	}
 
+	
 	public void populateKeywords(){
 		INDICATOR_KEYWORDS.put("AG.AGR.TRAC.NO",	"agriculture machine"		);
 		INDICATOR_KEYWORDS.put("AG.CON.FERT.MT",	"fertilizer consumption"	);

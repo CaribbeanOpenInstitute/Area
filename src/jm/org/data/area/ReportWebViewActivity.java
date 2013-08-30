@@ -4,6 +4,8 @@ import static jm.org.data.area.DBConstants.IDS_DOC_DWNLD_URL;
 
 import java.io.File;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
@@ -220,5 +222,19 @@ public class ReportWebViewActivity extends BaseActivity {
 		 */
 
 		return storage;
+	}
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+		
+		EasyTracker.getInstance(this).activityStart(this);  // Add this method.
+		}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+	
+		EasyTracker.getInstance(this).activityStop(this);  // Add this method.
 	}
 }

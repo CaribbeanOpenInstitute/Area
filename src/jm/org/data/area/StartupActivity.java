@@ -1,5 +1,7 @@
 package jm.org.data.area;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -130,4 +132,17 @@ public class StartupActivity extends Activity {
 	 * "http://api.worldbank.org/topic/1/Indicator?per_page="+ numOfIndicators
 	 * +"&format=json")); } }// end function
 	 */
+	@Override
+	public void onStart() {
+		super.onStart();
+		
+		EasyTracker.getInstance(this).activityStart(this);  // Add this method.
+		}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+	
+		EasyTracker.getInstance(this).activityStop(this);  // Add this method.
+	}
 }

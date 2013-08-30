@@ -3,6 +3,9 @@ package jm.org.data.area;
 import static jm.org.data.area.AreaConstants.S_INDICATORS;
 import static jm.org.data.area.DBConstants.SELECTION_ID;
 import static jm.org.data.area.DBConstants.SELECTION_NAME;
+
+import com.google.analytics.tracking.android.EasyTracker;
+
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -153,8 +156,19 @@ public class HomeActivity extends BaseActivity {
 		mSelection = lPos;
 	}
 	
+	@Override
+	public void onStart() {
+		super.onStart();
+		
+		EasyTracker.getInstance(this).activityStart(this);  // Add this method.
+		}
 	
-
+	@Override
+	public void onStop() {
+		super.onStop();
+	
+		EasyTracker.getInstance(this).activityStop(this);  // Add this method.
+	}
 
 
 }

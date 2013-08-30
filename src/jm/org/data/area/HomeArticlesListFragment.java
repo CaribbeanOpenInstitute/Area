@@ -19,6 +19,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
+
 public class HomeArticlesListFragment extends ListFragment implements
 		LoaderManager.LoaderCallbacks<Cursor> {
 	public final String TAG = getClass().getSimpleName();
@@ -54,6 +57,20 @@ public class HomeArticlesListFragment extends ListFragment implements
 		String itemTitle = cursor.getString(cursor.getColumnIndex(BING_DESC));
 		String itemURL = cursor.getString(cursor.getColumnIndex(BING_URL));
 		Log.d(TAG, "Article selected is: " + item + " Title is: " + itemTitle);
+		
+		// May return null if a EasyTracker has not yet been initialized with a
+		// property ID.
+		EasyTracker easyTracker = EasyTracker.getInstance(getActivity());
+
+		// MapBuilder.createEvent().build() returns a Map of event fields and values
+		// that are set and sent with the hit.
+		easyTracker.send(MapBuilder
+		    .createEvent("ui_action",     // Event category (required)
+		                 "Home_Article_List_Selction",  // Event action (required)
+		                 "Article selected is: " + item + " Title is: " + itemTitle,   // Event label
+		                 null)            // Event value
+		    .build()
+		);
 
 		// Launch Article View
 		Intent intent = new Intent(getActivity().getApplicationContext(),

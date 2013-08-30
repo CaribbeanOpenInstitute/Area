@@ -3,6 +3,8 @@
  */
 package jm.org.data.area;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Build;
@@ -135,5 +137,18 @@ public class SearchableActivity extends BaseActivity {
 		// Report the method by which we were called.
 		mDeliveredByText.setText(entryPoint);
 	}
-
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+		
+		EasyTracker.getInstance(this).activityStart(this);  // Add this method.
+		}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+	
+		EasyTracker.getInstance(this).activityStop(this);  // Add this method.
+	}
 }

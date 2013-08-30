@@ -8,6 +8,9 @@ import static jm.org.data.area.DBConstants.BING_URL;
 
 import java.util.Arrays;
 
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -103,6 +106,19 @@ public class ArticlesFragment extends ListFragment implements
 		String itemURL = cursor.getString(cursor.getColumnIndex(BING_URL));
 		Log.d(TAG, "Article selected is: " + item + " Title is: " + itemTitle);
 
+		// May return null if a EasyTracker has not yet been initialized with a
+		// property ID.
+		EasyTracker easyTracker = EasyTracker.getInstance(getActivity());
+
+		// MapBuilder.createEvent().build() returns a Map of event fields and values
+		// that are set and sent with the hit.
+		easyTracker.send(MapBuilder
+		    .createEvent("ui_action",     // Event category (required)
+		                 "Article_List_Selction",  // Event action (required)
+		                 "Article selected is: " + item + " Title is: " + itemTitle,   // Event label
+		                 null)            // Event value
+		    .build()
+		);
 		// Launch Article View
 
 		new AreaData(getActivity().getApplicationContext())

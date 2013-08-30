@@ -27,6 +27,8 @@ import static jm.org.data.area.DBConstants.WB_INDICATOR_ID;
 
 import java.util.ArrayList;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -392,4 +394,17 @@ public class IndicatorActivity extends BaseActivity implements
 		// Log.d(TAG, "Current tab is " + mTabHost.getCurrentTab());
 	}
 
+	@Override
+	public void onStart() {
+		super.onStart();
+		
+		EasyTracker.getInstance(this).activityStart(this);  // Add this method.
+		}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+	
+		EasyTracker.getInstance(this).activityStop(this);  // Add this method.
+	}
 }

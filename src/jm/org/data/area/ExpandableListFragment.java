@@ -55,9 +55,40 @@ public class ExpandableListFragment extends Fragment implements OnChildClickList
     
     @Override
     public void onResume(){
+    	
+    	
+    	if(mAdapter == null){
+    		Log.d(TAG, "Resuming");
+	    	mAdapter = new AreaExpandableListAdapter(
+	    			getActivity(), //Context context,  
+	                R.layout.row, //int GroupLayout,
+	                R.layout.group, //int childLayout,
+	                new String[] {CATEGORY_NAME}, // Name for group layouts String[] groupFrom,
+	                new int[] { R.id.textView1 }, // int[] groupTo,
+	                new String[] { INDICATOR_NAME }, // Number for child layouts String[] childFrom,
+	                new int[] { R.id.textView1 },
+	                menuList); //int[] childTo
+	
+	    		    	
+	        menuList.setAdapter(mAdapter);
+	        try{
+		        act = (IndicatorActivity) getActivity();
+				mAdapter.setSelectedPosition(act.getGroupPosition(), act.getChildPosition());
+				
+				menuList.setSelectedChild(act.getGroupPosition(), act.getChildPosition(), true);
+				menuList.expandGroup(act.getGroupPosition());
+	        }catch (ClassCastException actException){
+	        	hAct = (HomeActivity) getActivity();
+				mAdapter.setSelectedPosition(-1);
+	        }
+	        
+    	}else{
+    		
+    	}
     	super.onResume();
-    	Log.d(TAG, "Resuming");
     }
+    
+    
     @Override
 	public void onActivityCreated(Bundle savedInstanceState) {
     	
@@ -110,7 +141,7 @@ public class ExpandableListFragment extends Fragment implements OnChildClickList
 
         	
         menuList.setAdapter(mAdapter);
-        menuList.setOnChildClickListener(this);
+        //menuList.setOnChildClickListener(this);
         return mainView;
     	
     }
@@ -152,7 +183,7 @@ public class ExpandableListFragment extends Fragment implements OnChildClickList
 	        this.mAdapter = null;
 	      }
 	      
-	      this.getLoaderManager().destroyLoader(0);
+	      //this.getLoaderManager().destroyLoader(0);
 	      
 	      /*if (this.mActivityListCursorObj != null) {
 	        this.mActivityListCursorObj.close();

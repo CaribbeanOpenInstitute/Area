@@ -335,7 +335,6 @@ public class AreaDB extends SQLiteOpenHelper{
 		}else{
 			query = "SELECT "+ tableColumns + " FROM " + tableName +" WHERE " + queryParams;
 		}
-
 		try {
 			cursor = db.rawQuery(query, null);
 			Log.d("AREA", "Raw Query: " + query);

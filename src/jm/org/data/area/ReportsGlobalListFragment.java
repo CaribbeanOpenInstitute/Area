@@ -11,6 +11,9 @@ import static jm.org.data.area.DBConstants.IDS_DOC_TITLE;
 
 import java.util.Arrays;
 
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -59,7 +62,19 @@ public class ReportsGlobalListFragment extends ListFragment implements
 		String itemTitle = cursor.getString(cursor
 				.getColumnIndex(IDS_DOC_TITLE));
 		Log.d(TAG, "Report selected is: " + item + " Title is: " + itemTitle);
+		// May return null if a EasyTracker has not yet been initialized with a
+		// property ID.
+		EasyTracker easyTracker = EasyTracker.getInstance(getActivity());
 
+		// MapBuilder.createEvent().build() returns a Map of event fields and values
+		// that are set and sent with the hit.
+		easyTracker.send(MapBuilder
+		    .createEvent("ui_action",     // Event category (required)
+		                 "Reports_Global_List_Selction",  // Event action (required)
+		                 "Report selected is: " + item + " Title is: " + itemTitle,   // Event label
+		                 null)            // Event value
+		    .build()
+		);
 		// Launch Report View
 		Intent intent = new Intent(getActivity().getApplicationContext(),
 				ReportDetailViewActivity.class);
