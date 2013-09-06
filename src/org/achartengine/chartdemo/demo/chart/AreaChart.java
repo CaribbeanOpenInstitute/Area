@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jm.org.data.area.AreaApplication;
-import jm.org.data.area.AreaData;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;

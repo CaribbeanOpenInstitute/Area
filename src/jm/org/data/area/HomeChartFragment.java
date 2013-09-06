@@ -6,19 +6,14 @@ import static jm.org.data.area.DBConstants.I_ID;
 
 import java.util.Arrays;
 
-import org.achartengine.GraphicalView;
-import org.achartengine.chartdemo.demo.chart.AreaChart;
-
 import android.app.ProgressDialog;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -27,7 +22,8 @@ public class HomeChartFragment extends Fragment {
 
 	TextView txt;
 	private HomeActivity parentActivity;
-	private GraphicalView chart;
+	//private GraphicalView chart;
+	private GetChartData chart_data;
 	private LinearLayout layout;
 	private String indicator;
 	private String[] countryList;
@@ -98,7 +94,10 @@ public class HomeChartFragment extends Fragment {
 	}
 
 	private void renderChart() {
-		Log.d(TAG, String.format("Indicator: %s. Country list: %s", indicator,
+		chart_data = new GetChartData(layout, getActivity(), dialog, indicator, countryList);
+		chart_data.renderChart();
+		
+		/*Log.d(TAG, String.format("Indicator: %s. Country list: %s", indicator,
 				Arrays.toString(countryList)));
 		chart = new AreaChart().execute(getActivity(), indicator, countryList);
 		Log.e(TAG, "chart view " + chart.toString() + " - " + layout.getId()
@@ -110,7 +109,7 @@ public class HomeChartFragment extends Fragment {
 		layout.removeAllViewsInLayout();
 		layout.setBackgroundColor(Color.BLUE);
 		layout.addView(chart, new LayoutParams(LayoutParams.MATCH_PARENT,
-				LayoutParams.MATCH_PARENT));/**/
+				LayoutParams.MATCH_PARENT));*/
 	}
 
 	private void displayError() {

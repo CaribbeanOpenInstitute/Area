@@ -1,11 +1,13 @@
 package jm.org.data.area;
 
-import static jm.org.data.area.DBConstants.*;
-import static jm.org.data.area.AreaConstants.*;
-
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.MapBuilder;
-
+import static jm.org.data.area.AreaConstants.S_COLLECTIONS;
+import static jm.org.data.area.AreaConstants.S_COUNTRIES;
+import static jm.org.data.area.AreaConstants.S_INDICATORS;
+import static jm.org.data.area.AreaConstants.S_PARENT;
+import static jm.org.data.area.AreaConstants.S_SAVED_DATA;
+import static jm.org.data.area.DBConstants.SELECTION_ID;
+import static jm.org.data.area.DBConstants.SELECTION_NAME;
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -16,6 +18,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
 
 public class SelectionListFragment extends ListFragment implements
 			LoaderManager.LoaderCallbacks<Cursor> {
@@ -28,8 +33,9 @@ public class SelectionListFragment extends ListFragment implements
 	private HomeActivity hAct;
 	private CountryActivity cAct;
 	private CollectionsActivity colAct;
-	private SearchDataActivity sAct;
-	private int selection;
+	private SavedDataActivity sAct;
+	private int selection, parentNum;
+	private Activity parent;
 	private SelectionListCursorAdapter myAdapter;
 	private Intent actIntent;
 	
@@ -48,8 +54,43 @@ public class SelectionListFragment extends ListFragment implements
 		super.onActivityCreated(savedInstanceState);
 		/* Cursor Loader */
 		setEmptyText("No Selections found");
-		
-		try { // Check if the parent activity is the IndicatorActivity
+		try{
+        	parent = getActivity();
+        	if (parent instanceof HomeActivity){
+        		hAct = (HomeActivity) getActivity();
+        		selection = hAct.getSelectionID();
+        		parentNum = hAct.getParentNum();
+				
+        	}else if (parent instanceof IndicatorActivity){
+        		act = (IndicatorActivity) getActivity();
+        		selection = act.getSelectionID();
+        		parentNum = act.getParentNum();
+        		
+        	}else if (parent instanceof CollectionsActivity){
+        		colAct = (CollectionsActivity) getActivity();
+        		selection = colAct.getSelectionID();
+        		parentNum = colAct.getParentNum();
+        		
+        	}else if (parent instanceof CountryActivity){
+        		cAct = (CountryActivity) getActivity();
+        		selection = cAct.getSelectionID();
+        		parentNum = cAct.getParentNum();
+        		
+        	}else if(parent instanceof SavedDataActivity){
+        		sAct = (SavedDataActivity) getActivity();
+        		selection = sAct.getSelectionID();
+        		parentNum = sAct.getParentNum();
+        		
+        	}else{
+        		Log.d(TAG,"We Have no clue what the starting activity is. Hmm, not sure what is happening");
+        	}
+	        
+        }catch (ClassCastException actException){
+        	 Log.d(TAG,"We Have no clue what the starting activity is");
+        	hAct = (HomeActivity) getActivity();
+        	selection = hAct.getSelectionID();
+        }
+/*		try { // Check if the parent activity is the IndicatorActivity
 			hAct = (HomeActivity) getActivity();
 			selection = hAct.getSelectionID();
 			
@@ -58,7 +99,7 @@ public class SelectionListFragment extends ListFragment implements
 			//act = (IndicatorActivity) getActivity();
 			selection = 1;
 
-		}
+		}*/
 		setListShown(false);
 		getLoaderManager().initLoader(0, null, this);
 		
@@ -98,7 +139,9 @@ public class SelectionListFragment extends ListFragment implements
 					HomeActivity.class);
 			actIntent.putExtra(SELECTION_ID, item_id);
 			actIntent.putExtra(SELECTION_NAME, item);
+			actIntent.putExtra(S_PARENT, parentNum);
 			startActivity(actIntent);
+			getActivity().finish();
 			break;
 		case S_COUNTRIES:
 			Toast.makeText(getActivity(), "Selected Countries",
@@ -107,7 +150,9 @@ public class SelectionListFragment extends ListFragment implements
 					HomeActivity.class);
 			actIntent.putExtra(SELECTION_ID, item_id);
 			actIntent.putExtra(SELECTION_NAME, item);
+			actIntent.putExtra(S_PARENT, parentNum);
 			startActivity(actIntent);
+			getActivity().finish();
 			break;
 		case S_COLLECTIONS:
 			Toast.makeText(getActivity(), "Selected Collections",
@@ -116,16 +161,20 @@ public class SelectionListFragment extends ListFragment implements
 					HomeActivity.class);
 			actIntent.putExtra(SELECTION_ID, item_id);
 			actIntent.putExtra(SELECTION_NAME, item);
+			actIntent.putExtra(S_PARENT, parentNum);
 			startActivity(actIntent);
+			getActivity().finish();
 			break;
 		case S_SAVED_DATA:
 			Toast.makeText(getActivity(), "Selected Saved Data",
 					Toast.LENGTH_SHORT).show();
 			actIntent = new Intent(getActivity().getApplicationContext(),
-					HomeActivity.class);
+					SavedDataActivity.class);
 			actIntent.putExtra(SELECTION_ID, item_id);
 			actIntent.putExtra(SELECTION_NAME, item);
+			actIntent.putExtra(S_PARENT, parentNum);
 			startActivity(actIntent);
+			getActivity().finish();
 			break;
 		
 		}
@@ -174,7 +223,7 @@ public class SelectionListFragment extends ListFragment implements
 	      super.onStop();
 
 	      if (this.myAdapter !=null){
-	        this.myAdapter.getCursor().close();
+	        //this.myAdapter.getCursor().close();
 	        //this.myAdapter = null;
 	      }
 	      

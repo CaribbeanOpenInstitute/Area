@@ -7,21 +7,16 @@ import static jm.org.data.area.DBConstants.IDS_DOC_DWNLD_URL;
 import static jm.org.data.area.DBConstants.IDS_DOC_PUB;
 import static jm.org.data.area.DBConstants.IDS_DOC_PUB_DATE;
 import static jm.org.data.area.DBConstants.IDS_DOC_TITLE;
-import static jm.org.data.area.DBConstants.WB_INDICATOR_ID;
 
-import java.io.File;
 import java.util.Arrays;
 
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,12 +32,12 @@ public class ReportDetailViewFragment extends Fragment implements
 	public static final String TAG = ReportDetailViewFragment.class
 			.getSimpleName();
 
-	private AreaApplication areaApp;
+	//private AreaApplication areaApp;
 	private ReportDetailViewActivity parentActivity;
 	// Meta Data for a report
 	private int docID;
-	private String docTitle, docName, pubDate, publisher, dateCreated, docDesc,
-			url;
+	//private String docTitle, docName, pubDate, publisher, dateCreated, docDesc,
+	private String 		url;
 	private ProgressDialog dialog;
 	private Button btnViewReport;
 
@@ -56,7 +51,7 @@ public class ReportDetailViewFragment extends Fragment implements
 		parentActivity = (ReportDetailViewActivity) getActivity();
 		dialog = new ProgressDialog(parentActivity);
 		// get Area application inorder to pull from the database
-		areaApp = (AreaApplication) getActivity().getApplication();
+		//areaApp = (AreaApplication) getActivity().getApplication();
 
 		// To retrieve the document ID from the activity that called this intent
 		final Bundle reportInfoBundle = getActivity().getIntent().getExtras();

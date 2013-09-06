@@ -38,8 +38,8 @@ public class ExpandableListFragment extends Fragment implements OnChildClickList
     public static final String TAG = ExpandableListFragment.class
 			.getSimpleName();
 
-    IndicatorActivity act;
-	HomeActivity hAct;
+    private IndicatorActivity act;
+	//private HomeActivity hAct;
 	    
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,7 +78,7 @@ public class ExpandableListFragment extends Fragment implements OnChildClickList
 				menuList.setSelectedChild(act.getGroupPosition(), act.getChildPosition(), true);
 				menuList.expandGroup(act.getGroupPosition());
 	        }catch (ClassCastException actException){
-	        	hAct = (HomeActivity) getActivity();
+	        	//hAct = (HomeActivity) getActivity();
 				mAdapter.setSelectedPosition(-1);
 	        }
 	        
@@ -93,30 +93,19 @@ public class ExpandableListFragment extends Fragment implements OnChildClickList
 	public void onActivityCreated(Bundle savedInstanceState) {
     	
 		super.onActivityCreated(savedInstanceState);
-
-        try { // Check if the parent activity is the IndicatorActivity
-			hAct = (HomeActivity) getActivity();
-			mAdapter.setSelectedPosition(-1);
+		
+        try { // Check if the parent activity is the IndicatorActivity. only need to track indicator selection here
 			
-		} catch (ClassCastException actException) {
 			act = (IndicatorActivity) getActivity();
 			mAdapter.setSelectedPosition(act.getGroupPosition(), act.getChildPosition());
 			
 			menuList.setSelectedChild(act.getGroupPosition(), act.getChildPosition(), true);
 			menuList.expandGroup(act.getGroupPosition());
-			/*
-			 * if (act == null) { Log.d(TAG,
-			 * "Indicator activity variable is null"); Bundle data =
-			 * getActivity().getIntent().getExtras();
-			 * 
-			 * myAdapter.setSelectedPosition(data.getInt(POSITION,-1),
-			 * getListView());
-			 * getListView().setSelection(data.getInt(POSITION,-1)); } else {
-			 * Log.d(TAG, "Indicator activity variable is not null");
-			 * myAdapter.setSelectedPosition(act.getPosition(), getListView());
-			 * getListView().setSelection(act.getPosition()); }
-			 */
-
+			
+		} catch (ClassCastException actException) {// otherwise leave list collapsed
+			//hAct = (HomeActivity) getActivity();
+			mAdapter.setSelectedPosition(-1);
+			
 		}
         
 
@@ -176,7 +165,7 @@ public class ExpandableListFragment extends Fragment implements OnChildClickList
 	@Override
 	public void onStop() {
 	    try {
-	      super.onStop();
+	      //super.onStop();
 
 	      if (this.mAdapter !=null){
 	        this.mAdapter.getCursor().close();

@@ -75,7 +75,7 @@ public class ArticlesGlobalListFragment extends ListFragment implements
 		);
 		// Launch Article View
 		Intent intent = new Intent(getActivity().getApplicationContext(),
-				ArtcileViewActivity.class);
+				ArticleViewActivity.class);
 		intent.putExtra(BING_SEARCH_ID, item_id);
 		intent.putExtra(BING_URL, itemURL);
 		startActivity(intent);

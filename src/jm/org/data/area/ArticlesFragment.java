@@ -1,6 +1,7 @@
 package jm.org.data.area;
 
 import static jm.org.data.area.AreaConstants.BING_SEARCH;
+import static jm.org.data.area.AreaConstants.SAVED_ARTICLES;
 import static jm.org.data.area.DBConstants.BING_DESC;
 import static jm.org.data.area.DBConstants.BING_SEARCH_ID;
 import static jm.org.data.area.DBConstants.BING_TITLE;
@@ -8,9 +9,8 @@ import static jm.org.data.area.DBConstants.BING_URL;
 
 import java.util.Arrays;
 
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.MapBuilder;
-
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -28,6 +28,9 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
+
 public class ArticlesFragment extends ListFragment implements
 		LoaderManager.LoaderCallbacks<Cursor> {
 	public static final String TAG = ArticlesFragment.class.getSimpleName();
@@ -35,21 +38,65 @@ public class ArticlesFragment extends ListFragment implements
 	private String[] countryList;
 	SearchCursorAdapter mAdapter;
 	SimpleCursorAdapter tAdapter;
+	private IndicatorActivity act;
+	
+	private CountryActivity cAct;
+	private CollectionsActivity colAct;
+	private SavedDataActivity sAct;
+	
+	private Activity parent;
+	private ProgressDialog dialog;
+	
+	private int searchType;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-		IndicatorActivity parentActivity = (IndicatorActivity) getActivity();
-		indicator = parentActivity.getIndicator();
-		countryList = parentActivity.getCountryList();
+		
+		
 		Log.e(TAG, "Creating Articles Fragment");
+		try{
+        	parent = getActivity();
+        	if (parent instanceof IndicatorActivity){
+        		act = (IndicatorActivity) getActivity();
+        		dialog = new ProgressDialog(act);
+        		indicator = act.getIndicator();
+        		countryList = act.getCountryList();
+        		searchType = BING_SEARCH;
+        		
+        	}else if (parent instanceof CollectionsActivity){
+        		colAct = (CollectionsActivity) getActivity();
+        		dialog = new ProgressDialog(colAct);
+        		indicator = "";
+        		countryList = null;
+        	}else if (parent instanceof CountryActivity){
+        		cAct = (CountryActivity) getActivity();
+        		dialog = new ProgressDialog(cAct);
+        		indicator = "";
+        		countryList = null;
+        	}else if(parent instanceof SavedDataActivity){
+        		sAct = (SavedDataActivity) getActivity();
+        		dialog = new ProgressDialog(sAct);
+        		indicator = "";
+        		searchType = SAVED_ARTICLES;
+        		countryList = null;
+        	}else{
+        		Log.d(TAG,"We Have no clue what the starting activity is. Hmm, not sure what is happening");
+        	}
+	        
+        }catch (ClassCastException actException){
+        	 Log.e(TAG,"We Have no clue what the starting activity is");
+        	
+        }
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
+		dialog = ProgressDialog.show(getActivity(), "",
+				"Loading Reports Data. Please wait...", true);
+		
 		String[] from = { BING_TITLE, BING_DESC };
 		int[] to = { R.id.list_item_title, R.id.list_item_desc };
 		tAdapter = new SimpleCursorAdapter(getActivity(),
@@ -81,6 +128,8 @@ public class ArticlesFragment extends ListFragment implements
 		case R.id.menu_reload:
 			Toast.makeText(getActivity(), "Refreshing article list...",
 					Toast.LENGTH_SHORT).show();
+			dialog = ProgressDialog.show(getActivity(), "",
+					"Loading Reports Data. Please wait...", true);
 			reload();
 			break;
 		default:
@@ -98,7 +147,7 @@ public class ArticlesFragment extends ListFragment implements
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		Cursor cursor = (Cursor) getListAdapter().getItem(position);
-
+		
 		String item = cursor.getString(cursor.getColumnIndex(BING_TITLE));
 		String item_id = cursor
 				.getString(cursor.getColumnIndex(BING_SEARCH_ID));
@@ -125,15 +174,16 @@ public class ArticlesFragment extends ListFragment implements
 				.updateArticle(itemURL);
 		Log.e(TAG, "Article Updated is: " + item + " Title is: " + itemTitle);
 		Intent intent = new Intent(getActivity().getApplicationContext(),
-				ArtcileViewActivity.class);
+				ArticleViewActivity.class);
 		intent.putExtra(BING_SEARCH_ID, item_id);
 		intent.putExtra(BING_URL, itemURL);
+		intent.putExtra(BING_TITLE, item);
 		startActivity(intent);
 	}
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-		return new SearchListAdapter(getActivity(), BING_SEARCH, indicator,
+		return new SearchListAdapter(getActivity(), searchType, indicator,
 				countryList);
 	}
 
@@ -152,6 +202,10 @@ public class ArticlesFragment extends ListFragment implements
 			} else {
 				// setListShownNoAnimation(true);
 			}
+			
+		}
+		if (dialog.isShowing()) {
+			dialog.dismiss();
 		}
 	}
 
@@ -170,9 +224,13 @@ public class ArticlesFragment extends ListFragment implements
 						"Articles reload function. \n Current indicator: %s. Country List: %s",
 						indicator, Arrays.toString(countryList)));
 		getLoaderManager().restartLoader(0, null, this);
+		
+		if (dialog.isShowing()) {
+			dialog.dismiss();
+		}
 	}
 
-	@Override
+	/*@Override
 	public void onStop() {
 	    try {
 	      super.onStop();
@@ -184,9 +242,9 @@ public class ArticlesFragment extends ListFragment implements
 	      
 	      this.getLoaderManager().destroyLoader(0);
 	      
-	      /*if (this.mActivityListCursorObj != null) {
+	      if (this.mActivityListCursorObj != null) {
 	        this.mActivityListCursorObj.close();
-	      }*/
+	      }
 
 	      super.onStop();
 	    } catch (Exception error) {
@@ -194,4 +252,4 @@ public class ArticlesFragment extends ListFragment implements
 	    	
 	    }// end try/catch (Exception error)
 	  }// end onStop
-}
+*/}

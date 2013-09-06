@@ -74,9 +74,10 @@ public class HomeArticlesListFragment extends ListFragment implements
 
 		// Launch Article View
 		Intent intent = new Intent(getActivity().getApplicationContext(),
-				ArtcileViewActivity.class);
+				ArticleViewActivity.class);
 		intent.putExtra(BING_SEARCH_ID, item_id);
 		intent.putExtra(BING_URL, itemURL);
+		intent.putExtra(BING_TITLE, item);
 		startActivity(intent);
 	}
 
@@ -114,10 +115,24 @@ public class HomeArticlesListFragment extends ListFragment implements
 		getLoaderManager().restartLoader(0, null, this);
 	}
 	
+	/*@Override
+	public void onResume(){
+		
+		String[] from = { BING_TITLE, BING_DESC };
+		int[] to = { R.id.list_item_title, R.id.list_item_desc };
+		mAdapter = new SimpleCursorAdapter(getActivity(),
+				R.layout.list_item_dual, null, from, to, 0);
+
+		setListAdapter(mAdapter);
+		getLoaderManager().initLoader(0, null, this);
+		
+		super.onResume();
+	}
+	
 	@Override
 	public void onStop() {
 	    try {
-	      super.onStop();
+	      //super.onStop();
 
 	      if (this.mAdapter !=null){
 	        this.mAdapter.getCursor().close();
@@ -126,9 +141,9 @@ public class HomeArticlesListFragment extends ListFragment implements
 	      
 	      //this.getLoaderManager().destroyLoader(0);
 	      
-	      /*if (this.mActivityListCursorObj != null) {
+	      if (this.mActivityListCursorObj != null) {
 	        this.mActivityListCursorObj.close();
-	      }*/
+	      }
 
 	      super.onStop();
 	    } catch (Exception error) {
@@ -137,5 +152,5 @@ public class HomeArticlesListFragment extends ListFragment implements
 	    }// end try/catch (Exception error)
 	  }// end onStop
 
-
+*/
 }

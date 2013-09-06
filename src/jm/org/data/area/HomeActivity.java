@@ -25,11 +25,13 @@ import android.widget.Toast;
  * DESC: Main application activity.
  */
 public class HomeActivity extends BaseActivity {
+	
 	private static final String TAG = HomeActivity.class.getSimpleName();
 	private String selection;
 	private int mSelection;
 	private Bundle actBundle;
-	SelectionListFragment sFragment;
+	private SelectionListFragment sFragment;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -141,6 +143,10 @@ public class HomeActivity extends BaseActivity {
 	public String getSelection() {
 		return selection;
 	}
+	
+	public int getParentNum() {
+		return 1;
+	}
 
 	public int getSelectionID(){
 		return mSelection;
@@ -155,6 +161,7 @@ public class HomeActivity extends BaseActivity {
 	public void setSelection(int lPos) {
 		mSelection = lPos;
 	}
+	
 	
 	@Override
 	public void onStart() {

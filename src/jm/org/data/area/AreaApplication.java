@@ -176,7 +176,10 @@ public class AreaApplication extends Application {
 			return SELECTIONS_DATA;
 		else if (tableName.equals(DATA_TYPES))
 			return DATA_TYPES_LIST;
-		
+		else if (tableName.equals(CHARTS))
+			return CHART_DATA;
+		else if (tableName.equals(SAVED_DATA))
+			return GET_DATA;
 		return -1;
 	}
 

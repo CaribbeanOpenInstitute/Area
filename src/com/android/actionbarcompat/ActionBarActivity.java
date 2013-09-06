@@ -35,7 +35,7 @@ import android.view.MenuInflater;
 public abstract class ActionBarActivity extends FragmentActivity {
 	final ActionBarHelper mActionBarHelper = ActionBarHelper
 			.createInstance(this);
-
+	//private static final String TAG = ActionBarActivity.class.getSimpleName();
 	/**
 	 * Returns the {@link ActionBarHelper} for this activity.
 	 */
@@ -74,6 +74,7 @@ public abstract class ActionBarActivity extends FragmentActivity {
 		boolean retValue = false;
 		retValue |= mActionBarHelper.onCreateOptionsMenu(menu);
 		retValue |= super.onCreateOptionsMenu(menu);
+		//Log.d(TAG, "OnCreateOptionsMenu");
 		return retValue;
 	}
 

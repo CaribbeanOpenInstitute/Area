@@ -26,33 +26,35 @@ import static jm.org.data.area.DBConstants.SELECTION_NAME;
 import static jm.org.data.area.DBConstants.WB_INDICATOR_ID;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
-import com.google.analytics.tracking.android.EasyTracker;
-
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.TabHost;
-import android.widget.TabWidget;
+
+import com.google.analytics.tracking.android.EasyTracker;
 
 public class IndicatorActivity extends BaseActivity implements
 		KeywordsFragment.OnCountryChangeListener {
 	private static final String TAG = IndicatorActivity.class.getSimpleName();
 	TabHost mTabHost;
 	ViewPager mViewPager;
-	TabsAdapter mTabsAdapter;
+	AreaTabsAdapter mTabsAdapter;
 
+	
+	
 	public int dataSource;
 	private String indicatorID, selection;
 	// private String indicatorName;
@@ -85,6 +87,16 @@ public class IndicatorActivity extends BaseActivity implements
 			mSelection = indicatorBundle.getInt(SELECTION_ID  );
 			selection  = indicatorBundle.getString(SELECTION_NAME);
 		}
+		
+		if (indicatorBundle.getString("countries") != null){
+			countryList = new ArrayList<String>();
+			String[] countryArray = indicatorBundle.getString("countries").split(",");
+			
+			countryList = new ArrayList<String>(Arrays.asList(countryArray));
+		}else{
+			countryList = new ArrayList<String>();
+			countryList.add("World");
+		}
 
 		setContentView(R.layout.indicator_dashboard);
 		//dialog = new ProgressDialog(this);
@@ -93,7 +105,7 @@ public class IndicatorActivity extends BaseActivity implements
 
 		mViewPager = (ViewPager) findViewById(R.id.viewpager);
 
-		mTabsAdapter = new TabsAdapter(this, mTabHost, mViewPager);
+		mTabsAdapter = new AreaTabsAdapter(this, mTabHost, mViewPager);
 
 		mTabsAdapter.addTab(mTabHost.newTabSpec("charts")
 				.setIndicator("Charts"), ChartsFragment.class, null);
@@ -118,8 +130,7 @@ public class IndicatorActivity extends BaseActivity implements
 		 */
 		Log.d(TAG, String.format("Indicator ID: %s at position %d",
 				indicatorID, mChildPosition));
-		countryList = new ArrayList<String>();
-		countryList.add("World");
+		
 
 	}
 
@@ -133,11 +144,76 @@ public class IndicatorActivity extends BaseActivity implements
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater menuInflater = getMenuInflater();
 		menuInflater.inflate(R.menu.main, menu);
-		Log.d(TAG, "OnCreateOptionsMenu");
+		//Log.d(TAG, "OnCreateOptionsMenu");
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			// only for android newer than gingerbread
+			// TODO Implement a Search Dialog fall back for compatibility with
+			// Android 2.3 and lower
+			// Currently crashes on Gingerbread or lower
+
+			// Get the SearchView and set the searchable configuration
+			SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+			SearchView searchView = (SearchView) menu
+					.findItem(R.id.menu_search).getActionView();
+			searchView.setSearchableInfo(searchManager
+					.getSearchableInfo(getComponentName()));
+			searchView.setIconifiedByDefault(true); // Do not iconify the
+													// widget; expand it by
+													// default
+			
+		}
 		return super.onCreateOptionsMenu(menu);
 	}
 	
+	@Override
+	public void onAttachFragment (Fragment fragment){
+		super.onAttachFragment(fragment);
+		//Log.d(TAG, "Fragment Attached");
+	}
 	
+	@Override
+	public boolean onContextItemSelected (MenuItem item){
+		//Log.d(TAG, "Context Item Selected");
+		return super.onContextItemSelected(item);
+	}
+	
+	@Override
+	public void onCreateContextMenu (ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
+		super.onCreateContextMenu(menu, v, menuInfo);
+		//Log.d(TAG, "Context Menu Created");
+	}
+	
+	@Override
+	public void onDestroy (){
+		super.onDestroy();
+		//Log.d(TAG, "Fragment Destroyed");
+	}
+	
+	
+	@Override
+	public void onPanelClosed(int featureId, Menu menu){
+		super.onPanelClosed(featureId, menu);
+		//Log.d(TAG, "Panel Closed");
+	}
+	
+	@Override
+	public boolean onPreparePanel (int featureId, View view, Menu menu){
+		//Log.d(TAG, "Preparing Panel");
+		return super.onPreparePanel(featureId, view, menu);
+	}
+	
+	
+	@Override
+	public void onOptionsMenuClosed (Menu menu){
+		super.onOptionsMenuClosed(menu);
+		//Log.d(TAG, "Menu Closed");
+	}
+	
+	@Override
+	public void onResume(){
+		//Log.d(TAG, "Resuming");
+		super.onResume();
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -147,6 +223,9 @@ public class IndicatorActivity extends BaseActivity implements
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
 			return true;
+		case R.id.menu_share:
+			
+
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -158,129 +237,7 @@ public class IndicatorActivity extends BaseActivity implements
 		outState.putString("tab", mTabHost.getCurrentTabTag());
 	}
 
-	/**
-	 * This is a helper class that implements the management of tabs and all
-	 * details of connecting a ViewPager with associated TabHost. It relies on a
-	 * trick. Normally a tab host has a simple API for supplying a View or
-	 * Intent that each tab will show. This is not sufficient for switching
-	 * between pages. So instead we make the content part of the tab host 0dp
-	 * high (it is not shown) and the TabsAdapter supplies its own dummy view to
-	 * show as the tab content. It listens to changes in tabs, and takes care of
-	 * switch to the correct paged in the ViewPager whenever the selected tab
-	 * changes.
-	 */
-	public static class TabsAdapter extends FragmentPagerAdapter implements
-			TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
-		private final Context mContext;
-		private final TabHost mTabHost;
-		private final ViewPager mViewPager;
-		private final ArrayList<TabInfo> mTabs = new ArrayList<TabInfo>();
-
-		static final class TabInfo {
-			//private final String tag;
-			private final Class<?> clss;
-			private final Bundle args;
-
-			TabInfo(String _tag, Class<?> _class, Bundle _args) {
-				//tag = _tag;
-				clss = _class;
-				args = _args;
-			}
-		}
-
-		static class DummyTabFactory implements TabHost.TabContentFactory {
-			private final Context mContext;
-
-			public DummyTabFactory(Context context) {
-				mContext = context;
-			}
-
-			@Override
-			public View createTabContent(String tag) {
-				View v = new View(mContext);
-				v.setMinimumWidth(0);
-				v.setMinimumHeight(0);
-				return v;
-			}
-		}
-
-		public TabsAdapter(FragmentActivity activity, TabHost tabHost,
-				ViewPager pager) {
-			super(activity.getSupportFragmentManager());
-			mContext = activity;
-			mTabHost = tabHost;
-			mViewPager = pager;
-			mTabHost.setOnTabChangedListener(this);
-			mViewPager.setAdapter(this);
-			mViewPager.setOnPageChangeListener(this);
-			
-		}
-
-		public void addTab(TabHost.TabSpec tabSpec, Class<?> clss, Bundle args) {
-			tabSpec.setContent(new DummyTabFactory(mContext));
-			String tag = tabSpec.getTag();
-
-			TabInfo info = new TabInfo(tag, clss, args);
-			mTabs.add(info);
-			mTabHost.addTab(tabSpec);
-			notifyDataSetChanged();
-		}
-
-		@Override
-		public int getCount() {
-			return mTabs.size();
-		}
-
-		@Override
-		public Fragment getItem(int position) {
-			TabInfo info = mTabs.get(position);
-			return Fragment.instantiate(mContext, info.clss.getName(),
-					info.args);
-		}
-
-		@Override
-		public void onTabChanged(String tabId) {
-			Log.d(TAG, "TabChanged");
-			int position = mTabHost.getCurrentTab();
-			mViewPager.setCurrentItem(position);
-			
-		}
-
-		@Override
-		public void onPageSelected(int position) {
-			// Unfortunately when TabHost changes the current tab, it kindly
-			// also takes care of putting focus on it when not in touch mode.
-			// The jerk.
-			// This hack tries to prevent this from pulling focus out of our
-			// ViewPager.
-			Log.d(TAG, "onPageSelected");
-			TabWidget widget = mTabHost.getTabWidget();
-			int oldFocusability = widget.getDescendantFocusability();
-			widget.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
-			mTabHost.setCurrentTab(position);
-			widget.setDescendantFocusability(oldFocusability);
-		}
-
-		@Override
-		public void onPageScrollStateChanged(int arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void onPageScrolled(int position, float positionOffSet, int arg2) {
-			
-			//Log.d(TAG, "onPageScrolled");
-			
-			
-			
-		}
-
-		/*@Override
-		public void onPageScrollStateChanged(int state) {
-			
-		}*/
-	}
+	
 
 	
 	public void onCountryChange(int change, String keyword) {
@@ -317,6 +274,10 @@ public class IndicatorActivity extends BaseActivity implements
 
 	}
 
+	public int getParentNum() {
+		return 2;
+	}
+	
 	public int getSelectionID(){
 		return mSelection;
 	}

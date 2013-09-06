@@ -1,15 +1,27 @@
 package jm.org.data.area;
 
+import static android.provider.BaseColumns._ID;
+import static jm.org.data.area.AreaConstants.ARTICLES_DATA;
 import static jm.org.data.area.DBConstants.BING_TITLE;
 import static jm.org.data.area.DBConstants.BING_URL;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
+
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
 
 public class ArticleViewFragment extends Fragment {
 	private WebView articleWebView;
@@ -23,9 +35,12 @@ public class ArticleViewFragment extends Fragment {
 	 * public static final String BING_DISP_URL = "display_url" ; public static
 	 * final String BING_DATE_TIME = "datetime" ;
 	 */
-
+	private AlertDialog.Builder aBuilder;
+	private AlertDialog aDialog;
+	private AreaApplication area;
 	private String bingTitle;
-	private String bingUrl;
+	private String bingUrl, bingid;
+	private ProgressDialog dialog;
 
 	// private String bingDesc;
 	// private String bingDispUrl;
@@ -35,11 +50,13 @@ public class ArticleViewFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.e(TAG, "ArticleViewFragment");
-
+		
+		area 			= (AreaApplication) getActivity().getApplication();
 		// To retrieve the information from the activity that called this intent
 		final Bundle indicatorBundle = getActivity().getIntent().getExtras();
 		bingTitle = indicatorBundle.getString(BING_TITLE);
 		bingUrl = indicatorBundle.getString(BING_URL);
+		bingid = indicatorBundle.getString(_ID);
 
 		Log.d(TAG, String.format("BIng Title ID: %s at URL %s", bingTitle,
 				bingUrl));
@@ -49,11 +66,16 @@ public class ArticleViewFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
+		dialog = ProgressDialog.show(getActivity(), "",
+				"Loading Reports Data. Please wait...", true);
+		
 		articleWebView = (WebView) getView().findViewById(R.id.articleWebView);
 		showWebArticle(bingUrl);
 
 		articleWebView.setWebViewClient(new ArticleViewClient());
+		if (dialog.isShowing()) {
+			dialog.dismiss();
+		}
 	}
 
 	@Override
@@ -71,6 +93,78 @@ public class ArticleViewFragment extends Fragment {
 		View view = inflater.inflate(R.layout.article_view_frag, container,
 				false);
 		return view;
+	}
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		MenuInflater menuInflater = getActivity().getMenuInflater();
+		menuInflater.inflate(R.menu.articles, menu);
+		
+		super.onCreateOptionsMenu(menu, inflater);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+
+		case R.id.menu_reload:
+			Toast.makeText(getActivity(), "Refreshing report list...",
+					Toast.LENGTH_LONG).show();
+			dialog = ProgressDialog.show(getActivity(), "",
+					"Loading Article. Please wait...", true);
+			articleWebView.reload();
+			break;
+		case R.id.menu_save:
+			Toast.makeText(getActivity(), "Tapped Save", Toast.LENGTH_SHORT)
+					.show();
+			aBuilder = new AlertDialog.Builder(getActivity());
+			
+			aBuilder.setTitle("Save My Chart");
+			aBuilder.setIcon(R.drawable.ic_launcher);
+			
+			aBuilder.setMessage("Save Current Article?")
+						// Add action buttons
+					.setPositiveButton(R.string.save_chart, new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int id) {
+							//FROM_SAVED_DATA = { SAVED_DATA_ID, D_T_ID, ENTITY_ID};
+							area.areaData.saveData(ARTICLES_DATA, bingid);
+							
+							Toast.makeText(getActivity(), "Article " + bingTitle + 
+									" saved :) ", Toast.LENGTH_SHORT)
+							.show();
+							// May return null if a EasyTracker has not yet been initialized with a
+							// property ID.
+							EasyTracker easyTracker = EasyTracker.getInstance(getActivity());
+
+							// MapBuilder.createEvent().build() returns a Map of event fields and
+							// values
+							// that are set and sent with the hit.
+							easyTracker.send(MapBuilder.createEvent("ui_action", // Event category
+																					// (required)
+									"Articles_Save_Selction", // Event action (required)
+									"article saved is: " + bingTitle + " : " + bingUrl, // Event
+																								// label
+									null) // Event value
+									.build());
+							
+						}
+					})
+					.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							Toast.makeText(getActivity(), "Cancel", Toast.LENGTH_SHORT)
+								.show();
+							aDialog.cancel();
+						}
+					}); 
+			aDialog = aBuilder.create();
+			aDialog.show();
+			// Get image and initiative share intent
+			break;
+		default:
+			
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	public void showWebArticle(String articleUrl) {

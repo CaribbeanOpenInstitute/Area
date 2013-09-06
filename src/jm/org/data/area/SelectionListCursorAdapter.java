@@ -1,21 +1,19 @@
 package jm.org.data.area;
 
-import static jm.org.data.area.DBConstants.*;
+import static jm.org.data.area.DBConstants.SELECTION_NAME;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.support.v4.widget.CursorAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 
 public class SelectionListCursorAdapter extends CursorAdapter {
 	
-	private static final String TAG = SelectionListCursorAdapter.class.getSimpleName();
-	private int mSelectedPosition;
+	//private static final String TAG = SelectionListCursorAdapter.class.getSimpleName();
+	//private int mSelectedPosition;
 	//private Context mContext;
 
 	public SelectionListCursorAdapter(Context context, Cursor c) {

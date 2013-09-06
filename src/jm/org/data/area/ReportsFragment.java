@@ -1,13 +1,16 @@
 package jm.org.data.area;
 
-import static jm.org.data.area.DBConstants.*;
 import static jm.org.data.area.AreaConstants.*;
+import static jm.org.data.area.DBConstants.DOCUMENT_ID;
+import static jm.org.data.area.DBConstants.DOC_TITLE;
+import static jm.org.data.area.DBConstants.IDS_DOC_AUTH_STR;
+import static jm.org.data.area.DBConstants.IDS_DOC_DWNLD_URL;
+import static jm.org.data.area.DBConstants.IDS_DOC_ID;
+import static jm.org.data.area.DBConstants.IDS_DOC_TITLE;
 
 import java.util.Arrays;
 
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.MapBuilder;
-
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
@@ -23,31 +26,70 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.ViewAnimator;
+
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.MapBuilder;
 
 public class ReportsFragment extends ListFragment implements
 		LoaderManager.LoaderCallbacks<Cursor> {
 	public final String TAG = getClass().getSimpleName();
 	private String indicator;
-	private ViewAnimator loadingAnimator;
+	//private ViewAnimator loadingAnimator;
 	private String[] countryList;
-	private IndicatorActivity parentActivity;
+	private IndicatorActivity act;
+	
+	private CountryActivity cAct;
+	private CollectionsActivity colAct;
+	private SavedDataActivity sAct;
+	
+	private Activity parent;
 	SearchCursorAdapter mAdapter;
 	SimpleCursorAdapter tAdapter;
 	private ProgressDialog dialog;
+	
+	private int searchType;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-		parentActivity = (IndicatorActivity) getActivity();
-		dialog = new ProgressDialog(parentActivity);
+		try{
+        	parent = getActivity();
+        	if (parent instanceof IndicatorActivity){
+        		act = (IndicatorActivity) getActivity();
+        		dialog = new ProgressDialog(act);
+        		indicator = act.getIndicator();
+        		searchType = IDS_SEARCH;
+        		
+        	}else if (parent instanceof CollectionsActivity){
+        		colAct = (CollectionsActivity) getActivity();
+        		dialog = new ProgressDialog(colAct);
+        		indicator = "";
+        		
+        	}else if (parent instanceof CountryActivity){
+        		cAct = (CountryActivity) getActivity();
+        		dialog = new ProgressDialog(cAct);
+        		indicator = "";
+        		
+        	}else if(parent instanceof SavedDataActivity){
+        		sAct = (SavedDataActivity) getActivity();
+        		dialog = new ProgressDialog(sAct);
+        		indicator = "";
+        		searchType = SAVED_REPORTS;
+        		
+        	}else{
+        		Log.d(TAG,"We Have no clue what the starting activity is. Hmm, not sure what is happening");
+        	}
+	        
+        }catch (ClassCastException actException){
+        	 Log.e(TAG,"We Have no clue what the starting activity is");
+        	
+        }
+		
+		
 		mAdapter = new SearchCursorAdapter(getActivity(), null);
-
-		indicator = parentActivity.getIndicator();
 
 		// countryList = (String[]) parentActivity.getCountryList();
 		Log.d(TAG, String.format("Indcator: %s. Country List: ", indicator));
@@ -119,6 +161,8 @@ public class ReportsFragment extends ListFragment implements
 		int item_id = cursor.getInt(cursor.getColumnIndex(DOCUMENT_ID));
 		String itemTitle = cursor.getString(cursor
 				.getColumnIndex(IDS_DOC_TITLE));
+		String item_url = cursor.getString(cursor.getColumnIndex(IDS_DOC_DWNLD_URL));
+		
 		Log.d(TAG, "Report selected is: " + item + " Title is: " + itemTitle);
 		
 		// May return null if a EasyTracker has not yet been initialized with a
@@ -138,7 +182,9 @@ public class ReportsFragment extends ListFragment implements
 		Intent intent = new Intent(getActivity().getApplicationContext(),
 				ReportDetailViewActivity.class);
 		intent.putExtra(DOCUMENT_ID, item_id);
-		// intent.putExtra(BING_URL, itemURL);
+		intent.putExtra(DOC_TITLE, itemTitle);
+		intent.putExtra(IDS_DOC_ID, item);
+		intent.putExtra(IDS_DOC_DWNLD_URL, item_url);
 		if (dialog.isShowing()) {
 			dialog.dismiss();
 		}
@@ -147,7 +193,7 @@ public class ReportsFragment extends ListFragment implements
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-		return new SearchListAdapter(getActivity(), IDS_SEARCH, indicator,
+		return new SearchListAdapter(getActivity(), searchType, indicator,
 				countryList);
 	}
 

@@ -24,7 +24,18 @@
     <string name="menu_refresh">Refresh</string>
     <string name="menu_search">Search</string>
     <string name="menu_share">Share</string>
+    <string name="menu_save">Save</string>
     <string name="menu_prefs">Preferences</string>
+    
+    <string name="Chart_Desc_Hint">Describe Your Chart Here</string>
+    <string name="Chart_Title_Hint">Name Your Chart</string>
+    <string name="Chart_Title">Chart Name</string>
+    <string name="Chart_Desc">Description</string>
+    <string name="save_chart">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="chart_retrieve_message">Please wait, Retrieving your Charts</string>
+    <string name="no_chart_message">Sorry, You have no Saved Charts. </string>
+    <string name="charts">My Saved Charts </string>
     
     <!-- Preferences Strings -->
     <string name="pref_userTitle">User Settings</string>

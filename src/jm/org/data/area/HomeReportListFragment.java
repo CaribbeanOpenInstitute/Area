@@ -1,7 +1,9 @@
 package jm.org.data.area;
 
 import static jm.org.data.area.DBConstants.DOCUMENT_ID;
+import static jm.org.data.area.DBConstants.DOC_TITLE;
 import static jm.org.data.area.DBConstants.IDS_DOC_AUTH_STR;
+import static jm.org.data.area.DBConstants.IDS_DOC_DWNLD_URL;
 import static jm.org.data.area.DBConstants.IDS_DOC_ID;
 import static jm.org.data.area.DBConstants.IDS_DOC_TITLE;
 import static jm.org.data.area.AreaConstants.*;
@@ -60,6 +62,7 @@ public class HomeReportListFragment extends ListFragment implements
 		int item_id = cursor.getInt(cursor.getColumnIndex(DOCUMENT_ID));
 		String itemTitle = cursor.getString(cursor
 				.getColumnIndex(IDS_DOC_TITLE));
+		String item_url = cursor.getString(cursor.getColumnIndex(IDS_DOC_DWNLD_URL));
 		Log.d(TAG, "Report selected is: " + item + " Title is: " + itemTitle);
 
 		// May return null if a EasyTracker has not yet been initialized with a
@@ -79,6 +82,9 @@ public class HomeReportListFragment extends ListFragment implements
 		Intent intent = new Intent(getActivity().getApplicationContext(),
 				ReportDetailViewActivity.class);
 		intent.putExtra(DOCUMENT_ID, item_id);
+		intent.putExtra(DOC_TITLE, itemTitle);
+		intent.putExtra(IDS_DOC_ID, item);
+		intent.putExtra(IDS_DOC_DWNLD_URL, item_url);
 		// intent.putExtra(BING_URL, itemURL);
 		startActivity(intent);
 	}
@@ -121,6 +127,20 @@ public class HomeReportListFragment extends ListFragment implements
 		getLoaderManager().restartLoader(0, null, this);
 	}
 	
+	/*@Override
+	public void onResume(){
+		String[] from = { IDS_DOC_TITLE, IDS_DOC_AUTH_STR };
+		int[] to = { R.id.list_item_title, R.id.list_item_desc };
+		// tAdapter = new SimpleCursorAdapter(getActivity(),
+		// R.layout.list_reports_item, null, from, to, 0);
+		mAdapter = new SimpleCursorAdapter(getActivity(),
+				R.layout.list_item_dual, null, from, to, 0);
+
+		setListAdapter(mAdapter);
+		getLoaderManager().initLoader(0, null, this);
+		super.onResume();
+	}
+	
 	@Override
 	public void onStop() {
 	    try {
@@ -133,9 +153,9 @@ public class HomeReportListFragment extends ListFragment implements
 	      
 	      //this.getLoaderManager().destroyLoader(0);
 	      
-	      /*if (this.mActivityListCursorObj != null) {
+	      if (this.mActivityListCursorObj != null) {
 	        this.mActivityListCursorObj.close();
-	      }*/
+	      }
 
 	      super.onStop();
 	    } catch (Exception error) {
@@ -143,5 +163,5 @@ public class HomeReportListFragment extends ListFragment implements
 	    	
 	    }// end try/catch (Exception error)
 	  }// end onStop
-
+*/
 }

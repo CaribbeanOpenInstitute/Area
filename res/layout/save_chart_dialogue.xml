@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:paddingBottom="50dip"
+        android:orientation="horizontal" >
+	    <TextView
+		            android:id="@+id/chart_name_label"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:textSize="24sp"
+		            android:text="@string/Chart_Title"/>
+	    <EditText
+	        android:id="@+id/chart_name"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:hint="@string/Chart_Title_Hint" />
+	</LinearLayout>
+	
+	<View style="@style/Divider"/>
+	
+	<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:paddingBottom="50dip"
+        android:orientation="vertical" >
+	    
+	    <TextView
+		            android:id="@+id/chart_desc_label"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:textSize="24sp"
+		            android:text="@string/Chart_Desc"/>
+	    <EditText
+	        android:id="@+id/chart_description"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:minLines="5"
+	        android:hint="@string/Chart_Desc_Hint" />
+	</LinearLayout>
+</LinearLayout>

@@ -10,6 +10,7 @@ public interface AreaConstants {
 	public static final int FATAL_ERROR = -2;
 	public static final int SEARCH_FAIL = -1;
 	public static final int SEARCH_SUCCESS = 0;
+	public static final int SUCCESS = 0;
 	public static final int SEARCH_API_SOME = 1;
 	public static final int SEARCH_API_NONE = 2;
 
@@ -17,30 +18,35 @@ public interface AreaConstants {
 	public static final String IDS_DASE_URL = "http://api.ids.ac.uk/openapi/";
 	public static final String BING_BASE_URL = "http://api.bing.net/";
 
-	public static final int INDICATOR_LIST = 0;
-	public static final int COUNTRY_LIST = 1;
-	public static final int API_LIST = 2;
-	public static final int PERIOD_LIST = 3;
-	public static final int SEARCH_DATA = 4;
+	public static final int INDICATOR_LIST 		= 0;
+	public static final int COUNTRY_LIST 		= 1;
+	public static final int API_LIST 			= 2;
+	public static final int PERIOD_LIST 		= 3;
+	public static final int SEARCH_DATA 		= 4;
 	public static final int COUNTRY_SEARCH_DATA = 5;
-	public static final int WB_SEARCH_DATA = 6;
-	public static final int COUNTRY_INFO = 7;
-	public static final int IDS_SEARCH_DATA = 8;
-	public static final int IDS_PARAM_DATA = 9;
-	public static final int IDS_RESULT_DATA = 10;
-	public static final int BING_SEARCH_DATA = 11;
-	public static final int BING_RESULT_DATA = 12;
-	public static final int CATEGORY_LIST = 13;
+	public static final int WB_SEARCH_DATA 		= 6;
+	public static final int COUNTRY_INFO 		= 7;
+	public static final int IDS_SEARCH_DATA 	= 8;
+	public static final int IDS_PARAM_DATA 		= 9;
+	public static final int IDS_RESULT_DATA 	= 10;
+	public static final int BING_SEARCH_DATA 	= 11;
+	public static final int BING_RESULT_DATA 	= 12;
+	public static final int CATEGORY_LIST 		= 13;
 	public static final int IND_CATEGORIES_DATA = 14;
-	public static final int SELECTIONS_DATA = 15;
-	public static final int DATA_TYPES_LIST = 16;
-
+	public static final int SELECTIONS_DATA 	= 15;
+	public static final int DATA_TYPES_LIST 	= 16;
+	public static final int CHART_DATA 			= 17;
+	public static final int GET_DATA 			= 18;
+	
 	/*
 	 * API CODE
 	 */
-	public static final int WORLD_SEARCH = 0;
-	public static final int IDS_SEARCH = 1;
-	public static final int BING_SEARCH = 2;
+	public static final int WORLD_SEARCH 	= 0;
+	public static final int IDS_SEARCH 		= 1;
+	public static final int BING_SEARCH 	= 2;
+	public static final int SAVED_CHARTS 	= 3;
+	public static final int SAVED_ARTICLES 	= 4;
+	public static final int SAVED_REPORTS 	= 5;
 	
 	/*
 	 * SELECTIONS
@@ -49,6 +55,25 @@ public interface AreaConstants {
 	public static final int S_COUNTRIES   = 2;
 	public static final int S_COLLECTIONS = 3;
 	public static final int S_SAVED_DATA  = 4;
+	
+	/*
+	 * DATA TYPES
+	 */
+	public static final int CHARTS_DATA  	= 1;
+	public static final int REPORTS_DATA   	= 2;
+	public static final int ARTICLES_DATA	= 3;
+	
+	/*
+	 * SELECTION PARENT ACTIVITIES
+	 */
+	public static final String S_PARENT   = "Parent";
+	
+	public static final int S_HOME_ACT  = 1;
+	public static final int S_IND_ACT   = 2;
+	public static final int S_CTRY_ACT	= 2;
+	public static final int S_COLL_ACT 	= 3;
+	public static final int S_SVD_ACT	= 4;
+	
 
 	// Broadcast Receivers
 	public static final String ACTION_WORLD_UPDATE = "Area.WorldBank.Update";

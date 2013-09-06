@@ -1,7 +1,6 @@
 package jm.org.data.area;
 
-import static jm.org.data.area.AreaConstants.IDS_SEARCH;
-import static jm.org.data.area.AreaConstants.SEARCH_SUCCESS;
+import static jm.org.data.area.AreaConstants.*;
 import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
@@ -31,20 +30,27 @@ public class SearchListAdapter extends SimpleCursorLoader {
 	@Override
 	public Cursor loadInBackground() {
 		area = (AreaApplication) mContext.getApplicationContext();
-
+		Cursor results;
 		// int searchType = IDS_SEARCH;
 		// indicatorID = "AG.PRD.CROP.XD";
 		// country = new String[] { "Jamaica", "Barbados" };
 
 		try {
-			Log.e(TAG, "Calling Generic Search 2");
-			if (area.areaData.genericSearch(searchType, indicatorID, country) >= SEARCH_SUCCESS) {
-				Cursor results = area.areaData.getData(searchType, indicatorID,
+			Log.e(TAG, "Calling Generic Search:" + searchType);
+			if (searchType > BING_SEARCH){
+			
+				results = area.areaData.getData(searchType, null, null);
+				return results;
+			}else if (area.areaData.genericSearch(searchType, indicatorID, country) >= SEARCH_SUCCESS) {
+				
+				results = area.areaData.getData(searchType, indicatorID,
 						country);
 				Log.d(TAG,
 						"Returning data. Num of records: " + results.getCount());
 
 				return results;
+			}else{
+				Log.d(TAG, "Error Retrieving Data");
 			}
 		} catch (IllegalStateException ilEc) {
 			Log.e(TAG,
