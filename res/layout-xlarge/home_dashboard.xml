@@ -21,7 +21,6 @@
 	            android:id="@+id/indSeparator"
 	            android:layout_width="fill_parent"
 	            android:layout_height="10dp"
-	            android:layout_marginTop="20dip"
 	            android:background="#8AC7E3"/>
 		<fragment
 	        android:id="@+id/slistFragment"

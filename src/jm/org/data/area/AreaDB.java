@@ -11,7 +11,7 @@ import android.util.Log;
 
 public class AreaDB extends SQLiteOpenHelper{
 
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 	public static SQLiteDatabase db;
 
 
@@ -199,7 +199,9 @@ public class AreaDB extends SQLiteOpenHelper{
 			+ CHART_NAME 		+ " text not null, "
 			+ CHART_DESC 		+ " text not null, "
 			+ I_ID 				+ " integer not null, "
-			+ CHART_COUNTRIES 	+ " text not null)" ;
+			+ CHART_COUNTRIES 	+ " text not null, " 
+			+ I_POSITION		+ " integer not null, "
+			+ I_GROUP 			+ " integer not null)" ;
 	
 	private static String CREATE_TABLE_AREA_SELECTIONS  = "create table " + AREA_SELECTIONS + " ( " 
 			+ SELECTION_ID 			+ " integer primary key autoincrement, "

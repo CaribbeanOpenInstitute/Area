@@ -5,14 +5,14 @@
     android:orientation="horizontal" >
     
     <LinearLayout
-        android:layout_width="400dip"
+        android:layout_width="250dip"
         android:layout_height="match_parent"
         android:orientation="vertical" >
 	    <fragment
 	        android:id="@+id/listFragment"
 	        android:layout_width="match_parent"
 	        android:layout_height="1dp"
-	        android:layout_weight="2"
+	        android:layout_weight="1.7"
 	        class="jm.org.data.area.ExpandableListFragment"
 	        android:background="@drawable/rounded_border" /> 
 	    <!-- android:theme="@android:style/Theme.Holo.Light" -->
@@ -20,7 +20,7 @@
 		<TextView
 	            android:id="@+id/indSeparator"
 	            android:layout_width="fill_parent"
-	            android:layout_height="10dp"
+	            android:layout_height="5dp"
 	            android:background="#8AC7E3"/>
 		<fragment
 	        android:id="@+id/slistFragment"
@@ -52,7 +52,7 @@
 
                 <TabWidget
                     android:id="@android:id/tabs"
-                    android:layout_width="fill_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
                     android:orientation="horizontal" 
@@ -68,7 +68,7 @@
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/viewpager"
-                    android:layout_width="fill_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
             </LinearLayout>

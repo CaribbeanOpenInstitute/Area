@@ -1,6 +1,10 @@
 package jm.org.data.area;
 
-import static jm.org.data.area.AreaConstants.*;
+import static jm.org.data.area.AreaConstants.COLLECTION_REPORTS;
+import static jm.org.data.area.AreaConstants.IDS_SEARCH;
+import static jm.org.data.area.AreaConstants.SAVED_REPORTS;
+import static jm.org.data.area.AreaConstants.S_COLL_ACT;
+import static jm.org.data.area.AreaConstants.S_PARENT;
 import static jm.org.data.area.DBConstants.DOCUMENT_ID;
 import static jm.org.data.area.DBConstants.DOC_TITLE;
 import static jm.org.data.area.DBConstants.IDS_DOC_AUTH_STR;
@@ -27,6 +31,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.analytics.tracking.android.EasyTracker;
@@ -49,6 +54,7 @@ public class ReportsFragment extends ListFragment implements
 	SimpleCursorAdapter tAdapter;
 	private ProgressDialog dialog;
 	
+	private String title_text, empty_text;
 	private int searchType;
 
 	@Override
@@ -58,26 +64,35 @@ public class ReportsFragment extends ListFragment implements
 		try{
         	parent = getActivity();
         	if (parent instanceof IndicatorActivity){
-        		act = (IndicatorActivity) getActivity();
-        		dialog = new ProgressDialog(act);
-        		indicator = act.getIndicator();
-        		searchType = IDS_SEARCH;
+        		act 		= (IndicatorActivity) getActivity();
+        		dialog 		= new ProgressDialog(act);
+        		indicator 	= act.getIndicator();
+        		searchType	= IDS_SEARCH;
+        		title_text 	= "IDS Reports";
+        		empty_text	= "Your Query returned no Records for Indicator: " + indicator;
         		
         	}else if (parent instanceof CollectionsActivity){
         		colAct = (CollectionsActivity) getActivity();
         		dialog = new ProgressDialog(colAct);
-        		indicator = "";
+        		indicator = "" + colAct.getCollection();
+        		searchType = COLLECTION_REPORTS;
+        		title_text 	= "Collections IDS Reports";
+        		empty_text	= "There are no saved Records for Collection: " + indicator;
         		
         	}else if (parent instanceof CountryActivity){
         		cAct = (CountryActivity) getActivity();
         		dialog = new ProgressDialog(cAct);
-        		indicator = "";
+        		indicator = cAct.getCountry();
+        		title_text 	= "Country Reports";
+        		empty_text	= "Your Query returned no Records for Country: " + indicator;
         		
         	}else if(parent instanceof SavedDataActivity){
         		sAct = (SavedDataActivity) getActivity();
         		dialog = new ProgressDialog(sAct);
         		indicator = "";
         		searchType = SAVED_REPORTS;
+        		title_text 	= "Saved Reports";
+        		empty_text	= "There are no Saved Records ";
         		
         	}else{
         		Log.d(TAG,"We Have no clue what the starting activity is. Hmm, not sure what is happening");
@@ -100,6 +115,7 @@ public class ReportsFragment extends ListFragment implements
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		//setEmptyText(empty_text);
 		// loadingAnimator = (ViewAnimator)
 		// parentActivity.findViewById(R.id.reportSwitcher); //Loading Animator
 		// loadingAnimator.setDisplayedChild(1);
@@ -123,8 +139,11 @@ public class ReportsFragment extends ListFragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
-		return inflater.inflate(R.layout.reports, container, false);
+		View view;
+		view  = inflater.inflate(R.layout.reports, container, false);
+		((TextView) view.findViewById(R.id.reportText)).setText(title_text);
+		((TextView) view.findViewById(android.R.id.empty)).setText(empty_text);
+		return view;
 	}
 
 	@Override
@@ -185,6 +204,10 @@ public class ReportsFragment extends ListFragment implements
 		intent.putExtra(DOC_TITLE, itemTitle);
 		intent.putExtra(IDS_DOC_ID, item);
 		intent.putExtra(IDS_DOC_DWNLD_URL, item_url);
+		if (!(colAct == null)){
+			intent.putExtra(S_PARENT, S_COLL_ACT);
+			intent.putExtra("col_id", indicator);
+		}
 		if (dialog.isShowing()) {
 			dialog.dismiss();
 		}
@@ -225,6 +248,7 @@ public class ReportsFragment extends ListFragment implements
 	}
 
 	public void reload() {
+		/*
 		IndicatorActivity parentActivity = (IndicatorActivity) getActivity();
 		indicator = parentActivity.getIndicator();
 		countryList = parentActivity.getCountryList();
@@ -232,6 +256,7 @@ public class ReportsFragment extends ListFragment implements
 				String.format(
 						"Reports reload function. \n Current indicator: %s. Country List: %s",
 						indicator, Arrays.toString(countryList)));
+		*/
 		getLoaderManager().restartLoader(0, null, this);
 		if (dialog.isShowing()) {
 			dialog.dismiss();

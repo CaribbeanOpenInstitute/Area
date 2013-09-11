@@ -13,4 +13,10 @@
         android:orderInCategory="1"
         android:showAsAction="always" />
     
+    <item android:id="@+id/menu_save_collection"
+        android:title="@string/menu_collection_save"
+        android:icon="@drawable/ic_action_save_to_collection"
+        android:orderInCategory="2"
+        android:showAsAction="always" />
+    
 </menu>

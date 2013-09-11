@@ -37,16 +37,25 @@ public interface AreaConstants {
 	public static final int DATA_TYPES_LIST 	= 16;
 	public static final int CHART_DATA 			= 17;
 	public static final int GET_DATA 			= 18;
+	public static final int GET_COLLECTION		= 19;
+	public static final int GET_COLL_DATA		= 20;
 	
 	/*
-	 * API CODE
+	 * API AND SEARCH CODES
 	 */
-	public static final int WORLD_SEARCH 	= 0;
-	public static final int IDS_SEARCH 		= 1;
-	public static final int BING_SEARCH 	= 2;
-	public static final int SAVED_CHARTS 	= 3;
-	public static final int SAVED_ARTICLES 	= 4;
-	public static final int SAVED_REPORTS 	= 5;
+	public static final int WORLD_SEARCH 		= 0;
+	public static final int IDS_SEARCH 			= 1;
+	public static final int BING_SEARCH 		= 2;
+	public static final int SAVED_CHARTS 		= 3;
+	public static final int SAVED_ARTICLES 		= 4;
+	public static final int SAVED_REPORTS 		= 5;
+	public static final int SAVED_COLLECTIONS	= 6;
+	public static final int COLLECTION_CHARTS	= 7;
+	public static final int COLLECTION_ARTICLES	= 8;
+	public static final int COLLECTION_REPORTS	= 9;
+	public static final int COUNTRY_CHARTS		= 10;
+	public static final int COUNTRY_ARTICLES	= 11;
+	public static final int COUNTRY_REPORTS		= 12;
 	
 	/*
 	 * SELECTIONS

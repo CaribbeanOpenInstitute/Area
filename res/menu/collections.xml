@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    
     <item android:id="@+id/menu_search"
         android:title="@string/menu_search"
         android:icon="@drawable/ic_action_search"
@@ -8,22 +7,22 @@
         android:showAsAction="always"
         android:actionViewClass="android.widget.SearchView" />
     
-    <item android:id="@+id/menu_reload"
-        android:title="@string/menu_reload"
-        android:icon="@drawable/ic_action_refresh"
+    <item android:id="@+id/menu_add"
+        android:title="@string/add_collection"
+        android:icon="@drawable/ic_action_new"
         android:orderInCategory="1"
         android:showAsAction="always" />
     
-    <item android:id="@+id/menu_save"
-        android:title="@string/menu_save"
-        android:icon="@drawable/ic_content_save"
+    <item android:id="@+id/menu_delete"
+        android:title="@string/delete_collection"
+        android:icon="@drawable/ic_action_remove"
         android:orderInCategory="2"
         android:showAsAction="always" />
     
-    <item android:id="@+id/menu_save_collection"
-        android:title="@string/menu_collection_save"
-        android:icon="@drawable/ic_action_save_to_collection"
+    <item android:id="@+id/menu_view"
+        android:title="@string/view_collection"
+        android:icon="@drawable/ic_action_edit"
         android:orderInCategory="3"
         android:showAsAction="always" />
-    
-</menu>
+
+</menu>	

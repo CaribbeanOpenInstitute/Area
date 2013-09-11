@@ -1,7 +1,7 @@
 package jm.org.data.area;
 
 import static jm.org.data.area.AreaConstants.S_INDICATORS;
-import static jm.org.data.area.DBConstants.CATEGORY_NAME;
+import static jm.org.data.area.DBConstants.*;
 import static jm.org.data.area.DBConstants.INDICATOR_NAME;
 import static jm.org.data.area.DBConstants.SELECTION_ID;
 import static jm.org.data.area.DBConstants.SELECTION_NAME;
@@ -179,6 +179,7 @@ public class AreaExpandableListAdapter extends SimpleCursorTreeAdapter  {
 				String item = child.getString(child.getColumnIndex(INDICATOR_NAME));
 				String item_id = child.getString(child
 						.getColumnIndex(WB_INDICATOR_ID));
+				int id  = child.getInt(child.getColumnIndex(INDICATOR_ID));
 				Log.d(TAG, "Indicator selected is: " + item + "-> ID: " + item_id);
 				
 				// May return null if a EasyTracker has not yet been initialized with a
@@ -201,6 +202,7 @@ public class AreaExpandableListAdapter extends SimpleCursorTreeAdapter  {
 					Intent intent = new Intent(mContext.getApplicationContext(),
 							IndicatorActivity.class);
 					intent.putExtra(WB_INDICATOR_ID, item_id);
+					intent.putExtra("ind_id", id);
 					intent.putExtra(GROUP_POSITION, mSelectedPosition);
 					intent.putExtra(CHILD_POSITION, child.getPosition());
 					intent.putExtra(SELECTION_ID, S_INDICATORS);
@@ -211,6 +213,7 @@ public class AreaExpandableListAdapter extends SimpleCursorTreeAdapter  {
 					Intent intent = new Intent( mContext.getApplicationContext(),
 							IndicatorActivity.class);
 					intent.putExtra(WB_INDICATOR_ID, item_id);
+					intent.putExtra("ind_id", id);
 					intent.putExtra(GROUP_POSITION, mSelectedPosition);
 					intent.putExtra(CHILD_POSITION, child.getPosition());
 					intent.putExtra(SELECTION_ID, S_INDICATORS);

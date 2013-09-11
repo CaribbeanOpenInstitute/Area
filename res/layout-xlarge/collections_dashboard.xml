@@ -9,11 +9,11 @@
         android:layout_height="match_parent"
         android:orientation="vertical" >
 	    <fragment
-	        android:id="@+id/listFragment"
+	        android:id="@+id/clistFragment"
 	        android:layout_width="match_parent"
 	        android:layout_height="1dp"
 	        android:layout_weight="2"
-	        class="jm.org.data.area.ExpandableListFragment"
+	        class="jm.org.data.area.CollectionsListFragment"
 	        android:background="@drawable/rounded_border" /> 
 	    <!-- android:theme="@android:style/Theme.Holo.Light" -->
 	    <!-- android:layout_marginTop="?android:attr/actionBarSize" -->

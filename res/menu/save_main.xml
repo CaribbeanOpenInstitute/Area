@@ -29,7 +29,7 @@
 
     <item android:id="@+id/menu_share"
         android:title="@string/menu_share"
-        android:icon="@drawable/ic_menu_share"
+        android:icon="@drawable/ic_action_share"
         android:orderInCategory="1"
         android:showAsAction="always" />
     
@@ -40,10 +40,21 @@
         android:orderInCategory="2"
         android:showAsAction="always" />
     
+    <item android:id="@+id/menu_delete"
+        android:title="@string/menu_delete"
+        android:icon="@drawable/ic_action_remove"
+        android:orderInCategory="3"
+        android:showAsAction="always" />
+    
+    <item android:id="@+id/menu_save_collection"
+        android:title="@string/menu_collection_save"
+        android:icon="@drawable/ic_action_save_to_collection"
+        android:orderInCategory="4"
+        android:showAsAction="always" />
     
     <item android:id="@+id/menu_prefs"
         android:title="@string/menu_prefs"
         android:icon="@drawable/ic_menu_share"
-        android:orderInCategory="3"
+        android:orderInCategory="5"
         android:showAsAction="never" />
 </menu>

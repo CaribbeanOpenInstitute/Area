@@ -7,7 +7,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 public class CountryActivity extends BaseActivity {
 	
 	private static final String TAG = CountryActivity.class.getSimpleName();
-	private String selection;
+	private String selection, country;
 	private int mSelection;
 	
 	public String getSelection() {
@@ -44,5 +44,10 @@ public class CountryActivity extends BaseActivity {
 		super.onStop();
 	
 		EasyTracker.getInstance(this).activityStop(this);  // Add this method.
+	}
+
+	public String getCountry() {
+		// TODO Auto-generated method stub
+		return country;
 	}
 }

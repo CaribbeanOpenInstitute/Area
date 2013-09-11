@@ -21,7 +21,7 @@ import static jm.org.data.area.AreaConstants.ADD_KEY;
 import static jm.org.data.area.AreaConstants.CHILD_POSITION;
 import static jm.org.data.area.AreaConstants.GROUP_POSITION;
 import static jm.org.data.area.AreaConstants.REMOVE_KEY;
-import static jm.org.data.area.DBConstants.SELECTION_ID;
+import static jm.org.data.area.DBConstants.*;
 import static jm.org.data.area.DBConstants.SELECTION_NAME;
 import static jm.org.data.area.DBConstants.WB_INDICATOR_ID;
 
@@ -55,7 +55,7 @@ public class IndicatorActivity extends BaseActivity implements
 
 	
 	
-	public int dataSource;
+	public int dataSource, indicator;
 	private String indicatorID, selection;
 	// private String indicatorName;
 	private ArrayList<String> countryList;
@@ -66,7 +66,8 @@ public class IndicatorActivity extends BaseActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
+		
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			// only for android newer than gingerbread
 			// ActionBar actionBar = getActionBar();
@@ -77,6 +78,7 @@ public class IndicatorActivity extends BaseActivity implements
 		if (indicatorBundle.getString(WB_INDICATOR_ID) != null) {
 			
 			indicatorID = indicatorBundle.getString(WB_INDICATOR_ID);
+			indicator   = indicatorBundle.getInt("ind_id");
 			mGroupPosition = indicatorBundle.getInt(GROUP_POSITION);
 			mChildPosition = indicatorBundle.getInt(CHILD_POSITION);
 			mSelection = indicatorBundle.getInt(SELECTION_ID  );
@@ -95,6 +97,7 @@ public class IndicatorActivity extends BaseActivity implements
 			countryList = new ArrayList<String>(Arrays.asList(countryArray));
 		}else{
 			countryList = new ArrayList<String>();
+			
 			countryList.add("World");
 		}
 
@@ -257,7 +260,16 @@ public class IndicatorActivity extends BaseActivity implements
 	public String getIndicator() {
 		return indicatorID;
 	}
+	
+	public int getIndicatorID() {
+		return indicator;
+	}
+	
+	public void setIndicator(int indicatorID) {
+		indicator = indicatorID;
+		//Log.d(TAG, "Indicator changed to " + indicator);
 
+	}
 	public void setIndicator(String indicator) {
 		indicatorID = indicator;
 		Log.d(TAG, "Indicator changed to " + indicator);
@@ -307,9 +319,9 @@ public class IndicatorActivity extends BaseActivity implements
 		mSelection = lPos;
 	}
 
-	public void addCountry(String countryStr) {
-		countryList.add(countryStr);
-	}
+	//private void addCountry(String countryStr) {
+	//	countryList.add(countryStr);
+	//}
 
 	public String[] getCountryList() {
 		return (String[]) countryList.toArray(new String[countryList.size()]);
@@ -326,6 +338,7 @@ public class IndicatorActivity extends BaseActivity implements
 	}
 
 	public void reloadData() {
+		
 		// Solution sourced from: http://stackoverflow.com/a/7393477/498449
 		ChartsFragment chFragment = (ChartsFragment) getSupportFragmentManager()
 				.findFragmentByTag("android:switcher:" + R.id.viewpager + ":0");

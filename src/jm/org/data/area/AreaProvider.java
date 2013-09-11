@@ -232,9 +232,8 @@ public class AreaProvider extends ContentProvider {
 
 	}
 
-	@Override
 	public Cursor query(Uri uri, String[] projection, String selection,
-			String[] selectionArgs, String sortOrder) {
+			String[] selectionArgs, String groupBy, String having, String sortOrder) {
 		
 		
 		if(db == null){
@@ -247,7 +246,7 @@ public class AreaProvider extends ContentProvider {
 		qb.setTables(uri.getLastPathSegment());
 		
 		if (db.isOpen()){
-			cursor = qb.query(db, projection, selection, selectionArgs, null, null, sortOrder);
+			cursor = qb.query(db, projection, selection, selectionArgs, groupBy, having, sortOrder);
 		}else{
 			Log.d(TAG, "DB is closed for some reason");
 		}
@@ -329,6 +328,31 @@ public class AreaProvider extends ContentProvider {
 	public String getType(Uri uri) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Cursor query(Uri uri, String[] projection, String selection,
+			String[] selectionArgs, String sortOrder) {
+		if(db == null){
+			db = dbHelper.getReadableDatabase();
+		}else if (!db.isOpen()){
+			db = dbHelper.getReadableDatabase();
+		}
+		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+		Cursor cursor = null;
+		qb.setTables(uri.getLastPathSegment());
+		
+		if (db.isOpen()){
+			cursor = qb.query(db, projection, selection, selectionArgs, null, null, sortOrder);
+		}else{
+			Log.d(TAG, "DB is closed for some reason");
+		}
+		
+
+		//db.close();
+		cursor.setNotificationUri(getContext().getContentResolver(), uri);
+		
+		return cursor;
 	}
 	
 	

@@ -2,7 +2,6 @@ package jm.org.data.area;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.support.v4.content.Loader;
 import android.util.Log;
 
 public class ReportAdapter extends SimpleCursorLoader {

@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
 
 public class AreaPreferencesActivity extends PreferenceActivity {
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

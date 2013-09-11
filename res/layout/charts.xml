@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dip"
-        android:text="World Bank Data"
+        android:text="@string/wb_charts"
         android:textAppearance="?android:attr/textAppearanceLarge"
         />
 
@@ -24,7 +24,7 @@
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:layout_gravity="center_horizontal"
-             android:text="Retreiving chart data" />
+             android:text="@string/wb_charts_message" />
 
          <ProgressBar
              android:id="@+id/progressBar_area"

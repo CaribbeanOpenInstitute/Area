@@ -180,6 +180,10 @@ public class AreaApplication extends Application {
 			return CHART_DATA;
 		else if (tableName.equals(SAVED_DATA))
 			return GET_DATA;
+		else if (tableName.equals(COLLECTIONS))
+			return GET_COLLECTION;
+		else if (tableName.equals(COLL_DATA))
+			return GET_COLL_DATA;
 		return -1;
 	}
 

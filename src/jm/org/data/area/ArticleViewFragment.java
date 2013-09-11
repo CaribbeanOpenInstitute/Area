@@ -39,7 +39,8 @@ public class ArticleViewFragment extends Fragment {
 	private AlertDialog aDialog;
 	private AreaApplication area;
 	private String bingTitle;
-	private String bingUrl, bingid;
+	private String bingUrl;
+	private int bingid;
 	private ProgressDialog dialog;
 
 	// private String bingDesc;
@@ -56,7 +57,7 @@ public class ArticleViewFragment extends Fragment {
 		final Bundle indicatorBundle = getActivity().getIntent().getExtras();
 		bingTitle = indicatorBundle.getString(BING_TITLE);
 		bingUrl = indicatorBundle.getString(BING_URL);
-		bingid = indicatorBundle.getString(_ID);
+		bingid = indicatorBundle.getInt(_ID);
 
 		Log.d(TAG, String.format("BIng Title ID: %s at URL %s", bingTitle,
 				bingUrl));
@@ -128,7 +129,7 @@ public class ArticleViewFragment extends Fragment {
 						@Override
 						public void onClick(DialogInterface dialog, int id) {
 							//FROM_SAVED_DATA = { SAVED_DATA_ID, D_T_ID, ENTITY_ID};
-							area.areaData.saveData(ARTICLES_DATA, bingid);
+							area.areaData.saveData(ARTICLES_DATA, "" + bingid);
 							
 							Toast.makeText(getActivity(), "Article " + bingTitle + 
 									" saved :) ", Toast.LENGTH_SHORT)
@@ -160,6 +161,10 @@ public class ArticleViewFragment extends Fragment {
 			aDialog = aBuilder.create();
 			aDialog.show();
 			// Get image and initiative share intent
+			break;
+		case R.id.menu_save_collection:
+			Toast.makeText(getActivity(), "Tapped Save to Collections", Toast.LENGTH_SHORT)
+			.show();
 			break;
 		default:
 			

@@ -4,8 +4,6 @@ import static jm.org.data.area.DBConstants.IDS_DOC_DWNLD_URL;
 
 import java.io.File;
 
-import com.google.analytics.tracking.android.EasyTracker;
-
 import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
@@ -26,6 +24,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.SearchView;
 import android.widget.Toast;
+
+import com.google.analytics.tracking.android.EasyTracker;
 
 public class ReportWebViewActivity extends BaseActivity {
 
@@ -112,7 +112,7 @@ public class ReportWebViewActivity extends BaseActivity {
 		// articleWebView =
 		// (WebView)getView().findViewById(R.id.articleWebView);
 		articleWebView.loadUrl(articleUrl);
-		articleWebView.getSettings().setJavaScriptEnabled(true);
+		//articleWebView.getSettings().setJavaScriptEnabled(true);
 		if (dialog.isShowing()) {
 			dialog.dismiss();
 		}
@@ -221,10 +221,12 @@ public class ReportWebViewActivity extends BaseActivity {
 
 			try {
 				startActivity(pdfIntent);
+				
 			} catch (ActivityNotFoundException e) {
 				Toast.makeText(this, "No Application available to view pdf",
 						Toast.LENGTH_LONG).show();
 			}
+			this.finish();
 		} else {
 			Toast.makeText(this, "No Pdf to view", Toast.LENGTH_LONG).show();
 			showWebView(pdfurl);
@@ -250,7 +252,10 @@ public class ReportWebViewActivity extends BaseActivity {
 		File path = Environment.getExternalStorageDirectory();
 
 		path = new File(path.getPath() + "/AREA");
-		// if (path.mkdirs()){
+		
+		if (!path.exists()){
+			path.mkdir();
+		}
 		storage = path.getPath();
 		/*
 		 * }else{ storage =
@@ -260,6 +265,8 @@ public class ReportWebViewActivity extends BaseActivity {
 
 		return storage;
 	}
+	
+	
 	
 	@Override
 	public void onStart() {

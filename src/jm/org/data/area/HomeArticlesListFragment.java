@@ -52,8 +52,8 @@ public class HomeArticlesListFragment extends ListFragment implements
 		Cursor cursor = (Cursor) getListAdapter().getItem(position);
 
 		String item = cursor.getString(cursor.getColumnIndex(BING_TITLE));
-		String item_id = cursor
-				.getString(cursor.getColumnIndex(BING_SEARCH_ID));
+		int item_id = cursor
+				.getInt(cursor.getColumnIndex(BING_SEARCH_ID));
 		String itemTitle = cursor.getString(cursor.getColumnIndex(BING_DESC));
 		String itemURL = cursor.getString(cursor.getColumnIndex(BING_URL));
 		Log.d(TAG, "Article selected is: " + item + " Title is: " + itemTitle);

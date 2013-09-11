@@ -11,16 +11,12 @@ import java.util.Arrays;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.InputMethodManager;
@@ -58,7 +54,9 @@ public class KeywordsFragment extends Fragment implements OnClickListener {
 		btn_addKeyword.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				addKeyword();
+				String keyword = edt_keyword.getText().toString();
+				keyword.trim();
+				addKeyword(keyword);
 
 				InputMethodManager inputManager = (InputMethodManager) parentActivity
 						.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -103,7 +101,7 @@ public class KeywordsFragment extends Fragment implements OnClickListener {
 		 * 
 		 * });
 		 */
-
+		
 	}
 
 	@Override
@@ -124,15 +122,15 @@ public class KeywordsFragment extends Fragment implements OnClickListener {
 		super.onAttach(activity);
 		try {
 			mListener = (OnCountryChangeListener) activity;
+			
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ "must implement onKeywordChangeListener");
 		}
 	}
 
-	public void addKeyword() {
-		String keyword = edt_keyword.getText().toString();
-		keyword.trim();
+	public void addKeyword(String keyword) {
+		
 		Log.d(TAG,
 				"Keyword is: " + keyword + " keyword Length "
 						+ keyword.length());

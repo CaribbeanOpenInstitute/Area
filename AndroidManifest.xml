@@ -50,36 +50,89 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
+        
         <activity android:name="org.achartengine.GraphicalActivity" />
-        <activity 
+        
+        <activity
             android:name="SavedDataActivity"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="sensorLandscape" >
+            <!-- This metadata entry causes .SearchableActivity to be the default context -->
+            <!-- whenever the user invokes search while in this Activity. -->
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".SearchableActivity" />
+        </activity>
+        
         <activity android:name=".AreaPreferencesActivity" />
         <activity
             android:name=".IndicatorActivity"
-            android:screenOrientation="sensorLandscape"/>
+            android:screenOrientation="sensorLandscape">
+            <!-- This metadata entry causes .SearchableActivity to be the default context -->
+            <!-- whenever the user invokes search while in this Activity. -->
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".SearchableActivity" />
+        </activity>
         <activity
             android:name=".StartupActivity"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/DialogTheme" />
+        
         <activity android:name=".AreaActivity" />
+        
         <activity
             android:name=".ArticleViewActivity"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="sensorLandscape" >
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".SearchableActivity" />
+        </activity>
+        
         <activity
             android:name=".ReportDetailViewActivity"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="sensorLandscape" >
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".SearchableActivity" />
+        </activity>
+        
         <activity
             android:name=".ExpandableList2"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="sensorLandscape" >
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".SearchableActivity" />
+        </activity>
+        
+        <activity
+            android:name=".CollectionsActivity"
+            android:screenOrientation="sensorLandscape" >
+            
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".SearchableActivity" />
+        </activity>
+        
+        <activity
+            android:name=".CountryActivity"
+            android:screenOrientation="sensorLandscape" >
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".SearchableActivity" />
+        </activity>
         <activity
             android:name=".ReportWebViewActivity"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="sensorLandscape" >
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".SearchableActivity" />
+        </activity>
 
         <service
             android:name="AreaService"
             android:icon="@drawable/ic_launcher"
             android:label="@string/areaService" />
+        
         <provider 
             android:name=".AreaProvider"
             android:authorities="jm.org.data.area.AreaProvider"

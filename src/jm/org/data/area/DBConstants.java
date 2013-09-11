@@ -101,10 +101,12 @@ public interface DBConstants extends MediaColumns {
 		
 	
 	// Columns unique to Charts Table
-	public static final String CHART_ID = _ID;
-	public static final String CHART_NAME = "name";
-	public static final String CHART_DESC = "description";
-	public static final String CHART_COUNTRIES = "countries";
+	public static final String CHART_ID 		= _ID;
+	public static final String CHART_NAME 		= "name";
+	public static final String CHART_DESC 		= "description";
+	public static final String CHART_COUNTRIES 	= "countries";
+	public static final String I_POSITION 		= "indicator_position";
+	public static final String I_GROUP			= "indicator_group";
 	
 	
 	
@@ -248,7 +250,7 @@ public interface DBConstants extends MediaColumns {
 		DATA_TYPE_DESC};
 	
 	public static final String[] FROM_CHARTS = { CHART_ID, CHART_NAME,
-		CHART_DESC, I_ID, CHART_COUNTRIES};
+		CHART_DESC, I_ID, CHART_COUNTRIES, I_POSITION, I_GROUP};
 	
 	public static final String[] FROM_SELECTIONS = { SELECTION_ID, SELECTION_NAME,
 		SELECTION_DESC};

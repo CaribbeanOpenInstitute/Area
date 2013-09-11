@@ -158,7 +158,7 @@ public class SelectionListFragment extends ListFragment implements
 			Toast.makeText(getActivity(), "Selected Collections",
 					Toast.LENGTH_SHORT).show();
 			actIntent = new Intent(getActivity().getApplicationContext(),
-					HomeActivity.class);
+					CollectionsActivity.class);
 			actIntent.putExtra(SELECTION_ID, item_id);
 			actIntent.putExtra(SELECTION_NAME, item);
 			actIntent.putExtra(S_PARENT, parentNum);
@@ -178,12 +178,6 @@ public class SelectionListFragment extends ListFragment implements
 			break;
 		
 		}
-
-	/*	if (act != null) {
-			act.setSelection(item);
-			act.setSelection(position);
-			//listPosition = position;
-		}*/
 
 	}
 	

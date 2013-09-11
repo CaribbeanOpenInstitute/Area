@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:paddingBottom="50dip"
+        android:paddingBottom="10dip"
         android:orientation="horizontal" >
 	    <TextView
 		            android:id="@+id/chart_name_label"
@@ -27,7 +27,8 @@
 	<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:paddingBottom="50dip"
+        android:paddingBottom="10dip"
+        android:paddingTop="10dip"
         android:orientation="vertical" >
 	    
 	    <TextView
@@ -40,7 +41,8 @@
 	        android:id="@+id/chart_description"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:minLines="5"
+	        android:minLines="3"
+	        android:textAlignment="2"
 	        android:hint="@string/Chart_Desc_Hint" />
 	</LinearLayout>
 </LinearLayout>

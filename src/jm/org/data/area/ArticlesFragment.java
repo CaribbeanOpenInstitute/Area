@@ -1,7 +1,10 @@
 package jm.org.data.area;
 
 import static jm.org.data.area.AreaConstants.BING_SEARCH;
+import static jm.org.data.area.AreaConstants.COLLECTION_ARTICLES;
 import static jm.org.data.area.AreaConstants.SAVED_ARTICLES;
+import static jm.org.data.area.AreaConstants.S_COLL_ACT;
+import static jm.org.data.area.AreaConstants.S_PARENT;
 import static jm.org.data.area.DBConstants.BING_DESC;
 import static jm.org.data.area.DBConstants.BING_SEARCH_ID;
 import static jm.org.data.area.DBConstants.BING_TITLE;
@@ -26,6 +29,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.analytics.tracking.android.EasyTracker;
@@ -46,8 +50,9 @@ public class ArticlesFragment extends ListFragment implements
 	
 	private Activity parent;
 	private ProgressDialog dialog;
+	private String title_text, empty_text;
 	
-	private int searchType;
+	private int searchType, collection;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -64,23 +69,34 @@ public class ArticlesFragment extends ListFragment implements
         		indicator = act.getIndicator();
         		countryList = act.getCountryList();
         		searchType = BING_SEARCH;
+        		title_text 	= "Web Articles";
+        		empty_text	= "Your Query returned no Records for Indicator: " + indicator;
         		
         	}else if (parent instanceof CollectionsActivity){
         		colAct = (CollectionsActivity) getActivity();
         		dialog = new ProgressDialog(colAct);
-        		indicator = "";
+        		searchType = COLLECTION_ARTICLES;
+        		collection = colAct.getCollection();
+        		indicator = ""+ collection;
         		countryList = null;
+        		title_text 	= "Collection Articles";
+        		empty_text	= "There are no Articles saved in this Collection...";
         	}else if (parent instanceof CountryActivity){
         		cAct = (CountryActivity) getActivity();
         		dialog = new ProgressDialog(cAct);
-        		indicator = "";
+        		indicator = cAct.getCountry();
+        		
         		countryList = null;
+        		title_text 	= "Country Articles";
+        		empty_text	= "No articles for " + indicator;
         	}else if(parent instanceof SavedDataActivity){
         		sAct = (SavedDataActivity) getActivity();
         		dialog = new ProgressDialog(sAct);
         		indicator = "";
         		searchType = SAVED_ARTICLES;
         		countryList = null;
+        		title_text 	= "Saved Articles";
+        		empty_text	= "There are no Saved";
         	}else{
         		Log.d(TAG,"We Have no clue what the starting activity is. Hmm, not sure what is happening");
         	}
@@ -94,6 +110,7 @@ public class ArticlesFragment extends ListFragment implements
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		//setEmptyText(empty_text);
 		dialog = ProgressDialog.show(getActivity(), "",
 				"Loading Reports Data. Please wait...", true);
 		
@@ -110,6 +127,8 @@ public class ArticlesFragment extends ListFragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.articles, container, false);
+		((TextView) view.findViewById(R.id.articlesText)).setText(title_text);
+		((TextView) view.findViewById(android.R.id.empty)).setText(empty_text);
 		return view;
 	}
 
@@ -118,6 +137,7 @@ public class ArticlesFragment extends ListFragment implements
 		MenuInflater menuInflater = getActivity().getMenuInflater();
 		menuInflater.inflate(R.menu.article_list, menu);
 
+		
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 
@@ -149,8 +169,8 @@ public class ArticlesFragment extends ListFragment implements
 		Cursor cursor = (Cursor) getListAdapter().getItem(position);
 		
 		String item = cursor.getString(cursor.getColumnIndex(BING_TITLE));
-		String item_id = cursor
-				.getString(cursor.getColumnIndex(BING_SEARCH_ID));
+		int item_id = cursor
+				.getInt(cursor.getColumnIndex(BING_SEARCH_ID));
 		String itemTitle = cursor.getString(cursor.getColumnIndex(BING_DESC));
 		String itemURL = cursor.getString(cursor.getColumnIndex(BING_URL));
 		Log.d(TAG, "Article selected is: " + item + " Title is: " + itemTitle);
@@ -178,6 +198,10 @@ public class ArticlesFragment extends ListFragment implements
 		intent.putExtra(BING_SEARCH_ID, item_id);
 		intent.putExtra(BING_URL, itemURL);
 		intent.putExtra(BING_TITLE, item);
+		if (!(colAct == null)){
+			intent.putExtra(S_PARENT, S_COLL_ACT);
+			intent.putExtra("col_id", collection);
+		}
 		startActivity(intent);
 	}
 
@@ -216,6 +240,7 @@ public class ArticlesFragment extends ListFragment implements
 	}
 
 	public void reload() {
+		/*
 		IndicatorActivity parentActivity = (IndicatorActivity) getActivity();
 		indicator = parentActivity.getIndicator();
 		countryList = parentActivity.getCountryList();
@@ -223,6 +248,7 @@ public class ArticlesFragment extends ListFragment implements
 				String.format(
 						"Articles reload function. \n Current indicator: %s. Country List: %s",
 						indicator, Arrays.toString(countryList)));
+		*/
 		getLoaderManager().restartLoader(0, null, this);
 		
 		if (dialog.isShowing()) {

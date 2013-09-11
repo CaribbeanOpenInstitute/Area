@@ -15,55 +15,24 @@
         android:text="@string/charts"
         android:textAppearance="?android:attr/textAppearanceLarge"
         />
-	<ViewAnimator
-	    android:id="@+id/chartSwitcher"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_gravity="center"
-	    android:inAnimation="@anim/fade_in"
-	    android:outAnimation="@anim/fade_out"
-	    android:paddingBottom="10dp" >
-	    
-	     <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-			    <ListView
-			        android:id="@android:id/list"
-			        android:layout_width="fill_parent"
-			        android:layout_height="0dip"
-			        android:layout_marginLeft="25dp"
-			        android:layout_marginRight="25dp"
-			        android:layout_weight="1"
-			        android:background="@drawable/rounded_border"
-			        android:cacheColorHint="#00000000"
-			        android:drawSelectorOnTop="false" />
-				
-			    <TextView
-			        android:id="@android:id/empty"
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-			        android:text="@string/no_chart_message" />
-    	 </LinearLayout>
-		 <LinearLayout
-	        android:id="@+id/chartloading"
-	        android:layout_width="match_parent"
-	        android:layout_height="0dp"
-	        android:orientation="horizontal" >
-	        
-	        <TextView
-	             android:id="@+id/loading_txt"
-	             android:layout_width="wrap_content"
-	             android:layout_height="wrap_content"
-	             android:layout_gravity="center_horizontal"
-	             android:text="@string/chart_retrieve_message" />"
-	
-	         <ProgressBar
-	             android:id="@+id/chart_progressBar"
-	             style="@android:style/Widget.ProgressBar.Large.Inverse"
-	             android:layout_width="wrap_content"
-	             android:layout_height="wrap_content"
-	             android:layout_gravity="center" />
-	       </LinearLayout>
-        </ViewAnimator>
+    
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_weight="1"
+        android:background="@drawable/rounded_border"
+        android:cacheColorHint="#00000000"
+        android:drawSelectorOnTop="false" />
+    <!-- android:background="#00000000" -->
+
+    <TextView
+        android:id="@android:id/empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    
+    
+
 </LinearLayout>

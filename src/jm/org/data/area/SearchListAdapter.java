@@ -37,9 +37,9 @@ public class SearchListAdapter extends SimpleCursorLoader {
 
 		try {
 			Log.e(TAG, "Calling Generic Search:" + searchType);
-			if (searchType > BING_SEARCH){
+			if (searchType > BING_SEARCH){ // getting saved data so skip search
 			
-				results = area.areaData.getData(searchType, null, null);
+				results = area.areaData.getData(searchType, indicatorID, null);
 				return results;
 			}else if (area.areaData.genericSearch(searchType, indicatorID, country) >= SEARCH_SUCCESS) {
 				

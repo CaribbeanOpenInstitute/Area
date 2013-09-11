@@ -20,11 +20,36 @@
     <string name="toggle_title">Toggle title</string>
     <string name="toggle_prefs">Show preferences</string>
     <string name="areaService">Area Background Service</string>
-
+    
+    <string name="delete"	>Delete	</string>
+    <string name="save"		>Save	</string>
+    <string name="ok"		>OK		</string>
+    <string name="add"		>Add	</string>
+    <string name="cancel"	>Cancel	</string>
+    <string name="yes"		>Yes	</string>
+    <string name="no"		>No		</string>
+    <string name="empty"	>Empty	</string>
+    <string name="title"	>Title	</string>
+    <string name="update"	>Update	</string>
+    
+    <string name="recent_activity">Recent Activity</string>
+    <string name="reports">Reports</string>
+    <string name="articles">Articles</string>
+    <string name="charts">Charts</string>
+    <string name="wb_charts">World Bank Data</string>
+    <string name="wb_charts_message">Retrieving Chart Data</string>
+    <string name="report_list_message">Retrieving Reports</string>
+    <string name="article_list_message">Retrieving Articles</string>
+	<string name="keyword_label">Country /Region /Income level</string>
+	<string name="keyword_hint">Tap to Select Country/Region/Income level</string>
+    
+    
     <string name="menu_refresh">Refresh</string>
     <string name="menu_search">Search</string>
     <string name="menu_share">Share</string>
     <string name="menu_save">Save</string>
+    <string name="menu_edit">Edit</string>
+    <string name="menu_delete">Delete Item</string>
     <string name="menu_prefs">Preferences</string>
     
     <string name="Chart_Desc_Hint">Describe Your Chart Here</string>
@@ -32,10 +57,16 @@
     <string name="Chart_Title">Chart Name</string>
     <string name="Chart_Desc">Description</string>
     <string name="save_chart">Save</string>
-    <string name="cancel">Cancel</string>
     <string name="chart_retrieve_message">Please wait, Retrieving your Charts</string>
     <string name="no_chart_message">Sorry, You have no Saved Charts. </string>
-    <string name="charts">My Saved Charts </string>
+    <string name="saved_charts">My Saved Charts </string>
+    
+    <string name="collections">My Collections </string>
+    <string name="edit_collection">Edit Collection</string>
+    <string name="add_collection">Add Collection</string>
+    <string name="view_collection">View Collection</string>
+    <string name="delete_collection">Delete Collection</string>
+    <string name="menu_collection_save">Save to Collection</string>
     
     <!-- Preferences Strings -->
     <string name="pref_userTitle">User Settings</string>

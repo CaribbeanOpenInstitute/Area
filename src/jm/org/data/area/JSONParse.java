@@ -195,8 +195,8 @@ public class JSONParse {
 				Log.e(TAG, "Error NO data retrieved from BING API: URL-" + uri);
 				return SEARCH_FAIL;
 			}
-			if (numOfrecords > prefs.getInt("resultNumber", 25)) {
-				numOfrecords = prefs.getInt("resultNumber", 25);
+			if (numOfrecords > Integer.parseInt(prefs.getString("resultNumber", "25"))) {
+				numOfrecords = Integer.parseInt(prefs.getString("resultNumber", "25"));
 			}
 			// get Data returned from the IDS
 			// update the IDS_SEARCH_RESULT table with the documents information
@@ -284,8 +284,8 @@ public class JSONParse {
 
 			// get Data returned from the IDS
 			// update the IDS_SEARCH_RESULT table with the documents information
-			if (numReturned > prefs.getInt("resultNumber", 25)) {
-				numReturned = prefs.getInt("resultNumber", 25);
+			if (numReturned > Integer.parseInt(prefs.getString("resultNumber", "25"))) {
+				numReturned = Integer.parseInt(prefs.getString("resultNumber", "25"));
 			}
 			for (int i = 0; i < numReturned; i++) {
 				apiRecord = new ContentValues();

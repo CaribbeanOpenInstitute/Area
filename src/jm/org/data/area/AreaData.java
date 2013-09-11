@@ -386,12 +386,21 @@ public class AreaData {
 				break;
 			case CHART_DATA:
 				tableKey = 	I_ID;
-				tableKeyAdd = CHART_COUNTRIES;
+				//tableKeyAdd = CHART_COUNTRIES;
 				break;
 			case GET_DATA:
 				tableKey = 	D_T_ID;
 				tableKeyAdd = ENTITY_ID;
 				break;
+			case GET_COLLECTION:
+				tableKey = 	COLLECTION_NAME;
+				tableKeyAdd = COLLECTION_DESC;
+				break;
+			case GET_COLL_DATA:
+				tableKey = 	COLL_ID;
+				tableKeyAdd = S_D_ID;
+				break;
+				
 		}
 		try{
 			//if there is an additional table key use both to check for duplication
@@ -438,6 +447,8 @@ public class AreaData {
 					}
 				}else{
 					Log.d(TAG, String.format("Record already exists in table %s", tableName));
+					cursor.moveToFirst();
+					recordid = cursor.getInt(cursor.getColumnIndex(_ID));
 				}
 
 			} else {
@@ -461,17 +472,50 @@ public class AreaData {
 		return recordid;
 	}
 
-	public int delete(String table, String where_clause){
+	public int delete(String table, String where_clause, int id){
+		
 		Log.e(TAG, "Deleting DB Values");
 		areaResolver = context.getContentResolver();
-		providerUri = Uri.parse(AreaProvider.AUTHORITY+"/"+table); 
-		
+		Cursor cursor;
 		int rows_affected;
+		
+		//if deleting a collection => first delete all data for that collection
+		if (table == COLLECTIONS){
+			providerUri = Uri.parse(AreaProvider.AUTHORITY+"/"+COLL_DATA);
+			if (!((areaResolver.delete(providerUri, COLL_ID + " = '" + id + "'", null)) > 0)){
+				Log.d(TAG, "Error deleting from " + COLL_DATA + " collection " + id);
+				return 0;
+			}
+		}else if (table.equals(SAVED_DATA)){
+			// get saved Data record and delete it from Collections table
+			cursor = rawQuery(table, null, where_clause);
+			providerUri = Uri.parse(AreaProvider.AUTHORITY+"/"+COLL_DATA);
+			cursor.moveToFirst();
+			rows_affected = areaResolver.delete(providerUri, S_D_ID + " = '" +cursor.getInt(cursor.getColumnIndex(SAVED_DATA_ID)) + "'",null);
+			Log.d(TAG, "Removing from Collections Data affected " + rows_affected + " rows");
+			cursor.close();
+			
+		}else if (table.equals(COLL_DATA)){
+			// get saved Data record from the saved data table
+			cursor = rawQuery(SAVED_DATA, null, where_clause);
+			providerUri = Uri.parse(AreaProvider.AUTHORITY+"/"+COLL_DATA);
+			cursor.moveToFirst();
+			where_clause = S_D_ID + " = '" +cursor.getInt(cursor.getColumnIndex(SAVED_DATA_ID)) + "' AND " +
+							COLL_ID + " = " + id +"";
+			
+			cursor.close();
+		}if (table.equals("chartCollections")){
+			
+			table = COLL_DATA;
+		}
+		
+		providerUri = Uri.parse(AreaProvider.AUTHORITY+"/"+table);
+		
 		//try{
 		rows_affected = //db.delete(table, where_clause, null);
 				areaResolver.delete(providerUri, where_clause, null);
 		//}catch(Exception e){
-
+		Log.d(TAG, "Deleting from " + COLL_DATA + " collection " + id + " => Affected " + rows_affected + " records");
 		//}
 
 		return rows_affected;
@@ -528,7 +572,7 @@ public class AreaData {
 				// get number of results to delete - for error checking 
 				records_to_delete = //dbHelper.rawQuery(BING_SEARCH_RESULTS, null, deleteParam);
 						rawQuery(BING_SEARCH_RESULTS, null, deleteParam);
-				num_deleted = delete(BING_SEARCH_RESULTS, deleteParam);
+				num_deleted = delete(BING_SEARCH_RESULTS, deleteParam,0);
 				num_to_delete = records_to_delete.getCount();
 				if (num_to_delete != num_deleted){
 					records_to_delete.close();
@@ -818,7 +862,7 @@ public class AreaData {
 					// get number of results to delete - for error checking 
 					records_to_delete = //dbHelper.rawQuery(BING_SEARCH_RESULTS, null, deleteParam);
 							rawQuery(BING_SEARCH_RESULTS, null, deleteParam);
-					num_deleted = delete(BING_SEARCH_RESULTS, deleteParam);
+					num_deleted = delete(BING_SEARCH_RESULTS, deleteParam, 0);
 					num_to_delete = records_to_delete.getCount();
 					records_to_delete.close();
 					if (num_to_delete != num_deleted){
@@ -957,6 +1001,39 @@ public class AreaData {
 				params = "" + D_T_ID + " ='" + REPORTS_DATA + "'";
 				
 				cursor = rawQuery("" + SAVED_DATA + " s INNER JOIN " + table + " b  ON s." +  ENTITY_ID +" = b." + _ID + " ",
+						null,
+						params);
+				Log.d(TAG,
+						"Returning data. Num of records: " + cursor.getCount());
+			}else if (dataSource == COLLECTION_CHARTS){
+				table = CHARTS;
+				params = " d." + COLL_ID + " = '" + indicatorID + "'";
+				
+				cursor = rawQuery("" + COLL_DATA + " d INNER JOIN " + SAVED_DATA + " s  ON d." +  S_D_ID +" = s." + SAVED_DATA_ID +
+								  " INNER JOIN " + table + " c ON s." + ENTITY_ID + " = c." + CHART_ID +
+								  " INNER JOIN " + INDICATOR + " i ON c." + I_ID + " = i."+ INDICATOR_ID  ,
+						
+						new String[]{"c." + CHART_ID, "c." + CHART_NAME, "c." + CHART_DESC, 
+									"c." + I_ID, "c." + CHART_COUNTRIES, "c." + I_POSITION, "c." + I_GROUP, "i." + WB_INDICATOR_ID + " AS wb_id" },
+						params);
+				Log.d(TAG,
+						"Returning data. Num of records: " + cursor.getCount());
+			}else if (dataSource == COLLECTION_ARTICLES){
+				table = BING_SEARCH_RESULTS;
+				params = " d." + COLL_ID + " = '" + indicatorID + "'";
+				
+				cursor = rawQuery("" + COLL_DATA + " d INNER JOIN " + SAVED_DATA + " s  ON d." +  S_D_ID +" = s." + SAVED_DATA_ID +
+								  " INNER JOIN " + table + " c ON s." + ENTITY_ID + " = c." + _ID +" ",
+						null,
+						params);
+				Log.d(TAG,
+						"Returning data. Num of records: " + cursor.getCount());
+			}else if (dataSource == COLLECTION_REPORTS){
+				table = IDS_SEARCH_RESULTS;
+				params = " d." + COLL_ID + " = '" + indicatorID + "'";
+				
+				cursor = rawQuery("" + COLL_DATA + " d INNER JOIN " + SAVED_DATA + " s  ON d." +  S_D_ID +" = s." + SAVED_DATA_ID +
+								  " INNER JOIN " + table + " c ON s." + ENTITY_ID + " = c." + _ID +" ",
 						null,
 						params);
 				Log.d(TAG,
@@ -1319,7 +1396,7 @@ public class AreaData {
 		parser = new JSONParse(context);
 		String querybase = "http://api.ids.ac.uk/openapi/";
 		int return_int;
-		String site = "eldis/", object = "documents/", parameter="q", num_results = "num_results=" + prefs.getInt("resultNumber", 25);
+		String site = "eldis/", object = "documents/", parameter="q", num_results = "num_results=" + prefs.getString("resultNumber", "25");
 		String extras = "extra_fields=timestamp+date_created+site+urls+description+author+publication_year+publisher+publication_date";
 		String queryStr;
 		String paramStr = "";
@@ -1348,7 +1425,7 @@ public class AreaData {
 		parser = new JSONParse(context);
 		String querybase = "https://api.datamarket.azure.com/Bing/Search/Web";
 
-		String query = "Query=", format="$format=json", num_results = "$top=" + prefs.getInt("resultNumber", 25) ;
+		String query = "Query=", format="$format=json", num_results = "$top=" + prefs.getString("resultNumber", "25") ;
 
 		String queryStr;
 		String paramStr = "";
@@ -1651,10 +1728,10 @@ public class AreaData {
 
 	}
 
-	public int saveChart(String chart_name, String chart_desc,
-			String indicator, String[] countryList) {
+	public long saveChart(String chart_name, String chart_desc,
+			String indicator, String[] countryList, int group, int child) {
 		//Cursor ind = rawQuery(INDICATOR, new String[]{INDICATOR_ID}, WB_INDICATOR_ID + " = " +  indicator);
-		//FROM_CHARTS = { CHART_ID, CHART_NAME, CHART_DESC, I_ID, CHART_COUNTRIES};
+		//FROM_CHARTS = { CHART_ID, CHART_NAME, CHART_DESC, I_ID, CHART_COUNTRIES, I_POSITION, I_GROUP};
 		/*if (!ind.moveToFirst() || (ind.getCount() > 1)){
 			return SEARCH_FAIL;
 		}else{*/
@@ -1662,9 +1739,14 @@ public class AreaData {
 		values.put(CHART_NAME, chart_name);
 		values.put(CHART_DESC, chart_desc);
 		values.put(I_ID, indicator);
+		values.put(I_GROUP, group);
+		values.put(I_POSITION, child);
 		values.put(CHART_COUNTRIES, arrayToCSV(countryList));
-		if (insert(CHARTS, values, 0) > 0) {
-			return SUCCESS;
+		long chart = insert(CHARTS, values, 0);
+		
+		if (chart > 0) {
+			return saveData(CHARTS_DATA, "" + chart);
+			
 		} else {
 			return SEARCH_FAIL;
 		}
@@ -1696,7 +1778,7 @@ public class AreaData {
 		return csvString.split(",");
 	}
 
-	public Cursor getCharts(String indicatorID, String[] country) {
+	public Cursor getChart(String indicatorID, String[] country) {
 		@SuppressWarnings("unused")
 		Cursor retCursor;
 		
@@ -1707,22 +1789,188 @@ public class AreaData {
 	public Cursor getChartList() {
 		@SuppressWarnings("unused")
 		Cursor retCursor;
+		//FROM_CHARTS = { CHART_ID, CHART_NAME, CHART_DESC, I_ID, CHART_COUNTRIES, I_POSITION, I_GROUP};
 		
-		return retCursor = rawQuery(CHARTS, null, null);
+		return retCursor = rawQuery(CHARTS + " c INNER JOIN " + INDICATOR + 
+					" i ON c." + I_ID + " = i."+ INDICATOR_ID  ,
+				new String[]{"c." + CHART_ID, "c." + CHART_NAME, "c." + CHART_DESC, 
+					"c." + I_ID, "c." + CHART_COUNTRIES, "c." + I_POSITION, "c." + I_GROUP, "i." + WB_INDICATOR_ID + " AS wb_id" },
+				null);
 	}
 
-	public int saveData(int dataType, String entityid) {
+	public long saveData(int dataType, String entityid) {
 		//FROM_SAVED_DATA = { SAVED_DATA_ID, D_T_ID, ENTITY_ID};
 		values = new ContentValues();
 		values.put(D_T_ID, dataType);
 		values.put(ENTITY_ID, entityid);
 		
-		if (insert(SAVED_DATA, values, 0) > 0) {
+		return insert(SAVED_DATA, values, 0);
+			
+		
+		
+	}
+
+	public int saveCollection(int col_id, String col_name, String col_desc) {
+		//FROM_COLLECTIONS = { COLLECTION_ID, COLLECTION_NAME, COLLECTION_DESC};
+		values = new ContentValues();
+		if (col_id > 0){
+			values.put(COLLECTION_ID, col_id);
+		}
+		values.put(COLLECTION_NAME, col_name);
+		values.put(COLLECTION_DESC, col_desc);
+		
+		if (insert(COLLECTIONS, values, 1) > 0) {
+			return SUCCESS;
+		} else {
+			return SEARCH_FAIL;
+		}
+	}
+
+	public Cursor getCollections() {
+		@SuppressWarnings("unused")
+		Cursor retCursor;
+		
+		return retCursor = rawQuery(COLLECTIONS, null, null);
+
+	}
+	
+	public boolean hasCollections(){
+		Cursor cursor;
+		cursor = getCollections();
+		if (cursor.moveToFirst()){
+			cursor.close();
+			return true;
+		}
+		cursor.close();
+		return false;
+	}
+
+	public int addToCollection(int coll_id, long saveData) {
+		//FROM_COLLECTIONS_DATA = { COLL_DATA_ID, COLL_ID, S_D_ID};
+		values = new ContentValues();
+		
+		values.put(COLL_ID, coll_id);
+		values.put(S_D_ID, saveData);
+		
+		if (insert(COLL_DATA, values, 0) > 0) {
 			return SUCCESS;
 		} else {
 			return SEARCH_FAIL;
 		}
 		
+	}
+
+	public Cursor getDataCollections(int entity, int type, String table) {
+		Cursor cursor;
+		//String table = IDS_SEARCH_RESULTS;
+		
+		cursor  = rawQuery(String.format("%s c LEFT OUTER JOIN %s d ON c.%s = d.%s " +
+				"LEFT OUTER JOIN %s s ON d.%s = s.%s " +
+				"LEFT JOIN %s e ON s.%s = e.%s",
+				COLLECTIONS,COLL_DATA, COLLECTION_ID, COLL_ID, 
+				SAVED_DATA, S_D_ID, SAVED_DATA_ID,
+				table,ENTITY_ID, _ID),
+				new String[]{"c." + COLLECTION_ID, "c." + COLLECTION_NAME , "SUM((s." + ENTITY_ID + " = " + entity + ")) AS new"},
+				"1  = 1 ) GROUP BY (" + "c."+COLLECTION_ID);
+		Log.i(TAG, Arrays.toString(cursor.getColumnNames()));
+		while(cursor.moveToNext()){
+			Log.d(TAG, "" + cursor.getString(0) + " | " + cursor.getString(1) + " | " + cursor.getString(2) + " | " );
+		}
+		
+		Log.d(TAG, "" + cursor.getCount());
+		cursor.move(-1);
+		
+		return cursor;
+	}
+
+	public boolean isSaved(int entity, int type) {
+		Cursor cursor;
+		cursor = rawQuery(SAVED_DATA, null, D_T_ID + " = '" + type + "' AND " + ENTITY_ID + " = '" + entity + "'");
+		if (cursor.getCount() > 0){
+			Log.d(TAG, "Entity " + entity + " is saved");
+			cursor.close();
+			return true;
+		}
+		cursor.close();
+		return false;
+	}
+
+	public boolean isSavedChart(int indicator, String[] countryList) {
+		Cursor cursor;
+		cursor = rawQuery(CHARTS, null, I_ID + " = '" + indicator + "' AND " + CHART_COUNTRIES + " = '" + arrayToCSV(countryList) + "'");
+		if (cursor.getCount() > 0){
+			cursor.moveToFirst();
+			Log.d(TAG, "Chart " + cursor.getString(cursor.getColumnIndex(CHART_NAME)) + " is saved");
+			cursor.close();
+			return true;
+		}
+		cursor.close();
+		Log.d(TAG, "Chart " + indicator + " :-> " + Arrays.toString(countryList) + " is not found");
+		return false;
+	}
+
+	public int deleteChart(int indicator, String[] countryList) {
+		int rows_affected = 0;
+		Cursor cursor;
+		int chart_id = 0;
+		cursor = rawQuery(CHARTS, null, I_ID + " = '" + indicator + "' AND " + CHART_COUNTRIES + " = '" + arrayToCSV(countryList) + "'");
+		
+		if (cursor.getCount() > 0){
+			cursor.moveToFirst();
+			chart_id = cursor.getInt(cursor.getColumnIndex(CHART_ID));
+			
+			rows_affected = delete(SAVED_DATA, 
+					ENTITY_ID + " = " +  chart_id, 
+					chart_id);
+			
+			Log.d(TAG, "Chart " + cursor.getString(cursor.getColumnIndex(CHART_NAME)) + " exists");
+			
+			
+			
+		}
+		
+		if (!(rows_affected > 0)){
+			Log.d(TAG, "Chart deleting Failed ");
+		}else{
+			rows_affected = delete(CHARTS, 
+					CHART_ID + " = " + chart_id, 
+					chart_id);
+		}
+		cursor.close();
+		return rows_affected;
+	}
+
+	public long updateChart(int chart_id, String[] countryList) {
+		Cursor cursor = rawQuery(CHARTS, null, CHART_ID + " = '" + chart_id + "'");
+		if (cursor.moveToFirst()){
+			values = new ContentValues();
+			values.put(CHART_NAME, cursor.getString(cursor.getColumnIndex(CHART_NAME)));
+			values.put(CHART_DESC, cursor.getString(cursor.getColumnIndex(CHART_DESC)));
+			values.put(I_ID, cursor.getInt(cursor.getColumnIndex(I_ID)));
+			values.put(I_GROUP, cursor.getInt(cursor.getColumnIndex(I_GROUP)));
+			values.put(I_POSITION, cursor.getInt(cursor.getColumnIndex(I_GROUP)));
+			values.put(CHART_COUNTRIES, arrayToCSV(countryList));
+			cursor.close();
+			return insert(CHARTS, values, 1);
+		}
+		cursor.close();
+		return 0;
+		
+		
+	}
+
+	public boolean indicatorHasCharts(int indicator) {
+		Cursor cursor;
+		cursor = rawQuery(CHARTS, null, I_ID + " = '" + indicator + "'");
+		if (cursor.getCount() > 0){
+			cursor.moveToFirst();
+			Log.d(TAG, "Chart " + cursor.getString(cursor.getColumnIndex(CHART_NAME)) + " is saved");
+			cursor.close();
+			return true;
+		}
+		cursor.close();
+		Log.d(TAG, "Chart with indicator: " + indicator + " is not found");
+		return false;
 	}
 
 }

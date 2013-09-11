@@ -119,14 +119,14 @@ public class ArticlesGlobalListFragment extends ListFragment implements
 	@Override
 	public void onStop() {
 	    try {
-	      super.onStop();
+	      //super.onStop();
 
 	      if (this.mAdapter !=null){
-	        this.mAdapter.getCursor().close();
-	        this.mAdapter = null;
+	       // this.mAdapter.getCursor().close();
+	       // this.mAdapter = null;
 	      }
 	      
-	      this.getLoaderManager().destroyLoader(0);
+	      //this.getLoaderManager().destroyLoader(0);
 	      
 	      /*if (this.mActivityListCursorObj != null) {
 	        this.mActivityListCursorObj.close();
