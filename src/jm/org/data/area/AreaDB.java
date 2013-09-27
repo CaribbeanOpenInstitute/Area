@@ -11,7 +11,7 @@ import android.util.Log;
 
 public class AreaDB extends SQLiteOpenHelper{
 
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 3;
 	public static SQLiteDatabase db;
 
 
@@ -54,6 +54,7 @@ public class AreaDB extends SQLiteOpenHelper{
 	private static final String CREATE_TABLE_IDS_SEARCH = "create table " + IDS_SEARCH_TABLE + " ( "
 			+ IDS_SEARCH_ID 		+ " integer primary key autoincrement, "
 			+ I_ID 					+ " integer not null, "
+			+ C_ID 					+ " integer not null, "
 			+ IDS_BASE_URL			+ " text not null,"
 			+ IDS_SITE				+ " text not null, "
 			+ IDS_OBJECT 			+ " text not null, " 

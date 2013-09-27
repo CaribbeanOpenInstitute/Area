@@ -6,13 +6,13 @@
 
     <LinearLayout
         android:layout_width="400dip"
-        android:layout_height="match_parent"
+        android:layout_height="fill_parent"
         android:orientation="vertical" >
 	    <fragment
 	        android:id="@+id/listFragment"
 	        android:layout_width="match_parent"
 	        android:layout_height="1dp"
-	        android:layout_weight="2"
+	        android:layout_weight="2.5"
 	        class="jm.org.data.area.ExpandableListFragment"
 	        android:background="@drawable/rounded_border" /> 
 	    <!-- android:theme="@android:style/Theme.Holo.Light" -->
@@ -40,9 +40,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dip"
-            android:text="Recent Activity"
+            android:text="@string/recent_activity"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="30dip" />
+            android:textSize="30sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -62,7 +62,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dip"
-                    android:text="Reports"
+                    android:text="@string/reports"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <fragment
@@ -78,6 +78,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@drawable/rounded_border"
                 android:orientation="vertical" >
 
                 <TextView
@@ -85,7 +86,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dip"
-                    android:text="Articles"
+                    android:text="@string/articles"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <fragment
@@ -93,8 +94,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    class="jm.org.data.area.HomeArticlesListFragment"
-                    android:background="@drawable/rounded_border" >
+                    class="jm.org.data.area.HomeArticlesListFragment" >
                 </fragment>
             </LinearLayout>
         </LinearLayout>
@@ -104,7 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dip"
-            android:text="Charts"
+            android:text="@string/charts"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <fragment

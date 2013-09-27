@@ -276,7 +276,7 @@ public interface DBConstants extends MediaColumns {
 	public static final String[] FROM_PERIOD = { PERIOD_ID, PERIOD_NAME,
 			P_START_DATE, P_END_DATE };
 
-	public static final String[] FROM_IDS_SEARCH_TABLE = { IDS_SEARCH_ID, I_ID,
+	public static final String[] FROM_IDS_SEARCH_TABLE = { IDS_SEARCH_ID, I_ID, C_ID,
 			IDS_BASE_URL, IDS_SITE, IDS_OBJECT, IDS_TIMESTAMP, IDS_VIEW_DATE };
 
 	public static final String[] FROM_IDS_SEARCH_PARAMS = { _ID, IDS_S_ID,

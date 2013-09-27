@@ -160,7 +160,7 @@ public class AreaService extends Service {
 				int indicator = (Integer) search_data.get(RETURN_IND_ID);
 				String[] parameters = (String[]) search_data
 						.get(RETURN_KEYWORDS);
-				search_id = area.areaData.getDocuments(indicator, parameters);
+				search_id = area.areaData.getDocuments(indicator,0, parameters);
 				table = IDS_SEARCH_RESULTS;
 				tableKey = IDS_S_ID;
 				break;

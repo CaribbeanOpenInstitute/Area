@@ -1,6 +1,6 @@
 package jm.org.data.area;
 
-import static jm.org.data.area.AreaConstants.COLLECTION_REPORTS;
+import static jm.org.data.area.AreaConstants.*;
 import static jm.org.data.area.AreaConstants.IDS_SEARCH;
 import static jm.org.data.area.AreaConstants.SAVED_REPORTS;
 import static jm.org.data.area.AreaConstants.S_COLL_ACT;
@@ -82,7 +82,8 @@ public class ReportsFragment extends ListFragment implements
         	}else if (parent instanceof CountryActivity){
         		cAct = (CountryActivity) getActivity();
         		dialog = new ProgressDialog(cAct);
-        		indicator = cAct.getCountry();
+        		indicator = "" + cAct.getCountryID();
+        		searchType = COUNTRY_REPORTS;
         		title_text 	= "Country Reports";
         		empty_text	= "Your Query returned no Records for Country: " + indicator;
         		
@@ -236,6 +237,9 @@ public class ReportsFragment extends ListFragment implements
 			} else {
 				// setListShownNoAnimation(true);
 			}
+		}
+		if(cAct != null){
+			cAct.updateCountry();
 		}
 		if (dialog.isShowing()) {
 			dialog.dismiss();

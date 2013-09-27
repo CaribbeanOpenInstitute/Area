@@ -147,7 +147,7 @@ public class SelectionListFragment extends ListFragment implements
 			Toast.makeText(getActivity(), "Selected Countries",
 					Toast.LENGTH_SHORT).show();
 			actIntent = new Intent(getActivity().getApplicationContext(),
-					HomeActivity.class);
+					CountryActivity.class);
 			actIntent.putExtra(SELECTION_ID, item_id);
 			actIntent.putExtra(SELECTION_NAME, item);
 			actIntent.putExtra(S_PARENT, parentNum);

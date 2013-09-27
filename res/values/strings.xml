@@ -35,14 +35,37 @@
     <string name="recent_activity">Recent Activity</string>
     <string name="reports">Reports</string>
     <string name="articles">Articles</string>
+    <string name="recent_reports">Recent Reports</string>
+    <string name="recent_articles">Recent Articles</string>
+    <string name="recent_charts">Most Recent Chart</string>
+    
     <string name="charts">Charts</string>
-    <string name="wb_charts">World Bank Data</string>
+    <string name="wb_charts">Charts</string>
     <string name="wb_charts_message">Retrieving Chart Data</string>
     <string name="report_list_message">Retrieving Reports</string>
     <string name="article_list_message">Retrieving Articles</string>
 	<string name="keyword_label">Country /Region /Income level</string>
 	<string name="keyword_hint">Tap to Select Country/Region/Income level</string>
     
+	
+	<!--  FROM_COUNTRY = { COUNTRY_ID, WB_COUNTRY_ID,
+			WB_COUNTRY_CODE, COUNTRY_NAME, CAPITAL_CITY, INCOME_LEVEL_ID,
+			INCOME_LEVEL_NAME, COUNTRY_REGION_ID, COUNTRY_REGION_NAME, GDP,
+			GNI_CAPITA, POVERTY, LIFE_EX, LITERACY, POPULATION }; -->
+	<string name="country_title"	>Country</string>
+	<string name="country_name"		>Country</string>
+	<string name="country_reports"	>Country Reports</string>
+	<string name="country_code"		>Country Code</string>
+	<string name="country_capital"	>Capital City</string>
+	<string name="country_income"	>Income Level</string>
+	<string name="country_region"	>Region</string>
+	<string name="country_gdp"		>GDP (current US$)</string>
+	<string name="country_gni"		>GNI Per Capita</string>
+	<string name="country_poverty"	>Poverty rate</string>
+	<string name="country_life_ex"	>Life Expectancy</string>
+	<string name="country_literacy"	>Literacy Rate</string>
+	<string name="country_pop"		>Population</string>
+	
     
     <string name="menu_refresh">Refresh</string>
     <string name="menu_search">Search</string>

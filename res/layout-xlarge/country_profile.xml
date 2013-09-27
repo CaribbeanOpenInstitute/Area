@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:orientation="vertical" >
+	
+    <!--  FROM_COUNTRY = { COUNTRY_ID, WB_COUNTRY_ID,
+			WB_COUNTRY_CODE, COUNTRY_NAME, CAPITAL_CITY, INCOME_LEVEL_ID,
+			INCOME_LEVEL_NAME, COUNTRY_REGION_ID, COUNTRY_REGION_NAME, GDP,
+			GNI_CAPITA, POVERTY, LIFE_EX, LITERACY, POPULATION }; -->
+	
+    <TextView
+        android:id="@+id/country_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip"
+        android:text="@string/country_name"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="30sp" />
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:background="@drawable/rounded_border"
+        android:baselineAligned="false" >
+        
+        <LinearLayout 
+            android:id="@+id/country_details"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:background="@drawable/rounded_border"
+            android:layout_weight="2"
+            android:orientation="vertical" >
+            
+        </LinearLayout>
+        
+        <LinearLayout 
+            android:id="@+id/country_reports"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:background="@drawable/rounded_border"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+            
+            <fragment
+            android:id="@+id/homeChartsFragment"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            class="jm.org.data.area.CountryReportsFragment" >
+        </fragment>
+        </LinearLayout>
+    </LinearLayout>
+    
+	<TextView
+        android:id="@+id/indSeparator"
+        android:layout_width="fill_parent"
+        android:layout_height="10dp"
+        android:background="#8AC7E3"/>
+	
+   	<LinearLayout
+    	android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+        
+        <TextView
+            android:id="@+id/homeChartsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dip"
+            android:text="@string/charts"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <fragment
+            android:id="@+id/homeChartsFragment"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            class="jm.org.data.area.HomeChartFragment" >
+        </fragment>
+    </LinearLayout>
+
+</LinearLayout>

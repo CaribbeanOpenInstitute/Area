@@ -226,7 +226,7 @@ public class JSONParse {
 		return (int) search_id;
 	}
 
-	public int parseIDSData(String jsonData, int indicator, String params,
+	public int parseIDSData(String jsonData, int indicator, int country, String params,
 			String uri) {
 		Hashtable<String, String> ids_data = new Hashtable<String, String>();
 		long search_id = 0, param_id = 0;
@@ -246,6 +246,7 @@ public class JSONParse {
 				// create Search record if it doesn't exist;
 				apiRecord = new ContentValues();
 				apiRecord.put(I_ID, indicator);
+				apiRecord.put(C_ID, country);
 				apiRecord.put(IDS_BASE_URL, querybase);
 				apiRecord.put(IDS_SITE, site);
 				apiRecord.put(IDS_OBJECT, object);
@@ -434,6 +435,51 @@ public class JSONParse {
 		return search_country_id;
 	}
 
+	public String parseWBIndicator(String jsonData, String indicator, String years) {
+		
+		Hashtable<String, String> wb_data = new Hashtable<String, String>();
+		
+		try {
+
+			JSONArray jsonArray = new JSONArray(jsonData);
+			JSONObject jsonObject = jsonArray.getJSONObject(0);
+
+			int numReturned = Integer
+					.parseInt(jsonObject.getString("per_page"));
+			int numofObjects = Integer.parseInt(jsonObject.getString("total"));
+
+			if (numofObjects > 0) {
+				jsonArray = jsonArray.getJSONArray(1);
+				// move on to parse and update WB_DATA
+			} else {
+				// no data returned from World bank API pull
+				Log.e(TAG, "Error NO data retrieved from WB API: URL-" + indicator);
+				return "";
+			}
+			// 20 years of data will be returned, pass back the most current record of the resultset
+			for (int i = 0; i < numReturned; i++) {
+				
+				wb_data = parseJSON(wb_data, jsonArray.getJSONObject(i), "");
+				if(wb_data.get("value") == null || wb_data.get("value").equals("null")){
+					// continue looping through the list 
+				}else{
+					Log.i(TAG," (" + wb_data.get("date")+") " + wb_data.get("value"));
+					return " (" + wb_data.get("date")+") " + wb_data.get("value"); 
+				}
+				
+			}
+			// if all 20 years of data are null return "no data"
+			return "No Data "+ years;
+
+		} catch (Exception e) {
+			// e.printStackTrace();
+
+			Log.e(TAG, "WB DATA" + e.toString());
+			return "";
+		}
+		
+	}
+	
 	public int getWBTotal(String jsonData) {
 
 		int numofObjects = 0;
@@ -510,7 +556,7 @@ public class JSONParse {
 
 		return jsonText.toString();
 	}
-
+	
 	public String parseCategories(String jsonData) {
 
 		Hashtable<String, String> category_data = new Hashtable<String, String>();
@@ -687,4 +733,6 @@ public class JSONParse {
 		return calendar.getTime().getTime();
 
 	}
+
+	
 }

@@ -12,13 +12,13 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class CollectionsCursorAdapter extends CursorAdapter {
-	private static final String TAG = CollectionsCursorAdapter.class.getSimpleName();
+public class CountryCursorAdapter extends CursorAdapter {
+	private static final String TAG = CountryCursorAdapter.class.getSimpleName();
 	private int mSelectedPosition;
 	
 	//private Context mContext;
 
-	public CollectionsCursorAdapter(Context context, Cursor c) {
+	public CountryCursorAdapter(Context context, Cursor c) {
 		super(context, c, 0);
 		//mContext = context;
 	}
@@ -47,18 +47,14 @@ public class CollectionsCursorAdapter extends CursorAdapter {
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
 		TextView list_item = (TextView) view.findViewById(android.R.id.text1);
-		//FROM_COLLECTIONS = { COLLECTION_ID, COLLECTION_NAME, COLLECTION_DESC};
-		list_item.setText( /*
-							 * cursor.getString(cursor.getColumnIndex(
-							 * WB_INDICATOR_ID))+ "-" +
-							 */cursor.getString(cursor
-				.getColumnIndex(COLLECTION_NAME)));
+		
+		list_item.setText(cursor.getString(cursor.getColumnIndex(COUNTRY_NAME)));
+		
 		int position = cursor.getPosition();
+		
 		if (mSelectedPosition == position) {
-			
 			view.setBackgroundColor(Color.parseColor("#8AC7E3"));
 		} else {
-			//view.setBackgroundColor(Color.TRANSPARENT);
 			view.setBackgroundColor(Color.parseColor("#CCFF99"));
 		}
 

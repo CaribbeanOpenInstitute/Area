@@ -12,7 +12,7 @@
 	        android:id="@+id/listFragment"
 	        android:layout_width="match_parent"
 	        android:layout_height="1dp"
-	        android:layout_weight="2"
+	        android:layout_weight="2.5"
 	        class="jm.org.data.area.ExpandableListFragment"
 	        android:background="@drawable/rounded_border" /> 
 	    <!-- android:theme="@android:style/Theme.Holo.Light" -->
