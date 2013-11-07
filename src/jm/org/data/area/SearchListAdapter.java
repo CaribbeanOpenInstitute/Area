@@ -1,6 +1,12 @@
 package jm.org.data.area;
 
-import static jm.org.data.area.AreaConstants.*;
+import static jm.org.data.area.AreaConstants.BING_SEARCH;
+import static jm.org.data.area.AreaConstants.COUNTRY_REPORTS;
+import static jm.org.data.area.AreaConstants.SEARCH_SUCCESS;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
@@ -38,6 +44,7 @@ public class SearchListAdapter extends SimpleCursorLoader {
 		try {
 			Log.e(TAG, "Calling Generic Search:" + searchType);
 			if(searchType == COUNTRY_REPORTS ){
+				
 				if (area.areaData.genericSearch(COUNTRY_REPORTS, indicatorID, country) >= SEARCH_SUCCESS) {
 					//Also update country data
 					area.areaData.getProfileIndicators(indicatorID);

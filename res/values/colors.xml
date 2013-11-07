@@ -15,13 +15,14 @@
   -->
 
 <resources>
-    <color name="actionbar_title_color">#224894</color>
+    <color name="actionbar_title_color">#7F7F7F7F</color>
     <color name="White">#FFF</color>
     <color name="Black">#000</color>
     <color name="Grey">#7F7F7F</color>
     <color name="DarkGrey">#4F4F4F</color>
     <color name="Green">#0F0</color>
     <color name="TransparentGrey">#7F000000</color>
+    <color name="Menu_Bar">#4B7C31</color>
     
     <color name="lightBlue">#8AC7E3</color>
 </resources>

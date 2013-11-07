@@ -19,6 +19,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="?android:attr/listPreferredItemHeight"
+    android:background="#C8DEB1"
     android:mode="twoLine" >
 
     <TextView
@@ -26,7 +27,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dip"
-        android:textAppearance="?android:attr/textAppearanceListItem" 
+        android:background="#C8DEB1"
+         
         />
 
     <TextView
@@ -34,6 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/list_item_title"
+        android:background="#C8DEB1"
         android:layout_below="@id/list_item_title"
         android:textAppearance="?android:attr/textAppearanceSmall" 
         />

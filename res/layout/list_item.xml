@@ -8,6 +8,7 @@
     <TextView
         android:id="@android:id/text1"
         style="android:Theme.Light"
+        
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"

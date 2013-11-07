@@ -29,6 +29,7 @@ public class GetChartData extends AsyncTask<Void, Void, Boolean> {
 	private AreaApplication area;
 	private ProgressDialog dialog;
 	private Context mContext;
+	int reload_count = 0;
 	
 	public GetChartData(LinearLayout chart_layout, Context context, ProgressDialog progress,
 			String indicatorStr, String[] contries){
@@ -90,13 +91,18 @@ public class GetChartData extends AsyncTask<Void, Void, Boolean> {
 				Arrays.toString(countryList)));
 		chart = new AreaChart().execute(mContext, indicator, countryList);
 		if (chart == null){
+			reload_count++;
 			Toast.makeText(mContext, "Error in Loading Chart data.\n Chart is Reloading",
 					Toast.LENGTH_SHORT).show();
 			if (dialog.isShowing()) {
 				dialog.dismiss();
 			}
-			reload(countryList);
-			
+			if (reload_count > 1){
+				displayError();
+				
+			}else{
+				reload(countryList);
+			}
 		}else{
 			Log.e(TAG, "chart view " + chart.toString() + " - " + layout.getId()
 					+ "current indicator" + indicator + " - " + "First country: "
@@ -139,12 +145,21 @@ public class GetChartData extends AsyncTask<Void, Void, Boolean> {
 		layout.removeAllViewsInLayout();
 		txt.append("No Data Retrieved For Indicator\n" + indicator);
 		layout.addView(txt);
+		reload_count = 0;
 	}
 	
 	public void reload(String[] countries) {
 		countryList = countries;
+		if (countryList.length < 1){
+			
+			displayError();
+			if (dialog.isShowing()) {
+				dialog.dismiss();
+			}
+		}else{
+			this.execute();
+		}
 		
-		this.execute();
 
 	}
 

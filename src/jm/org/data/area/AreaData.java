@@ -92,6 +92,8 @@ import static jm.org.data.area.DBConstants.WB_COUNTRY_ID;
 import static jm.org.data.area.DBConstants.WB_DATA;
 import static jm.org.data.area.DBConstants.WB_INDICATOR_ID;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -672,6 +674,12 @@ public class AreaData {
 				c_id 		 = ind_result.getInt(ind_result.getColumnIndexOrThrow(_ID));
 				country_name = ind_result.getString(ind_result.getColumnIndexOrThrow(COUNTRY_NAME));
 				ind_id = 0;
+				try {
+					country_name = URLEncoder.encode(country_name, "utf-8");
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				indicatorStr = country_name;
 				dataSource  = IDS_SEARCH;
 			}
@@ -975,7 +983,10 @@ public class AreaData {
 		Cursor result; 
 
 		result = //dbHelper.rawQuery(INDICATOR, null, "");
-				rawQuery(WB_CATEGORY, null, "");
+				//only pull for those categories that have indicators. 
+				rawQuery(WB_CATEGORY + " c INNER JOIN " + IND_CATEGORIES + " i_c  ON c." +  CATEGORY_ID +" = i_c." + CAT_ID + " ",
+						new String[] {"DISTINCT c."+ CATEGORY_ID,"c."+ CATEGORY_NAME ,"c."+ WB_CATEGORY_ID},
+						"");
 
 		return result;
 	}

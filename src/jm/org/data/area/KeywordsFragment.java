@@ -75,6 +75,22 @@ public class KeywordsFragment extends Fragment implements OnClickListener {
 				android.R.layout.simple_list_item_1, country);
 		edt_keyword.setAdapter(adapter);
 		edt_keyword.setHint(R.string.test);
+		
+		// add default button for the world
+		Button newKeyword = new Button(parentActivity);
+		newKeyword.setText("World");
+		newKeyword.setLayoutParams(new LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+
+		newKeyword.setOnClickListener(this);
+		ll_keyword.addView(newKeyword);
+
+		//mListener.onCountryChange(ADD_KEY, (String) keyword);
+		//edt_keyword.setText("");
+
+		Log.e(TAG,
+				"The current countryList are: "
+						+ Arrays.toString(parentActivity.getCountryList()));
 		/*
 		 * edt_keyword.setTextColor(Color.WHITE);
 		 * 
@@ -127,6 +143,7 @@ public class KeywordsFragment extends Fragment implements OnClickListener {
 			throw new ClassCastException(activity.toString()
 					+ "must implement onKeywordChangeListener");
 		}
+		
 	}
 
 	public void addKeyword(String keyword) {

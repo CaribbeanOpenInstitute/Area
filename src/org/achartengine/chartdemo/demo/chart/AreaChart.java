@@ -140,21 +140,22 @@ public class AreaChart extends AbstractDemoChart {
 			}
 
 			setChartSettings(renderer, indicator_name, "Year", x_axis, 1990,
-					2012, 0, y_max, Color.LTGRAY, Color.LTGRAY);
+					2012, 0, y_max, Color.BLACK, Color.BLACK);
 			renderer.setXLabels(13);
 			renderer.setYLabels(10);
 			renderer.setShowGrid(true);
 			renderer.setXLabelsAlign(Align.RIGHT);
 			renderer.setYLabelsAlign(Align.LEFT);
 			renderer.setChartTitleTextSize(16);
-			// renderer.setBackgroundColor(Color.LTGRAY);
+			//renderer.setBackgroundColor(Color.parseColor("#C0D4B5"));
 			renderer.setApplyBackgroundColor(true);
 			renderer.setZoomButtonsVisible(true);
 			renderer.setPanLimits(new double[] { 1980, 2016, -1 * y_max,
 					y_max * 2 });
 			renderer.setZoomLimits(new double[] { 1980, 2016, -1 * y_max,
 					y_max * 2 });
-			renderer.setBackgroundColor(Color.WHITE);
+			renderer.setBackgroundColor(Color.GRAY);
+			renderer.setMarginsColor(Color.parseColor("#C0D4B5"));
 			GraphicalView intent = ChartFactory.getLineChartView(context,
 					buildDataset(countries, x, values), renderer);
 

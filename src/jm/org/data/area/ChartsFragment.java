@@ -77,6 +77,7 @@ public class ChartsFragment extends Fragment {
 	
 	//private ShareActionProvider mShareActionProvider;
 
+	private KeywordsFragment kFragment;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -103,6 +104,8 @@ public class ChartsFragment extends Fragment {
 		countryList		= parentActivity.getCountryList();
 		group			= parentActivity.getGroupPosition();
 		child			= parentActivity.getChildPosition();
+		
+		
 		createChart();
 		setHasOptionsMenu(true);
 		
@@ -640,7 +643,7 @@ public class ChartsFragment extends Fragment {
 		
 		dialog = ProgressDialog.show(getActivity(), "", String.format(
 				"Loading Data for %s. Please wait...",
-				countryList[countryList.length - 1]), true);
+				"country"), true);
 		Log.d(TAG,
 				String.format(
 						"Charts reload function. \n Current indicator: %s. Country List: %s",
@@ -649,7 +652,7 @@ public class ChartsFragment extends Fragment {
 		// countryList = new String[]{"Jamaica", "Barbados", "Kenya"};
 		chart_data = new GetChartData(layout, getActivity(), dialog, indicator, countryList);
 		chart_data.reload(countryList);
-
+	
 	}
 
 }

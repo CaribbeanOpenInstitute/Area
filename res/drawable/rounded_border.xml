@@ -2,8 +2,8 @@
 
     <stroke android:width="4dp" />
     <!-- Background of layout         android:color="#FF00FF00" -->
-    <solid android:color="#ffffff" />
-
+    <solid android:color="#CCFF99" />
+	
     <padding
         android:bottom="7dp"
         android:left="7dp"

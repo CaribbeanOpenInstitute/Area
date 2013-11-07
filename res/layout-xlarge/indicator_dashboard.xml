@@ -35,6 +35,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical" 
+        android:background= "#C0D4B5"
         >
 <!--         android:background="@drawable/app_bg" -->
 
