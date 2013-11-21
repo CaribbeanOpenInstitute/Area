@@ -67,7 +67,7 @@ public class IndicatorActivity extends BaseActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		
+		setContentView(R.layout.indicator_dashboard);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			// only for android newer than gingerbread
 			// ActionBar actionBar = getActionBar();
@@ -101,7 +101,7 @@ public class IndicatorActivity extends BaseActivity implements
 			countryList.add("World");
 		}
 
-		setContentView(R.layout.indicator_dashboard);
+		
 		//dialog = new ProgressDialog(this);
 		mTabHost = (TabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup();

@@ -118,7 +118,7 @@ public class AreaExpandableListAdapter extends SimpleCursorTreeAdapter  {
 		TextView list_item = (TextView) view.findViewById(R.id.textView1);
 		list_item.setText( groupCursor.getString(groupCursor.getColumnIndex(CATEGORY_NAME)));
 		
-		
+		list_item.setTextAppearance(mContext, android.R.style.TextAppearance_Medium);
 		int position = groupCursor.getPosition();
 		
 		if (mSelectedPosition == position) {
@@ -154,7 +154,7 @@ public class AreaExpandableListAdapter extends SimpleCursorTreeAdapter  {
 					position, mSelectedChildPosition));
 			
 		} else {
-			view.setBackgroundColor(Color.parseColor("#C8DEB1"));
+			view.setBackgroundColor(Color.parseColor("#135914"));
 			
 		}
 		
@@ -219,6 +219,7 @@ public class AreaExpandableListAdapter extends SimpleCursorTreeAdapter  {
 					intent.putExtra(SELECTION_ID, S_INDICATORS);
 					intent.putExtra(SELECTION_NAME, "Indicators");
 					mContext.startActivity(intent);
+					
 				}
 	
 				if (act != null) {
