@@ -13,7 +13,7 @@
         android:layout_marginLeft="15dp"
         android:layout_weight="1"
         android:background="@drawable/rounded_border"
-        class="jm.org.data.area.ReportsGlobalListFragment" >
+        class="jm.org.data.era.ReportsGlobalListFragment" >
     </fragment> 
     
     <fragment
@@ -23,7 +23,7 @@
         android:layout_marginRight="15dp"
         android:layout_weight="1"
         android:background="@drawable/rounded_border"
-        class="jm.org.data.area.ArticlesGlobalListFragment" >
+        class="jm.org.data.era.ArticlesGlobalListFragment" >
     </fragment>
 
 

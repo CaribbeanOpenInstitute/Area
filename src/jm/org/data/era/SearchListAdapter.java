@@ -1,0 +1,88 @@
+package jm.org.data.era;
+
+import static jm.org.data.era.AreaConstants.BING_SEARCH;
+import static jm.org.data.era.AreaConstants.COUNTRY_REPORTS;
+import static jm.org.data.era.AreaConstants.SEARCH_SUCCESS;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
+import android.content.Context;
+import android.database.Cursor;
+import android.util.Log;
+
+public class SearchListAdapter extends SimpleCursorLoader {
+	private final String TAG = getClass().getSimpleName();
+	private int searchType;
+	private Context mContext;
+	private String indicatorID, category;
+	private String[] country;
+
+	public SearchListAdapter(Context context) {
+		super(context);
+		mContext = context;
+	}
+
+	public SearchListAdapter(Context context, int sType, String indID,
+			String[] ctry, String categoryStr) {
+		super(context);
+		Log.e(TAG, "Creating SearchListAdapter.");
+		searchType = sType;
+		mContext = context;
+		indicatorID = indID;
+		country = ctry;
+		category = categoryStr;
+	}
+
+	@Override
+	public Cursor loadInBackground() {
+		area = (AreaApplication) mContext.getApplicationContext();
+		Cursor results;
+		// int searchType = IDS_SEARCH;
+		// indicatorID = "AG.PRD.CROP.XD";
+		// country = new String[] { "Jamaica", "Barbados" };
+
+		try {
+			Log.e(TAG, "Calling Generic Search:" + searchType);
+			if(searchType == COUNTRY_REPORTS ){
+				
+				if (area.areaData.genericSearch(COUNTRY_REPORTS, indicatorID, country, category) >= SEARCH_SUCCESS) {
+					//Also update country data
+					area.areaData.getProfileIndicators(indicatorID);
+					
+					// return report data
+					results = area.areaData.getData(searchType, indicatorID,
+							country);
+					Log.d(TAG,
+							"Returning data. Num of records: " + results.getCount());
+
+					return results;
+				}else{
+					Log.d(TAG, "Error Retrieving Data");
+				}
+			}else if (searchType > BING_SEARCH){ // getting saved data so skip search
+			
+				results = area.areaData.getData(searchType, indicatorID, null);
+				return results;
+			}else if (area.areaData.genericSearch(searchType, indicatorID, country, category) >= SEARCH_SUCCESS) {
+				
+				results = area.areaData.getData(searchType, indicatorID,
+						country);
+				Log.d(TAG,
+						"Returning data. Num of records: " + results.getCount());
+
+				return results;
+			}else{
+				Log.d(TAG, "Error Retrieving Data");
+			}
+		} catch (IllegalStateException ilEc) {
+			Log.e(TAG,
+					"Database list loading returned Database Lock exception on "
+							+ searchType + " query");
+			// db.close();
+			// return rawQuery(tableName, tableColumns,queryParams);
+		}
+		Log.d(TAG, "Returning zero");
+		return null;
+	}
+}

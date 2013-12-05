@@ -8,7 +8,7 @@
         android:id="@+id/inlistFragment"
         android:layout_width="400dip"
         android:layout_height="match_parent"
-        class="jm.org.data.area.IndicatorListFragment" >
+        class="jm.org.data.era.IndicatorListFragment" >
     </fragment>
 
     <LinearLayout
@@ -59,12 +59,12 @@
             android:text="This is an example of text"
              /> -->
 
-        <fragment
+        <!-- fragment
             android:id="@+id/keywordFragment"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             class="jm.org.data.area.KeywordsFragment"> 
-        </fragment>
+        </fragment -->
     </LinearLayout>
 
 </LinearLayout>

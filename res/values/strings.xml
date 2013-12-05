@@ -15,11 +15,11 @@
   -->
 
 <resources>
-    <string name="app_name">A.R.E.A</string>
-    <string name="alternate_title">Agriculture Research Evidence Application</string>
+    <string name="app_name">E.R.A</string>
+    <string name="alternate_title">Evidence-Based Research Assistant</string>
     <string name="toggle_title">Toggle title</string>
     <string name="toggle_prefs">Show preferences</string>
-    <string name="areaService">Area Background Service</string>
+    <string name="areaService">ERA Background Service</string>
     
     <string name="delete"	>Delete	</string>
     <string name="save"		>Save	</string>

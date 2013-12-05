@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-import jm.org.data.area.R;
+import jm.org.data.era.R;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;

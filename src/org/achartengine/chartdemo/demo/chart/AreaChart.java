@@ -21,7 +21,7 @@ import static org.achartengine.chartdemo.demo.chart.ChartConstants.STYLEZ;
 import java.util.ArrayList;
 import java.util.List;
 
-import jm.org.data.area.AreaApplication;
+import jm.org.data.era.AreaApplication;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;

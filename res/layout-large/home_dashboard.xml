@@ -13,7 +13,7 @@
 	        android:layout_width="match_parent"
 	        android:layout_height="1dp"
 	        android:layout_weight="1.7"
-	        class="jm.org.data.area.ExpandableListFragment"
+	        class="jm.org.data.era.ExpandableListFragment"
 	        android:background="@drawable/rounded_border" /> 
 	    <!-- android:theme="@android:style/Theme.Holo.Light" -->
 	    <!-- android:layout_marginTop="?android:attr/actionBarSize" -->
@@ -28,7 +28,7 @@
 	        android:layout_height="1dp"
 	        android:layout_weight="1"
 	        android:background="@drawable/rounded_border"	        
-	        class="jm.org.data.area.SelectionListFragment" />
+	        class="jm.org.data.era.SelectionListFragment" />
 	</LinearLayout>
 	
     <LinearLayout
@@ -71,7 +71,7 @@
                     android:layout_width="wrap_content"
                     android:layout_gravity="center"
                     android:layout_height="wrap_content"
-                    class="jm.org.data.area.HomeReportListFragment" >
+                    class="jm.org.data.era.HomeReportListFragment" >
                 </fragment>
             </LinearLayout>
 
@@ -93,7 +93,7 @@
                     android:layout_width="wrap_content"
                     android:layout_gravity="center"
                     android:layout_height="wrap_content"
-                    class="jm.org.data.area.HomeArticlesListFragment" >
+                    class="jm.org.data.era.HomeArticlesListFragment" >
                 </fragment>
                 
             </LinearLayout>
@@ -112,7 +112,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            class="jm.org.data.area.HomeChartFragment" >
+            class="jm.org.data.era.HomeChartFragment" >
         </fragment>
     </LinearLayout>
 

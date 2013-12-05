@@ -51,7 +51,7 @@
             android:id="@+id/homeChartsFragment"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            class="jm.org.data.area.CountryReportsFragment" >
+            class="jm.org.data.era.CountryReportsFragment" >
         </fragment>
         </LinearLayout>
     </LinearLayout>
@@ -80,7 +80,7 @@
             android:id="@+id/homeChartsFragment"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            class="jm.org.data.area.HomeChartFragment" >
+            class="jm.org.data.era.HomeChartFragment" >
         </fragment>
     </LinearLayout>
 
