@@ -120,26 +120,30 @@
             	android:typeface="serif" />
 
         	<TextView
-            	android:id="@+id/txtview3"
-            	android:layout_width="wrap_content"
-            	android:layout_height="wrap_content"
-            	android:gravity="center_horizontal"
-            	android:paddingTop="10dp"
-            	android:text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat"
-            	android:textColor="#ffffff" />
+        	    android:id="@+id/txtview3"
+        	    android:layout_width="wrap_content"
+        	    android:layout_height="wrap_content"
+        	    android:gravity="center_horizontal"
+        	    android:paddingLeft="50dp"
+        	    android:paddingRight="50dp"
+        	    android:paddingTop="10dp"
+        	    android:text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat"
+        	    android:textColor="#ffffff" />
 
         	<LinearLayout
-            	android:id="@+id/linearlayout8"
-            	android:layout_width="fill_parent"
-            	android:layout_height="wrap_content"
-            	android:layout_gravity="bottom"
-            	android:layout_weight="1"
-            	android:orientation="horizontal"
-            	android:paddingTop="10dp"
-            	android:weightSum="2" >
+        	    android:id="@+id/linearlayout8"
+        	    android:layout_width="fill_parent"
+        	    android:layout_height="wrap_content"
+        	    android:layout_gravity="bottom"
+        	    android:layout_weight="1"
+        	    android:orientation="horizontal"
+        	    android:paddingLeft="50dp"
+        	    android:paddingRight="50dp"
+        	    android:paddingTop="10dp"
+        	    android:weightSum="2" >
 
             	<ImageButton
-                	android:id="@+id/imageButton1"
+                	android:id="@+id/set_preferences"
                 	android:layout_width="0dp"
                 	android:layout_height="wrap_content"
                 	android:layout_weight="1"
@@ -147,7 +151,7 @@
                 	android:src="@drawable/ic_action_settings" />
 
             	<ImageButton
-                	android:id="@+id/imageButton2"
+                	android:id="@+id/got_it"
                 	android:layout_width="0dp"
                 	android:layout_height="wrap_content"
                 	android:layout_weight="1"

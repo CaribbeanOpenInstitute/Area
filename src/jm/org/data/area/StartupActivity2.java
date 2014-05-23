@@ -12,17 +12,52 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.Toast;
 import android.widget.ViewAnimator;
 
 public class StartupActivity2 extends Activity {
 	private static final String TAG = StartupActivity2.class.getSimpleName();
+	private ImageButton preference;
+	private ImageButton done;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.startupview2);
+		
+		preference = (ImageButton)findViewById(R.id.set_preferences);
+		done = (ImageButton)findViewById(R.id.got_it);
+		
+		OnClickListener myClickListener = new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				switch(v.getId()){
+				case(R.id.set_preferences):
+					startActivity(new Intent(StartupActivity2.this,
+							AreaPreferencesActivity.class));
+				break;
+				case(R.id.got_it):
+					startActivity(new Intent(StartupActivity2.this,
+							HomeActivity.class));
+			
+				
+					
+				}
+				
+			}
+			
+			
+		};
+		preference.setOnClickListener(myClickListener);
+		done.setOnClickListener(myClickListener);
 	}
 	
 	@Override
@@ -49,5 +84,24 @@ public class StartupActivity2 extends Activity {
 		}
 		return true;//super.onCreateOptionsMenu(menu);
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.menu_prefs:
+			startActivity(new Intent(StartupActivity2.this,
+					AreaPreferencesActivity.class));
+			break;
+		case R.id.menu_startup:
+			startActivity(new Intent(StartupActivity2.this, StartupActivity2.class));
+			break;
+		case R.id.menu_settings:
+			startActivity(new Intent(StartupActivity2.this, AreaPreferencesActivity.class));
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	
+	
 		
 }

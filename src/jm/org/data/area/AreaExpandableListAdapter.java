@@ -129,7 +129,7 @@ public class AreaExpandableListAdapter extends SimpleCursorTreeAdapter  {
 					position, mSelectedPosition));
 			
 		} else {
-			view.setBackgroundColor(Color.parseColor("#CCFF99"));
+			view.setBackgroundColor(Color.parseColor("#167A72"));
 			
 		}
 		
@@ -154,7 +154,7 @@ public class AreaExpandableListAdapter extends SimpleCursorTreeAdapter  {
 					position, mSelectedChildPosition));
 			
 		} else {
-			view.setBackgroundColor(Color.parseColor("#C8DEB1"));
+			view.setBackgroundColor(Color.parseColor("#167A72"));
 			
 		}
 		

@@ -48,12 +48,14 @@ public class SelectionListCursorAdapter extends CursorAdapter {
 
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
-		
 		TextView list_item = (TextView) view.findViewById(android.R.id.text1);
 		list_item.setText( cursor.getString(cursor .getColumnIndex(SELECTION_NAME)));
 		
 		list_item.setTextColor(Color.WHITE);
-		view.setBackgroundColor(Color.GRAY);
+		//view.setBackgroundColor(Color.BLUE);
+		
+		view.setBackgroundResource(R.drawable.selection_list_background2);
+		
 	
 
 	}
