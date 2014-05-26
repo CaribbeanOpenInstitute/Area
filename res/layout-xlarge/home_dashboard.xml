@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="horizontal" >
+    android:orientation="horizontal"
+     >
 
     <LinearLayout
         android:layout_width="400dip"
@@ -17,11 +18,11 @@
 	        android:background="@drawable/rounded_border" /> 
 	    <!-- android:theme="@android:style/Theme.Holo.Light" -->
 	    <!-- android:layout_marginTop="?android:attr/actionBarSize" -->
-		<TextView
+<!--		<TextView
 	            android:id="@+id/indSeparator"
 	            android:layout_width="fill_parent"
 	            android:layout_height="10dp"
-	            android:background="#8AC7E3"/>
+	            android:background="#8AC7E3"/>   -->
 		<fragment
 	        android:id="@+id/slistFragment"
 	        android:layout_width="match_parent"
@@ -34,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" 
-        android:background= "#C0D4B5" >
+        android:background="@drawable/gradient_background" >
 
         <TextView
             android:id="@+id/homeTitleText"
@@ -43,7 +44,9 @@
             android:layout_marginTop="20dip"
             android:text="@string/recent_activity"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:textColor="#025E6B" 
+            android:layout_gravity="right" />"
 
         <LinearLayout
             android:layout_width="match_parent"

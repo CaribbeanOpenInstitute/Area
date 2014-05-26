@@ -13,6 +13,7 @@ import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -21,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.TabHost;
@@ -225,6 +227,13 @@ public class CollectionsActivity extends BaseActivity {
 							});
 			aDialog = aBuilder.create();
 			aDialog.show();
+
+			Button delete = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
+			Button cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
+			delete.setBackgroundColor(Color.parseColor("#61BF8B"));
+			delete.setTextColor(Color.WHITE);
+			cancel.setBackgroundColor(Color.parseColor("#777777"));
+			cancel.setTextColor(Color.WHITE);
 			break;
 		case R.id.menu_view:
 			//Toast.makeText(this, "Tapped View", Toast.LENGTH_SHORT).show();

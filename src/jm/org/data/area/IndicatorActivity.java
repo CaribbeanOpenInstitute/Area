@@ -113,11 +113,12 @@ public class IndicatorActivity extends BaseActivity implements
 		mTabsAdapter.addTab(mTabHost.newTabSpec("charts")
 				.setIndicator("Charts"), ChartsFragment.class, null);
 		mTabsAdapter.addTab(
-				mTabHost.newTabSpec("reports").setIndicator("Reports"),
-				ReportsFragment.class, null);
-		mTabsAdapter.addTab(
 				mTabHost.newTabSpec("articles").setIndicator("Articles"),
 				ArticlesFragment.class, null);
+		mTabsAdapter.addTab(
+				mTabHost.newTabSpec("reports").setIndicator("Reports"),
+				ReportsFragment.class, null);
+		
 
 		if (savedInstanceState != null) {
 			mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));

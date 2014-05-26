@@ -21,6 +21,7 @@ import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -69,8 +70,8 @@ public class ArticlesFragment extends ListFragment implements
         		indicator = act.getIndicator();
         		countryList = act.getCountryList();
         		searchType = BING_SEARCH;
-        		title_text 	= "Web Articles";
-        		empty_text	= "Your Query returned no Records for Indicator: " + indicator;
+        		//title_text 	= "Web Articles";
+        		empty_text	= getResources().getString(R.string.articles_empty);//"Your Query returned no Records for Indicator: " + indicator;
         		
         	}else if (parent instanceof CollectionsActivity){
         		colAct = (CollectionsActivity) getActivity();
@@ -79,24 +80,24 @@ public class ArticlesFragment extends ListFragment implements
         		collection = colAct.getCollection();
         		indicator = ""+ collection;
         		countryList = null;
-        		title_text 	= "Collection Articles";
-        		empty_text	= "There are no Articles saved in this Collection...";
+        		//title_text 	= "Collection Articles";
+        		empty_text	= getResources().getString(R.string.articles_empty);//"There are no Articles saved in this Collection...";
         	}else if (parent instanceof CountryActivity){
         		cAct = (CountryActivity) getActivity();
         		dialog = new ProgressDialog(cAct);
         		indicator = cAct.getCountry();
         		
         		countryList = null;
-        		title_text 	= "Country Articles";
-        		empty_text	= "No articles for " + indicator;
+        		//title_text 	= "Country Articles";
+        		empty_text	= getResources().getString(R.string.articles_empty);//"No articles for " + indicator;
         	}else if(parent instanceof SavedDataActivity){
         		sAct = (SavedDataActivity) getActivity();
         		dialog = new ProgressDialog(sAct);
         		indicator = "";
         		searchType = SAVED_ARTICLES;
         		countryList = null;
-        		title_text 	= "Saved Articles";
-        		empty_text	= "There are no Saved";
+        		//title_text 	= "Saved Articles";
+        		empty_text	= getResources().getString(R.string.articles_empty);//"There are no Saved";
         	}else{
         		Log.d(TAG,"We Have no clue what the starting activity is. Hmm, not sure what is happening");
         	}
@@ -128,7 +129,7 @@ public class ArticlesFragment extends ListFragment implements
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.articles, container, false);
 		((TextView) view.findViewById(R.id.articlesText)).setText(title_text);
-		((TextView) view.findViewById(android.R.id.empty)).setText(empty_text);
+		((TextView) view.findViewById(android.R.id.empty)).setText(Html.fromHtml(empty_text));
 		return view;
 	}
 

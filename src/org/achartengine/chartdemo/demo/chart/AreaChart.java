@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jm.org.data.area.AreaApplication;
+import jm.org.data.area.R;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
@@ -155,7 +156,7 @@ public class AreaChart extends AbstractDemoChart {
 			renderer.setZoomLimits(new double[] { 1980, 2016, -1 * y_max,
 					y_max * 2 });
 			renderer.setBackgroundColor(Color.GRAY);
-			renderer.setMarginsColor(Color.parseColor("#C0D4B5"));
+			renderer.setMarginsColor(Color.parseColor("#FAFBF5"));
 			GraphicalView intent = ChartFactory.getLineChartView(context,
 					buildDataset(countries, x, values), renderer);
 

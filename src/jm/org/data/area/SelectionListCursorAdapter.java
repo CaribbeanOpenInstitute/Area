@@ -51,10 +51,10 @@ public class SelectionListCursorAdapter extends CursorAdapter {
 		TextView list_item = (TextView) view.findViewById(android.R.id.text1);
 		list_item.setText( cursor.getString(cursor .getColumnIndex(SELECTION_NAME)));
 		
-		list_item.setTextColor(Color.WHITE);
+		list_item.setTextColor(Color.parseColor("#015F69"));
 		//view.setBackgroundColor(Color.BLUE);
 		
-		view.setBackgroundResource(R.drawable.selection_list_background2);
+		view.setBackgroundResource(R.drawable.selection_list_background);
 		
 	
 

@@ -17,11 +17,11 @@
 	        android:background="@drawable/rounded_border" /> 
 	    <!-- android:theme="@android:style/Theme.Holo.Light" -->
 	    <!-- android:layout_marginTop="?android:attr/actionBarSize" -->
-		<TextView
+<!--		<TextView
 	            android:id="@+id/indSeparator"
 	            android:layout_width="fill_parent"
 	            android:layout_height="5dp"
-	            android:background="#8AC7E3"/>
+	            android:background="#8AC7E3"/>     -->
 		<fragment
 	        android:id="@+id/slistFragment"
 	        android:layout_width="match_parent"
@@ -35,7 +35,9 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical" 
-        >
+        android:background="@drawable/gradient_background"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="40dp">
 <!--         android:background="@drawable/app_bg" -->
 
         <TabHost

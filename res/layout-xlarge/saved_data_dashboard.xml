@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal" >
+    android:orientation="horizontal" 
+    android:background="@drawable/gradient_background">
     
     <LinearLayout
         android:layout_width="400dip"
@@ -17,11 +18,11 @@
 	        android:background="@drawable/rounded_border" /> 
 	    <!-- android:theme="@android:style/Theme.Holo.Light" -->
 	    <!-- android:layout_marginTop="?android:attr/actionBarSize" -->
-		<TextView
+<!--		<TextView
 	            android:id="@+id/indSeparator"
 	            android:layout_width="fill_parent"
 	            android:layout_height="10dp"
-	            android:background="#8AC7E3"/>
+	            android:background="#8AC7E3"/>    -->
 		<fragment
 	        android:id="@+id/slistFragment"
 	        android:layout_width="match_parent"
@@ -31,49 +32,67 @@
 	        class="jm.org.data.area.SelectionListFragment" />
 	</LinearLayout>
 	
-    <LinearLayout
+     <LinearLayout 
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical" 
-        android:background= "#C0D4B5"
-        >
-<!--         android:background="@drawable/app_bg" -->
+        android:orientation="vertical">
+		
+        <TextView
+	        android:id="@+id/country_title"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="10dip"
+	        android:text="Saved Items"
+	        android:textAppearance="?android:attr/textAppearanceLarge"
+	        android:textSize="30sp" 
+	        android:textColor="#025E6B"
+	        android:layout_gravity="right"/>
+	
+    	<LinearLayout
+        	android:layout_width="fill_parent"
+        	android:layout_height="fill_parent"
+        	android:orientation="vertical" 
+        	android:background= "@drawable/rounded_border"
+        	android:layout_marginTop="20dp"
+        	android:layout_marginLeft="40dp">
+	<!--         android:background="@drawable/app_bg" -->
 
-        <TabHost
-            android:id="@android:id/tabhost"
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center" 
-            android:layout_weight="1">
+        	<TabHost
+            	android:id="@android:id/tabhost"
+            	android:layout_width="fill_parent"
+            	android:layout_height="0dp"
+            	android:layout_gravity="center" 
+            	android:layout_weight="1">
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:orientation="vertical" >
+            	<LinearLayout
+                	android:layout_width="fill_parent"
+                	android:layout_height="fill_parent"
+                	android:orientation="vertical" >
 
-                <TabWidget
-                    android:id="@android:id/tabs"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:orientation="horizontal" 
-                    />
-                    <!-- android:background="@color/Grey" -->
+                	<TabWidget
+                    	android:id="@android:id/tabs"
+                    	android:layout_width="fill_parent"
+                    	android:layout_height="wrap_content"
+                    	android:layout_weight="0"
+                    	android:orientation="horizontal" 
+                    	/>
+                    	<!-- android:background="@color/Grey" -->
 
-                <FrameLayout
-                    android:id="@android:id/tabcontent"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="0"
-                     />
+                	<FrameLayout
+                    	android:id="@android:id/tabcontent"
+                    	android:layout_width="0dp"
+                    	android:layout_height="0dp"
+                    	android:layout_weight="0"
+                     	/>
 
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/viewpager"
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
-            </LinearLayout>
-        </TabHost>
+                	<android.support.v4.view.ViewPager
+                    	android:id="@+id/viewpager"
+                    	android:layout_width="fill_parent"
+                    	android:layout_height="match_parent"
+                    	android:layout_weight="1" />
+            	</LinearLayout>
+        	</TabHost>
+		</LinearLayout>
 	</LinearLayout>
 
 </LinearLayout>

@@ -91,33 +91,43 @@
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="2"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:weightSum="4">
+        <LinearLayout 
+            android:layout_width="250dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+            
+        </LinearLayout>
         
         <LinearLayout 
             android:id="@+id/linearlayout7"
         	android:layout_width="fill_parent"
         	android:layout_height="wrap_content"
         	android:orientation="vertical"
-        	android:layout_gravity="center">
+        	android:layout_gravity="center"
+        	android:layout_weight="2">
          	
             <TextView
-            	android:id="@+id/txtview1"
-            	android:layout_width="fill_parent"
-            	android:layout_height="wrap_content"
-            	android:gravity="center_horizontal"
-            	android:text="Welcome to"
-            	android:textSize="40sp"
-            	android:typeface="serif" />
+                android:id="@+id/txtview1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Welcome to"
+                android:textColor="#025E6B"
+                android:textSize="40sp"
+                android:typeface="serif" />
 
         	<TextView
-            	android:id="@+id/txtview2"
-            	android:layout_width="fill_parent"
-            	android:layout_height="wrap_content"
-            	android:gravity="center_horizontal"
-            	android:text="A.R.E.A."
-            	android:textSize="40sp"
-            	android:typeface="serif" />
+        	    android:id="@+id/txtview2"
+        	    android:layout_width="fill_parent"
+        	    android:layout_height="wrap_content"
+        	    android:gravity="center_horizontal"
+        	    android:text="A.R.E.A."
+        	    android:textColor="#025E6B"
+        	    android:textSize="40sp"
+        	    android:typeface="serif" />
 
         	<TextView
         	    android:id="@+id/txtview3"
@@ -139,7 +149,7 @@
         	    android:orientation="horizontal"
         	    android:paddingLeft="50dp"
         	    android:paddingRight="50dp"
-        	    android:paddingTop="10dp"
+        	    android:paddingTop="50dp"
         	    android:weightSum="2" >
 
             	<ImageButton
@@ -159,6 +169,13 @@
                 	android:src="@drawable/ic_action_done" />
 
         	</LinearLayout>
+            
+        </LinearLayout>
+        
+        <LinearLayout 
+            android:layout_width="250dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
             
         </LinearLayout>
         

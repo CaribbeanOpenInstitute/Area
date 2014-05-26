@@ -27,6 +27,7 @@ import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,8 +69,8 @@ public class ChartsListFragment extends ListFragment implements
         		dialog = new ProgressDialog(colAct);
         		searchType = COLLECTION_CHARTS;
         		collection = colAct.getCollection();
-        		title_text 	= "Collections Charts";
-        		empty_text	= "There are no saved Charts for Collection ID: " + collection;
+        		//title_text 	= "Collections Charts";
+        		empty_text	= getResources().getString(R.string.charts_empty);// "There are no saved Charts for Collection ID: " + collection;
         		
         		
         	}else if (parent instanceof CountryActivity){
@@ -77,16 +78,16 @@ public class ChartsListFragment extends ListFragment implements
         		dialog = new ProgressDialog(cAct);
         		searchType = COUNTRY_CHARTS;
         		country = cAct.getCountry();
-        		title_text 	= "Country Charts";
-        		empty_text	= "Your Query returned no Charts for Country: " + country;
+        		//title_text 	= "Country Charts";
+        		empty_text	= getResources().getString(R.string.charts_empty);// "Your Query returned no Charts for Country: " + country;
         		
         	}else if(parent instanceof SavedDataActivity){
         		sAct = (SavedDataActivity) getActivity();
         		dialog = new ProgressDialog(sAct);
         		//indicator = null;
         		searchType = SAVED_CHARTS;
-        		title_text 	= "Saved Charts";
-        		empty_text	= "There are no Saved Charts ";
+        		//title_text 	= "Saved Charts";
+        		empty_text	= getResources().getString(R.string.charts_empty);// "There are no Saved Charts ";
         		
         	}else{
         		Log.d(TAG,"We Have no clue what the starting activity is. Hmm, not sure what is happening");
@@ -126,7 +127,7 @@ public class ChartsListFragment extends ListFragment implements
 		View view;
 		view  = inflater.inflate(R.layout.chart_list, container, false);
 		((TextView) view.findViewById(R.id.chartText)).setText(title_text);
-		((TextView) view.findViewById(android.R.id.empty)).setText(empty_text);
+		((TextView) view.findViewById(android.R.id.empty)).setText(Html.fromHtml(empty_text));
 		return view;
 	}
 

@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="horizontal" >
+    android:orientation="horizontal" 
+    android:background="@drawable/gradient_background">
 
     <LinearLayout
         android:layout_width="400dip"
@@ -12,22 +13,21 @@
 	        android:id="@+id/listFragment"
 	        android:layout_width="match_parent"
 	        android:layout_height="1dp"
-	        android:layout_weight="2"
+	        android:layout_weight="2.5"
 	        class="jm.org.data.area.ExpandableListFragment"
 	        android:background="@drawable/rounded_border" /> 
 	    <!-- android:theme="@android:style/Theme.Holo.Light" -->
 	    <!-- android:layout_marginTop="?android:attr/actionBarSize" -->
-		<TextView
+<!--	<TextView
 	            android:id="@+id/indSeparator"
 	            android:layout_width="fill_parent"
 	            android:layout_height="10dp"
-	            android:background="#8AC7E3"/>
+	            android:background="#8AC7E3"/>    -->	
 		<fragment
 	        android:id="@+id/slistFragment"
 	        android:layout_width="match_parent"
 	        android:layout_height="1dp"
 	        android:layout_weight="1"
-	        android:background="@drawable/rounded_border"	        
 	        class="jm.org.data.area.SelectionListFragment" />
 	</LinearLayout>
 
@@ -35,8 +35,9 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical" 
-        android:background= "#C0D4B5"
-        >
+        android:background= "@drawable/rounded_border"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="40dp">
 <!--         android:background="@drawable/app_bg" -->
 
         <TabHost

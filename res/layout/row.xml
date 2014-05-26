@@ -1,4 +1,4 @@
-<CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/textView1"
     android:layout_width="fill_parent"
@@ -6,10 +6,10 @@
     android:layout_marginLeft="5dp"
     android:gravity="center_vertical"
     android:paddingLeft="40dp"
-    android:textColor="#000000"
+    android:textColor="#ffffff"
     android:textSize="15sp"
     android:textStyle="bold" 
-    android:background="#015F69"
+    android:background="#3F8680"
     
     
     />
