@@ -56,10 +56,10 @@ public class CollectionsCursorAdapter extends CursorAdapter {
 		int position = cursor.getPosition();
 		if (mSelectedPosition == position) {
 			
-			view.setBackgroundColor(Color.parseColor("#8AC7E3"));
+			view.setBackgroundColor(Color.parseColor("#015F69"));
 		} else {
 			//view.setBackgroundColor(Color.TRANSPARENT);
-			view.setBackgroundColor(Color.parseColor("#CCFF99"));
+			view.setBackgroundColor(Color.parseColor("#167A72"));
 		}
 
 	}

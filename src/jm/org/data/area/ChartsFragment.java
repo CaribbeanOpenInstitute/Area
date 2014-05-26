@@ -35,6 +35,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -47,6 +48,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -286,6 +288,8 @@ public class ChartsFragment extends Fragment {
 			aBuilder.setTitle("Save My Chart");
 			aBuilder.setIcon(R.drawable.ic_launcher);
 			
+			
+			
 			if(is_saved){
 				aBuilder.setMessage("There is a Chart already saved for this Indicator." +
 						"\nTo update cancel the Current opperation and select the Update/Edit icon.\n" +
@@ -340,6 +344,13 @@ public class ChartsFragment extends Fragment {
 					}); 
 			aDialog = aBuilder.create();
 			aDialog.show();
+			
+			Button save = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
+			Button cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
+			save.setBackgroundColor(Color.parseColor("#61BF8B"));
+			save.setTextColor(Color.WHITE);
+			cancel.setBackgroundColor(Color.parseColor("#777777"));
+			cancel.setTextColor(Color.WHITE);
 			// Get image and initiative share intent
 			break;
 		case R.id.menu_delete:
@@ -388,6 +399,13 @@ public class ChartsFragment extends Fragment {
 					}); 
 			aDialog = aBuilder.create();
 			aDialog.show();
+
+			Button delete = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
+			cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
+			delete.setBackgroundColor(Color.parseColor("#61BF8B"));
+			delete.setTextColor(Color.WHITE);
+			cancel.setBackgroundColor(Color.parseColor("#777777"));
+			cancel.setTextColor(Color.WHITE);
 			return true;
 			
 		case R.id.menu_edit:
@@ -467,6 +485,14 @@ public class ChartsFragment extends Fragment {
 							});
 			aDialog = aBuilder.create();
 			aDialog.show();
+			
+
+			Button update = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
+			cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
+			update.setBackgroundColor(Color.parseColor("#61BF8B"));
+			update.setTextColor(Color.WHITE);
+			cancel.setBackgroundColor(Color.parseColor("#777777"));
+			cancel.setTextColor(Color.WHITE);
 			
 			return true;
 		case R.id.menu_save_collection:
@@ -578,6 +604,13 @@ public class ChartsFragment extends Fragment {
 					});
 			    aDialog = aBuilder.create();
 			    aBuilder.show();
+
+				Button save_col = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
+				cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
+				save_col.setBackgroundColor(Color.parseColor("#61BF8B"));
+				save_col.setTextColor(Color.WHITE);
+				cancel.setBackgroundColor(Color.parseColor("#777777"));
+				cancel.setTextColor(Color.WHITE);
 			    return true;
 			}else{
 				//Toast.makeText(getActivity(), "Tapped Save", Toast.LENGTH_SHORT)
@@ -604,6 +637,13 @@ public class ChartsFragment extends Fragment {
 					}); 
 				aDialog = aBuilder.create();
 				aBuilder.show();
+
+				Button ok = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
+				cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
+				ok.setBackgroundColor(Color.parseColor("#61BF8B"));
+				ok.setTextColor(Color.WHITE);
+				cancel.setBackgroundColor(Color.parseColor("#777777"));
+				cancel.setTextColor(Color.WHITE);
 				//aDialog.show();
 			}
 			

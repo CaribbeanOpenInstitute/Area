@@ -146,7 +146,11 @@ public class HomeActivity extends BaseActivity {
 			break;
 		case R.id.menu_startup:
 			startActivity(new Intent(HomeActivity.this, StartupActivity.class));
+		
+		case R.id.menu_settings:
+			startActivity(new Intent(HomeActivity.this, AreaPreferencesActivity.class));
 		}
+
 		return super.onOptionsItemSelected(item);
 	}
 

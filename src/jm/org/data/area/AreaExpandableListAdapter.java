@@ -18,7 +18,9 @@ import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.SimpleCursorTreeAdapter;
 import android.widget.TextView;
 
@@ -123,13 +125,13 @@ public class AreaExpandableListAdapter extends SimpleCursorTreeAdapter  {
 		
 		if (mSelectedPosition == position) {
 			
-			view.setBackgroundColor(Color.parseColor("#8AC7E3"));
+			view.setBackgroundColor(Color.parseColor("#015F69"));
 			
 			Log.d(TAG, String.format("Current position: %d, Selected Parent Position %d",
 					position, mSelectedPosition));
 			
 		} else {
-			view.setBackgroundColor(Color.parseColor("#CCFF99"));
+			view.setBackgroundColor(Color.parseColor("#167A72"));
 			
 		}
 		
@@ -149,12 +151,12 @@ public class AreaExpandableListAdapter extends SimpleCursorTreeAdapter  {
 		
 		if (mSelectedChildPosition == position) {
 			
-			view.setBackgroundColor(Color.parseColor("#8AC7E3"));
+			view.setBackgroundColor(Color.parseColor("#015F69"));
 			Log.d(TAG, String.format("current position: %d, Selected Child Position %d",
 					position, mSelectedChildPosition));
 			
 		} else {
-			view.setBackgroundColor(Color.parseColor("#C8DEB1"));
+			view.setBackgroundColor(Color.parseColor("#167A72"));
 			
 		}
 		
@@ -253,6 +255,5 @@ public class AreaExpandableListAdapter extends SimpleCursorTreeAdapter  {
 	}
 	
 	
-		
 		
 }

@@ -32,7 +32,7 @@
     <string name="title"	>Title	</string>
     <string name="update"	>Update	</string>
     
-    <string name="recent_activity">Recent Activity</string>
+    <string name="recent_activity">Your Recent Activity</string>
     <string name="reports">Reports</string>
     <string name="articles">Articles</string>
     <string name="recent_reports">Recent Reports</string>
@@ -75,8 +75,8 @@
     <string name="menu_delete">Delete Item</string>
     <string name="menu_prefs">Preferences</string>
     
-    <string name="Chart_Desc_Hint">Describe Your Chart Here</string>
-    <string name="Chart_Title_Hint">Name Your Chart</string>
+    <string name="Chart_Desc_Hint">Add a description for this chart</string>
+    <string name="Chart_Title_Hint">Add a name to this chart</string>
     <string name="Chart_Title">Chart Name</string>
     <string name="Chart_Desc">Description</string>
     <string name="save_chart">Save</string>
@@ -131,4 +131,9 @@
     <string name="search_hint">Search for articles or reports</string>
     <string name="menu_reload">Reload</string>
     <string name="test">Tap to Add Country/Region/Income Level</string>
+    
+    
+    <string name="articles_empty"><![CDATA[No <b>Articles</b> have been downloaded recently.Get started by clicking any of the <b>Indicators</b> or <b>Country Profile</b> data.You can then create <b>Collections</b> to store your favourite items.]]></string>
+    <string name="reports_empty"><![CDATA[No <b>Reports</b> have been downloaded recently.Get started by clicking any of the <b>Indicators</b> or <b>Country Profile</b> data.You can then create <b>Collections</b> to store your favourite items.]]></string>
+    <string name="charts_empty"><![CDATA[No <b>Charts</b> have been downloaded recently.Get started by clicking any of the <b>Indicators</b>  or <b>Country Profile</b> data.You can then create <b>Collections</b> to store your favourite items.]]></string>
 </resources>

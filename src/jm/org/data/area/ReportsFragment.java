@@ -23,6 +23,7 @@ import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -68,32 +69,32 @@ public class ReportsFragment extends ListFragment implements
         		dialog 		= new ProgressDialog(act);
         		indicator 	= act.getIndicator();
         		searchType	= IDS_SEARCH;
-        		title_text 	= "IDS Reports";
-        		empty_text	= "Your Query returned no Records for Indicator: " + indicator;
+        		//title_text 	= "IDS Reports";
+        		empty_text	= getResources().getString(R.string.reports_empty);//"Your Query returned no Records for Indicator: " + indicator;
         		
         	}else if (parent instanceof CollectionsActivity){
         		colAct = (CollectionsActivity) getActivity();
         		dialog = new ProgressDialog(colAct);
         		indicator = "" + colAct.getCollection();
         		searchType = COLLECTION_REPORTS;
-        		title_text 	= "Collections IDS Reports";
-        		empty_text	= "There are no saved Records for Collection: " + indicator;
+        		//title_text 	= "Collections IDS Reports";
+        		empty_text	= getResources().getString(R.string.reports_empty);//"There are no saved Records for Collection: " + indicator;
         		
         	}else if (parent instanceof CountryActivity){
         		cAct = (CountryActivity) getActivity();
         		dialog = new ProgressDialog(cAct);
         		indicator = "" + cAct.getCountryID();
         		searchType = COUNTRY_REPORTS;
-        		title_text 	= "Country Reports";
-        		empty_text	= "Your Query returned no Records for Country: " + indicator;
+        		//title_text 	= "Country Reports";
+        		empty_text	= getResources().getString(R.string.reports_empty);//"Your Query returned no Records for Country: " + indicator;
         		
         	}else if(parent instanceof SavedDataActivity){
         		sAct = (SavedDataActivity) getActivity();
         		dialog = new ProgressDialog(sAct);
         		indicator = "";
         		searchType = SAVED_REPORTS;
-        		title_text 	= "Saved Reports";
-        		empty_text	= "There are no Saved Records ";
+        		//title_text 	= "Saved Reports";
+        		empty_text	= getResources().getString(R.string.reports_empty);//"There are no Saved Records ";
         		
         	}else{
         		Log.d(TAG,"We Have no clue what the starting activity is. Hmm, not sure what is happening");
@@ -143,7 +144,7 @@ public class ReportsFragment extends ListFragment implements
 		View view;
 		view  = inflater.inflate(R.layout.reports, container, false);
 		((TextView) view.findViewById(R.id.reportText)).setText(title_text);
-		((TextView) view.findViewById(android.R.id.empty)).setText(empty_text);
+		((TextView) view.findViewById(android.R.id.empty)).setText(Html.fromHtml(empty_text));
 		return view;
 	}
 

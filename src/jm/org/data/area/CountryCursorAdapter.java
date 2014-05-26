@@ -49,13 +49,14 @@ public class CountryCursorAdapter extends CursorAdapter {
 		TextView list_item = (TextView) view.findViewById(android.R.id.text1);
 		
 		list_item.setText(cursor.getString(cursor.getColumnIndex(COUNTRY_NAME)));
+		list_item.setTextColor(Color.WHITE);
 		
 		int position = cursor.getPosition();
 		
 		if (mSelectedPosition == position) {
-			view.setBackgroundColor(Color.parseColor("#8AC7E3"));
+			view.setBackgroundColor(Color.parseColor("#015F69"));
 		} else {
-			view.setBackgroundColor(Color.parseColor("#CCFF99"));
+			view.setBackgroundColor(Color.parseColor("#167A72"));
 		}
 
 	}
