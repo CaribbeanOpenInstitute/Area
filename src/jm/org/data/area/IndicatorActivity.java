@@ -31,6 +31,7 @@ import java.util.Arrays;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -43,6 +44,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 import com.google.analytics.tracking.android.EasyTracker;
 
@@ -118,6 +120,14 @@ public class IndicatorActivity extends BaseActivity implements
 		mTabsAdapter.addTab(
 				mTabHost.newTabSpec("reports").setIndicator("Reports"),
 				ReportsFragment.class, null);
+		
+		for(int i=0;i<mTabHost.getTabWidget().getChildCount();i++) 
+        { 
+            TextView tv = (TextView) mTabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title); //Unselected Tabs
+            tv.setTextColor(Color.parseColor("#025E6B"));
+        } 
+        TextView tv = (TextView) mTabHost.getCurrentTabView().findViewById(android.R.id.title); //for Selected Tab
+        tv.setTextColor(Color.parseColor("#025E6B"));
 		
 
 		if (savedInstanceState != null) {
@@ -227,6 +237,8 @@ public class IndicatorActivity extends BaseActivity implements
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
 			return true;
+		case R.id.menu_settings:
+			startActivity(new Intent(IndicatorActivity.this, AreaPreferencesActivity.class));
 		case R.id.menu_share:
 			
 

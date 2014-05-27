@@ -80,7 +80,15 @@
 	</style>
 	<style name="PreferencesTheme">
     	<item name="android:windowBackground">@drawable/gradient_background</item>
-    	      
+    	
+	</style>
+	<style name="Dialog" parent="@android:style/Theme.Dialog">
+    	<item name="android:windowTitleStyle">@style/DialogTitle</item>
+  	</style>
+
+	<style name="DialogTitle" parent="android:Widget.TextView">
+    	<item name="android:background">#61BF8B</item>
+    	
     	
 	</style>
 	
