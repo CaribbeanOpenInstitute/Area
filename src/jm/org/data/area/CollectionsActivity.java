@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -380,6 +381,16 @@ public class CollectionsActivity extends BaseActivity {
 
 		desc_view = (EditText) layout.findViewById(R.id.chart_description);
 		desc_view.setText(desc);
+	}
+	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+	    MenuItem searchViewMenuItem = menu.findItem(R.id.menu_search);    
+	    SearchView mSearchView = (SearchView) searchViewMenuItem.getActionView();
+	    int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
+	    ImageView v = (ImageView) mSearchView.findViewById(searchImgId);
+	    v.setImageResource(R.drawable.ic_action_search); 
+	    return super.onPrepareOptionsMenu(menu);
 	}
 	
 	@Override

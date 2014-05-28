@@ -45,7 +45,8 @@
             android:text="@string/recent_activity"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="30sp" 
-            android:textColor="#025E6B"/>
+            android:textColor="#025E6B"
+            android:layout_gravity="right"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -58,7 +59,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical" >
+                android:orientation="vertical"
+                android:background="@drawable/rounded_border" >
 
                 <TextView
                     android:id="@+id/homeReportsTitle"
@@ -81,7 +83,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical" >
+                android:orientation="vertical"
+                android:background="@drawable/rounded_border" >
 
                 <TextView
                     android:id="@+id/homeArticlesTitle"
