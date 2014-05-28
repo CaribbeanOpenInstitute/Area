@@ -145,8 +145,8 @@ public class HomeActivity extends BaseActivity {
 					AreaPreferencesActivity.class));
 			break;
 		case R.id.menu_startup:
-			startActivity(new Intent(HomeActivity.this, StartupActivity.class));
-		
+			startActivity(new Intent(HomeActivity.this, StartupActivity2.class));
+			break;
 		case R.id.menu_settings:
 			startActivity(new Intent(HomeActivity.this, AreaPreferencesActivity.class));
 		}

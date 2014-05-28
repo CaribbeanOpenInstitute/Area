@@ -12,10 +12,13 @@ import static jm.org.data.area.DBConstants.BING_URL;
 
 import java.util.Arrays;
 
+import jm.org.data.area.R.color;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
@@ -119,6 +122,20 @@ public class ArticlesFragment extends ListFragment implements
 		int[] to = { R.id.list_item_title, R.id.list_item_desc };
 		tAdapter = new SimpleCursorAdapter(getActivity(),
 				R.layout.list_item_dual, null, from, to, 0);
+		
+		SimpleCursorAdapter.ViewBinder binder = new SimpleCursorAdapter.ViewBinder() {
+
+			@Override
+			public boolean setViewValue(View arg0, Cursor arg1, int arg2) {
+				// TODO Auto-generated method stub
+				TextView tv = (TextView) arg0;
+			    tv.setTextColor(Color.parseColor("#004B51"));
+				return false;
+			}
+			
+		};
+		tAdapter.setViewBinder(binder);
+
 
 		setListAdapter(tAdapter);
 		getLoaderManager().initLoader(0, null, this);

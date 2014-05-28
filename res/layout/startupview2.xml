@@ -95,7 +95,7 @@
         android:gravity="center"
         android:weightSum="4">
         <LinearLayout 
-            android:layout_width="250dp"
+            android:layout_width="200dp"
             android:layout_height="match_parent"
             android:layout_weight="1" >
             
@@ -116,8 +116,8 @@
                 android:gravity="center_horizontal"
                 android:text="Welcome to"
                 android:textColor="#025E6B"
-                android:textSize="40sp"
-                android:typeface="serif" />
+                android:textSize="60sp"
+                android:typeface="serif"/>"
 
         	<TextView
         	    android:id="@+id/txtview2"
@@ -126,7 +126,7 @@
         	    android:gravity="center_horizontal"
         	    android:text="A.R.E.A."
         	    android:textColor="#025E6B"
-        	    android:textSize="40sp"
+        	    android:textSize="60sp"
         	    android:typeface="serif" />
 
         	<TextView
@@ -137,8 +137,9 @@
         	    android:paddingLeft="50dp"
         	    android:paddingRight="50dp"
         	    android:paddingTop="10dp"
-        	    android:text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat"
-        	    android:textColor="#ffffff" />
+        	    android:text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat."
+        	    android:textColor="#ffffff"
+        	    android:textSize="20sp" />
 
         	<LinearLayout
         	    android:id="@+id/linearlayout8"
@@ -152,28 +153,32 @@
         	    android:paddingTop="50dp"
         	    android:weightSum="2" >
 
-            	<ImageButton
+            	<Button
                 	android:id="@+id/set_preferences"
                 	android:layout_width="0dp"
                 	android:layout_height="wrap_content"
                 	android:layout_weight="1"
                 	android:background="@drawable/rounded_button"
-                	android:src="@drawable/ic_action_settings" />
+                	android:drawableLeft="@drawable/ic_action_settings" 
+                	android:text="Set Preferences"
+                	android:textColor="#ffffff"/>
 
-            	<ImageButton
+            	<Button
                 	android:id="@+id/got_it"
                 	android:layout_width="0dp"
                 	android:layout_height="wrap_content"
                 	android:layout_weight="1"
                 	android:background="@drawable/rounded_button"
-                	android:src="@drawable/ic_action_done" />
+                	android:drawableLeft= "@drawable/ic_action_done" 
+                	android:text="Got it"
+                	android:textColor="#ffffff"/>
 
         	</LinearLayout>
             
         </LinearLayout>
         
         <LinearLayout 
-            android:layout_width="250dp"
+            android:layout_width="200dp"
             android:layout_height="match_parent"
             android:layout_weight="1" >
             

@@ -26,4 +26,6 @@
     <color name="Menu_Bar">#4B7C31</color>
     
     <color name="lightBlue">#8AC7E3</color>
+    <color name="darkBlue">#025E6B</color>
+    <color name="green">#61BF8B</color>
 </resources>

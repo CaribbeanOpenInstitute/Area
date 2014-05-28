@@ -23,16 +23,16 @@ import android.widget.ViewAnimator;
 
 public class StartupActivity2 extends Activity {
 	private static final String TAG = StartupActivity2.class.getSimpleName();
-	private ImageButton preference;
-	private ImageButton done;
+	private Button preference;
+	private Button done;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.startupview2);
 		
-		preference = (ImageButton)findViewById(R.id.set_preferences);
-		done = (ImageButton)findViewById(R.id.got_it);
+		preference = (Button)findViewById(R.id.set_preferences);
+		done = (Button)findViewById(R.id.got_it);
 		
 		OnClickListener myClickListener = new OnClickListener(){
 
