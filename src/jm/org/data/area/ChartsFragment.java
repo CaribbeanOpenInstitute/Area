@@ -51,7 +51,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.analytics.tracking.android.EasyTracker;
@@ -286,8 +288,8 @@ public class ChartsFragment extends Fragment {
 				.show();
 				break;
 			}
-			ContextThemeWrapper ctw = new ContextThemeWrapper( getActivity(), R.style.Dialog);
-			aBuilder = new AlertDialog.Builder(ctw);
+			//ContextThemeWrapper ctw = new ContextThemeWrapper( getActivity(), R.style.Dialog);
+			aBuilder = new AlertDialog.Builder(getActivity());
 			// if Chart is already saved Allow the user to also update the Chart or Save a new Chart.
 			aBuilder.setTitle("Save My Chart");
 			aBuilder.setIcon(R.drawable.ic_launcher);
@@ -661,6 +663,16 @@ public class ChartsFragment extends Fragment {
 			return super.onOptionsItemSelected(item);
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+	    MenuItem searchViewMenuItem = menu.findItem(R.id.menu_search);    
+	    SearchView mSearchView = (SearchView) searchViewMenuItem.getActionView();
+	    int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
+	    ImageView v = (ImageView) mSearchView.findViewById(searchImgId);
+	    v.setImageResource(R.drawable.ic_action_search); 
+	    
 	}
 
 	protected void reloadActivity() {

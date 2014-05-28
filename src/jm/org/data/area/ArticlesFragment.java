@@ -32,7 +32,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -221,6 +223,15 @@ public class ArticlesFragment extends ListFragment implements
 			intent.putExtra("col_id", collection);
 		}
 		startActivity(intent);
+	}
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+	    MenuItem searchViewMenuItem = menu.findItem(R.id.menu_search);    
+	    SearchView mSearchView = (SearchView) searchViewMenuItem.getActionView();
+	    int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
+	    ImageView v = (ImageView) mSearchView.findViewById(searchImgId);
+	    v.setImageResource(R.drawable.ic_action_search); 
+	    
 	}
 
 	@Override

@@ -34,7 +34,8 @@
     <LinearLayout 
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent"
-	    android:orientation="vertical" >
+	    android:orientation="vertical" 
+	    android:background= "@drawable/gradient_background" >
 		
 	    <!--  FROM_COUNTRY = { COUNTRY_ID, WB_COUNTRY_ID,
 				WB_COUNTRY_CODE, COUNTRY_NAME, CAPITAL_CITY, INCOME_LEVEL_ID,
@@ -48,14 +49,14 @@
 	        android:layout_marginTop="10dip"
 	        android:text="@string/country_name"
 	        android:textAppearance="?android:attr/textAppearanceLarge"
-	        android:textSize="30sp"
+	        android:textSize="20sp"
 	        android:textColor="#025E6B"
 	        android:layout_gravity="right" />
 	    
 	    <LinearLayout 
 	        android:layout_width="match_parent"
 	        android:layout_height="0dp"
-	        android:layout_weight="1"
+	        android:layout_weight="1.2"
 	        android:orientation="horizontal"
 	        android:baselineAligned="false" >
 	        
@@ -77,8 +78,8 @@
 	                	android:layout_width="1dp"
 	                	android:layout_weight="1"
 				    	android:layout_height="match_parent"
-				    	android:paddingLeft="16dp"
-				    	android:paddingRight="16dp"
+				    	android:paddingLeft="14dp"
+				    	android:paddingRight="14dp"
 				    	android:orientation="vertical" >
 	                
 	                	<TextView
@@ -89,7 +90,7 @@
 	                	    android:text="@string/country_code"
 	                	    android:textAppearance="?android:attr/textAppearanceLarge"
 	                	    android:textColor="#004B51"
-	                	    android:textSize="8sp" />
+	                	    android:textSize="10sp" />
 
 	                	<TextView
 	                	    android:id="@+id/country_code"
@@ -99,7 +100,7 @@
 	                	    android:text="@string/country_code"
 	                	    android:textAppearance="?android:attr/textAppearanceSmall"
 	                	    android:textColor="#61BF8B"
-	                	    android:textSize="8sp" />
+	                	    android:textSize="10sp" />
 
 	                </LinearLayout>
 
@@ -119,7 +120,7 @@
 	                	    android:text="@string/country_gdp"
 	                	    android:textAppearance="?android:attr/textAppearanceLarge"
 	                	    android:textColor="#004B51"
-	                	    android:textSize="8sp" />
+	                	    android:textSize="10sp" />
 
 	                	<TextView
 	                	    android:id="@+id/country_gdp"
@@ -129,7 +130,7 @@
 	                	    android:text="@string/country_gdp"
 	                	    android:textAppearance="?android:attr/textAppearanceSmall"
 	                	    android:textColor="#61BF8B"
-	                	    android:textSize="8sp" />
+	                	    android:textSize="10sp" />
 
 	                </LinearLayout>  
 	                   
@@ -161,7 +162,7 @@
 	                        android:text="@string/country_capital"
 	                        android:textAppearance="?android:attr/textAppearanceLarge"
 	                        android:textColor="#004B51"
-	                        android:textSize="8sp" />
+	                        android:textSize="10sp" />
 
 	                	<TextView
 	                	    android:id="@+id/country_capital"
@@ -171,7 +172,7 @@
 	                	    android:text="@string/country_capital"
 	                	    android:textAppearance="?android:attr/textAppearanceSmall"
 	                	    android:textColor="#61BF8B"
-	                	    android:textSize="8sp" />
+	                	    android:textSize="10sp" />
 	                	
 	                </LinearLayout>
 	            	<LinearLayout
@@ -190,7 +191,7 @@
 	            	        android:text="@string/country_gni"
 	            	        android:textAppearance="?android:attr/textAppearanceLarge"
 	            	        android:textColor="#004B51"
-	            	        android:textSize="8sp" />
+	            	        android:textSize="10sp" />
 
 	                	<TextView
 	                	    android:id="@+id/country_gni"
@@ -200,7 +201,7 @@
 	                	    android:text="@string/country_gni"
 	                	    android:textAppearance="?android:attr/textAppearanceSmall"
 	                	    android:textColor="#61BF8B"
-	                	    android:textSize="8sp" />
+	                	    android:textSize="10sp" />
 	                	
 	                </LinearLayout>
 	                
@@ -231,7 +232,7 @@
 	                        android:text="@string/country_income"
 	                        android:textAppearance="?android:attr/textAppearanceLarge"
 	                        android:textColor="#004B51"
-	                        android:textSize="8sp" />
+	                        android:textSize="10sp" />
 
 	                	<TextView
 	                	    android:id="@+id/country_income"
@@ -241,7 +242,7 @@
 	                	    android:text="@string/country_income"
 	                	    android:textAppearance="?android:attr/textAppearanceSmall"
 	                	    android:textColor="#61BF8B"
-	                	    android:textSize="8sp" />
+	                	    android:textSize="10sp" />
 	                    	
 	                </LinearLayout>
 	                <LinearLayout
@@ -260,7 +261,7 @@
 	                	    android:text="@string/country_poverty"
 	                	    android:textAppearance="?android:attr/textAppearanceLarge"
 	                	    android:textColor="#004B51"
-	                	    android:textSize="8sp" />
+	                	    android:textSize="10sp" />
 
 	                	<TextView
 	                	    android:id="@+id/country_poverty"
@@ -270,7 +271,7 @@
 	                	    android:text="@string/country_poverty"
 	                	    android:textAppearance="?android:attr/textAppearanceSmall"
 	                	    android:textColor="#61BF8B"
-	                	    android:textSize="8sp" />
+	                	    android:textSize="10sp" />
 	                	
 	                </LinearLayout>
 	            </LinearLayout>
@@ -299,7 +300,7 @@
 	                	    android:text="@string/country_region"
 	                	    android:textAppearance="?android:attr/textAppearanceLarge"
 	                	    android:textColor="#004B51"
-	                	    android:textSize="8sp" />
+	                	    android:textSize="10sp" />
 
 	                	<TextView
 	                	    android:id="@+id/country_region"
@@ -309,7 +310,7 @@
 	                	    android:text="@string/country_region"
 	                	    android:textAppearance="?android:attr/textAppearanceSmall"
 	                	    android:textColor="#61BF8B"
-	                	    android:textSize="8sp" />
+	                	    android:textSize="10sp" />
 	                		
 	                </LinearLayout>
 	                <LinearLayout
@@ -328,7 +329,7 @@
 	                	    android:text="@string/country_life_ex"
 	                	    android:textAppearance="?android:attr/textAppearanceLarge"
 	                	    android:textColor="#004B51"
-	                	    android:textSize="8sp" />
+	                	    android:textSize="10sp" />
 
 	                	<TextView
 	                	    android:id="@+id/country_life_ex"
@@ -338,7 +339,7 @@
 	                	    android:text="@string/country_life_ex"
 	                	    android:textAppearance="?android:attr/textAppearanceSmall"
 	                	    android:textColor="#61BF8B"
-	                	    android:textSize="8sp" />
+	                	    android:textSize="10sp" />
 	                	
 	                </LinearLayout>
 	            </LinearLayout>
@@ -367,7 +368,7 @@
 	                        android:text="@string/country_pop"
 	                        android:textAppearance="?android:attr/textAppearanceLarge"
 	                        android:textColor="#004B51"
-	                        android:textSize="8sp" />
+	                        android:textSize="10sp" />
 
 	                	<TextView
 	                	    android:id="@+id/country_population"
@@ -377,7 +378,7 @@
 	                	    android:text="@string/country_pop"
 	                	    android:textAppearance="?android:attr/textAppearanceSmall"
 	                	    android:textColor="#61BF8B"
-	                	    android:textSize="8sp" />
+	                	    android:textSize="10sp" />
 
 	                </LinearLayout>
 	                <LinearLayout
@@ -396,7 +397,7 @@
 	                        android:text="@string/country_literacy"
 	                        android:textAppearance="?android:attr/textAppearanceLarge"
 	                        android:textColor="#004B51"
-	                        android:textSize="8sp" />
+	                        android:textSize="10sp" />
 
 	                	<TextView
 	                	    android:id="@+id/country_literacy"
@@ -406,7 +407,7 @@
 	                	    android:text="@string/country_literacy"
 	                	    android:textAppearance="?android:attr/textAppearanceSmall"
 	                	    android:textColor="#61BF8B"
-	                	    android:textSize="8sp" />
+	                	    android:textSize="10sp" />
 	                	
 	                </LinearLayout>
 	            </LinearLayout>
@@ -440,7 +441,7 @@
 	   	<LinearLayout
 	    	android:layout_width="match_parent"
 	        android:layout_height="0dp"
-	        android:layout_weight="1"
+	        android:layout_weight="0.8"
 	        android:orientation="vertical" >
 	        
 	        <TextView
@@ -449,7 +450,7 @@
 	            android:layout_height="wrap_content"
 	            android:layout_marginTop="5dip"
 	            android:text="@string/charts"
-	            android:textAppearance="?android:attr/textAppearanceMedium" />
+	            android:textAppearance="?android:attr/textAppearanceSmall" />
 	
 	        <fragment
 	            android:id="@+id/homeChartsFragment"
