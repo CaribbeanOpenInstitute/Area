@@ -108,6 +108,7 @@ public class IndicatorActivity extends BaseActivity implements
 		//dialog = new ProgressDialog(this);
 		mTabHost = (TabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup();
+		
 
 		mViewPager = (ViewPager) findViewById(R.id.viewpager);
 
@@ -238,8 +239,8 @@ public class IndicatorActivity extends BaseActivity implements
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
 			return true;
-		case R.id.menu_settings:
-			startActivity(new Intent(IndicatorActivity.this, AreaPreferencesActivity.class));
+		//case R.id.menu_settings:
+		//	startActivity(new Intent(IndicatorActivity.this, AreaPreferencesActivity.class));
 		case R.id.menu_share:
 			
 

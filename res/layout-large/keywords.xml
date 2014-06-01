@@ -28,14 +28,14 @@
         android:layout_height="match_parent"
         android:orientation="horizontal" >
 
-        <TextView
+   <!-- <TextView
             android:id="@+id/txt_keyword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/keyword_label"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#0000ff"
-             />
+             /> -->     
 
         <!-- Auto complete text box -->
 
@@ -47,15 +47,17 @@
             android:layout_marginRight="5dp"
             android:hint="@string/keyword_hint"
             android:layout_weight="1"
+            android:background="#222222"
+            android:textColor="#ffffff"
              />
 
 
         <Button
             android:id="@+id/btn_keywordAdd"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="@string/add" 
-            android:background="@drawable/add_button"
+            android:background="#1F7C72"
             android:textColor="@color/White"/>
     </LinearLayout>
 

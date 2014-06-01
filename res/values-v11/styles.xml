@@ -16,9 +16,11 @@
 
 <resources>
 
-    <style name="AppTheme" parent="android:style/Theme.Holo.Light">
+    <style name="AppTheme" parent="@android:style/Theme.Holo.Light">
         <item name="android:actionBarStyle">@style/ActionBar</item>
         <item name="android:windowContentOverlay">@drawable/actionbar_shadow</item>
+        <item name="android:actionOverflowButtonStyle">@style/MyOverflow</item>
+        
     </style>
 
     <style name="ActionBar" parent="android:style/Widget.Holo.Light.ActionBar">
@@ -32,4 +34,24 @@
         <item name="android:textColor">@color/actionbar_title_color</item>
     </style>
 
+    <style name="MyOverflow">
+	    parent="@android:style/Widget.Holo.Light.ActionButton.Overflow">
+    	<item name="android:src">@drawable/ic_action_settings_2</item>
+    	
+    	
+	</style>
+	<style name="DialogWindow"  parent="@android:style/Theme.Holo.Light.Dialog">
+	    <item name="android:windowTitleStyle">@style/DialogWindowTitle</item>    	 
+  	</style>
+
+	<style name="DialogWindowTitle" >
+	    <item name="android:textAppearance">@style/TextAppearance.DialogWindowTitle</item>
+    	<item name="android:background">#61BF8B</item>
+    </style>
+    
+	<style name="TextAppearance.DialogWindowTitle" parent="android:TextAppearance">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
+    </style>
 </resources>

@@ -18,11 +18,11 @@ public class AreaPreferencesActivity extends PreferenceActivity {
 		getWindow().setBackgroundDrawableResource(R.drawable.gradient_background);
         getListView().setBackgroundColor(Color.TRANSPARENT);
         //getListView().setCacheColorHint(Color.TRANSPARENT);
-		addPreferencesFromResource(R.xml.preferences);
+		addPreferencesFromResource(R.xml.preferences2);
 
-		Preference startupPreference = findPreference(getString(R.string.pref_startupKey));
-		PreferenceScreen preferenceScreen = getPreferenceScreen();
-		preferenceScreen.removePreference(startupPreference);
+		//Preference startupPreference = findPreference(getString(R.string.pref_startupKey));
+		//PreferenceScreen preferenceScreen = getPreferenceScreen();
+		//preferenceScreen.removePreference(startupPreference);
 	}
 
 	@Override

@@ -6,21 +6,21 @@
         android:orderInCategory="0"
         android:showAsAction="always"
         android:actionViewClass="android.widget.SearchView" />
-    <item android:id="@+id/menu_settings"
+<!-- <item android:id="@+id/menu_settings"
         android:icon="@drawable/ic_action_settings" 
         android:orderInCategory="1"
-        android:showAsAction="always"/>"
+        android:showAsAction="always"/>"  -->    
     
     <item android:id="@+id/menu_prefs"
         android:title="@string/menu_prefs"
         android:icon="@drawable/ic_menu_share"
-        android:orderInCategory="2"
+        android:orderInCategory="1"
         android:showAsAction="never" />
     
     <item android:id="@+id/menu_startup"
         android:title="Run Startup Activity"
         android:icon="@drawable/ic_menu_share"
-        android:orderInCategory="3"
+        android:orderInCategory="2"
         android:showAsAction="never" />
 
 </menu>	
