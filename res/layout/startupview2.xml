@@ -159,7 +159,7 @@
                 	android:layout_height="wrap_content"
                 	android:layout_weight="1"
                 	android:background="@drawable/rounded_button"
-                	android:drawableLeft="@drawable/ic_action_settings" 
+                	android:drawableLeft="@drawable/ic_action_settings_2" 
                 	android:text="Set Preferences"
                 	android:textColor="#ffffff"/>
 
@@ -169,7 +169,7 @@
                 	android:layout_height="wrap_content"
                 	android:layout_weight="1"
                 	android:background="@drawable/rounded_button"
-                	android:drawableLeft= "@drawable/ic_action_done" 
+                	android:drawableLeft= "@drawable/ic_action_done_2" 
                 	android:text="Got it"
                 	android:textColor="#ffffff"/>
 

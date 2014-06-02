@@ -256,7 +256,7 @@ public class ReportsFragment extends ListFragment implements
 			}
 		}
 		if(cAct != null){
-			cAct.updateCountry();
+			//cAct.updateCountry();
 		}
 		if (dialog.isShowing()) {
 			dialog.dismiss();

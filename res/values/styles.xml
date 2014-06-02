@@ -31,6 +31,7 @@
         <item name="actionbarCompatItemStyle">@style/ActionBarCompatItem</item>
         <item name="actionbarCompatItemHomeStyle">@style/ActionBarCompatHomeItem</item>
         <item name="actionbarCompatProgressIndicatorStyle">@style/ActionBarCompatProgressIndicator</item>
+        
     </style>
 
     <style name="ActionBarCompat">
@@ -83,15 +84,17 @@
     	<item name="android:windowBackground">@drawable/gradient_background</item>
     	
 	</style>
-	<style name="Dialog"  parent="@android:style/Theme.Dialog">
-	    <item name="android:windowTitleBackgroundStyle">@style/DialogTitle</item>    	 
+	<style name="Dialog"  parent="@android:style/Theme.Holo.Light.Dialog">
+	    <item name="android:windowTitleStyle">@style/DialogTitle</item>    	 
   	</style>
 
-	<style name="DialogTitle" >
+	<style name="DialogTitle" parent="android:Widget.TextView">
     	<item name="android:background">@color/green</item>
     	
     	
 	</style>
+	
+	
 	
 	
 

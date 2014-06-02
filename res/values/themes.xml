@@ -2,12 +2,16 @@
 <resources>
 
     <!-- use the Android Light theme as the base for our own theme -->
-    <style name="DialogTheme" parent="@android:style/Theme.Dialog">
+    <style name="DialogTheme" parent="@android:style/Theme.Holo.Light.Dialog">
+        <item name="android:windowTitleBackgroundStyle">@style/DialogTitleTheme</item>  
 
         <!-- hide the Window Title -->
-        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowNoTitle">false</item>
 		
         <!-- You could change the scrollbar, checkbox style, anything! -->
+    </style>
+    <style name="DialogTitleTheme"  >
+    	<item name="android:background">#61BF8B</item>
     </style>
 
 </resources>

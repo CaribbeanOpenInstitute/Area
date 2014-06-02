@@ -54,6 +54,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.analytics.tracking.android.EasyTracker;
@@ -182,9 +183,9 @@ public class ChartsFragment extends Fragment {
 		//Log.d(TAG, "OnCreateOptionsMenu");
 		//MenuInflater menuInflater = getActivity().getMenuInflater();
 		inflater.inflate(R.menu.chart, menu);
-		MenuItem settings = menu.findItem(R.id.menu_settings);
-		settings.setEnabled(false);
-		settings.setVisible(false);
+		//MenuItem settings = menu.findItem(R.id.menu_settings);
+		//settings.setEnabled(false);
+		//settings.setVisible(false);
 		if (!is_saved){
 			// do not show delete or add to collections
 			MenuItem delete = menu.findItem(R.id.menu_delete);
@@ -288,9 +289,10 @@ public class ChartsFragment extends Fragment {
 				.show();
 				break;
 			}
-			//ContextThemeWrapper ctw = new ContextThemeWrapper( getActivity(), R.style.Dialog);
+			//ContextThemeWrapper ctw = new ContextThemeWrapper( getActivity(), R.style.DialogBox);
 			aBuilder = new AlertDialog.Builder(getActivity());
 			// if Chart is already saved Allow the user to also update the Chart or Save a new Chart.
+			
 			aBuilder.setTitle("Save My Chart");
 			aBuilder.setIcon(R.drawable.ic_launcher);
 			

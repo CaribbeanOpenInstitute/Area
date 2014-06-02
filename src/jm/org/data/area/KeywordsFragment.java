@@ -81,8 +81,9 @@ public class KeywordsFragment extends Fragment implements OnClickListener {
 		Button newKeyword = new Button(parentActivity);
 		newKeyword.setText("World");
 		newKeyword.setLayoutParams(new LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		newKeyword.setBackgroundResource(R.drawable.world_button);
+				200, LayoutParams.WRAP_CONTENT));
+		//newKeyword.setBackgroundResource(R.drawable.world_button);
+		newKeyword.setBackgroundColor(Color.parseColor("#42B089"));
 		newKeyword.setTextColor(Color.WHITE);
 
 		newKeyword.setOnClickListener(this);

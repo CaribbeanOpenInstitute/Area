@@ -47,6 +47,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
+            android:background="#222222"
+            android:textColor="#ffffff"
              />
 
         <!-- 
@@ -65,10 +67,10 @@
 
         <Button
             android:id="@+id/btn_keywordAdd"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="@string/add"
-            android:background="@drawable/add_button"
+            android:background="#1F7C72"
             android:textColor="@color/White" />
     </LinearLayout>
 

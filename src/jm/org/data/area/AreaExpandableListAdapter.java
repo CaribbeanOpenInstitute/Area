@@ -156,7 +156,7 @@ public class AreaExpandableListAdapter extends SimpleCursorTreeAdapter  {
 					position, mSelectedChildPosition));
 			
 		} else {
-			view.setBackgroundColor(Color.parseColor("#167A72"));
+			view.setBackgroundColor(Color.parseColor("#017885"));
 			
 		}
 		

@@ -95,9 +95,9 @@ public class StartupActivity2 extends Activity {
 			break;
 		case R.id.menu_startup:
 			startActivity(new Intent(StartupActivity2.this, StartupActivity2.class));
-			break;
-		case R.id.menu_settings:
-			startActivity(new Intent(StartupActivity2.this, AreaPreferencesActivity.class));
+	//		break;
+	//	case R.id.menu_settings:
+	//		startActivity(new Intent(StartupActivity2.this, AreaPreferencesActivity.class));
 		}
 		return super.onOptionsItemSelected(item);
 	}
