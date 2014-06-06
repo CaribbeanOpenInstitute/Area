@@ -32,9 +32,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.analytics.tracking.android.EasyTracker;
@@ -138,8 +140,12 @@ public class ArticleViewActivity extends BaseActivity {
 			//		.show();
 			aBuilder = new AlertDialog.Builder(this);
 			
-			aBuilder.setTitle("Save My Article");
-			aBuilder.setIcon(R.drawable.ic_launcher);
+			//aBuilder.setTitle("Save My Article");
+			//aBuilder.setIcon(R.drawable.ic_launcher);
+			View view = getLayoutInflater().inflate(R.layout.alert_dialog_title, null);
+			TextView title = (TextView) view.findViewById(R.id.title);
+			title.setText("Save This Article");
+			aBuilder.setCustomTitle(view);
 			
 			aBuilder.setMessage("Save Current Article?")
 						// Add action buttons
@@ -193,12 +199,20 @@ public class ArticleViewActivity extends BaseActivity {
 			aBuilder = new AlertDialog.Builder(this);
 			// if user is coming from CollectionsActivity only remove from collection
 			if (activity == S_COLL_ACT){
-				aBuilder.setTitle("Delete Article From Collection");
+				View delete_view = getLayoutInflater().inflate(R.layout.alert_dialog_title, null);
+				TextView delete_title = (TextView) delete_view.findViewById(R.id.title);
+				delete_title.setText("Delete Article From Collection");
+				aBuilder.setCustomTitle(delete_view);
+				//aBuilder.setTitle("Delete Article From Collection");
 			}else{
-				aBuilder.setTitle("Delete Saved Article");
+				View delete_view = getLayoutInflater().inflate(R.layout.alert_dialog_title, null);
+				TextView delete_title = (TextView) delete_view.findViewById(R.id.title);
+				delete_title.setText("Delete Saved Article");
+				aBuilder.setCustomTitle(delete_view);
+				//aBuilder.setTitle("Delete Saved Article");
 			}
 			
-			aBuilder.setIcon(R.drawable.ic_launcher);
+			//aBuilder.setIcon(R.drawable.ic_launcher);
 			
 			aBuilder.setMessage("Are you sure you want to remove this Article?")
 						// Add action buttons
@@ -302,7 +316,11 @@ public class ArticleViewActivity extends BaseActivity {
 						
 					}
 				};
-				aBuilder.setTitle("Save To Collection")
+				View col_view = getLayoutInflater().inflate(R.layout.alert_dialog_title, null);
+				TextView col_title = (TextView) col_view.findViewById(R.id.title);
+				col_title.setText("Save To Collection");
+				aBuilder.setCustomTitle(col_view)
+				//aBuilder.setTitle("Save To Collection")
 			    		//TODO need to find an elegant solution to select which collections an item already belongs
 			           .setMultiChoiceItems(cursor, "new", COLLECTION_NAME, onclick)
 			        		   
@@ -338,20 +356,24 @@ public class ArticleViewActivity extends BaseActivity {
 			    aDialog = aBuilder.create();
 			    aBuilder.show();
 
-				Button save_col = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
-				cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
-				save_col.setBackgroundColor(Color.parseColor("#61BF8B"));
-				save_col.setTextColor(Color.WHITE);
-				cancel.setBackgroundColor(Color.parseColor("#777777"));
-				cancel.setTextColor(Color.WHITE);
+				//Button save_col = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
+				//cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
+				//save_col.setBackgroundColor(Color.parseColor("#61BF8B"));
+				//save_col.setTextColor(Color.WHITE);
+				//cancel.setBackgroundColor(Color.parseColor("#777777"));
+				//cancel.setTextColor(Color.WHITE);
 			    return true;
 			}else{
 				//Toast.makeText(this, "Tapped Save", Toast.LENGTH_SHORT)
 				//.show();
 				aBuilder = new AlertDialog.Builder(this);
+				View col_view = getLayoutInflater().inflate(R.layout.alert_dialog_title, null);
+				TextView col_title = (TextView) col_view.findViewById(R.id.title);
+				col_title.setText("Save To Collection");
+				aBuilder.setCustomTitle(col_view);
 				
-				aBuilder.setTitle("Save To Collections");
-				aBuilder.setIcon(R.drawable.ic_launcher);
+				//aBuilder.setTitle("Save To Collections");
+				//aBuilder.setIcon(R.drawable.ic_launcher);
 				
 				aBuilder.setMessage("No Collections created\nPlease go to Collections and Creat a Colletion")
 					// Add action buttons
@@ -371,14 +393,12 @@ public class ArticleViewActivity extends BaseActivity {
 				aDialog = aBuilder.create();
 				aBuilder.show();
 
-				Button ok = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
-				cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
-				ok.setBackgroundColor(Color.parseColor("#61BF8B"));
-				ok.setTextColor(Color.WHITE);
-				cancel.setBackgroundColor(Color.parseColor("#777777"));
-				cancel.setTextColor(Color.WHITE);
-				//aDialog.show();
+				
 			}
+			return true;
+		case R.id.menu_prefs:
+			startActivity(new Intent(context,
+					AreaPreferencesActivity.class));
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

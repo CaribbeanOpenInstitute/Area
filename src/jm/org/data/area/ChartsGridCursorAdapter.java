@@ -60,7 +60,7 @@ public class ChartsGridCursorAdapter extends CursorAdapter {
 		Log.d(TAG, "Get View:");
 	    LinearLayout chart = (LinearLayout) LayoutInflater.from(mContext).inflate(R.layout.charts, parent, false);
 	    
-	    ((TextView)chart.findViewById(R.id.chartText)).setText("first text");
+	    //((TextView)chart.findViewById(R.id.chartText)).setText("first text");
 	    layout 		= (LinearLayout) chart.findViewById(R.id.chart_view);
 		dialog = new ProgressDialog(mContext);
 		mCursor.moveToPosition(position);

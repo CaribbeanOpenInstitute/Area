@@ -122,12 +122,17 @@ public class IndicatorActivity extends BaseActivity implements
 		mTabsAdapter.addTab(
 				mTabHost.newTabSpec("reports").setIndicator("Reports"),
 				ReportsFragment.class, null);
+		//mTabHost.getTabWidget().setDividerDrawable(R.drawable.tab_divider);
 		
 		for(int i=0;i<mTabHost.getTabWidget().getChildCount();i++) 
         { 
+			View v = mTabHost.getTabWidget().getChildAt(i);
+			v.setBackgroundResource(R.drawable.tab_selector);
             TextView tv = (TextView) mTabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title); //Unselected Tabs
             tv.setTextColor(Color.parseColor("#025E6B"));
         } 
+		View v = mTabHost.getCurrentTabView();
+		v.setBackgroundResource(R.drawable.tab_selector);
         TextView tv = (TextView) mTabHost.getCurrentTabView().findViewById(android.R.id.title); //for Selected Tab
         tv.setTextColor(Color.parseColor("#025E6B"));
 		

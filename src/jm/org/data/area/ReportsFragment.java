@@ -182,6 +182,10 @@ public class ReportsFragment extends ListFragment implements
 					"Loading Reports Data. Please wait...", true);
 			reload();
 			break;
+		case R.id.menu_prefs:
+			startActivity(new Intent(getActivity(),
+					AreaPreferencesActivity.class));
+			break;
 		default:
 			return super.onOptionsItemSelected(item);
 		}

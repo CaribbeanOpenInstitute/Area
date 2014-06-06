@@ -289,12 +289,15 @@ public class ChartsFragment extends Fragment {
 				.show();
 				break;
 			}
-			//ContextThemeWrapper ctw = new ContextThemeWrapper( getActivity(), R.style.DialogBox);
-			aBuilder = new AlertDialog.Builder(getActivity());
+			ContextThemeWrapper ctw = new ContextThemeWrapper( getActivity(), android.R.style.Theme_Holo_Light_Dialog);
+			aBuilder = new AlertDialog.Builder(ctw);
 			// if Chart is already saved Allow the user to also update the Chart or Save a new Chart.
-			
-			aBuilder.setTitle("Save My Chart");
-			aBuilder.setIcon(R.drawable.ic_launcher);
+			View view = getActivity().getLayoutInflater().inflate(R.layout.alert_dialog_title, null);
+			TextView title = (TextView) view.findViewById(R.id.title);
+			title.setText("Save This Chart");
+			aBuilder.setCustomTitle(view);
+			//aBuilder.setTitle("Save My Chart");
+			//aBuilder.setIcon(R.drawable.ic_launcher);
 			
 			
 			
@@ -366,10 +369,14 @@ public class ChartsFragment extends Fragment {
 			//Toast.makeText(getActivity(), "Tapped delete", Toast.LENGTH_SHORT)
 			//		.show();
 			aBuilder = new AlertDialog.Builder(getActivity());
+			View delete_view = getActivity().getLayoutInflater().inflate(R.layout.alert_dialog_title, null);
+			TextView delete_title = (TextView) delete_view.findViewById(R.id.title);
+			delete_title.setText("Delete This Chart");
+			aBuilder.setCustomTitle(delete_view);
 			
-			aBuilder.setTitle("Delete Saved Chart");
+			//aBuilder.setTitle("Delete Saved Chart");
 			
-			aBuilder.setIcon(R.drawable.ic_launcher);
+			//aBuilder.setIcon(R.drawable.ic_launcher);
 			
 			aBuilder.setMessage("Are you sure you want to remove this Saved Chart?")
 						// Add action buttons
@@ -426,8 +433,12 @@ public class ChartsFragment extends Fragment {
 			cursor = area.areaData.rawQuery(CHARTS, null, I_ID + " = " + indicator_id);
 			
 			aBuilder = new AlertDialog.Builder(getActivity());
+			View edit_view = getActivity().getLayoutInflater().inflate(R.layout.alert_dialog_title, null);
+			TextView edit_title = (TextView) edit_view.findViewById(R.id.title);
+			edit_title.setText("Edit This Chart");
+			aBuilder.setCustomTitle(edit_view);
 
-			aBuilder.setTitle("Update Saved Chart");
+			aBuilder.setTitle("Update This Chart");
 
 			aBuilder.setIcon(R.drawable.ic_launcher);
 
@@ -582,7 +593,11 @@ public class ChartsFragment extends Fragment {
 						
 					}
 				};
-				aBuilder.setTitle("Save To Collection")
+				View col_view = getActivity().getLayoutInflater().inflate(R.layout.alert_dialog_title, null);
+				TextView col_title = (TextView) col_view.findViewById(R.id.title);
+				col_title.setText("Save To Collection");
+				aBuilder.setCustomTitle(col_view)
+				//aBuilder.setTitle("Save To Collection")
 			    		//TODO need to find an elegant solution to select which collections an item already belongs
 					.setMultiChoiceItems(cursor2, "new", COLLECTION_NAME, onclick)
 			        		   
@@ -625,9 +640,14 @@ public class ChartsFragment extends Fragment {
 				//Toast.makeText(getActivity(), "Tapped Save", Toast.LENGTH_SHORT)
 				//.show();
 				aBuilder = new AlertDialog.Builder(getActivity());
+				View col_view = getActivity().getLayoutInflater().inflate(R.layout.alert_dialog_title, null);
+				TextView col_title = (TextView) col_view.findViewById(R.id.title);
+				col_title.setText("Save To Collection");
+				aBuilder.setCustomTitle(col_view);
 				
-				aBuilder.setTitle("Save To Collections");
-				aBuilder.setIcon(R.drawable.ic_launcher);
+				
+				//aBuilder.setTitle("Save To Collections");
+				//aBuilder.setIcon(R.drawable.ic_launcher);
 				
 				aBuilder.setMessage("No Collections created\nPlease go to Collections and Creat a Colletion")
 					// Add action buttons
@@ -647,12 +667,7 @@ public class ChartsFragment extends Fragment {
 				aDialog = aBuilder.create();
 				aBuilder.show();
 
-				Button ok = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
-				cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
-				ok.setBackgroundColor(Color.parseColor("#61BF8B"));
-				ok.setTextColor(Color.WHITE);
-				cancel.setBackgroundColor(Color.parseColor("#777777"));
-				cancel.setTextColor(Color.WHITE);
+				
 				//aDialog.show();
 			}
 			

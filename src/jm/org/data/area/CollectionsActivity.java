@@ -108,8 +108,11 @@ public class CollectionsActivity extends BaseActivity {
 		mTabsAdapter.addTab(
 				mTabHost.newTabSpec("articles").setIndicator("Articles"),
 				ArticlesFragment.class, null);
+		//mTabHost.getTabWidget().setDividerDrawable(R.drawable.tab_divider);
 		for(int i=0;i<mTabHost.getTabWidget().getChildCount();i++) 
         { 
+			View v = mTabHost.getTabWidget().getChildAt(i);
+			v.setBackgroundResource(R.drawable.tab_selector);
             TextView tv = (TextView) mTabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title); //Unselected Tabs
             tv.setTextColor(Color.parseColor("#025E6B"));
         } 
