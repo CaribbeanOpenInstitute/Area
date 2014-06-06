@@ -126,7 +126,7 @@ public class ChartsListFragment extends ListFragment implements
 		//return inflater.inflate(R.layout.chart_list, container, false);
 		View view;
 		view  = inflater.inflate(R.layout.chart_list, container, false);
-		((TextView) view.findViewById(R.id.chartText)).setText(title_text);
+		//((TextView) view.findViewById(R.id.chartText)).setText(title_text);
 		((TextView) view.findViewById(android.R.id.empty)).setText(Html.fromHtml(empty_text));
 		return view;
 	}

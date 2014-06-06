@@ -15,6 +15,7 @@ public class AreaPreferencesActivity extends PreferenceActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.setContentView(R.layout.preferences);
 		getWindow().setBackgroundDrawableResource(R.drawable.gradient_background);
         getListView().setBackgroundColor(Color.TRANSPARENT);
         //getListView().setCacheColorHint(Color.TRANSPARENT);

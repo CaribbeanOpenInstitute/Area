@@ -336,12 +336,12 @@ public class ReportDetailViewActivity extends BaseActivity {
 			    aDialog = aBuilder.create();
 			    aBuilder.show();
 
-				Button save_col = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
-				cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
-				save_col.setBackgroundColor(Color.parseColor("#61BF8B"));
-				save_col.setTextColor(Color.WHITE);
-				cancel.setBackgroundColor(Color.parseColor("#777777"));
-				cancel.setTextColor(Color.WHITE);
+				//Button save_col = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
+				//cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
+				//save_col.setBackgroundColor(Color.parseColor("#61BF8B"));
+				//save_col.setTextColor(Color.WHITE);
+				//cancel.setBackgroundColor(Color.parseColor("#777777"));
+				//cancel.setTextColor(Color.WHITE);
 			    return true;
 			}else{
 				//Toast.makeText(this, "Tapped Save", Toast.LENGTH_SHORT)
@@ -369,14 +369,19 @@ public class ReportDetailViewActivity extends BaseActivity {
 				aDialog = aBuilder.create();
 				aBuilder.show();
 
-				Button ok = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
-				cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
-				ok.setBackgroundColor(Color.parseColor("#61BF8B"));
-				ok.setTextColor(Color.WHITE);
-				cancel.setBackgroundColor(Color.parseColor("#777777"));
-				cancel.setTextColor(Color.WHITE);
+				//Button ok = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
+				//cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
+				//ok.setBackgroundColor(Color.parseColor("#61BF8B"));
+				//ok.setTextColor(Color.WHITE);
+				//cancel.setBackgroundColor(Color.parseColor("#777777"));
+				//cancel.setTextColor(Color.WHITE);
 				//aDialog.show();
 			}
+			
+			return true;
+		case R.id.menu_prefs:
+			startActivity(new Intent(context,
+					AreaPreferencesActivity.class));
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

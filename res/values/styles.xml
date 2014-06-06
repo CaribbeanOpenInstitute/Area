@@ -18,7 +18,7 @@
 
     <style name="AppTheme" parent="android:style/Theme.Light">
         <item name="android:windowTitleSize">@dimen/actionbar_compat_height</item>
-        <item name="android:windowTitleBackgroundStyle">@style/ActionBarCompat</item>
+        <item name="android:windowTitleBackgroundStyle">@style/WindowTitle</item>
         <item name="android:windowContentOverlay">@drawable/actionbar_shadow</item>
         <item name="android:alertDialogStyle">@style/Dialog</item>
         
@@ -84,15 +84,19 @@
     	<item name="android:windowBackground">@drawable/gradient_background</item>
     	
 	</style>
-	<style name="Dialog"  parent="@android:style/Theme.Holo.Light.Dialog">
-	    <item name="android:windowTitleStyle">@style/DialogTitle</item>    	 
+	<style name="Dialog"  parent="@android:style/Theme.Dialog">
+	    <item name="android:windowTitleBackgroundStyle">@style/DialogTitleBackground</item>    	 
   	</style>
 
-	<style name="DialogTitle" parent="android:Widget.TextView">
+	<style name="DialogTitleBackground" >
     	<item name="android:background">@color/green</item>
     	
     	
 	</style>
+	<style name="WindowTitle" >
+	    <item name="android:background">#61BF8B</item>
+    </style>
+	
 	
 	
 	

@@ -172,6 +172,10 @@ public class ArticlesFragment extends ListFragment implements
 					"Loading Reports Data. Please wait...", true);
 			reload();
 			break;
+		case R.id.menu_prefs:
+			startActivity(new Intent(getActivity(),
+					AreaPreferencesActivity.class));
+			break;	
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -224,15 +228,7 @@ public class ArticlesFragment extends ListFragment implements
 		}
 		startActivity(intent);
 	}
-	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
-	    MenuItem searchViewMenuItem = menu.findItem(R.id.menu_search);    
-	    SearchView mSearchView = (SearchView) searchViewMenuItem.getActionView();
-	    int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
-	    ImageView v = (ImageView) mSearchView.findViewById(searchImgId);
-	    v.setImageResource(R.drawable.ic_action_search); 
-	    
-	}
+	
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {

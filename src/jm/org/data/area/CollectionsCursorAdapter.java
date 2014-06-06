@@ -53,6 +53,7 @@ public class CollectionsCursorAdapter extends CursorAdapter {
 							 * WB_INDICATOR_ID))+ "-" +
 							 */cursor.getString(cursor
 				.getColumnIndex(COLLECTION_NAME)));
+		list_item.setTextColor(Color.WHITE);
 		int position = cursor.getPosition();
 		if (mSelectedPosition == position) {
 			
