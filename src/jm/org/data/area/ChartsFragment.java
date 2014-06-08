@@ -623,11 +623,11 @@ public class ChartsFragment extends Fragment {
 						public void onClick(DialogInterface dialog, int id) {
 							//Toast.makeText(getActivity(), "Cancel", Toast.LENGTH_SHORT)
 							//	.show();
-							((AlertDialog) dialog).cancel();
+							aDialog.cancel();
 						}
 					});
 			    aDialog = aBuilder.create();
-			    aBuilder.show();
+			    aDialog.show();
 
 				Button save_col = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
 				cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
@@ -661,14 +661,20 @@ public class ChartsFragment extends Fragment {
 					.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
 							
-							((AlertDialog) dialog).cancel();
+							aDialog.cancel();
 						}
 					}); 
 				aDialog = aBuilder.create();
-				aBuilder.show();
+				aDialog.show();
+				Button save_col = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
+				cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
+				save_col.setBackgroundColor(Color.parseColor("#61BF8B"));
+				save_col.setTextColor(Color.WHITE);
+				cancel.setBackgroundColor(Color.parseColor("#777777"));
+				cancel.setTextColor(Color.WHITE);
 
 				
-				//aDialog.show();
+				
 			}
 			
 			break;

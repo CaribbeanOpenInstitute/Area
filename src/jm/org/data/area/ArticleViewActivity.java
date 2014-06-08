@@ -354,14 +354,14 @@ public class ArticleViewActivity extends BaseActivity {
 						}
 					});
 			    aDialog = aBuilder.create();
-			    aBuilder.show();
+			    aDialog.show();
 
-				//Button save_col = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
-				//cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
-				//save_col.setBackgroundColor(Color.parseColor("#61BF8B"));
-				//save_col.setTextColor(Color.WHITE);
-				//cancel.setBackgroundColor(Color.parseColor("#777777"));
-				//cancel.setTextColor(Color.WHITE);
+				Button save_col = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
+				cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
+				save_col.setBackgroundColor(Color.parseColor("#61BF8B"));
+				save_col.setTextColor(Color.WHITE);
+				cancel.setBackgroundColor(Color.parseColor("#777777"));
+				cancel.setTextColor(Color.WHITE);
 			    return true;
 			}else{
 				//Toast.makeText(this, "Tapped Save", Toast.LENGTH_SHORT)
@@ -391,7 +391,14 @@ public class ArticleViewActivity extends BaseActivity {
 						}
 					}); 
 				aDialog = aBuilder.create();
-				aBuilder.show();
+				aDialog.show();
+				
+				Button save_col = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
+				cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
+				save_col.setBackgroundColor(Color.parseColor("#61BF8B"));
+				save_col.setTextColor(Color.WHITE);
+				cancel.setBackgroundColor(Color.parseColor("#777777"));
+				cancel.setTextColor(Color.WHITE);
 
 				
 			}
