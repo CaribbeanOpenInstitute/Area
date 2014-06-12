@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:gravity="center" >
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center"
+    android:background="@drawable/gradient_background" >
 
     <TableRow
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
 
         <ImageView
             android:id="@+id/areaLogo"
@@ -18,9 +20,10 @@
     </TableRow>
 
     <TableRow
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dip" >
+        android:padding="5dip" 
+        android:gravity="center">
 
         <TextView
             android:id="@+id/txtAreaTitle"
@@ -30,13 +33,15 @@
             android:gravity="center_horizontal"
             android:lines="2"
             android:text="Agriculture.Research-based. Evidence.Assistant"
-            android:textSize="20sp" />
+            android:textSize="20sp" 
+            android:textColor="#ffffff"/>
     </TableRow>
 
     <TableRow
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="5dip" >
+        android:padding="5dip" 
+        android:gravity="center">
 
         <ViewAnimator
             android:id="@+id/startupSwitcher"
@@ -58,14 +63,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Initializing Application data" />
+                    android:text="Initializing Application data" 
+                    android:textColor="#ffffff"/>
 
                 <ProgressBar
                     android:id="@+id/progressBar_area"
                     style="@android:style/Widget.ProgressBar.Large.Inverse"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal" />
+                    android:layout_gravity="center_horizontal"
+                     />
             </LinearLayout>
 
             <LinearLayout
@@ -84,7 +91,7 @@
     </TableRow>
 
     <TableRow
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingBottom="1dip" >
@@ -92,15 +99,20 @@
         <TextView
             android:id="@+id/txtBuilt"
             android:gravity="center"
-            android:text="Built by" />
+            android:text="Built by" 
+             android:textColor="#ffffff"/>
 
         <TextView
             android:id="@+id/txtSpon"
             android:gravity="center"
-            android:text="Sponsored by" />
+            android:text="Sponsored by" 
+             android:textColor="#ffffff"/>
     </TableRow>
 
-    <TableRow android:background="@color/White" >
+    <TableRow android:background="@color/White" 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
 
         <ImageView
             android:id="@+id/coiLogo"

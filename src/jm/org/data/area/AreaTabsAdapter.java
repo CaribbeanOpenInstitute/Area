@@ -104,6 +104,7 @@ public class AreaTabsAdapter extends FragmentPagerAdapter implements
 
 	@Override
 	public void onPageSelected(int position) {
+		mTabHost.setCurrentTab(position);
 		// Unfortunately when TabHost changes the current tab, it kindly
 		// also takes care of putting focus on it when not in touch mode.
 		// The jerk.
