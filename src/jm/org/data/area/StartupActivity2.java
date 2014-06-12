@@ -43,7 +43,7 @@ public class StartupActivity2 extends Activity {
 				switch(v.getId()){
 				case(R.id.set_preferences):
 					startActivity(new Intent(StartupActivity2.this,
-							AreaPreferencesActivity.class));
+							AreaPreferencesActivity2.class));
 				break;
 				case(R.id.got_it):
 					startActivity(new Intent(StartupActivity2.this,
@@ -91,7 +91,7 @@ public class StartupActivity2 extends Activity {
 		switch (item.getItemId()) {
 		case R.id.menu_prefs:
 			startActivity(new Intent(StartupActivity2.this,
-					AreaPreferencesActivity.class));
+					AreaPreferencesActivity2.class));
 			break;
 		case R.id.menu_startup:
 			startActivity(new Intent(StartupActivity2.this, StartupActivity2.class));
