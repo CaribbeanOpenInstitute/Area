@@ -174,7 +174,7 @@ public class ArticlesFragment extends ListFragment implements
 			break;
 		case R.id.menu_prefs:
 			startActivity(new Intent(getActivity(),
-					AreaPreferencesActivity2.class));
+					AreaPreferencesActivity.class));
 			break;	
 		default:
 			return super.onOptionsItemSelected(item);

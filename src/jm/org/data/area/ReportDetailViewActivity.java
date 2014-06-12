@@ -401,7 +401,7 @@ public class ReportDetailViewActivity extends BaseActivity {
 			return true;
 		case R.id.menu_prefs:
 			startActivity(new Intent(context,
-					AreaPreferencesActivity2.class));
+					AreaPreferencesActivity.class));
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

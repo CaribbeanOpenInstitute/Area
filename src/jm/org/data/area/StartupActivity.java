@@ -1,17 +1,12 @@
 package jm.org.data.area;
 
-import jm.org.data.area.R.color;
-
 import com.google.analytics.tracking.android.EasyTracker;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.widget.ViewAnimator;
 
@@ -36,13 +31,7 @@ public class StartupActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.startupview);
 		loadingAnimator = (ViewAnimator) findViewById(R.id.startupSwitcher); // Loading
-		ProgressBar v = (ProgressBar) findViewById(R.id.progressBar_area);
-		v.getIndeterminateDrawable().setColorFilter(Color.BLUE,
-		                        android.graphics.PorterDuff.Mode.MULTIPLY);																		// Animator
-		View title = getWindow().findViewById(android.R.id.title);
-		View titleBar = (View) title.getParent();
-		titleBar.setBackgroundColor(Color.parseColor("#61BF8B"));
-		setTitleColor(Color.WHITE);
+																				// Animator
 		area = (AreaApplication) getApplication();
 
 		if (!area.checkNetworkConnection()) { // Check the Internet connection

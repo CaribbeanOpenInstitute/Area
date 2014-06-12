@@ -22,8 +22,6 @@
         <item name="android:actionOverflowButtonStyle">@style/MyOverflow</item>
         <item name="android:windowTitleBackgroundStyle">@style/WindowTitle</item>
         <item name="android:alertDialogStyle" >@style/DialogWindow</item>
-       
-        
         
     </style>
 
@@ -52,10 +50,6 @@
 	    
     	<item name="android:background">#61BF8B</item>
     </style>
-    
-	<style name="EditTextStyle" parent="@android:style/Widget.EditText">
-    	
-	</style>
     
 	
     

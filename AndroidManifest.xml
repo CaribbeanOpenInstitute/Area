@@ -64,11 +64,6 @@
         <activity android:name=".AreaPreferencesActivity">
             
         </activity>
-        <activity 
-            android:name=".AreaPreferencesActivity2"
-            android:screenOrientation="sensorLandscape" >
-            
-        </activity>
          <activity android:name=".AreaPreferenceCategory">
             
         </activity>
