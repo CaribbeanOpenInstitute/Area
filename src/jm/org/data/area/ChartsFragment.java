@@ -440,7 +440,7 @@ public class ChartsFragment extends Fragment {
 
 			aBuilder.setTitle("Update This Chart");
 
-			aBuilder.setIcon(R.drawable.ic_launcher);
+			//aBuilder.setIcon(R.drawable.ic_launcher);
 
 			aBuilder//.setMessage("Please Select Chart for this Indicator to Update?")
 			//public AlertDialog.Builder setSingleChoiceItems (Cursor cursor, int checkedItem, String labelColumn,
@@ -680,7 +680,7 @@ public class ChartsFragment extends Fragment {
 			break;
 		case R.id.menu_prefs:
 			startActivity(new Intent(parentActivity,
-					AreaPreferencesActivity.class));
+					AreaPreferencesActivity2.class));
 			break;
 		default:
 			return super.onOptionsItemSelected(item);

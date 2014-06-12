@@ -167,9 +167,20 @@ public class CollectionsActivity extends BaseActivity {
 		case R.id.menu_add:
 			//Toast.makeText(this, "Tapped Add", Toast.LENGTH_SHORT)
 			//		.show();
+			
 			CreateDialog("","");
+			View view = getLayoutInflater().inflate(R.layout.alert_dialog_title, null);
+			TextView title = (TextView) view.findViewById(R.id.title);
+			title.setText("Create New Collection");
+			aDialog.setCustomTitle(view);
 			
 			aDialog.show();
+			Button add = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
+			Button cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
+			add.setBackgroundColor(Color.parseColor("#61BF8B"));
+			add.setTextColor(Color.WHITE);
+			cancel.setBackgroundColor(Color.parseColor("#777777"));
+			cancel.setTextColor(Color.WHITE);
 			// Get image and initiative share intent
 			break;
 			
@@ -180,9 +191,13 @@ public class CollectionsActivity extends BaseActivity {
 			}
 			//Toast.makeText(this, "Tapped Delete", Toast.LENGTH_SHORT).show();
 			aBuilder = new AlertDialog.Builder(this);
+			View del_view = getLayoutInflater().inflate(R.layout.alert_dialog_title, null);
+			TextView del_title = (TextView) del_view.findViewById(R.id.title);
+			del_title.setText("Delete Selected Collection");
+			aBuilder.setCustomTitle(del_view);
 
-			aBuilder.setTitle("Delete Selected Collection");
-			aBuilder.setIcon(R.drawable.ic_launcher);
+			//aBuilder.setTitle("Delete Selected Collection");
+			//aBuilder.setIcon(R.drawable.ic_launcher);
 
 			aBuilder.setMessage("Are you sure you want to delete this collection: \"" +col_name + "\" ?")
 					// Add action buttons
@@ -240,7 +255,7 @@ public class CollectionsActivity extends BaseActivity {
 			aDialog.show();
 
 			Button delete = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
-			Button cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
+			cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
 			delete.setBackgroundColor(Color.parseColor("#61BF8B"));
 			delete.setTextColor(Color.WHITE);
 			cancel.setBackgroundColor(Color.parseColor("#777777"));
@@ -255,8 +270,19 @@ public class CollectionsActivity extends BaseActivity {
 			}
 
 			CreateDialog(col_name, col_desc);
+			View edit_view = getLayoutInflater().inflate(R.layout.alert_dialog_title, null);
+			TextView edit_title = (TextView) edit_view.findViewById(R.id.title);
+			edit_title.setText("Edit This Collection");
+			aDialog.setCustomTitle(edit_view);
 
 			aDialog.show();
+			
+			Button edit = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
+			cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
+			edit.setBackgroundColor(Color.parseColor("#61BF8B"));
+			edit.setTextColor(Color.WHITE);
+			cancel.setBackgroundColor(Color.parseColor("#777777"));
+			cancel.setTextColor(Color.WHITE);
 			
 			break;
 		}
