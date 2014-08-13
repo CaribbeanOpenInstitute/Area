@@ -36,6 +36,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
@@ -109,11 +110,21 @@ public class ChartsFragment extends Fragment {
 		createChart();
 		setHasOptionsMenu(true);
 		
-		is_saved = area.areaData.isSavedChart(indicator_id, countryList);
-		indicator_has_charts = area.areaData.indicatorHasCharts(indicator_id);
+		(new Update()).execute();
 
 	}
 
+	
+	private class Update extends AsyncTask<Void, Void, Boolean>{
+
+		@Override
+		protected Boolean doInBackground(Void... arg0) {
+			is_saved = area.areaData.isSavedChart(indicator_id, countryList);
+			indicator_has_charts = area.areaData.indicatorHasCharts(indicator_id);
+			return null;
+		}
+		
+	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {

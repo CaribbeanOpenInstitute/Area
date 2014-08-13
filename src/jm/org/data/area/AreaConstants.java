@@ -106,6 +106,7 @@ public interface AreaConstants {
 	public static final String WB_COUNTRY_INCOME_LEVEL_ID = "incomeLevel: id";
 	public static final String WB_COUNTRY_INCOME_LEVEL_NAME = "incomeLevel: value";
 	public static final String WB_COUNTRY_CAPITAL = "capitalCity";
+	
 	public static final String[] WB_COUNTRY_LIST = { WB_COUNTRY_IDSTR,
 			WB_COUNTRY_ISOCODE, WB_COUNTRY_NAME, WB_COUNTRY_CAPITAL,
 			WB_COUNTRY_INCOME_LEVEL_ID, WB_COUNTRY_INCOME_LEVEL_NAME,
@@ -154,6 +155,7 @@ public interface AreaConstants {
 	public static final String BING_SEARCH_URL = "Url";
 	public static final String BING_SEARCH_DISP_URL = "DisplayUrl";
 	public static final String BING_SEARCH_DATE = "DateTime";
+	
 	public static final String[] BING_SEARCH_LIST = { BING_SEARCH_TITLE,
 			BING_SEARCH_DESC, BING_SEARCH_URL, BING_SEARCH_DISP_URL };
 	// public static final String[] FROM_BING_SEARCH_RESULTS = {_ID, B_S_ID,
