@@ -98,12 +98,17 @@ public class AreaTabsAdapter extends FragmentPagerAdapter implements
 	public void onTabChanged(String tabId) {
 		Log.d(TAG, "TabChanged");
 		int position = mTabHost.getCurrentTab();
-		mViewPager.setCurrentItem(position);
+		if (mViewPager.getCurrentItem() != position){
+			mViewPager.setCurrentItem(position);
+		}
 		
 	}
 
 	@Override
 	public void onPageSelected(int position) {
+		if (mViewPager.getCurrentItem() == position){
+			mTabHost.setCurrentTab(position);
+		}
 		// Unfortunately when TabHost changes the current tab, it kindly
 		// also takes care of putting focus on it when not in touch mode.
 		// The jerk.

@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="horizontal" >
+    android:orientation="horizontal" 
+    android:background="@drawable/gradient_background">
 
 <LinearLayout
         android:layout_width="250dip"
@@ -17,11 +18,11 @@
 	        android:background="@drawable/rounded_border" /> 
 	    <!-- android:theme="@android:style/Theme.Holo.Light" -->
 	    <!-- android:layout_marginTop="?android:attr/actionBarSize" -->
-		<TextView
+<!--		<TextView
 	            android:id="@+id/indSeparator"
 	            android:layout_width="fill_parent"
 	            android:layout_height="5dp"
-	            android:background="#8AC7E3"/>
+	            android:background="#8AC7E3"/>     -->
 		<fragment
 	        android:id="@+id/slistFragment"
 	        android:layout_width="match_parent"
@@ -35,7 +36,9 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical" 
-        >
+        android:background= "@drawable/rounded_border"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="40dp">
 <!--         android:background="@drawable/app_bg" -->
 
         <TabHost
@@ -65,6 +68,12 @@
                     android:layout_height="0dp"
                     android:layout_weight="0"
                      />
+                <View
+            		android:id="@+id/strip_tab"
+            		android:layout_width="fill_parent"
+            		android:layout_height="3dp" 
+            		android:background="@color/darkBlue"/>  
+                
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/viewpager"

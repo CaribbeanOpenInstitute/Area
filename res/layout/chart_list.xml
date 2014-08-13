@@ -7,14 +7,14 @@
 
     <!-- android:background="@drawable/list_bg" -->
 
-    <TextView
+ <TextView
         android:id="@+id/chartText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dip"
-        android:text="@string/charts"
+        android:text=""
         android:textAppearance="?android:attr/textAppearanceLarge"
-        />
+        />  
     
     <ListView
         android:id="@android:id/list"

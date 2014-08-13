@@ -19,8 +19,12 @@ import static jm.org.data.area.DBConstants.SELECTION_NAME;
 import static jm.org.data.area.DBConstants.WB_COUNTRY_ID;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.View;
+import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.google.analytics.tracking.android.EasyTracker;
@@ -30,6 +34,9 @@ public class CountryActivity extends BaseActivity {
 	private static final String TAG = CountryActivity.class.getSimpleName();
 	private String selection, country;
 	private int mSelection, country_id, cPosition;
+	TabHost mTabHost;
+	ViewPager mViewPager;
+	AreaTabsAdapter mTabsAdapter;
 	
 	/*private AlertDialog.Builder aBuilder;
 	private AlertDialog aDialog;
@@ -50,6 +57,8 @@ public class CountryActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.country_dashboard);
+		mContext = this;
 
 		
 		actBundle = getIntent().getExtras();
@@ -87,20 +96,54 @@ public class CountryActivity extends BaseActivity {
 		}
 		Log.d(TAG, "Country selected is: " + country + "-> ID: " + country_id + " at Position: " + cPosition);
 		
-		setContentView(R.layout.country_dashboard);
-		mContext = this;
+		
+		
+		Log.d(TAG, "Creating Tabs");
+		mTabHost = (TabHost) findViewById(android.R.id.tabhost);
+		mTabHost.setup();
+
+		mViewPager = (ViewPager) findViewById(R.id.viewpager);
+
+		mTabsAdapter = new AreaTabsAdapter(this, mTabHost, mViewPager);
+		mTabsAdapter.addTab(
+				mTabHost.newTabSpec("overview").setIndicator("Overview"),
+				CountryOverviewFragment.class, null);
+		mTabsAdapter.addTab(
+				mTabHost.newTabSpec("reports").setIndicator("Reports"),
+				ReportsFragment.class, null);
+		//mTabsAdapter.addTab(mTabHost.newTabSpec("charts")
+		//		.setIndicator("Charts"), ChartsListFragment.class, null);
+		
+		//mTabsAdapter.addTab(
+		//		mTabHost.newTabSpec("articles").setIndicator("Articles"),
+		//		ArticlesFragment.class, null);
+		//mTabHost.getTabWidget().setDividerDrawable(R.drawable.tab_divider);
+		for(int i=0;i<mTabHost.getTabWidget().getChildCount();i++) 
+        { 
+			View v = mTabHost.getTabWidget().getChildAt(i);
+			v.setBackgroundResource(R.drawable.tab_selector);
+            TextView tv = (TextView) mTabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title); //Unselected Tabs
+            tv.setTextColor(Color.parseColor("#025E6B"));
+        } 
+        TextView tv = (TextView) mTabHost.getCurrentTabView().findViewById(android.R.id.title); //for Selected Tab
+        tv.setTextColor(Color.parseColor("#025E6B"));
+		
+
+		if (savedInstanceState != null) {
+			mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
+		}
 		
 		//get country data using Country ID
 		
-		area = (AreaApplication) mContext.getApplicationContext();
-		updateCountry();
+		//area = (AreaApplication) mContext.getApplicationContext();
+		//updateCountry();
 		
 		
 	}
 	
 
 	
-	public String getSelection() {
+	public String getSelection() {																																																																																																																																																																																																																																																																																									
 		return selection;
 	}
 	
@@ -154,7 +197,7 @@ public class CountryActivity extends BaseActivity {
 
 
 
-	public void updateCountry() {
+/*	public void updateCountry() {
 		country_data = area.areaData.getCountry(country_id);
 		if (country_data.moveToFirst()){
 			
@@ -188,7 +231,7 @@ public class CountryActivity extends BaseActivity {
 			INCOME_LEVEL_NAME, COUNTRY_REGION_ID, COUNTRY_REGION_NAME, GDP,
 			GNI_CAPITA, POVERTY, LIFE_EX, LITERACY, POPULATION }; -->*/
 			
-			((TextView) this.findViewById(R.id.country_gdp))
+		/*	((TextView) this.findViewById(R.id.country_gdp))
 			.setText(country_data.getString(country_data.getColumnIndex(GDP)));
 			
 			((TextView) this.findViewById(R.id.country_gni))
@@ -207,7 +250,8 @@ public class CountryActivity extends BaseActivity {
 		}
 		country_data.close();
 		
-	}
+	} */
+	
 
 	
 }

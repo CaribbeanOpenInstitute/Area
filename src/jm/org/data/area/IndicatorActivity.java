@@ -31,6 +31,7 @@ import java.util.Arrays;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -41,8 +42,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 import com.google.analytics.tracking.android.EasyTracker;
 
@@ -105,6 +108,7 @@ public class IndicatorActivity extends BaseActivity implements
 		//dialog = new ProgressDialog(this);
 		mTabHost = (TabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup();
+		
 
 		mViewPager = (ViewPager) findViewById(R.id.viewpager);
 
@@ -113,11 +117,25 @@ public class IndicatorActivity extends BaseActivity implements
 		mTabsAdapter.addTab(mTabHost.newTabSpec("charts")
 				.setIndicator("Charts"), ChartsFragment.class, null);
 		mTabsAdapter.addTab(
-				mTabHost.newTabSpec("reports").setIndicator("Reports"),
-				ReportsFragment.class, null);
-		mTabsAdapter.addTab(
 				mTabHost.newTabSpec("articles").setIndicator("Articles"),
 				ArticlesFragment.class, null);
+		mTabsAdapter.addTab(
+				mTabHost.newTabSpec("reports").setIndicator("Reports"),
+				ReportsFragment.class, null);
+		//mTabHost.getTabWidget().setDividerDrawable(R.drawable.tab_divider);
+		
+		for(int i=0;i<mTabHost.getTabWidget().getChildCount();i++) 
+        { 
+			View v = mTabHost.getTabWidget().getChildAt(i);
+			v.setBackgroundResource(R.drawable.tab_selector);
+            TextView tv = (TextView) mTabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title); //Unselected Tabs
+            tv.setTextColor(Color.parseColor("#025E6B"));
+        } 
+		View v = mTabHost.getCurrentTabView();
+		v.setBackgroundResource(R.drawable.tab_selector);
+        TextView tv = (TextView) mTabHost.getCurrentTabView().findViewById(android.R.id.title); //for Selected Tab
+        tv.setTextColor(Color.parseColor("#025E6B"));
+		
 
 		if (savedInstanceState != null) {
 			mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
@@ -226,6 +244,8 @@ public class IndicatorActivity extends BaseActivity implements
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
 			return true;
+		//case R.id.menu_settings:
+		//	startActivity(new Intent(IndicatorActivity.this, AreaPreferencesActivity.class));
 		case R.id.menu_share:
 			
 
@@ -366,6 +386,16 @@ public class IndicatorActivity extends BaseActivity implements
 		}
 
 		// Log.d(TAG, "Current tab is " + mTabHost.getCurrentTab());
+	}
+	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+	    MenuItem searchViewMenuItem = menu.findItem(R.id.menu_search);    
+	    SearchView mSearchView = (SearchView) searchViewMenuItem.getActionView();
+	    int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
+	    ImageView v = (ImageView) mSearchView.findViewById(searchImgId);
+	    v.setImageResource(R.drawable.ic_action_search); 
+	    return super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override

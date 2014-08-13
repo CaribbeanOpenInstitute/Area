@@ -14,12 +14,14 @@
   limitations under the License.
   -->
 
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="AppTheme" parent="android:style/Theme.Light">
         <item name="android:windowTitleSize">@dimen/actionbar_compat_height</item>
-        <item name="android:windowTitleBackgroundStyle">@style/ActionBarCompat</item>
+        <item name="android:windowTitleBackgroundStyle">@style/WindowTitle</item>
         <item name="android:windowContentOverlay">@drawable/actionbar_shadow</item>
+        <item name="android:alertDialogStyle">@style/Dialog</item>
+        
         
         <item name="android:actionBarStyle">@style/ActionBarCompat</item>
         
@@ -29,6 +31,7 @@
         <item name="actionbarCompatItemStyle">@style/ActionBarCompatItem</item>
         <item name="actionbarCompatItemHomeStyle">@style/ActionBarCompatHomeItem</item>
         <item name="actionbarCompatProgressIndicatorStyle">@style/ActionBarCompatProgressIndicator</item>
+        
     </style>
 
     <style name="ActionBarCompat">
@@ -77,5 +80,28 @@
     	<item name="android:background">?android:attr/listDivider</item>
     	<item name="android:paddingBottom">50dip</item>
 	</style>
+	<style name="PreferencesTheme">
+    	<item name="android:windowBackground">@drawable/gradient_background</item>
+    	
+	</style>
+	<style name="Dialog"  parent="@android:style/Theme.Dialog">
+	    <item name="android:windowTitleBackgroundStyle">@style/DialogTitleBackground</item>    	 
+  	</style>
+
+	<style name="DialogTitleBackground" >
+    	<item name="android:background">@color/green</item>
+    	
+    	
+	</style>
+	<style name="WindowTitle" >
+	    <item name="android:background">#61BF8B</item>
+    </style>
+	
+	
+	
+	
+	
+
+
 	
 </resources>

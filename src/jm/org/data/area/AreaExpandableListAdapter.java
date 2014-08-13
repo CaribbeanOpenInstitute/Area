@@ -18,7 +18,9 @@ import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.SimpleCursorTreeAdapter;
 import android.widget.TextView;
 
@@ -118,18 +120,18 @@ public class AreaExpandableListAdapter extends SimpleCursorTreeAdapter  {
 		TextView list_item = (TextView) view.findViewById(R.id.textView1);
 		list_item.setText( groupCursor.getString(groupCursor.getColumnIndex(CATEGORY_NAME)));
 		
-		list_item.setTextAppearance(mContext, android.R.style.TextAppearance_Medium);
+		
 		int position = groupCursor.getPosition();
 		
 		if (mSelectedPosition == position) {
 			
-			view.setBackgroundColor(Color.parseColor("#8AC7E3"));
+			view.setBackgroundColor(Color.parseColor("#015F69"));
 			
 			Log.d(TAG, String.format("Current position: %d, Selected Parent Position %d",
 					position, mSelectedPosition));
 			
 		} else {
-			view.setBackgroundColor(Color.parseColor("#CCFF99"));
+			view.setBackgroundColor(Color.parseColor("#167A72"));
 			
 		}
 		
@@ -149,12 +151,12 @@ public class AreaExpandableListAdapter extends SimpleCursorTreeAdapter  {
 		
 		if (mSelectedChildPosition == position) {
 			
-			view.setBackgroundColor(Color.parseColor("#8AC7E3"));
+			view.setBackgroundColor(Color.parseColor("#015F69"));
 			Log.d(TAG, String.format("current position: %d, Selected Child Position %d",
 					position, mSelectedChildPosition));
 			
 		} else {
-			view.setBackgroundColor(Color.parseColor("#135914"));
+			view.setBackgroundColor(Color.parseColor("#017885"));
 			
 		}
 		
@@ -219,7 +221,6 @@ public class AreaExpandableListAdapter extends SimpleCursorTreeAdapter  {
 					intent.putExtra(SELECTION_ID, S_INDICATORS);
 					intent.putExtra(SELECTION_NAME, "Indicators");
 					mContext.startActivity(intent);
-					
 				}
 	
 				if (act != null) {
@@ -254,6 +255,5 @@ public class AreaExpandableListAdapter extends SimpleCursorTreeAdapter  {
 	}
 	
 	
-		
 		
 }

@@ -16,6 +16,7 @@ import com.google.analytics.tracking.android.MapBuilder;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
@@ -24,6 +25,7 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class HomeReportListFragment extends ListFragment implements
 		LoaderManager.LoaderCallbacks<Cursor> {
@@ -44,6 +46,18 @@ public class HomeReportListFragment extends ListFragment implements
 		// R.layout.list_reports_item, null, from, to, 0);
 		mAdapter = new SimpleCursorAdapter(getActivity(),
 				R.layout.list_item_dual, null, from, to, 0);
+		SimpleCursorAdapter.ViewBinder binder = new SimpleCursorAdapter.ViewBinder() {
+
+			@Override
+			public boolean setViewValue(View arg0, Cursor arg1, int arg2) {
+				// TODO Auto-generated method stub
+				TextView tv = (TextView) arg0;
+			    tv.setTextColor(Color.parseColor("#004B51"));
+				return false;
+			}
+			
+		};
+		mAdapter.setViewBinder(binder);
 
 		setListAdapter(mAdapter);
 		getLoaderManager().initLoader(0, null, this);

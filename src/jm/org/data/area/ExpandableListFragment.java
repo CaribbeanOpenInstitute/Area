@@ -19,6 +19,7 @@ package jm.org.data.area;
 
 import static jm.org.data.area.DBConstants.CATEGORY_NAME;
 import static jm.org.data.area.DBConstants.INDICATOR_NAME;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -117,6 +118,9 @@ public class ExpandableListFragment extends Fragment implements OnChildClickList
     	View mainView  = inflater.inflate(R.layout.main_list, container, false); 
     	
         menuList = (ExpandableListView) mainView.findViewById(R.id.list);
+        /*Drawable groupIndicator = getResources().getDrawable( R.drawable.ic_action_new );
+        menuList.setGroupIndicator(groupIndicator);
+        menuList.setIndicatorBounds(1, 1);*/
 
     	mAdapter = new AreaExpandableListAdapter(
     			getActivity(), //Context context,  

@@ -11,6 +11,7 @@ import java.util.Arrays;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -80,7 +81,10 @@ public class KeywordsFragment extends Fragment implements OnClickListener {
 		Button newKeyword = new Button(parentActivity);
 		newKeyword.setText("World");
 		newKeyword.setLayoutParams(new LayoutParams(
-				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+				200, LayoutParams.WRAP_CONTENT));
+		//newKeyword.setBackgroundResource(R.drawable.world_button);
+		newKeyword.setBackgroundColor(Color.parseColor("#42B089"));
+		newKeyword.setTextColor(Color.WHITE);
 
 		newKeyword.setOnClickListener(this);
 		ll_keyword.addView(newKeyword);

@@ -1,6 +1,7 @@
 package jm.org.data.area;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -14,11 +15,15 @@ public class AreaPreferencesActivity extends PreferenceActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		addPreferencesFromResource(R.xml.preferences);
+		this.setContentView(R.layout.preferences);
+		getWindow().setBackgroundDrawableResource(R.drawable.gradient_background);
+        getListView().setBackgroundColor(Color.TRANSPARENT);
+        //getListView().setCacheColorHint(Color.TRANSPARENT);
+		addPreferencesFromResource(R.xml.preferences2);
 
-		Preference startupPreference = findPreference(getString(R.string.pref_startupKey));
-		PreferenceScreen preferenceScreen = getPreferenceScreen();
-		preferenceScreen.removePreference(startupPreference);
+		//Preference startupPreference = findPreference(getString(R.string.pref_startupKey));
+		//PreferenceScreen preferenceScreen = getPreferenceScreen();
+		//preferenceScreen.removePreference(startupPreference);
 	}
 
 	@Override

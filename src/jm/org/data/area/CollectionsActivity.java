@@ -13,6 +13,7 @@ import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -21,7 +22,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -105,6 +108,16 @@ public class CollectionsActivity extends BaseActivity {
 		mTabsAdapter.addTab(
 				mTabHost.newTabSpec("articles").setIndicator("Articles"),
 				ArticlesFragment.class, null);
+		//mTabHost.getTabWidget().setDividerDrawable(R.drawable.tab_divider);
+		for(int i=0;i<mTabHost.getTabWidget().getChildCount();i++) 
+        { 
+			View v = mTabHost.getTabWidget().getChildAt(i);
+			v.setBackgroundResource(R.drawable.tab_selector);
+            TextView tv = (TextView) mTabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title); //Unselected Tabs
+            tv.setTextColor(Color.parseColor("#025E6B"));
+        } 
+        TextView tv = (TextView) mTabHost.getCurrentTabView().findViewById(android.R.id.title); //for Selected Tab
+        tv.setTextColor(Color.parseColor("#025E6B"));
 
 		if (savedInstanceState != null) {
 			mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
@@ -154,9 +167,20 @@ public class CollectionsActivity extends BaseActivity {
 		case R.id.menu_add:
 			//Toast.makeText(this, "Tapped Add", Toast.LENGTH_SHORT)
 			//		.show();
+			
 			CreateDialog("","");
+			View view = getLayoutInflater().inflate(R.layout.alert_dialog_title, null);
+			TextView title = (TextView) view.findViewById(R.id.title);
+			title.setText("Create New Collection");
+			aDialog.setCustomTitle(view);
 			
 			aDialog.show();
+			Button add = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
+			Button cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
+			add.setBackgroundColor(Color.parseColor("#61BF8B"));
+			add.setTextColor(Color.WHITE);
+			cancel.setBackgroundColor(Color.parseColor("#777777"));
+			cancel.setTextColor(Color.WHITE);
 			// Get image and initiative share intent
 			break;
 			
@@ -167,9 +191,13 @@ public class CollectionsActivity extends BaseActivity {
 			}
 			//Toast.makeText(this, "Tapped Delete", Toast.LENGTH_SHORT).show();
 			aBuilder = new AlertDialog.Builder(this);
+			View del_view = getLayoutInflater().inflate(R.layout.alert_dialog_title, null);
+			TextView del_title = (TextView) del_view.findViewById(R.id.title);
+			del_title.setText("Delete Selected Collection");
+			aBuilder.setCustomTitle(del_view);
 
-			aBuilder.setTitle("Delete Selected Collection");
-			aBuilder.setIcon(R.drawable.ic_launcher);
+			//aBuilder.setTitle("Delete Selected Collection");
+			//aBuilder.setIcon(R.drawable.ic_launcher);
 
 			aBuilder.setMessage("Are you sure you want to delete this collection: \"" +col_name + "\" ?")
 					// Add action buttons
@@ -225,6 +253,13 @@ public class CollectionsActivity extends BaseActivity {
 							});
 			aDialog = aBuilder.create();
 			aDialog.show();
+
+			Button delete = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
+			cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
+			delete.setBackgroundColor(Color.parseColor("#61BF8B"));
+			delete.setTextColor(Color.WHITE);
+			cancel.setBackgroundColor(Color.parseColor("#777777"));
+			cancel.setTextColor(Color.WHITE);
 			break;
 		case R.id.menu_view:
 			//Toast.makeText(this, "Tapped View", Toast.LENGTH_SHORT).show();
@@ -235,8 +270,19 @@ public class CollectionsActivity extends BaseActivity {
 			}
 
 			CreateDialog(col_name, col_desc);
+			View edit_view = getLayoutInflater().inflate(R.layout.alert_dialog_title, null);
+			TextView edit_title = (TextView) edit_view.findViewById(R.id.title);
+			edit_title.setText("Edit This Collection");
+			aDialog.setCustomTitle(edit_view);
 
 			aDialog.show();
+			
+			Button edit = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
+			cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
+			edit.setBackgroundColor(Color.parseColor("#61BF8B"));
+			edit.setTextColor(Color.WHITE);
+			cancel.setBackgroundColor(Color.parseColor("#777777"));
+			cancel.setTextColor(Color.WHITE);
 			
 			break;
 		}
@@ -364,6 +410,16 @@ public class CollectionsActivity extends BaseActivity {
 
 		desc_view = (EditText) layout.findViewById(R.id.chart_description);
 		desc_view.setText(desc);
+	}
+	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+	    MenuItem searchViewMenuItem = menu.findItem(R.id.menu_search);    
+	    SearchView mSearchView = (SearchView) searchViewMenuItem.getActionView();
+	    int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
+	    ImageView v = (ImageView) mSearchView.findViewById(searchImgId);
+	    v.setImageResource(R.drawable.ic_action_search); 
+	    return super.onPrepareOptionsMenu(menu);
 	}
 	
 	@Override

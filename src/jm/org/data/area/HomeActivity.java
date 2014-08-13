@@ -20,7 +20,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -142,11 +144,15 @@ public class HomeActivity extends BaseActivity {
 		switch (item.getItemId()) {
 		case R.id.menu_prefs:
 			startActivity(new Intent(HomeActivity.this,
-					AreaPreferencesActivity.class));
+					AreaPreferencesActivity2.class));
 			break;
 		case R.id.menu_startup:
-			startActivity(new Intent(HomeActivity.this, StartupActivity.class));
+			startActivity(new Intent(HomeActivity.this, StartupActivity2.class));
+	//		break;
+	//	case R.id.menu_settings:
+	//		startActivity(new Intent(HomeActivity.this, AreaPreferencesActivity.class));
 		}
+
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -182,6 +188,16 @@ public class HomeActivity extends BaseActivity {
 		}
 
 		
+	}
+	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+	    MenuItem searchViewMenuItem = menu.findItem(R.id.menu_search);    
+	    SearchView mSearchView = (SearchView) searchViewMenuItem.getActionView();
+	    int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
+	    ImageView v = (ImageView) mSearchView.findViewById(searchImgId);
+	    v.setImageResource(R.drawable.ic_action_search); 
+	    return super.onPrepareOptionsMenu(menu);
 	}
 	
 	public String getSelection() {

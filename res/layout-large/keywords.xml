@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="5dp" >
+    android:padding="5dp" 
+    android:background="#585E5E">
 
     <!-- android:layout_gravity="center_horizontal|center_vertical" -->
     <!-- android:layout_marginTop="20dip" -->
@@ -27,33 +28,38 @@
         android:layout_height="match_parent"
         android:orientation="horizontal" >
 
-        <TextView
+   <!-- <TextView
             android:id="@+id/txt_keyword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/keyword_label"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#0000ff"
-             />
+             /> -->     
 
         <!-- Auto complete text box -->
 
         <AutoCompleteTextView
             android:id="@+id/edt_keyword"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:hint="@string/keyword_hint"
             android:layout_weight="1"
+            android:background="#222222"
+            android:textColor="#ffffff"
+            android:textCursorDrawable="@null"
              />
 
 
         <Button
             android:id="@+id/btn_keywordAdd"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="@string/add" />
+            android:text="@string/add" 
+            android:background="#1F7C72"
+            android:textColor="@color/White"/>
     </LinearLayout>
 
 </LinearLayout>

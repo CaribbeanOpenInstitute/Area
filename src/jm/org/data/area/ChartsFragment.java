@@ -35,6 +35,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -42,14 +43,19 @@ import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.analytics.tracking.android.EasyTracker;
@@ -188,7 +194,9 @@ public class ChartsFragment extends Fragment {
 		//Log.d(TAG, "OnCreateOptionsMenu");
 		//MenuInflater menuInflater = getActivity().getMenuInflater();
 		inflater.inflate(R.menu.chart, menu);
-
+		//MenuItem settings = menu.findItem(R.id.menu_settings);
+		//settings.setEnabled(false);
+		//settings.setVisible(false);
 		if (!is_saved){
 			// do not show delete or add to collections
 			MenuItem delete = menu.findItem(R.id.menu_delete);
@@ -292,10 +300,18 @@ public class ChartsFragment extends Fragment {
 				.show();
 				break;
 			}
-			aBuilder = new AlertDialog.Builder(getActivity());
+			ContextThemeWrapper ctw = new ContextThemeWrapper( getActivity(), android.R.style.Theme_Holo_Light_Dialog);
+			aBuilder = new AlertDialog.Builder(ctw);
 			// if Chart is already saved Allow the user to also update the Chart or Save a new Chart.
-			aBuilder.setTitle("Save My Chart");
-			aBuilder.setIcon(R.drawable.ic_launcher);
+			View view = getActivity().getLayoutInflater().inflate(R.layout.alert_dialog_title, null);
+			TextView title = (TextView) view.findViewById(R.id.title);
+			title.setText("Save This Chart");
+			aBuilder.setCustomTitle(view);
+			//aBuilder.setTitle("Save My Chart");
+			//aBuilder.setIcon(R.drawable.ic_launcher);
+			
+			
+			
 			
 			if(is_saved){
 				aBuilder.setMessage("There is a Chart already saved for this Indicator." +
@@ -351,16 +367,27 @@ public class ChartsFragment extends Fragment {
 					}); 
 			aDialog = aBuilder.create();
 			aDialog.show();
+			
+			Button save = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
+			Button cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
+			save.setBackgroundColor(Color.parseColor("#61BF8B"));
+			save.setTextColor(Color.WHITE);
+			cancel.setBackgroundColor(Color.parseColor("#777777"));
+			cancel.setTextColor(Color.WHITE);
 			// Get image and initiative share intent
 			break;
 		case R.id.menu_delete:
 			//Toast.makeText(getActivity(), "Tapped delete", Toast.LENGTH_SHORT)
 			//		.show();
 			aBuilder = new AlertDialog.Builder(getActivity());
+			View delete_view = getActivity().getLayoutInflater().inflate(R.layout.alert_dialog_title, null);
+			TextView delete_title = (TextView) delete_view.findViewById(R.id.title);
+			delete_title.setText("Delete This Chart");
+			aBuilder.setCustomTitle(delete_view);
 			
-			aBuilder.setTitle("Delete Saved Chart");
+			//aBuilder.setTitle("Delete Saved Chart");
 			
-			aBuilder.setIcon(R.drawable.ic_launcher);
+			//aBuilder.setIcon(R.drawable.ic_launcher);
 			
 			aBuilder.setMessage("Are you sure you want to remove this Saved Chart?")
 						// Add action buttons
@@ -399,6 +426,13 @@ public class ChartsFragment extends Fragment {
 					}); 
 			aDialog = aBuilder.create();
 			aDialog.show();
+
+			Button delete = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
+			cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
+			delete.setBackgroundColor(Color.parseColor("#61BF8B"));
+			delete.setTextColor(Color.WHITE);
+			cancel.setBackgroundColor(Color.parseColor("#777777"));
+			cancel.setTextColor(Color.WHITE);
 			return true;
 			
 		case R.id.menu_edit:
@@ -410,10 +444,14 @@ public class ChartsFragment extends Fragment {
 			cursor = area.areaData.rawQuery(CHARTS, null, I_ID + " = " + indicator_id);
 			
 			aBuilder = new AlertDialog.Builder(getActivity());
+			View edit_view = getActivity().getLayoutInflater().inflate(R.layout.alert_dialog_title, null);
+			TextView edit_title = (TextView) edit_view.findViewById(R.id.title);
+			edit_title.setText("Edit This Chart");
+			aBuilder.setCustomTitle(edit_view);
 
-			aBuilder.setTitle("Update Saved Chart");
+			aBuilder.setTitle("Update This Chart");
 
-			aBuilder.setIcon(R.drawable.ic_launcher);
+			//aBuilder.setIcon(R.drawable.ic_launcher);
 
 			aBuilder//.setMessage("Please Select Chart for this Indicator to Update?")
 			//public AlertDialog.Builder setSingleChoiceItems (Cursor cursor, int checkedItem, String labelColumn,
@@ -478,6 +516,14 @@ public class ChartsFragment extends Fragment {
 							});
 			aDialog = aBuilder.create();
 			aDialog.show();
+			
+
+			Button update = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
+			cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
+			update.setBackgroundColor(Color.parseColor("#61BF8B"));
+			update.setTextColor(Color.WHITE);
+			cancel.setBackgroundColor(Color.parseColor("#777777"));
+			cancel.setTextColor(Color.WHITE);
 			
 			return true;
 		case R.id.menu_save_collection:
@@ -558,7 +604,11 @@ public class ChartsFragment extends Fragment {
 						
 					}
 				};
-				aBuilder.setTitle("Save To Collection")
+				View col_view = getActivity().getLayoutInflater().inflate(R.layout.alert_dialog_title, null);
+				TextView col_title = (TextView) col_view.findViewById(R.id.title);
+				col_title.setText("Save To Collection");
+				aBuilder.setCustomTitle(col_view)
+				//aBuilder.setTitle("Save To Collection")
 			    		//TODO need to find an elegant solution to select which collections an item already belongs
 					.setMultiChoiceItems(cursor2, "new", COLLECTION_NAME, onclick)
 			        		   
@@ -584,19 +634,31 @@ public class ChartsFragment extends Fragment {
 						public void onClick(DialogInterface dialog, int id) {
 							//Toast.makeText(getActivity(), "Cancel", Toast.LENGTH_SHORT)
 							//	.show();
-							((AlertDialog) dialog).cancel();
+							aDialog.cancel();
 						}
 					});
 			    aDialog = aBuilder.create();
-			    aBuilder.show();
+			    aDialog.show();
+
+				Button save_col = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
+				cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
+				save_col.setBackgroundColor(Color.parseColor("#61BF8B"));
+				save_col.setTextColor(Color.WHITE);
+				cancel.setBackgroundColor(Color.parseColor("#777777"));
+				cancel.setTextColor(Color.WHITE);
 			    return true;
 			}else{
 				//Toast.makeText(getActivity(), "Tapped Save", Toast.LENGTH_SHORT)
 				//.show();
 				aBuilder = new AlertDialog.Builder(getActivity());
+				View col_view = getActivity().getLayoutInflater().inflate(R.layout.alert_dialog_title, null);
+				TextView col_title = (TextView) col_view.findViewById(R.id.title);
+				col_title.setText("Save To Collection");
+				aBuilder.setCustomTitle(col_view);
 				
-				aBuilder.setTitle("Save To Collections");
-				aBuilder.setIcon(R.drawable.ic_launcher);
+				
+				//aBuilder.setTitle("Save To Collections");
+				//aBuilder.setIcon(R.drawable.ic_launcher);
 				
 				aBuilder.setMessage("No Collections created\nPlease go to Collections and Creat a Colletion")
 					// Add action buttons
@@ -610,19 +672,41 @@ public class ChartsFragment extends Fragment {
 					.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
 							
-							((AlertDialog) dialog).cancel();
+							aDialog.cancel();
 						}
 					}); 
 				aDialog = aBuilder.create();
-				aBuilder.show();
-				//aDialog.show();
+				aDialog.show();
+				Button save_col = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
+				cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
+				save_col.setBackgroundColor(Color.parseColor("#61BF8B"));
+				save_col.setTextColor(Color.WHITE);
+				cancel.setBackgroundColor(Color.parseColor("#777777"));
+				cancel.setTextColor(Color.WHITE);
+
+				
+				
 			}
 			
+			break;
+		case R.id.menu_prefs:
+			startActivity(new Intent(parentActivity,
+					AreaPreferencesActivity2.class));
 			break;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+	    MenuItem searchViewMenuItem = menu.findItem(R.id.menu_search);    
+	    SearchView mSearchView = (SearchView) searchViewMenuItem.getActionView();
+	    int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
+	    ImageView v = (ImageView) mSearchView.findViewById(searchImgId);
+	    v.setImageResource(R.drawable.ic_action_search); 
+	    
 	}
 
 	protected void reloadActivity() {

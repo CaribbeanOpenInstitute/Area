@@ -25,13 +25,18 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.MapBuilder;
@@ -133,9 +138,12 @@ public class ReportDetailViewActivity extends BaseActivity {
 			//Toast.makeText(this, "Tapped Save", Toast.LENGTH_SHORT)
 			//		.show();
 			aBuilder = new AlertDialog.Builder(this);
-			
-			aBuilder.setTitle("Save My Report");
-			aBuilder.setIcon(R.drawable.ic_launcher);
+			View view = getLayoutInflater().inflate(R.layout.alert_dialog_title, null);
+			TextView title = (TextView) view.findViewById(R.id.title);
+			title.setText("Save This Report");
+			aBuilder.setCustomTitle(view);
+			//aBuilder.setTitle("Save My Report");
+			//aBuilder.setIcon(R.drawable.ic_launcher);
 			
 			aBuilder.setMessage("Save Current Report?")
 						// Add action buttons
@@ -174,6 +182,12 @@ public class ReportDetailViewActivity extends BaseActivity {
 					}); 
 			aDialog = aBuilder.create();
 			aDialog.show();
+			Button save = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
+			Button cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
+			save.setBackgroundColor(Color.parseColor("#61BF8B"));
+			save.setTextColor(Color.WHITE);
+			cancel.setBackgroundColor(Color.parseColor("#777777"));
+			cancel.setTextColor(Color.WHITE);
 			// Get image and initiative share intent
 			return true;
 		case R.id.menu_delete:
@@ -182,12 +196,20 @@ public class ReportDetailViewActivity extends BaseActivity {
 			aBuilder = new AlertDialog.Builder(this);
 			// if user is coming from CollectionsActivity only remove from collection
 			if (activity == S_COLL_ACT){
-				aBuilder.setTitle("Delete Report From Collection");
+				View del_view = getLayoutInflater().inflate(R.layout.alert_dialog_title, null);
+				TextView del_title = (TextView) del_view.findViewById(R.id.title);
+				del_title.setText("Delete Report From Collection");
+				aBuilder.setCustomTitle(del_view);
+				//aBuilder.setTitle("Delete Report From Collection");
 			}else{
-				aBuilder.setTitle("Delete Saved Report");
+				View del_view = getLayoutInflater().inflate(R.layout.alert_dialog_title, null);
+				TextView del_title = (TextView) del_view.findViewById(R.id.title);
+				del_title.setText("Delete Saved Report");
+				aBuilder.setCustomTitle(del_view);
+				//aBuilder.setTitle("Delete Saved Report");
 			}
 			
-			aBuilder.setIcon(R.drawable.ic_launcher);
+			//aBuilder.setIcon(R.drawable.ic_launcher);
 			
 			aBuilder.setMessage("Are you sure you want to remove this Report?")
 						// Add action buttons
@@ -236,6 +258,13 @@ public class ReportDetailViewActivity extends BaseActivity {
 					}); 
 			aDialog = aBuilder.create();
 			aDialog.show();
+
+			Button delete = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
+			cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
+			delete.setBackgroundColor(Color.parseColor("#61BF8B"));
+			delete.setTextColor(Color.WHITE);
+			cancel.setBackgroundColor(Color.parseColor("#777777"));
+			cancel.setTextColor(Color.WHITE);
 			return true;
 		case R.id.menu_save_collection:
 			//Toast.makeText(this, "Tapped Save to Collections", Toast.LENGTH_SHORT)
@@ -284,7 +313,11 @@ public class ReportDetailViewActivity extends BaseActivity {
 						
 					}
 				};
-				aBuilder.setTitle("Save To Collection")
+				View col_view = getLayoutInflater().inflate(R.layout.alert_dialog_title, null);
+				TextView col_title = (TextView) col_view.findViewById(R.id.title);
+				col_title.setText("Save To Collection");
+				aBuilder.setCustomTitle(col_view)
+				//aBuilder.setTitle("Save To Collection")
 			    		
 			           .setMultiChoiceItems(cursor, "new", COLLECTION_NAME, onclick)
 			        		   
@@ -318,15 +351,25 @@ public class ReportDetailViewActivity extends BaseActivity {
 						}
 					});
 			    aDialog = aBuilder.create();
-			    aBuilder.show();
+			    aDialog.show();
+
+				Button save_col = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
+				cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
+				save_col.setBackgroundColor(Color.parseColor("#61BF8B"));
+				save_col.setTextColor(Color.WHITE);
+				cancel.setBackgroundColor(Color.parseColor("#777777"));
+				cancel.setTextColor(Color.WHITE);
 			    return true;
 			}else{
 				//Toast.makeText(this, "Tapped Save", Toast.LENGTH_SHORT)
 				//.show();
 				aBuilder = new AlertDialog.Builder(this);
-				
-				aBuilder.setTitle("Save To Collections");
-				aBuilder.setIcon(R.drawable.ic_launcher);
+				View col_view = getLayoutInflater().inflate(R.layout.alert_dialog_title, null);
+				TextView col_title = (TextView) col_view.findViewById(R.id.title);
+				col_title.setText("Save To Collection");
+				aBuilder.setCustomTitle(col_view);
+				//aBuilder.setTitle("Save To Collections");
+				//aBuilder.setIcon(R.drawable.ic_launcher);
 				
 				aBuilder.setMessage("No Collections created\nPlease go to Collections and Creat a Colletion")
 					// Add action buttons
@@ -344,9 +387,21 @@ public class ReportDetailViewActivity extends BaseActivity {
 						}
 					}); 
 				aDialog = aBuilder.create();
-				aBuilder.show();
-				//aDialog.show();
+				aDialog.show();
+
+				Button ok = aDialog.getButton(DialogInterface.BUTTON_POSITIVE);  
+				cancel = aDialog.getButton(DialogInterface.BUTTON_NEGATIVE);  
+				ok.setBackgroundColor(Color.parseColor("#61BF8B"));
+				ok.setTextColor(Color.WHITE);
+				cancel.setBackgroundColor(Color.parseColor("#777777"));
+				cancel.setTextColor(Color.WHITE);
+				aDialog.show();
 			}
+			
+			return true;
+		case R.id.menu_prefs:
+			startActivity(new Intent(context,
+					AreaPreferencesActivity2.class));
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -376,6 +431,15 @@ public class ReportDetailViewActivity extends BaseActivity {
 		startActivity(intent);
 		this.finish();
 		
+	}
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+	    MenuItem searchViewMenuItem = menu.findItem(R.id.menu_search);    
+	    SearchView mSearchView = (SearchView) searchViewMenuItem.getActionView();
+	    int searchImgId = getResources().getIdentifier("android:id/search_button", null, null);
+	    ImageView v = (ImageView) mSearchView.findViewById(searchImgId);
+	    v.setImageResource(R.drawable.ic_action_search); 
+	    return super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override

@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dip"
         android:background="#C8DEB1"
-         
+        android:textStyle="bold"  
         />
 
     <TextView
@@ -39,6 +39,7 @@
         android:background="#C8DEB1"
         android:layout_below="@id/list_item_title"
         android:textAppearance="?android:attr/textAppearanceSmall" 
+        android:textStyle="italic"
         />
 
 </TwoLineListItem>

@@ -2,72 +2,128 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-	<Button
-        android:id="@+id/btnViewReport"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="32dp"
-        android:layout_gravity="right"
-        android:gravity="center"
-        android:text="View Article" />
-	
-    <TextView
-        android:id="@+id/txtMainTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="25px"
-        android:layout_marginTop="15px"
-        android:text="Better Marginalised than Incorporated? Pastorialist Livelihoods in Somali Region"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+    android:orientation="horizontal" 
+    android:background="@drawable/gradient_background">
+    <LinearLayout 
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="5"
+        android:orientation="vertical"
+        android:background="@drawable/rounded_border" >
+        <LinearLayout 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+        <ImageView 
+            
+            android:src="@drawable/ic_action_view_as_list"
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:background="#61BF8B"/>
+        
+    	<TextView
+    	    android:id="@+id/txtMainTitle"
+    	    android:layout_width="wrap_content"
+    	    android:layout_height="wrap_content"
+    	    android:layout_marginBottom="25px"
+    	    android:layout_marginTop="15px"
+    	    android:text="Better Marginalised than Incorporated? Pastorialist Livelihoods in Somali Region"
+    	    android:textAppearance="?android:attr/textAppearanceLarge"
+    	    android:textColor="#004B51" />
+    	</LinearLayout>
 
-    <TextView
-        android:id="@+id/txtPublisher"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:layout_marginBottom="10px"
-        android:text="Publisher: European Journal of Development Research"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+    	<TextView 
+        	android:layout_width="match_parent"
+        	android:layout_height="1dp"
+        	android:background="#B9BDBC"/>
 
-    <TextView
-        android:id="@+id/txtPubDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10px"
-        android:gravity="right"
-        android:text="Publisher Date: 2010"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+    	<TextView
+    	    android:id="@+id/txtPublisher"
+    	    android:layout_width="wrap_content"
+    	    android:layout_height="wrap_content"
+    	    android:layout_gravity="left"
+    	    android:layout_marginBottom="10px"
+    	    android:text="Publisher: European Journal of Development Research"
+    	    android:textAppearance="?android:attr/textAppearanceSmall"
+    	    android:textColor="#004B51" />
 
-    <TextView
-        android:id="@+id/txtJournalSite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10px"
-        android:text="From: &lt;Journal Site>"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+    	<TextView
+    	    android:id="@+id/txtPubDate"
+    	    android:layout_width="wrap_content"
+    	    android:layout_height="wrap_content"
+    	    android:layout_marginBottom="10px"
+    	    android:gravity="right"
+    	    android:text="Publisher Date: 2010"
+    	    android:textAppearance="?android:attr/textAppearanceSmall"
+    	    android:textColor="#004B51" />
 
-    <TextView
-        android:id="@+id/txtDateCreated"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Date Created: Mar 23, 2012"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+    	<TextView
+    	    android:id="@+id/txtJournalSite"
+    	    android:layout_width="wrap_content"
+    	    android:layout_height="wrap_content"
+    	    android:layout_marginBottom="10px"
+    	    android:text="From: &lt;Journal Site>"
+    	    android:textAppearance="?android:attr/textAppearanceSmall"
+    	    android:textColor="#004B51" />
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25px"
-        android:text="Description/Abstract:"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+    	<TextView
+    	    android:id="@+id/txtDateCreated"
+    	    android:layout_width="wrap_content"
+    	    android:layout_height="wrap_content"
+    	    android:text="Date Created: Mar 23, 2012"
+    	    android:textAppearance="?android:attr/textAppearanceSmall"
+    	    android:textColor="#004B51" />
 
-    <WebView
-        android:id="@+id/txtDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="0.29"
-        android:text="Abstract: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pharetra dictum dui in sagittis. Ut non pulvinar mi. Phasellus in placerat lacus. Etiam hendrerit, neque sit amet tincidunt faucibus, ante metus sodales erat, at bibendum massa enim ac sapien. Integer eget ipsum ligula, vel congue elit. Ut eu libero nisi, sit amet tristique nibh. Fusce at dolor dolor. Vestibulum at libero augue, nec imperdiet sapien. Curabitur sagittis viverra laoreet. In hac habitasse platea dictumst. Morbi vel accumsan tellus. Vestibulum accumsan diam vitae odio lacinia sit amet elementum lorem accumsan. Nullam vel arcu in risus consequat tempor et in dui. In tincidunt, erat nec iaculis lobortis, sem mi posuere dui, ut ultricies arcu urna id nulla. Cras nec tristique risus. Vestibulum a venenatis odio." />
+     	<TextView 
+        	android:layout_width="match_parent"
+        	android:layout_height="2dp"
+        	android:background="#004B51"/>
+
+    	<TextView
+    	    android:id="@+id/textView1"
+    	    android:layout_width="wrap_content"
+    	    android:layout_height="wrap_content"
+    	    android:layout_marginTop="25px"
+    	    android:text="Description/Abstract:"
+    	    android:textAppearance="?android:attr/textAppearanceMedium"
+    	    android:textColor="#004B51" />
+
+    	<WebView
+        	android:id="@+id/txtDescription"
+        	android:layout_width="wrap_content"
+        	android:layout_height="0dp"
+        	android:layout_weight="0.29"
+        	android:textColor="#004B51"
+        	android:text="Abstract: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pharetra dictum dui in sagittis. Ut non pulvinar mi. Phasellus in placerat lacus. Etiam hendrerit, neque sit amet tincidunt faucibus, ante metus sodales erat, at bibendum massa enim ac sapien. Integer eget ipsum ligula, vel congue elit. Ut eu libero nisi, sit amet tristique nibh. Fusce at dolor dolor. Vestibulum at libero augue, nec imperdiet sapien. Curabitur sagittis viverra laoreet. In hac habitasse platea dictumst. Morbi vel accumsan tellus. Vestibulum accumsan diam vitae odio lacinia sit amet elementum lorem accumsan. Nullam vel arcu in risus consequat tempor et in dui. In tincidunt, erat nec iaculis lobortis, sem mi posuere dui, ut ultricies arcu urna id nulla. Cras nec tristique risus. Vestibulum a venenatis odio." />
+    </LinearLayout>
+    <LinearLayout 
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+    	<Button
+        	android:id="@+id/btnViewReport"
+        	style="?android:attr/buttonStyleSmall"
+        	android:layout_width="150dp"
+        	android:layout_height="50dp"
+        	android:layout_gravity="center_horizontal"
+        	android:gravity="center"
+        	android:text="View Report" 
+        	android:background="#1F7C72"
+        	android:layout_marginBottom="10dp"
+        	android:layout_marginTop="15dp"
+        	android:textColor="#ffffff"/>
+    	<Button
+        	android:id="@+id/btnBackToProfile"
+        	style="?android:attr/buttonStyleSmall"
+        	android:layout_width="150dp"
+        	android:layout_height="50dp"
+        	android:layout_gravity="center_horizontal"
+        	android:gravity="center"
+        	android:text="Back To Profile"
+        	android:background="#42B089"
+        	android:textColor="#ffffff" />
+    </LinearLayout>
 
     
 

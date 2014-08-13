@@ -3,10 +3,17 @@ package jm.org.data.area;
 import static jm.org.data.area.AreaConstants.S_SAVED_DATA;
 import static jm.org.data.area.DBConstants.SELECTION_ID;
 import static jm.org.data.area.DBConstants.SELECTION_NAME;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 import com.google.analytics.tracking.android.EasyTracker;
 
@@ -57,6 +64,16 @@ public class SavedDataActivity extends BaseActivity {
 		mTabsAdapter.addTab(
 				mTabHost.newTabSpec("articles").setIndicator("Articles"),
 				ArticlesFragment.class, null);
+		//mTabHost.getTabWidget().setDividerDrawable(R.drawable.tab_divider);
+		for(int i=0;i<mTabHost.getTabWidget().getChildCount();i++) 
+        { 
+			View v = mTabHost.getTabWidget().getChildAt(i);
+			v.setBackgroundResource(R.drawable.tab_selector);
+            TextView tv = (TextView) mTabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title); //Unselected Tabs
+            tv.setTextColor(Color.parseColor("#025E6B"));
+        } 
+        TextView tv = (TextView) mTabHost.getCurrentTabView().findViewById(android.R.id.title); //for Selected Tab
+        tv.setTextColor(Color.parseColor("#025E6B"));
 
 		if (savedInstanceState != null) {
 			mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));

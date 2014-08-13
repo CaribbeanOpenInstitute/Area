@@ -6,6 +6,10 @@
         android:orderInCategory="0"
         android:showAsAction="always"
         android:actionViewClass="android.widget.SearchView" />
+<!-- <item android:id="@+id/menu_settings"
+        android:icon="@drawable/ic_action_settings" 
+        android:orderInCategory="1"
+        android:showAsAction="always"/>"  -->    
     
     <item android:id="@+id/menu_prefs"
         android:title="@string/menu_prefs"

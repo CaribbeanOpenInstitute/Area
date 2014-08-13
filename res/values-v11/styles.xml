@@ -16,13 +16,19 @@
 
 <resources>
 
-    <style name="AppTheme" parent="android:style/Theme.Holo.Light">
+    <style name="AppTheme" parent="@android:style/Theme.Holo.Light">
         <item name="android:actionBarStyle">@style/ActionBar</item>
         <item name="android:windowContentOverlay">@drawable/actionbar_shadow</item>
+        <item name="android:actionOverflowButtonStyle">@style/MyOverflow</item>
+        <item name="android:windowTitleBackgroundStyle">@style/WindowTitle</item>
+        <item name="android:alertDialogStyle" >@style/DialogWindow</item>
+       
+        
+        
     </style>
 
     <style name="ActionBar" parent="android:style/Widget.Holo.Light.ActionBar">
-        <item name="android:background">#4B7C31</item>
+        <item name="android:background">#42B089</item>
         
         <item name="android:titleTextStyle">@style/ActionBarTitle</item>
         <item name="android:icon">@drawable/ic_launcher</item>
@@ -32,4 +38,51 @@
         <item name="android:textColor">@color/actionbar_title_color</item>
     </style>
 
+    <style name="MyOverflow">
+	    parent="@android:style/Widget.Holo.Light.ActionButton.Overflow">
+    	<item name="android:src">@drawable/ic_action_settings_2</item>
+    	
+    	
+	</style>
+	<style name="DialogWindow"  parent="@android:style/Theme.Holo.Light.Dialog">
+	    <item name="android:windowTitleStyle">@style/DialogWindowTitle</item>    	 
+  	</style>
+
+	<style name="DialogWindowTitle" >
+	    
+    	<item name="android:background">#61BF8B</item>
+    </style>
+    
+	<style name="EditTextStyle" parent="@android:style/Widget.EditText">
+    	
+	</style>
+    
+	
+    
+	<style name="WindowTitle" >
+	    <item name="android:background">#61BF8B</item>
+    </style>
+      <style name="base">
+        <item name="android:padding">10dp</item>
+    </style>
+    <style name="title" parent="@style/base">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="body" parent="@style/base">
+        <item name="android:textColor">#000000</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <style name="dialog">
+        <item name="android:fullDark">@drawable/dialog_body</item>
+        <item name="android:topDark">@drawable/dialog_title</item>
+        <item name="android:centerDark">@drawable/dialog_body</item>
+        <item name="android:bottomDark">@drawable/dialog_footer</item>
+        <item name="android:fullBright">@drawable/dialog_body</item>
+        <item name="android:centerBright">@drawable/dialog_body</item>
+        <item name="android:bottomBright">@drawable/dialog_footer</item>
+        <item name="android:bottomMedium">@drawable/dialog_footer</item>
+        <item name="android:centerMedium">@drawable/dialog_body</item>
+    </style>
 </resources>

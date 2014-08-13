@@ -53,13 +53,14 @@ public class CollectionsCursorAdapter extends CursorAdapter {
 							 * WB_INDICATOR_ID))+ "-" +
 							 */cursor.getString(cursor
 				.getColumnIndex(COLLECTION_NAME)));
+		list_item.setTextColor(Color.WHITE);
 		int position = cursor.getPosition();
 		if (mSelectedPosition == position) {
 			
-			view.setBackgroundColor(Color.parseColor("#8AC7E3"));
+			view.setBackgroundColor(Color.parseColor("#015F69"));
 		} else {
 			//view.setBackgroundColor(Color.TRANSPARENT);
-			view.setBackgroundColor(Color.parseColor("#CCFF99"));
+			view.setBackgroundColor(Color.parseColor("#167A72"));
 		}
 
 	}
