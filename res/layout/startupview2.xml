@@ -137,7 +137,7 @@
         	    android:paddingLeft="50dp"
         	    android:paddingRight="50dp"
         	    android:paddingTop="10dp"
-        	    android:text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat."
+        	    android:text="@string/home_text"
         	    android:textColor="#ffffff"
         	    android:textSize="20sp" />
 

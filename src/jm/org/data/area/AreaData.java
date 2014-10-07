@@ -684,6 +684,12 @@ public class AreaData {
 				dataSource  = IDS_SEARCH;
 			}
 			ind_result.close();
+		}else if(dataSource == COUNTRY_REPORTS) {
+			dataSource = BING_SEARCH;
+			indicatorStr = indicatorID;
+			ind_id = 0;
+			c_id   = 0;
+			country_name = "";
 		}else{
 			// get indicator ID from db
 			ind_result = //dbHelper.rawQuery(INDICATOR, null , "" + WB_INDICATOR_ID + " ='" + indicatorID + "'");
@@ -1854,10 +1860,17 @@ public class AreaData {
 		@SuppressWarnings("unused")
 		Cursor retCursor;
 		
-		return retCursor = rawQuery(CHARTS, null, I_ID + " = '" + indicatorID + " AND " +
+		return retCursor = rawQuery(CHARTS, null, I_ID + " = '" + indicatorID + "' AND " +
 				CHART_COUNTRIES + " = '" + arrayToCSV(country) + "'");
 	}
 
+	public Cursor getChart(String country) {
+		@SuppressWarnings("unused")
+		Cursor retCursor;
+		
+		return retCursor = rawQuery(CHARTS, null, CHART_COUNTRIES + " LIKE '%" + country + "%'");
+	}
+	
 	public Cursor getChartList() {
 		@SuppressWarnings("unused")
 		Cursor retCursor;

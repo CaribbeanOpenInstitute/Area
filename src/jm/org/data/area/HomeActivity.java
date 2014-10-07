@@ -40,6 +40,7 @@ public class HomeActivity extends BaseActivity {
 	private int mSelection;
 	private Bundle actBundle;
 	private SelectionListFragment sFragment;
+	private ExpandableListFragment eFragment;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -170,10 +171,17 @@ public class HomeActivity extends BaseActivity {
 				editor.putBoolean(getString(R.string.pref_startupKey), true);
 				editor.commit();
 	
-				sFragment = (SelectionListFragment) getSupportFragmentManager()
+				/*sFragment = (SelectionListFragment) getSupportFragmentManager()
 						.findFragmentById(R.id.slistFragment);
 				sFragment.reload();
-				
+				eFragment = (ExpandableListFragment) getSupportFragmentManager()
+						.findFragmentById(R.id.listFragment);
+				eFragment.onResume();
+				Toast.makeText(
+						HomeActivity.this,
+						"Data loaded",
+						Toast.LENGTH_SHORT).show();*/
+				this.recreate();
 			} else { // Startup Failed
 				Toast.makeText(
 						HomeActivity.this,

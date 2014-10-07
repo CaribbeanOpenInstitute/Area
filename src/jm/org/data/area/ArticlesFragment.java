@@ -1,7 +1,7 @@
 package jm.org.data.area;
 
 import static jm.org.data.area.AreaConstants.BING_SEARCH;
-import static jm.org.data.area.AreaConstants.COLLECTION_ARTICLES;
+import static jm.org.data.area.AreaConstants.*;
 import static jm.org.data.area.AreaConstants.SAVED_ARTICLES;
 import static jm.org.data.area.AreaConstants.S_COLL_ACT;
 import static jm.org.data.area.AreaConstants.S_PARENT;
@@ -75,7 +75,7 @@ public class ArticlesFragment extends ListFragment implements
         		indicator = act.getIndicator();
         		countryList = act.getCountryList();
         		searchType = BING_SEARCH;
-        		//title_text 	= "Web Articles";
+        		title_text 	= "Web Articles";
         		empty_text	= getResources().getString(R.string.articles_empty);//"Your Query returned no Records for Indicator: " + indicator;
         		
         	}else if (parent instanceof CollectionsActivity){
@@ -85,15 +85,15 @@ public class ArticlesFragment extends ListFragment implements
         		collection = colAct.getCollection();
         		indicator = ""+ collection;
         		countryList = null;
-        		//title_text 	= "Collection Articles";
+        		title_text 	= "Collection Articles";
         		empty_text	= getResources().getString(R.string.articles_empty);//"There are no Articles saved in this Collection...";
         	}else if (parent instanceof CountryActivity){
         		cAct = (CountryActivity) getActivity();
         		dialog = new ProgressDialog(cAct);
         		indicator = cAct.getCountry();
-        		
+        		searchType = COUNTRY_ARTICLES;
         		countryList = null;
-        		//title_text 	= "Country Articles";
+        		title_text 	= "Country Articles";
         		empty_text	= getResources().getString(R.string.articles_empty);//"No articles for " + indicator;
         	}else if(parent instanceof SavedDataActivity){
         		sAct = (SavedDataActivity) getActivity();
@@ -101,7 +101,7 @@ public class ArticlesFragment extends ListFragment implements
         		indicator = "";
         		searchType = SAVED_ARTICLES;
         		countryList = null;
-        		//title_text 	= "Saved Articles";
+        		title_text 	= "Saved Articles";
         		empty_text	= getResources().getString(R.string.articles_empty);//"There are no Saved";
         	}else{
         		Log.d(TAG,"We Have no clue what the starting activity is. Hmm, not sure what is happening");

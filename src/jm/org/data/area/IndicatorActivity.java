@@ -116,12 +116,13 @@ public class IndicatorActivity extends BaseActivity implements
 
 		mTabsAdapter.addTab(mTabHost.newTabSpec("charts")
 				.setIndicator("Charts"), ChartsFragment.class, null);
-		mTabsAdapter.addTab(
-				mTabHost.newTabSpec("articles").setIndicator("Articles"),
-				ArticlesFragment.class, null);
+		
 		mTabsAdapter.addTab(
 				mTabHost.newTabSpec("reports").setIndicator("Reports"),
 				ReportsFragment.class, null);
+		mTabsAdapter.addTab(
+				mTabHost.newTabSpec("articles").setIndicator("News Articles"),
+				ArticlesFragment.class, null);
 		//mTabHost.getTabWidget().setDividerDrawable(R.drawable.tab_divider);
 		
 		for(int i=0;i<mTabHost.getTabWidget().getChildCount();i++) 

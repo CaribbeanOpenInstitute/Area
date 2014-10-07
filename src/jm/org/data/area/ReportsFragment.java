@@ -1,10 +1,6 @@
 package jm.org.data.area;
 
 import static jm.org.data.area.AreaConstants.*;
-import static jm.org.data.area.AreaConstants.IDS_SEARCH;
-import static jm.org.data.area.AreaConstants.SAVED_REPORTS;
-import static jm.org.data.area.AreaConstants.S_COLL_ACT;
-import static jm.org.data.area.AreaConstants.S_PARENT;
 import static jm.org.data.area.DBConstants.DOCUMENT_ID;
 import static jm.org.data.area.DBConstants.DOC_TITLE;
 import static jm.org.data.area.DBConstants.IDS_DOC_AUTH_STR;
@@ -259,11 +255,18 @@ public class ReportsFragment extends ListFragment implements
 				// setListShownNoAnimation(true);
 			}
 		}
-		if(cAct != null){
-			//cAct.updateCountry();
-		}
+		
 		if (dialog.isShowing()) {
 			dialog.dismiss();
+		}
+		if(cAct != null){
+			// Update the country information as soon as the data is finished loading
+			/*CountryOverviewFragment cFragment = (CountryOverviewFragment) cAct.getSupportFragmentManager()
+					.findFragmentByTag("android:switcher:" + R.id.viewpager + ":0");
+					
+			cFragment.setData();*/
+			
+			cAct.updateCntryOvrvw();
 		}
 	}
 

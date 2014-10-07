@@ -211,7 +211,7 @@ public class ChartsListFragment extends ListFragment implements
 		if(searchType == COLLECTION_CHARTS){
 			return new ChartListAdapter(getActivity(), searchType, collection);
 		}else if(searchType == COUNTRY_CHARTS){
-			return new ChartListAdapter(getActivity(), searchType, country_id);
+			return new ChartListAdapter(getActivity(), searchType, country);
 		}else{
 			return new ChartListAdapter(getActivity(), searchType, 0);
 		}

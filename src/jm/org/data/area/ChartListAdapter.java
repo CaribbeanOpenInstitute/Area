@@ -37,6 +37,13 @@ public class ChartListAdapter extends SimpleCursorLoader {
 		searchType 	= search;
 		col_id		= collection;
 	}
+	public ChartListAdapter(Context context, int search,
+			String country) {
+		super(context);
+		mContext = context;
+		searchType 	= search;
+		this.country = new String[]{country};
+	}
 
 	@Override
 	public Cursor loadInBackground() {
@@ -52,6 +59,9 @@ public class ChartListAdapter extends SimpleCursorLoader {
 			
 		}else if(searchType == COLLECTION_CHARTS){
 			results = area.areaData.getData(searchType, "" + col_id, null);
+			
+		}else if(searchType == COUNTRY_CHARTS){
+			results = area.areaData.getChart(country[0]);
 			
 		}else{
 			results = area.areaData.getChart(indicatorID, country);

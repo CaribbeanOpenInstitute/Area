@@ -25,6 +25,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 public class KeywordsFragment extends Fragment implements OnClickListener {
 	public static final String TAG = KeywordsFragment.class.getSimpleName();
@@ -34,6 +35,7 @@ public class KeywordsFragment extends Fragment implements OnClickListener {
 	OnCountryChangeListener mListener;
 	private AreaApplication area;
 	private IndicatorActivity parentActivity;
+	String[] country;
 
 	// private ArrayList<String> countryList;
 
@@ -71,7 +73,7 @@ public class KeywordsFragment extends Fragment implements OnClickListener {
 		ll_keyword = (LinearLayout) parentActivity
 				.findViewById(R.id.ll_keywordList);
 
-		String[] country = area.areaData.getCountry();
+		country = area.areaData.getCountry();
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(parentActivity,
 				android.R.layout.simple_list_item_1, country);
 		edt_keyword.setAdapter(adapter);
@@ -155,7 +157,7 @@ public class KeywordsFragment extends Fragment implements OnClickListener {
 		Log.d(TAG,
 				"Keyword is: " + keyword + " keyword Length "
 						+ keyword.length());
-		if (keyword.length() > 2) {
+		if (keyword.length() > 2 && isCountry(keyword)) {
 
 			Button newKeyword = new Button(parentActivity);
 			newKeyword.setText(keyword);
@@ -173,7 +175,16 @@ public class KeywordsFragment extends Fragment implements OnClickListener {
 							+ Arrays.toString(parentActivity.getCountryList()));
 
 			// update graph
+		}else{
+			Toast.makeText(this.getActivity(), "Value Entered is not a Country", Toast.LENGTH_SHORT).show();
 		}
+
+	}
+	
+	private boolean isCountry(String value){
+
+
+		return Arrays.asList(country).contains(value);
 
 	}
 

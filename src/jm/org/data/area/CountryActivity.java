@@ -81,8 +81,8 @@ public class CountryActivity extends BaseActivity {
 			}else{
 				// Use Jamaica as the defaule position
 				// TODO get position details for Jamica in DB
-				cPosition	= 113;
-				country_id	= 114;
+				cPosition	= 116;
+				country_id	= 117;
 				country		= "Jamaica";
 				
 			}
@@ -90,8 +90,8 @@ public class CountryActivity extends BaseActivity {
 		}else{//set vallues to default
 			mSelection = S_COUNTRIES;
 			selection = "Countries";
-			cPosition	= 113;
-			country_id	= 114;
+			cPosition	= 116;
+			country_id	= 117;
 			country		= "Jamaica";
 		}
 		Log.d(TAG, "Country selected is: " + country + "-> ID: " + country_id + " at Position: " + cPosition);
@@ -105,19 +105,26 @@ public class CountryActivity extends BaseActivity {
 		mViewPager = (ViewPager) findViewById(R.id.viewpager);
 
 		mTabsAdapter = new AreaTabsAdapter(this, mTabHost, mViewPager);
+		
 		mTabsAdapter.addTab(
 				mTabHost.newTabSpec("overview").setIndicator("Overview"),
 				CountryOverviewFragment.class, null);
+		
 		mTabsAdapter.addTab(
 				mTabHost.newTabSpec("reports").setIndicator("Reports"),
 				ReportsFragment.class, null);
-		//mTabsAdapter.addTab(mTabHost.newTabSpec("charts")
-		//		.setIndicator("Charts"), ChartsListFragment.class, null);
 		
-		//mTabsAdapter.addTab(
-		//		mTabHost.newTabSpec("articles").setIndicator("Articles"),
-		//		ArticlesFragment.class, null);
+		mTabsAdapter.addTab(mTabHost.newTabSpec("charts")
+				.setIndicator("Charts"), ChartsListFragment.class, null);
+		
+		/*mTabsAdapter.addTab(
+				mTabHost.newTabSpec("articles").setIndicator("Articles"),
+				ArticlesFragment.class, null);*/
+		
+		
 		//mTabHost.getTabWidget().setDividerDrawable(R.drawable.tab_divider);
+		
+		
 		for(int i=0;i<mTabHost.getTabWidget().getChildCount();i++) 
         { 
 			View v = mTabHost.getTabWidget().getChildAt(i);
@@ -197,61 +204,15 @@ public class CountryActivity extends BaseActivity {
 
 
 
-/*	public void updateCountry() {
-		country_data = area.areaData.getCountry(country_id);
-		if (country_data.moveToFirst()){
-			
-			
-			((TextView) this.findViewById(R.id.country_capital))
-			.setText(country_data.getString(country_data.getColumnIndex(CAPITAL_CITY)));
-	
-			((TextView) this.findViewById(R.id.country_title))
-			.setText(country_data.getString(country_data.getColumnIndex(COUNTRY_NAME)));
-			
-			((TextView) this.findViewById(R.id.country_income))
-			.setText("" +
-				country_data.getString(country_data.getColumnIndex(INCOME_LEVEL_ID)) 
-				+ ":" +
-				country_data.getString(country_data.getColumnIndex(INCOME_LEVEL_NAME)));
-			
-			((TextView) this.findViewById(R.id.country_region))
-			.setText("" +
-				country_data.getString(country_data.getColumnIndex(COUNTRY_REGION_ID)) 
-				+ ":" +
-				country_data.getString(country_data.getColumnIndex(COUNTRY_REGION_NAME)));
-			
-			((TextView) this.findViewById(R.id.country_population))
-			.setText(country_data.getString(country_data.getColumnIndex(POPULATION)));
-			
-			((TextView) this.findViewById(R.id.country_code))
-			.setText(country_data.getString(country_data.getColumnIndex(WB_COUNTRY_ID)));
-			
-			/*<!--  FROM_COUNTRY = { COUNTRY_ID, WB_COUNTRY_ID,
-			WB_COUNTRY_CODE, COUNTRY_NAME, CAPITAL_CITY, INCOME_LEVEL_ID,
-			INCOME_LEVEL_NAME, COUNTRY_REGION_ID, COUNTRY_REGION_NAME, GDP,
-			GNI_CAPITA, POVERTY, LIFE_EX, LITERACY, POPULATION }; -->*/
-			
-		/*	((TextView) this.findViewById(R.id.country_gdp))
-			.setText(country_data.getString(country_data.getColumnIndex(GDP)));
-			
-			((TextView) this.findViewById(R.id.country_gni))
-			.setText(country_data.getString(country_data.getColumnIndex(GNI_CAPITA)));
-			
-			((TextView) this.findViewById(R.id.country_poverty))
-			.setText(country_data.getString(country_data.getColumnIndex(POVERTY)));
-			
-			((TextView) this.findViewById(R.id.country_life_ex))
-			.setText(country_data.getString(country_data.getColumnIndex(LIFE_EX)));
-			
-			((TextView) this.findViewById(R.id.country_literacy))
-			.setText(country_data.getString(country_data.getColumnIndex(LITERACY)));
-		}else{
-			Log.e(TAG, "ERROR No Country Data retrieved");
+	public void updateCntryOvrvw() {
+		// TODO Auto-generated method stub
+		CountryOverviewFragment cFragment = (CountryOverviewFragment) getSupportFragmentManager()
+		.findFragmentByTag("android:switcher:" + R.id.viewpager + ":0");
+		// if we are on the country overview tab refresh the country data
+		if(mTabHost.getCurrentTab() == 0){
+			cFragment.setData();
 		}
-		country_data.close();
-		
-	} */
-	
+	}
 
 	
 }

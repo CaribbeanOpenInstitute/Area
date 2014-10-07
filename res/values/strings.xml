@@ -21,6 +21,12 @@
     <string name="toggle_prefs">Show preferences</string>
     <string name="areaService">Area Background Service</string>
     
+    <string name="home_text">... an innovative Android tablet application that combines
+         the scholarly works found in the IDS publication portal, with related agriculture
+          data indicators in the World Bank Open Data API, and current events and news trends,
+           powered by Microsoft’s Bing News Search API\n\n Select an Indicator on the following screen to get started ...
+    </string>
+    
     <string name="delete"	>Delete	</string>
     <string name="save"		>Save	</string>
     <string name="ok"		>OK		</string>
